@@ -24,7 +24,7 @@ public class Person {
     }
 
     private void checkIfNameIsValid(String name) {
-        if (StringUtils.isBlank(name)) throw new RuntimeException("Name is invalid");
+        if (StringUtils.isBlank(name) || !StringUtils.isAlpha(name)) throw new RuntimeException("Name is invalid");
     }
 
     public String getName() {
