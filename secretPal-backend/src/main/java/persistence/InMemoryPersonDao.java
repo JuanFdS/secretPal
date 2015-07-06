@@ -11,7 +11,7 @@ public class InMemoryPersonDao implements AbstractRepository<Person> {
 
     @Override
     public List<Person> retrieveAll() {
-        return this.persons;
+        return persons;
     }
 
     @Override

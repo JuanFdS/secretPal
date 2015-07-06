@@ -1,0 +1,43 @@
+<div class="list_data">
+  <h1>Workers' List</h1>
+  <div class="panel panel-primary">
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Birthday Date</th>
+        <th></th>
+      </tr>
+      <tr ng-repeat="worker in workers">
+        <td>{{worker.name}}</td>
+        <td>{{worker.mail}}</td>
+        <td>{{worker.date | date}}</td>
+        <td><button class="btn btn-danger" ng-click="Delete($index)">Delete</button></td>
+      </tr>
+    </table>
+  </div>
+  <button class="btn btn-info" ng-show="history.length > 0" ng-click="Undo()">Undo Delete</button>
+</div>
+
+<div class="add_worker">
+  <h2>Add A Worker</h2>
+  <form class="navbar-form" ng-submit="Add()">
+    <div class="field">
+      <label class="control-label" for="name">Name: </label>
+      <input id="name" type="text" placeholder="Name" class="form-control" ng-model="newName">
+    </div>
+    <div class="field">
+      <label class="control-label" for="mail">Email: </label>
+      <input id="mail" type="email" placeholder="Email" class="form-control" ng-model="newMail">
+    </div>
+    <div class="field">
+      <label class="control-label" for="date">Date of Birthday: </label>
+      <input id="date" type="date" placeholder="Date of Birthday" class="form-control" ng-model="newDate">
+    </div>
+    <div class="action">
+      <button type="submit" class="btn btn-default">Add</button>
+      <button class="btn btn-default" ng-click="Reset()">Reset</button>
+    </div>
+  </form>
+</div>
+
