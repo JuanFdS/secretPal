@@ -51,6 +51,11 @@
 				<configuration>
 					<instrumentation>
 						<ignoreTrivial>true</ignoreTrivial>
+                            <ignores>
+                                <ignore>src.main.java.builder</ignore>
+                                <ignore>src.main.java.persistence</ignore>
+                            </ignores>
+
 					</instrumentation>
 					<check>
 						<branchRate>60</branchRate>
