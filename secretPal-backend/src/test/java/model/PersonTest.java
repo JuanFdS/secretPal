@@ -1,5 +1,7 @@
 package model;
 
+import builder.PersonBuilder;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -12,22 +14,29 @@ import static org.junit.Assert.fail;
 
 public class PersonTest {
 
+    private PersonBuilder personBuilder;
+
+    @Before
+    public void setUp(){
+        this.personBuilder = new PersonBuilder();
+    }
+
     @Test
     public void When_I_try_to_create_a_person_with_an_invalid_name_an_exception_is_raised(){
-        checkException(() -> new Person(null, "Pepe", LocalDate.of(1992, Month.APRIL,12)), "Name is invalid");
+        checkExceptionIsRaisedUponCreation(() -> this.personBuilder.withName(null).build() , "Name is invalid");
     }
 
     @Test
     public void When_I_try_to_create_a_person_with_an_empty_name_an_exception_is_raised(){
-        checkException(() -> new Person("", "Pepe", LocalDate.of(1992, Month.APRIL,12)), "Name is invalid");
+        checkExceptionIsRaisedUponCreation(() -> this.personBuilder.withName("").build(), "Name is invalid");
     }
 
     @Test
     public void When_I_try_to_create_a_person_with_a_non_char_name_an_exception_is_raised(){
-        checkException(() -> new Person("123$_", "Pepe", LocalDate.of(1992, Month.APRIL,12)), "Name is invalid");
+        checkExceptionIsRaisedUponCreation(() -> this.personBuilder.withName("123$_").build(), "Name is invalid");
     }
 
-    private void checkException(Supplier<Person> creationFunction, String assertionMessage){
+    private void checkExceptionIsRaisedUponCreation(Supplier<Person> creationFunction, String assertionMessage){
         try {
             creationFunction.get();
             fail("The exception was not raised");
