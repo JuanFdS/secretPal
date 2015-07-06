@@ -43,8 +43,8 @@ public class AssignationTest {
     }
     @Test
     public void When_there_are_two_people_the_assignation_should_give_each_other() throws Exception {
-        Person ajani = personBuilder.fromDate(1, Month.JANUARY);
-        Person chandra = personBuilder.fromDate(5, Month.JANUARY);
+        Person ajani = personBuilder.buildFromDate(1, Month.JANUARY);
+        Person chandra = personBuilder.buildFromDate(5, Month.JANUARY);
 
         personList.add(ajani);
         personList.add(chandra);
@@ -58,9 +58,9 @@ public class AssignationTest {
     }
     @Test
     public void When_there_are_three_people_the_assignation_should_not_give_each_other() throws Exception {
-        Person ajani = personBuilder.fromDate(1, Month.JANUARY);
-        Person chandra = personBuilder.fromDate(5, Month.JANUARY);
-        Person dack = personBuilder.fromDate(10, Month.JANUARY);
+        Person ajani = personBuilder.buildFromDate(1, Month.JANUARY);
+        Person chandra = personBuilder.buildFromDate(5, Month.JANUARY);
+        Person dack = personBuilder.buildFromDate(10, Month.JANUARY);
 
         personList.add(ajani);
         personList.add(chandra);

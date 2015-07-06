@@ -32,7 +32,7 @@ public class PersonBuilder {
         return new Person(name,lastName,birtdayDate);
     }
 
-    public Person fromDate(int day, Month month) {
+    public Person buildFromDate(int day, Month month) {
         Faker faker = new Faker();
         return new Person(faker.name().firstName(), faker.name().lastName(), LocalDate.of(1800, month.getValue(), day));
     }
