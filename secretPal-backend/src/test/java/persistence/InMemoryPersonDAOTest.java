@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class InMemoryPersonDAOTest {
@@ -17,10 +18,18 @@ public class InMemoryPersonDAOTest {
     }
 
     @Test
-    public void When_I_Have_One_Person_Persisted_When_I_Retrieve_Then_The_List_Is_Not_Empty(){
+    public void When_I_Have_Zero_Persons_Persisted_When_I_Retrieve_Then_The_List_Is_Empty(){
         List<Person> result = this.personDao.retrieveAll();
-        assertFalse(result.isEmpty());
+        assertTrue(result.isEmpty());
     }
-    
+
+    @Test
+    public void When_I_Save_A_New_Person_Then_I_Have_One_More_Person_Persisted(){
+        Person aPerson = new Person("Grillo","Pepe", LocalDate.of(1993,02,12));
+        this.personDao.save(aPerson);
+        List<Person> result = this.personDao.retrieveAll();
+        assertEquals("The list should Have One More Person", result.size(), 1);
+
+    }
 
 }
