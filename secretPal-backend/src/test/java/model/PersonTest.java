@@ -36,6 +36,21 @@ public class PersonTest {
         checkExceptionIsRaisedUponCreation(() -> this.personBuilder.withName("123$_").build(), "Name is invalid");
     }
 
+    @Test
+    public void When_I_try_to_create_a_person_with_an_invalid_last_name_an_exception_is_raised(){
+        checkExceptionIsRaisedUponCreation(() -> this.personBuilder.withLastName(null).build(), "Last name is invalid");
+    }
+
+    @Test
+    public void When_I_try_to_create_a_person_with_an_empty_last_name_an_exception_is_raised(){
+        checkExceptionIsRaisedUponCreation(() -> this.personBuilder.withLastName("").build(), "Last name is invalid");
+    }
+
+    @Test
+    public void When_I_try_to_create_a_person_with_a_non_char_last_name_an_exception_is_raised(){
+        checkExceptionIsRaisedUponCreation(() -> this.personBuilder.withLastName("123$_").build(), "Last name is invalid");
+    }
+
     private void checkExceptionIsRaisedUponCreation(Supplier<Person> creationFunction, String assertionMessage){
         try {
             creationFunction.get();

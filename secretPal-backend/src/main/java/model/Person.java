@@ -17,14 +17,11 @@ public class Person {
     public Person(){}
 
     public Person(String name, String lastName, LocalDate birthdayDate) {
-        checkIfNameIsValid(name);
+        checkIfIsValid(name, "Name is invalid");
+        checkIfIsValid(lastName, "Last name is invalid");
         this.name = name;
         this.lastName = lastName;
         this.birthdayDate = birthdayDate;
-    }
-
-    private void checkIfNameIsValid(String name) {
-        if (StringUtils.isBlank(name) || !StringUtils.isAlpha(name)) throw new RuntimeException("Name is invalid");
     }
 
     public String getName() {
@@ -50,4 +47,9 @@ public class Person {
     public void setBirthdayDate(LocalDate birthdayDate) {
         this.birthdayDate = birthdayDate;
     }
+
+    private void checkIfIsValid(String name, String message) {
+        if (StringUtils.isBlank(name) || !StringUtils.isAlpha(name)) throw new RuntimeException(message);
+    }
+
 }
