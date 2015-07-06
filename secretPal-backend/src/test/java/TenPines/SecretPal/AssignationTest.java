@@ -18,7 +18,7 @@ public class AssignationTest {
     Map<Person, Person> assignment = null;
 
     @Test
-    public void When_there_no_person_the_assignation_should_give_an_error(){
+    public void When_there_is_no_person_the_assignation_should_give_an_error(){
         try {
             assignment = assign(personList);
         } catch (Exception e) {
@@ -28,7 +28,7 @@ public class AssignationTest {
     }
 
     private void assertEmptyAssignment() {
-        assertEquals( assignment, null );
+        assertEquals(assignment, null);
     }
 
     @Test
@@ -42,22 +42,56 @@ public class AssignationTest {
         assertEmptyAssignment();
     }
 	@Test
-	public void When_there_are_two_persons_the_assignation_should_give_each_other() throws Exception {
-        Person joe = PersonFactory.fromDate(1, Month.JANUARY);
-        Person bob = PersonFactory.fromDate(5, Month.JANUARY);
+	public void When_there_are_two_people_the_assignation_should_give_each_other() throws Exception {
+        Person ajani = PersonFactory.fromDate(1, Month.JANUARY);
+        Person chandra = PersonFactory.fromDate(5, Month.JANUARY);
 
-        personList.add(joe);
-        personList.add(bob);
+        personList.add(ajani);
+        personList.add(chandra);
 
         assignment = assign(personList);
         assertNotEmptyAssignment();
-        assertEquals(assignment.size(), 2);
 
-        gifts(joe, bob);
+        assertEquals(assignment.size(), 2);
+        assertGift(ajani, chandra);
+        assertGift(chandra, ajani);
+    }
+	@Test
+	public void When_there_are_three_people_the_assignation_should_not_give_each_other() throws Exception {
+        Person ajani = PersonFactory.fromDate(1, Month.JANUARY);
+        Person chandra = PersonFactory.fromDate(5, Month.JANUARY);
+        Person dack = PersonFactory.fromDate(10, Month.JANUARY);
+
+        personList.add(ajani);
+        personList.add(chandra);
+        personList.add(dack);
+
+        assignment = assign(personList);
+        assertNotEmptyAssignment();
+
+        assertNoSelfGift();
+        assertNoDualGift();
     }
 
-    private void gifts(Person joe, Person bob) {
-        assertEquals(assignment.get(joe), bob);
+    private void assertNoDualGift() {
+        for( Person p : personList){
+            // Que el que tiene asignado P no le regale a P
+            assertNotGift(assignment.get(p), p);
+        }
+    }
+
+    private void assertNoSelfGift() {
+        for( Person p : personList){
+            assertNotGift(p, p);
+        }
+    }
+
+    private void assertGift(Person gifter, Person gifted) {
+        assertEquals(assignment.get(gifter), gifted);
+    }
+
+    private void assertNotGift(Person gifter, Person gifted) {
+        assertNotEquals(assignment.get(gifter), gifted);
     }
 
     private void assertNotEmptyAssignment() {
@@ -71,8 +105,9 @@ public class AssignationTest {
             throw new Exception("Can't assign with less than 2 people");
         }
 
-        assignment.put(personList.get(0), personList.get(1));
-        assignment.put(personList.get(1), personList.get(0));
+        for (int i = 0; i < personList.size(); i++) {
+            assignment.put(personList.get(i), personList.get((i +1)% personList.size()));
+        }
 
         return assignment;
     }
