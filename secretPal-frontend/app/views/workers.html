@@ -12,26 +12,26 @@
         <td>{{worker.name}}</td>
         <td>{{worker.mail}}</td>
         <td>{{worker.date | date}}</td>
-        <td><button ng-click="Delete($index)">Delete</button></td>
+        <td><button class="btn btn-danger" ng-click="Delete($index)">Delete</button></td>
       </tr>
     </table>
   </div>
-  <button ng-show="history.length > 0" ng-click="Undo()">Undo Delete</button>
+  <button class="btn btn-info" ng-show="history.length > 0" ng-click="Undo()">Undo Delete</button>
 </div>
 
 <div class="add_worker">
   <h2>Add A Worker</h2>
-  <form class="navbar-form" role="add_worker" ng-submit="Add()">
+  <form class="navbar-form" ng-submit="Add()">
     <div class="field">
-      <label for="name">Name: </label>
-      <input id="name" type="text" placeholder="Name" min="0" maxlength="50" class="form-control" ng-model="newName">
+      <label class="control-label" for="name">Name: </label>
+      <input id="name" type="text" placeholder="Name" class="form-control" ng-model="newName">
     </div>
     <div class="field">
-      <label for="mail">Email: </label>
-      <input id="mail" type="email" placeholder="Email" min="0" class="form-control" ng-model="newMail">
+      <label class="control-label" for="mail">Email: </label>
+      <input id="mail" type="email" placeholder="Email" class="form-control" ng-model="newMail">
     </div>
     <div class="field">
-      <label for="date">Date of Birthday: </label>
+      <label class="control-label" for="date">Date of Birthday: </label>
       <input id="date" type="date" placeholder="Date of Birthday" class="form-control" ng-model="newDate">
     </div>
     <div class="action">

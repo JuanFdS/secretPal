@@ -9,6 +9,7 @@ body {
   padding: 0;
 }
 
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -64,7 +65,6 @@ body {
   .container {
     max-width: 730px;
   }
-
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -80,4 +80,11 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+}
+
+.add_worker h2 {
+  font-size: 20px;
+  color: #3b5eba;
+  border-bottom: 1px solid #e5e5e5;
+  padding-top: 20px;
 }
