@@ -16,10 +16,14 @@ public class SecretPalEvent {
     }
 
     public void registerParticipant(Person aPerson) {
-        this.participants.add(aPerson);
+        if (this.participants.contains(aPerson)) {
+            throw new RuntimeException("That user was already registered in the event");
+        } else {
+            this.participants.add(aPerson);
+        }
     }
 
     public int amountOfParticipant() {
-        return 2;
+        return participants.size();
     }
 }

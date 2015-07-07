@@ -42,6 +42,29 @@ public class SecretPalEventTest {
         amountOfParticipants(2);
     }
 
+    @Test
+    public void When_I_add_one_participants_the_amount_of_participants_is_one(){
+        Person aRandomPerson = new PersonBuilder().build();
+
+        aSecretPalEvent.registerParticipant(aRandomPerson);
+
+        amountOfParticipants(1);
+    }
+
+    @Test
+    public void When_I_add_two_times_the_same_person_an_exception_is_raised(){
+        Person aRandomPerson = new PersonBuilder().build();
+    try {
+        aSecretPalEvent.registerParticipant(aRandomPerson);
+        aSecretPalEvent.registerParticipant(aRandomPerson);
+        fail("Exception was not raised");
+    } catch (RuntimeException e) {
+        assertEquals(e.getMessage(), "That user was already registered in the event");
+    }
+        amountOfParticipants(1);
+    }
+
+
     private void eventHasParticipants(){
         assertTrue(aSecretPalEvent.hasAnyParticipant());
     }
