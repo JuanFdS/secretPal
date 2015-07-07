@@ -2,7 +2,6 @@ package model;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
-
 import java.time.LocalDate;
 
 public class Person {
@@ -27,13 +26,13 @@ public class Person {
         this.birthdayDate = birthdayDate;
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public String getLastName() {
-        return this.lastName;
-    }
+    public String getLastName() { return this.lastName; }
+
+    public String geteMail() { return eMail; }
+
+    public void seteMail(String eMail) { this.eMail = eMail; }
 
     public LocalDate getBirthdayDate() {
         return birthdayDate;
