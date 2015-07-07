@@ -9,9 +9,11 @@ import java.time.Month;
 
 public class PersonBuilder {
 
-    private String name = "Pepe";
-    private String lastName = "Grillo";
-    private LocalDate birtdayDate = LocalDate.of(1993, Month.APRIL,12);
+    private Faker faker = new Faker();
+    private String name = faker.name().firstName();
+    private String lastName = faker.name().lastName();
+    private String email = faker.internet().emailAddress();
+    private LocalDate birthdayDate = LocalDate.of(1993, Month.APRIL,12);
 
     public PersonBuilder withName(String name){
         this.name = name;
@@ -23,17 +25,21 @@ public class PersonBuilder {
         return this;
     }
 
+    public PersonBuilder withEmail(String email){
+        this.email = email;
+        return this;
+    }
+
     public PersonBuilder withBirthDayDate(LocalDate date){
-        this.birtdayDate = date;
+        this.birthdayDate = date;
         return this;
     }
 
     public Person build(){
-        return new Person(name,lastName,birtdayDate);
+        return new Person(name,lastName,email,birthdayDate);
     }
 
     public Person buildFromDate(int day, Month month) {
-        Faker faker = new Faker();
-        return new Person(faker.name().firstName(), faker.name().lastName(), LocalDate.of(1800, month.getValue(), day));
+        return new Person(faker.name().firstName(), faker.name().lastName(),faker.internet().emailAddress(), LocalDate.of(1800, month.getValue(), day));
     }
 }

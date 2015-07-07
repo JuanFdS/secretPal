@@ -1,14 +1,18 @@
 package model;
 
 
+import com.sun.xml.internal.bind.v2.TODO;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import java.time.LocalDate;
+import java.util.function.Function;
 
 public class Person {
 
     private String name;
     private String lastName;
+    private String eMail;
     private LocalDate birthdayDate;
 
     /**
@@ -16,11 +20,13 @@ public class Person {
      */
     public Person(){}
 
-    public Person(String name, String lastName, LocalDate birthdayDate) {
+    public Person(String name, String lastName, String email, LocalDate birthdayDate) {
         checkIfIsValid(name, "Name is invalid");
         checkIfIsValid(lastName, "Last name is invalid");
+        checkIfValidEmail(email);
         this.name = name;
         this.lastName = lastName;
+        this.eMail = email;
         this.birthdayDate = birthdayDate;
     }
 
@@ -49,7 +55,16 @@ public class Person {
     }
 
     private void checkIfIsValid(String name, String message) {
-        if (StringUtils.isBlank(name) || !StringUtils.isAlpha(name)) throw new RuntimeException(message);
+        //TODO: Check for names and last name that contains tittles
+        checkIfFieldIsValidUponCondition(StringUtils.isBlank(name) || !name.matches("[a-zA-Z ']+"), message);
+    }
+
+    private void checkIfValidEmail(String email) {
+        checkIfFieldIsValidUponCondition(!EmailValidator.getInstance().isValid(email), "Email is invalid");
+    }
+
+    private void checkIfFieldIsValidUponCondition(Boolean condition, String message){
+        if(condition) throw new RuntimeException(message);
     }
 
 }

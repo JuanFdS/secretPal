@@ -52,6 +52,18 @@ public class PersonTest {
         checkExceptionIsRaisedUponCreation(aPersonWithANonCharLastName, "Last name is invalid");
     }
 
+    @Test
+    public void When_I_try_to_create_a_person_with_an_invalid_email_an_exception_is_raised(){
+        Supplier<Person> aPersonWithInvalidEmail = () -> personBuilder.withEmail("invalidEmail").build();
+        checkExceptionIsRaisedUponCreation(aPersonWithInvalidEmail, "Email is invalid");
+    }
+
+    @Test
+    public void When_I_try_to_create_a_person_with_a_last_name_that_contains_a_single_quote_on_it_should_not_raise_an_exception(){
+        Person aPerson = personBuilder.withLastName("O'Connel").build();
+        assertEquals(aPerson.getLastName(), "O'Connel");
+    }
+
     private void checkExceptionIsRaisedUponCreation(Supplier<Person> creationFunction, String assertionMessage){
         try {
             creationFunction.get();

@@ -33,7 +33,7 @@ public class AssignationTest {
 
     @Test
     public void When_there_is_only_one_person_the_assignation_should_give_an_error(){
-        personList.add( new Person("Pepe", "Casas", LocalDate.now()) );
+        personList.add( personBuilder.build() );
         try {
             assignment = assign(personList);
         } catch (Exception e) {
