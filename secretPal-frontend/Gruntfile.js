@@ -23,6 +23,8 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  grunt.loadNpmTasks('grunt-karma');
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -400,8 +402,14 @@ module.exports = function (grunt) {
     // Test settings
     karma: {
       unit: {
-        configFile: 'test/karma.conf.js',
-        singleRun: true
+        options: {
+          frameworks: ['jasmine'],
+            singleRun: true,
+            browsers: ['PhantomJS'],
+            files: [
+              'test/spec/**/*_spec.js'
+          ]
+        }
       }
     }
   });
@@ -431,10 +439,11 @@ module.exports = function (grunt) {
     'clean:server',
     'wiredep',
     'concurrent:test',
-    'autoprefixer',
     'connect:test',
+    'jshint',
     'karma'
   ]);
+
 
   grunt.registerTask('build', [
     'clean:dist',
