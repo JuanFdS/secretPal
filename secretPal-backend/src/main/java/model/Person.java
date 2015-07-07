@@ -1,12 +1,9 @@
 package model;
 
-
-import com.sun.xml.internal.bind.v2.TODO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import java.time.LocalDate;
-import java.util.function.Function;
 
 public class Person {
 
