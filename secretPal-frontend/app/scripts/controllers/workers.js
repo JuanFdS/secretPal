@@ -7,14 +7,14 @@
  * # AboutCtrl
  * Controller of the secretPalApp
  */
-angular.module('secretPalApp')
-  .controller('WorkersController', ['$scope', function($scope) {
+var app = angular.module('secretPalApp');
+app.controller('WorkersController', ['$scope', function($scope) {
 
     $scope.history = [];
 
     $scope.workers = [
-      { name: 'Toia', mail: 'toia@10pines.com', date:'040515'  },
-      { name: 'Maria', mail: 'maria@10pines.com', date: '040899' }
+      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990'  },
+      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906' }
     ];
 
     $scope.Delete = function (index) {
@@ -25,6 +25,7 @@ angular.module('secretPalApp')
     };
 
     $scope.Reset = function () {
+      $scope.form.$setPristine();
       $scope.newName = '';
       $scope.newMail = '';
       $scope.newDate = '';
@@ -49,3 +50,23 @@ angular.module('secretPalApp')
 
   }]);
 
+app.directive('unique', function() {
+  return {
+    require: 'ngModel',
+    restrict: 'A',
+    link: function(scope, elm, attrs, ctrl) {
+      ctrl.$validators.unique = function(modelValue, viewValue) {
+        if (ctrl.$isEmpty(modelValue))
+          return true;
+
+        var result = [];
+
+        angular.forEach(scope.workers, function(worker){
+          result.push( worker.name.toUpperCase() )
+        });
+
+        return result.indexOf(modelValue.toUpperCase()) === -1;
+      };
+    }
+  };
+});

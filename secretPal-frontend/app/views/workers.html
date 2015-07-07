@@ -21,18 +21,21 @@
 
 <div class="add_worker">
   <h2>Add A Worker</h2>
-  <form class="navbar-form" ng-submit="Add()">
+  <form class="navbar-form" name="form" ng-submit="Add()">
     <div class="field">
       <label class="control-label" for="name">Name: </label>
-      <input id="name" type="text" placeholder="Name" class="form-control" ng-model="newName">
+      <input type="text" id="name" name="newName" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newName" required unique>
+      <span ng-show="form.newName.$error.unique">This worker is already in!</span>
+
+
     </div>
     <div class="field">
       <label class="control-label" for="mail">Email: </label>
-      <input id="mail" type="email" placeholder="Email" class="form-control" ng-model="newMail">
+      <input id="mail" required type="email" placeholder="Email" class="form-control" ng-model="newMail">
     </div>
     <div class="field">
       <label class="control-label" for="date">Date of Birthday: </label>
-      <input id="date" type="date" placeholder="Date of Birthday" class="form-control" ng-model="newDate">
+      <input id="date" required type="date" class="form-control" ng-model="newDate">
     </div>
     <div class="action">
       <button type="submit" class="btn btn-default">Add</button>
@@ -40,4 +43,3 @@
     </div>
   </form>
 </div>
-
