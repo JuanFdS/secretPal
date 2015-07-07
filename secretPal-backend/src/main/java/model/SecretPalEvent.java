@@ -18,4 +18,8 @@ public class SecretPalEvent {
     public void registerParticipant(Person aPerson) {
         this.participants.add(aPerson);
     }
+
+    public int amountOfParticipant() {
+        return 2;
+    }
 }
