@@ -33,7 +33,7 @@ app.controller('WorkersController', ['$scope', function($scope) {
     };
 
     $scope.Add = function () {
-      if (!$scope.newName){
+      if (!$scope.newName || !$scope.newDate || !$scope.newMail){
         return;
       }
 
