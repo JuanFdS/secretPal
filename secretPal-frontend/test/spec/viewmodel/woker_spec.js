@@ -1,3 +1,5 @@
+'use strict';
+
 describe('ViewModel: Worker', function () {
   it('should allow a worker with all the atributes', function () {
     expect(function(){
@@ -6,7 +8,7 @@ describe('ViewModel: Worker', function () {
           last_name: "Sanchez",
           mail: "lala@lala.com",
           birthdate: "Oct 29, 1990"
-    })
+    });
     }).toNotThrow();
   });
 
@@ -16,7 +18,7 @@ describe('ViewModel: Worker', function () {
           last_name: "Sanchez",
           mail: "lala@lala.com",
           birthdate: "Oct 29, 1990"
-    })
+    });
     }).toThrow();
   });
 });

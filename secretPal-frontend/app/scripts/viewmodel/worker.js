@@ -1,8 +1,6 @@
 'use strict';
 
-var app = angular.module('secretPalApp')
-
-.factory('Worker', function () {
+angular.module('secretPalApp').factory('Worker', function () {
 
   /**
    * Constructor, with class name

@@ -18,8 +18,9 @@ app.controller('WorkersController', ['$scope', function($scope) {
     ];
 
     $scope.Delete = function (index) {
-      if ($scope.history.length === 10)
+      if ($scope.history.length === 10){
         $scope.history.shift();
+      }
       $scope.history.push($scope.workers[index]);
       $scope.workers.splice(index, 1);
     };
@@ -29,24 +30,25 @@ app.controller('WorkersController', ['$scope', function($scope) {
       $scope.newName = '';
       $scope.newMail = '';
       $scope.newDate = '';
-    }
+    };
 
     $scope.Add = function () {
-      if (!$scope.newName)
+      if (!$scope.newName){
         return;
+      }
 
       $scope.workers.push({
         name: $scope.newName,
         mail: $scope.newMail,
-        date: $scope.newDate,
+        date: $scope.newDate
       });
       $scope.Reset();
-    }
+    };
 
     $scope.Undo = function () {
       $scope.workers.push($scope.history[ $scope.history.length - 1 ]);
       $scope.history.pop();
-    }
+    };
 
   }]);
 
@@ -55,14 +57,15 @@ app.directive('unique', function() {
     require: 'ngModel',
     restrict: 'A',
     link: function(scope, elm, attrs, ctrl) {
-      ctrl.$validators.unique = function(modelValue, viewValue) {
-        if (ctrl.$isEmpty(modelValue))
+      ctrl.$validators.unique = function(modelValue) {
+        if (ctrl.$isEmpty(modelValue)) {
           return true;
+        }
 
         var result = [];
 
         angular.forEach(scope.workers, function(worker){
-          result.push( worker.name.toUpperCase() )
+          result.push( worker.name.toUpperCase() );
         });
 
         return result.indexOf(modelValue.toUpperCase()) === -1;
