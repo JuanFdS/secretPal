@@ -7,6 +7,7 @@
  * # AboutCtrl
  * Controller of the secretPalApp
  */
+/*TODO var app = angular.module('secretPalApp', 'ui.bootstrap');*/
 var app = angular.module('secretPalApp');
 
 app.controller('WorkersController', ['$scope', function($scope) {
@@ -68,10 +69,12 @@ app.directive('unique', function() {
   };
 });
 
+/*
 app.controller('AccordionDemoCtrl', function ($scope) {
   $scope.status = {
     isFirstOpen: true,
     isFirstDisabled: false
   };
 });
+*/
 
