@@ -2,18 +2,23 @@
   <h1>Workers' List</h1>
   <div class="panel panel-primary">
     <table class="table">
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Birthday Date</th>
-        <th></th>
-      </tr>
-      <tr ng-repeat="worker in workers">
-        <td>{{worker.name}}</td>
-        <td>{{worker.mail}}</td>
-        <td>{{worker.date | date}}</td>
-        <td><button class="btn btn-danger" ng-click="Delete($index)">Delete</button></td>
-      </tr>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Birthday Date</th>
+          <th>Participating?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="worker in workers">
+          <td>{{worker.name}}</td>
+          <td>{{worker.mail}}</td>
+          <td>{{worker.date | date}}</td>
+          <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.name}}" ng-model="worker.participating"></td>
+          <td><button class="btn btn-danger" ng-click="Delete($index)">Delete</button></td>
+        </tr>
+      </tbody>
     </table>
   </div>
   <button class="btn btn-info" ng-show="history.length > 0" ng-click="Undo()">Undo Delete</button>
@@ -24,10 +29,8 @@
   <form class="navbar-form" name="form" ng-submit="Add()">
     <div class="field">
       <label class="control-label" for="name">Name: </label>
-      <input type="text" id="name" name="newName" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newName" required unique>
+      <input type="text" id="name" name="newName" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newName" required unique ng-model-options="{ debounce: 500 }">
       <span ng-show="form.newName.$error.unique">This worker is already in!</span>
-
-
     </div>
     <div class="field">
       <label class="control-label" for="mail">Email: </label>

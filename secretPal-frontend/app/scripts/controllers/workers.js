@@ -13,8 +13,8 @@ app.controller('WorkersController', ['$scope', function($scope) {
     $scope.history = [];
 
     $scope.workers = [
-      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990'  },
-      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906' }
+      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false  },
+      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true }
     ];
 
     $scope.Delete = function (index) {
@@ -50,7 +50,18 @@ app.controller('WorkersController', ['$scope', function($scope) {
       $scope.history.pop();
     };
 
-  }]);
+    $scope.selectedParticipants = function selectedParticipants() {
+      return filterFilter($scope.workers, { participating: true });
+    };
+
+    $scope.$watch('participants|filter:{participating:true}', function (nv) {
+      $scope.selection = nv.map(function (worker) {
+        return worker.name;
+      });
+    }, true);
+
+
+}]);
 
 app.directive('unique', function() {
   return {
