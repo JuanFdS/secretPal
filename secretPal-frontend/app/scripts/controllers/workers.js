@@ -50,17 +50,6 @@ app.controller('WorkersController', ['$scope', function($scope) {
       $scope.history.pop();
     };
 
-    $scope.selectedParticipants = function selectedParticipants() {
-      return filterFilter($scope.workers, { participating: true });
-    };
-
-    $scope.$watch('participants|filter:{participating:true}', function (nv) {
-      $scope.selection = nv.map(function (worker) {
-        return worker.name;
-      });
-    }, true);
-
-
 }]);
 
 app.directive('unique', function() {
