@@ -5,5 +5,4 @@ jdk:
 script: 
   - "cd secretPal-backend"
   - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dcobertura.skip=true -B -V
-  - mvn clean cobertura:check -B -V
 
