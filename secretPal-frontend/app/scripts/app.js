@@ -12,6 +12,7 @@ angular
   .module('secretPalApp', [
     'ngAnimate',
     'ngRoute'
+
   ])
   .config(function ($routeProvider) {
     $routeProvider

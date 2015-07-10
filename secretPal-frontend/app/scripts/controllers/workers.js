@@ -7,10 +7,10 @@
  * # AboutCtrl
  * Controller of the secretPalApp
  */
-/*TODO var app = angular.module('secretPalApp', 'ui.bootstrap');*/
+
 var app = angular.module('secretPalApp');
 
-app.controller('WorkersController', ['$scope', function($scope) {
+app.controller('WorkersController', function($scope) {
 
     $scope.history = [];
     $scope.workers = [
@@ -45,7 +45,7 @@ app.controller('WorkersController', ['$scope', function($scope) {
       $scope.workers.push($scope.history[ $scope.history.length - 1 ]);
       $scope.history.pop();
     };
-}]);
+});
 
 app.directive('unique', function() {
   return {
