@@ -7,9 +7,7 @@
  * # AboutCtrl
  * Controller of the secretPalApp
  */
-
 var app = angular.module('secretPalApp');
-
 app.controller('WorkersController', function($scope) {
 
     $scope.history = [];
@@ -46,6 +44,15 @@ app.controller('WorkersController', function($scope) {
       $scope.workers.push($scope.history[ $scope.history.length - 1 ]);
       $scope.history.pop();
     };
+
+    /*DATEPICKER FUNCTIONS*/
+    $scope.open = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.opened = true;
+    };
+
 });
 
 app.directive('unique', function() {
@@ -70,12 +77,11 @@ app.directive('unique', function() {
   };
 });
 
-/*
-app.controller('AccordionDemoCtrl', function ($scope) {
-  $scope.status = {
-    isFirstOpen: true,
-    isFirstDisabled: false
-  };
-});
-*/
+
+
+
+
+
+
+
 
