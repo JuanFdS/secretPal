@@ -82,12 +82,14 @@ body {
   }
 }
 
-.add_worker h2 {
-  font-size: 20px;
-  color: #3b5eba;
-  border-bottom: 1px solid #e5e5e5;
-  padding-top: 20px;
+#add_worker_button {
+  margin-bottom: 20px;
 }
+
+#undo_delete_button {
+  margin-bottom: 20px;
+}
+
 
 /*
 .add_worker input.ng-invalid.ng-touched {
