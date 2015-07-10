@@ -31,7 +31,7 @@ app.controller('WorkersController', function($scope) {
       $scope.newDate = '';
     };
     $scope.Add = function () {
-      if (!$scope.newName || !$scope.newDate || !$scope.newMail){
+      if (!$scope.newName || !$scope.newMail){
         return;
       }
       $scope.workers.push({
@@ -40,6 +40,7 @@ app.controller('WorkersController', function($scope) {
         date: $scope.newDate
       });
       $scope.Reset();
+      $("#add_worker").collapse('hide');
     };
     $scope.Undo = function () {
       $scope.workers.push($scope.history[ $scope.history.length - 1 ]);
