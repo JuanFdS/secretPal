@@ -12,8 +12,8 @@ app.controller('WorkersController', function ($scope, $modal) {
 
     $scope.history = [];
     $scope.workers = [
-      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false  },
-      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true }
+      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: null  },
+      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true, secretpal: null }
     ];
     $scope.Delete = function (index) {
       if ($scope.history.length === 10){
@@ -68,7 +68,7 @@ app.controller('WorkersController', function ($scope, $modal) {
         }
       });
       modalInstance.result.then(function (selectedParticipant) {
-        $scope.selected = selectedParticipant;
+        $scope.Selected = selectedParticipant;
       });
   };
 });
