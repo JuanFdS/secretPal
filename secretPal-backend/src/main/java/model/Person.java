@@ -34,17 +34,22 @@ public class Person {
 
     public String geteMail() { return eMail; }
 
-    public void seteMail(String eMail) { this.eMail = eMail; }
+    public void seteMail(String eMail) {
+        checkIfValidEmail(eMail);
+        this.eMail = eMail;
+    }
 
     public LocalDate getBirthdayDate() {
         return birthdayDate;
     }
 
     public void setName(String name) {
+        checkIfIsValid(name, "Name is invalid");
         this.name = name;
     }
 
     public void setLastName(String lastName) {
+        checkIfIsValid(lastName, "Last name is invalid");
         this.lastName = lastName;
     }
 
