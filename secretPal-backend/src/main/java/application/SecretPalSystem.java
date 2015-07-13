@@ -2,6 +2,7 @@ package application;
 
 import model.Person;
 import persistence.AbstractRepository;
+import persistence.DatabasePersonDao;
 import persistence.InMemoryPersonDao;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class SecretPalSystem {
 
-    private static AbstractRepository personRepository = new InMemoryPersonDao();
+    private static AbstractRepository personRepository = new DatabasePersonDao();
 
     public void savePerson(Person newPerson){
         this.personRepository.save(newPerson);

@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -31,7 +33,12 @@ public class Person {
      */
     public Person(){}
 
+    @ManyToMany(mappedBy="participants")
+    private Set<SecretPalEvent> secretPalEvents = new HashSet<>();
 
+    public Set<SecretPalEvent> getSecretPalEvents() {
+        return secretPalEvents;
+    }
 
     public Person(String name, String lastName, String email, LocalDate birthdayDate) {
         checkIfIsValid(name, "Name is invalid");
@@ -78,6 +85,20 @@ public class Person {
 
     private void checkIfFieldIsValidUponCondition(Boolean condition, String message){
         if(condition) throw new RuntimeException(message);
+    }
+
+    @Override
+    public boolean equals(Object anObject){
+        if ( this == anObject ) return true;
+
+        if ( !(anObject instanceof Person) ) return false;
+        Person otherPerson = (Person)anObject;
+
+        return
+                this.getName().equals(otherPerson.getName()) &&
+                this.getLastName().equals(otherPerson.getLastName()) &&
+                this.geteMail().equals(otherPerson.geteMail()) &&
+                this.getBirthdayDate().equals(otherPerson.getBirthdayDate());
     }
 
 }

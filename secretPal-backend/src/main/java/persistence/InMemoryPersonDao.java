@@ -1,6 +1,7 @@
 package persistence;
 
 import model.Person;
+import model.SecretPalEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,4 +22,7 @@ public class InMemoryPersonDao implements AbstractRepository<Person> {
             persons.add(person);
         }
     }
+
+    @Override
+    public void refresh(Person person){ }
 }

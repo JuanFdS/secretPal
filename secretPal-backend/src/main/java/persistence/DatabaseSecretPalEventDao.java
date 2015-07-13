@@ -1,13 +1,13 @@
 package persistence;
 
-import model.Person;
+import model.SecretPalEvent;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.*;
 
 import java.util.List;
 
-public class DatabasePersonDao implements AbstractRepository<Person>  {
+public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEvent>  {
 
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
@@ -28,25 +28,25 @@ public class DatabasePersonDao implements AbstractRepository<Person>  {
         getSessionFactory().close();
     }
 
-    public void save(Person... people) {
-        Session session = DatabasePersonDao.getSessionFactory().openSession();
+    public void save(SecretPalEvent... secretPalEvents) {
+        Session session = DatabaseSecretPalEventDao.getSessionFactory().openSession();
         session.beginTransaction();
 
-        for (Person person : people){
-            session.save( person );
+        for (SecretPalEvent secretPalEvent: secretPalEvents){
+            session.save( secretPalEvent );
         }
 
         session.getTransaction().commit();
     }
 
     @Override
-    public List<Person> retrieveAll() {
-        return DatabasePersonDao.getSessionFactory().openSession().createCriteria( Person.class ).list();
+    public List<SecretPalEvent> retrieveAll() {
+        return DatabaseSecretPalEventDao.getSessionFactory().openSession().createCriteria( SecretPalEvent.class ).list();
     }
 
     @Override
-    public void refresh(Person person){
-        DatabaseSecretPalEventDao.getSessionFactory().openSession().refresh(person);
+    public void refresh(SecretPalEvent secretPalEvent){
+        DatabaseSecretPalEventDao.getSessionFactory().openSession().refresh(secretPalEvent);
     }
 
 }
