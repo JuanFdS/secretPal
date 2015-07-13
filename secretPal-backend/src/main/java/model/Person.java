@@ -2,11 +2,24 @@ package model;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.springframework.format.annotation.DateTimeFormat;
-
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table
 public class Person {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    private void setId(Long id) {
+        this.id = id;
+    }
 
     private String name;
     private String lastName;
@@ -17,6 +30,8 @@ public class Person {
      * Hibernate use only.
      */
     public Person(){}
+
+
 
     public Person(String name, String lastName, String email, LocalDate birthdayDate) {
         checkIfIsValid(name, "Name is invalid");

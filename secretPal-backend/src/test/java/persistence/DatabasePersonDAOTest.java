@@ -9,13 +9,13 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-public class InMemoryPersonDAOTest {
+public class DatabasePersonDAOTest {
 
     private AbstractRepository<Person> personDao;
 
     @Before
     public void setUp(){
-        this.personDao = new InMemoryPersonDao();
+        this.personDao = new DatabasePersonDao();
     }
 
     @Test
