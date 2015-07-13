@@ -8,7 +8,7 @@
  * Controller of the secretPalApp
  */
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope) {
+app.controller('WorkersController', function ($scope, $modal) {
 
     $scope.history = [];
     $scope.workers = [
@@ -53,6 +53,40 @@ app.controller('WorkersController', function($scope) {
       $scope.opened = true;
     };
 
+    /*$scope.participants = $scope.workers;/!*where participating*!/*/
+
+    $scope.Open = function() {
+      /*alert("Hello! I am an alert box!!");*/
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: '../../views/pal_assignment_modal.html',
+        controller: 'ModalInstanceCtrl',
+        resolve: {
+          workers: function () {
+            return $scope.workers;
+          }
+        }
+      });
+      modalInstance.result.then(function (selectedParticipant) {
+        $scope.selected = selectedParticipant;
+      });
+  };
+});
+
+app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, workers) {
+
+  $scope.workers = workers;
+  $scope.selected = {
+    worker: $scope.workers[0]
+  };
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.worker);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 });
 
 app.directive('unique', function() {
@@ -76,12 +110,4 @@ app.directive('unique', function() {
     }
   };
 });
-
-
-
-
-
-
-
-
 

@@ -16,6 +16,9 @@
           <td>{{worker.mail}}</td>
           <td>{{worker.date | date}}</td>
           <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.name}}" ng-model="worker.participating"></td>
+
+          <td><button class="btn btn-group-justified" ng-click="Open()">Asignar Amigo</button></td>
+          <!--<td><div ng-show="selected">{{ selected }}</div></td>-->
           <td><button class="btn btn-group-justified" ng-click="Delete($index)">Delete</button></td>
         </tr>
       </tbody>
@@ -55,7 +58,6 @@
       <button class="btn btn-default" ng-click="Reset()">Reset</button>
   </div>
 </div>
-
 
 
 
