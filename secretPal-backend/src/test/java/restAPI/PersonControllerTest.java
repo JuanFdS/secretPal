@@ -101,8 +101,29 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].defaultMessage", is("may not be empty")));
+        verifyZeroInteractions(secretPalSystemMock);
+    }
 
-        System.out.println(content().toString());
+
+
+    @Test
+    public void add_TitleAndDescriptionAreTooLong_ShouldReturnValidationErrorsForTitleAndDescription() throws Exception {
+        Person person = new Person(); //completely blank
+
+        mockMvc.perform(post("/person/new")
+                        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                        .content(TestUtil.convertObjectToJsonStrings(person))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.errors", hasSize(4)))
+                .andExpect(jsonPath("$.errors[*].field", containsInAnyOrder("name", "lastName", "eMail", "birthdayDate")))
+                .andExpect(jsonPath("$.errors[*].defaultMessage", containsInAnyOrder(
+                        "may not be null",
+                        "may not be empty",
+                        "may not be empty",
+                        "may not be empty"
+                )));
 
         verifyZeroInteractions(secretPalSystemMock);
     }

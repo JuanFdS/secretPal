@@ -6,6 +6,7 @@ import model.Person;
 import model.SecretPalEvent;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
@@ -18,14 +19,14 @@ public class DatabasePersonDAOTest {
     private AbstractRepository<SecretPalEvent> secretPalEventDao;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         this.personDao = new DatabasePersonDao();
         this.secretPalEventDao = new DatabaseSecretPalEventDao();
     }
 
     @Test
     @Ignore //TODO Los tests usan la misma DB y no la limpian
-    public void When_I_Have_Zero_Persons_Persisted_When_I_Retrieve_Then_The_List_Is_Empty(){
+    public void When_I_Have_Zero_Persons_Persisted_When_I_Retrieve_Then_The_List_Is_Empty() {
         List<Person> result = this.personDao.retrieveAll();
         assertTrue(result.isEmpty());
     }
@@ -42,9 +43,9 @@ public class DatabasePersonDAOTest {
     }
 
     @Test
-    public void When_I_Add_a_Participant_It_should_stay_persisted_and_as_a_participant(){
-        Person aParticipant =  new PersonBuilder().build();
-        Person aPerson =  new PersonBuilder().build();
+    public void When_I_Add_a_Participant_It_should_stay_persisted_and_as_a_participant() {
+        Person aParticipant = new PersonBuilder().build();
+        Person aPerson = new PersonBuilder().build();
         SecretPalEvent secretPalEvent = new SecretPalEvent();
 
         //aParticipant.getSecretPalEvents().add(secretPalEvent);
@@ -52,10 +53,9 @@ public class DatabasePersonDAOTest {
         personDao.save(aPerson);
         secretPalEventDao.save(secretPalEvent);
 
-        secretPalEventDao.refresh( secretPalEvent ); //recarga de la DB
+        secretPalEventDao.refresh(secretPalEvent); //recarga de la DB
 
         assertTrue("The participant should be saved as such", secretPalEvent.getParticipants().contains(aParticipant));
         assertFalse("The non-participant should not be saved as participant", secretPalEvent.getParticipants().contains(aPerson));
     }
-
 }
