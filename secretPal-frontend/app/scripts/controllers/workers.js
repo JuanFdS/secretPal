@@ -16,12 +16,18 @@ app.controller('WorkersController', function ($scope, $modal) {
       { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true, secretpal: null }
     ];
     $scope.Delete = function (index) {
+      if ($scope.workers[index].participating) {
+        alert("This worker is participating. You cant delete it");
+        return;
+      }
+
       if ($scope.history.length === 10){
         $scope.history.shift();
       }
       $scope.history.push($scope.workers[index]);
       $scope.workers.splice(index, 1);
     };
+
     $scope.Reset = function () {
       $scope.form.$setPristine();
       $scope.newName = '';
@@ -45,6 +51,15 @@ app.controller('WorkersController', function ($scope, $modal) {
       $scope.history.pop();
     };
 
+    $scope.Change = function (index) {
+      if ($scope.workers[index].secretpal !== null) {
+        alert("This worker has a secretpal associated. Please remove it before stop participating");
+        $scope.workers[index].participating = true;
+        return;
+      }
+      /*TODO si alguien te tiene como secretPal tmp podes dejar de participar*/
+    };
+
     /*DATEPICKER FUNCTIONS*/
     $scope.open = function($event) {
       $event.preventDefault();
@@ -52,8 +67,6 @@ app.controller('WorkersController', function ($scope, $modal) {
 
       $scope.opened = true;
     };
-
-    /*$scope.participants = $scope.workers;/!*where participating*!/*/
 
     $scope.Open = function() {
       /*alert("Hello! I am an alert box!!");*/
@@ -75,17 +88,29 @@ app.controller('WorkersController', function ($scope, $modal) {
 
 app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, workers) {
 
-  $scope.workers = workers;
+  $scope.participants = workers;
+  /*$scope.secretpals = $filter('filter')(participants, {participating:true});*/
+
+  $scope.notUsed = function (participant) {
+    var isUsed = false;
+    angular.forEach(workers, function(worker) {
+
+      if (worker.secretpal === participant) {
+        if (worker !== participant) {isUsed = true};
+      }
+
+    });
+    return (!isUsed);
+  }
 
   $scope.ok = function () {
-    $modalInstance.close($scope.workers);
+    $modalInstance.close($scope.participants);
   };
 
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
 });
-
 
 app.directive('unique', function() {
   return {

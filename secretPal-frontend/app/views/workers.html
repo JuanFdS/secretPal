@@ -15,7 +15,7 @@
           <td>{{worker.name}}</td>
           <td>{{worker.mail}}</td>
           <td>{{worker.date | date}}</td>
-          <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.name}}" ng-model="worker.participating"></td>
+          <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.name}}" ng-change="Change($index)" ng-model="worker.participating"></td>
           <td>{{worker.secretpal.name }}</td>
           <td><button class="btn btn-group-justified" ng-click="Delete($index)">Delete</button></td>
         </tr>
