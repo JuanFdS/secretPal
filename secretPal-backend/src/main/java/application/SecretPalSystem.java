@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SecretPalSystem {
 
-    private static AbstractRepository personRepository = new DatabasePersonDao();
+    private static AbstractRepository<Person> personRepository = new DatabasePersonDao();
 
     public void savePerson(Person newPerson){
         this.personRepository.save(newPerson);
