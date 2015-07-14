@@ -12,11 +12,12 @@ app.controller('WorkersController', function ($scope, $modal) {
 
     $scope.history = [];
     $scope.workers = [
-      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: null  },
-      { name: 'Roman', mail: 'roman@10pines.com', date: 'Oct 29, 1990', participating: true, secretpal: null  },
-      { name: 'Joaquin', mail: 'joaquin@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: null  },
-      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true, secretpal: null }
+      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: ''  },
+      { name: 'Roman', mail: 'roman@10pines.com', date: 'Oct 29, 1990', participating: true, secretpal: ''  },
+      { name: 'Joaquin', mail: 'joaquin@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: ''  },
+      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true, secretpal: '' }
     ];
+
     $scope.Delete = function (index) {
       if ($scope.workers[index].participating) {
         alert("This worker is participating. You cant delete it");
@@ -31,7 +32,7 @@ app.controller('WorkersController', function ($scope, $modal) {
     };
 
     $scope.RemovePal = function (index) {
-      $scope.workers[index].secretpal = null;
+      $scope.workers[index].secretpal = '';
     };
 
     $scope.Reset = function () {
@@ -40,6 +41,7 @@ app.controller('WorkersController', function ($scope, $modal) {
       $scope.newMail = '';
       $scope.newDate = '';
     };
+
     $scope.Add = function () {
       if (!$scope.newName || !$scope.newMail){
         return;
@@ -47,18 +49,21 @@ app.controller('WorkersController', function ($scope, $modal) {
       $scope.workers.push({
         name: $scope.newName,
         mail: $scope.newMail,
-        date: $scope.newDate
+        date: $scope.newDate,
+        participating: false,
+        secretpal: ''
       });
       $scope.Reset();
       $("#add_worker").collapse('hide');
     };
+
     $scope.Undo = function () {
       $scope.workers.push($scope.history[ $scope.history.length - 1 ]);
       $scope.history.pop();
     };
 
     $scope.Change = function (index) {
-      if ($scope.workers[index].secretpal !== null) {
+      if ($scope.workers[index].secretpal !== '') {
         alert("This worker has a secretpal associated. Please remove it before stop participating");
         $scope.workers[index].participating = true;
         return;
@@ -139,4 +144,3 @@ app.directive('unique', function() {
     }
   };
 });
-
