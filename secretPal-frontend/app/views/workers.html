@@ -16,8 +16,7 @@
           <td>{{worker.mail}}</td>
           <td>{{worker.date | date}}</td>
           <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.name}}" ng-model="worker.participating"></td>
-
-          <td><button class="btn btn-group-justified" ng-click="Open()">Asignar Amigo</button></td>
+          <td>{{worker.secretpal.name }}</td>
           <td><button class="btn btn-group-justified" ng-click="Delete($index)">Delete</button></td>
         </tr>
       </tbody>
@@ -26,6 +25,7 @@
   <button class="btn btn-info" id="undo_delete_button" ng-show="history.length > 0" ng-click="Undo()">Undo Delete</button>
 </div>
 
+<button class="btn btn-primary" ng-click="Open()">Asignar Amigos!</button>
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_worker" aria-expanded="false" aria-controls="add_worker" id="add_worker_button">
   Add a new Worker!
 </button>

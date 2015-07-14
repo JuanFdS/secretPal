@@ -60,34 +60,32 @@ app.controller('WorkersController', function ($scope, $modal) {
       var modalInstance = $modal.open({
         animation: false,
         templateUrl: '../../views/pal_assignment_modal.html',
-        controller: 'ModalInstanceCtrl',
+        controller: 'pal_assignmentCtrl',
         resolve: {
           workers: function () {
             return $scope.workers;
           }
         }
       });
-      modalInstance.result.then(function (selectedParticipant) {
-        $scope.Selected = selectedParticipant;
+      modalInstance.result.then(function (updatedWorkers) {
+        $scope.workers = updatedWorkers;
       });
   };
 });
 
-app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, workers) {
+app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, workers) {
 
   $scope.workers = workers;
-  $scope.selected = {
-    worker: $scope.workers[0]
-  };
 
   $scope.ok = function () {
-    $modalInstance.close($scope.selected.worker);
+    $modalInstance.close($scope.workers);
   };
 
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
 });
+
 
 app.directive('unique', function() {
   return {

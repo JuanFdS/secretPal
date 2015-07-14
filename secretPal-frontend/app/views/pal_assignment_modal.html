@@ -2,13 +2,22 @@
   <h3 class="modal-title">Asignar Amigo!</h3>
 </div>
 <div class="modal-body">
-  <ul>
-    <li ng-repeat="worker in workers">
-      <a ng-click="selected.worker = worker">{{ worker.name }}</a>
-    </li>
-  </ul>
-  Selected: <b>{{ selected.worker.name }}</b>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Secret Pal</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="worker in workers">
+      <td>{{worker.name}}</td>
+      <td><select ng-model="worker.secretpal" ng-options="worker as worker.name for worker in workers"></select></td>
+    </tr>
+    </tbody>
+  </table>
 </div>
+
 <div class="modal-footer">
   <button class="btn btn-primary" ng-click="ok()">OK</button>
   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
