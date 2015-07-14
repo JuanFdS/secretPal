@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import builder.PersonBuilder;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
 

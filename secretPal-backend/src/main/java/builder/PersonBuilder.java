@@ -2,11 +2,9 @@ package builder;
 
 import com.github.javafaker.Faker;
 import model.Person;
-import persistence.AbstractRepository;
 
 import java.time.LocalDate;
 import java.time.Month;
-
 
 public class PersonBuilder {
 

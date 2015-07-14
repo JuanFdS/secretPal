@@ -1,18 +1,8 @@
 package model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -22,10 +12,11 @@ public class SecretPalEvent {
     @GeneratedValue
     private Long id;
 
+    /* TODO Estaria bueno diferenciarlos. No se si asi
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @NotNull
-    private LocalDate startingDate;
+    private LocalDate startingDate; */
 
     public Long getId() {
         return id;
