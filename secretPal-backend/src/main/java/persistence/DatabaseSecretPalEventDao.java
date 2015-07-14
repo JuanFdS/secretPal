@@ -49,4 +49,9 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         DatabaseSecretPalEventDao.getSessionFactory().openSession().refresh(secretPalEvent);
     }
 
+    @Override
+    public SecretPalEvent findById(int id) {
+        return (SecretPalEvent) DatabaseSecretPalEventDao.getSessionFactory().openSession().get(SecretPalEvent.class, id);
+    }
+
 }

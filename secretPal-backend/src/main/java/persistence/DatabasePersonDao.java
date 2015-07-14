@@ -49,4 +49,9 @@ public class DatabasePersonDao implements AbstractRepository<Person>  {
         DatabaseSecretPalEventDao.getSessionFactory().openSession().refresh(person);
     }
 
+    @Override
+    public Person findById(int id) {
+        return (Person) DatabaseSecretPalEventDao.getSessionFactory().openSession().get(Person.class, id);
+    }
+
 }
