@@ -3,14 +3,14 @@ package restAPI;
 import application.SecretPalSystem;
 import builder.PersonBuilder;
 import builder.TestUtil;
-import configuration.ObjectMapperContextResolver;
 import model.Person;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -18,11 +18,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.util.MatcherAssertionErrors.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,7 +38,6 @@ public class PersonControllerTest {
 
     @Autowired
     private SecretPalSystem secretPalSystemMock;
-    private DateTimeFormatter JSONDateFormater = DateTimeFormatter.ofPattern("yyyy-dd-mm");
 
     @Before
     public void setUp() {
@@ -61,7 +60,7 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].name", is(aPerson.getName())))
                 .andExpect(jsonPath("$[0].lastName", is(aPerson.getLastName())))
-        .andExpect(jsonPath("$[0].eMail", is(aPerson.geteMail())))
+                .andExpect(jsonPath("$[0].eMail", is(aPerson.geteMail())))
 
                 .andExpect(jsonPath("$[1].name", is(anotherPerson.getName())))
                 .andExpect(jsonPath("$[1].lastName", is(anotherPerson.getLastName())))
@@ -70,4 +69,25 @@ public class PersonControllerTest {
         verify(secretPalSystemMock, times(1)).retrieveAllPersons();
         verifyNoMoreInteractions(secretPalSystemMock);
     }
+
+    @Test
+    public void When_I_Post_A_New_User_This_Should_Be_Stored() throws Exception {
+        Person aPerson = new PersonBuilder().build();
+
+        doNothing().when(secretPalSystemMock).savePerson(org.mockito.Mockito.any(Person.class));
+
+        mockMvc.perform(post("/person/new")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(TestUtil.convertObjectToJsonStrings(aPerson))
+        )
+                .andExpect(status().isOk());
+
+        ArgumentCaptor<Person> personCaptor = ArgumentCaptor.forClass(Person.class);
+        verify(secretPalSystemMock, times(1)).savePerson(personCaptor.capture());
+        verifyNoMoreInteractions(secretPalSystemMock);
+
+        Person sentPerson = personCaptor.getValue();
+        assertThat(sentPerson, is(aPerson));
+    }
+
 }
