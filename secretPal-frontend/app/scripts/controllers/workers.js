@@ -13,6 +13,8 @@ app.controller('WorkersController', function ($scope, $modal) {
     $scope.history = [];
     $scope.workers = [
       { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: null  },
+      { name: 'Roman', mail: 'roman@10pines.com', date: 'Oct 29, 1990', participating: true, secretpal: null  },
+      { name: 'Joaquin', mail: 'joaquin@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: null  },
       { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true, secretpal: null }
     ];
     $scope.Delete = function (index) {
@@ -26,6 +28,10 @@ app.controller('WorkersController', function ($scope, $modal) {
       }
       $scope.history.push($scope.workers[index]);
       $scope.workers.splice(index, 1);
+    };
+
+    $scope.RemovePal = function (index) {
+      $scope.workers[index].secretpal = null;
     };
 
     $scope.Reset = function () {
@@ -91,7 +97,7 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, workers) 
   $scope.participants = workers;
   /*$scope.secretpals = $filter('filter')(participants, {participating:true});*/
 
-  $scope.notUsed = function (participant) {
+/*  $scope.notUsed = function (participant) {
     var isUsed = false;
     angular.forEach(workers, function(worker) {
 
@@ -101,7 +107,7 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, workers) 
 
     });
     return (!isUsed);
-  }
+  }*/
 
   $scope.ok = function () {
     $modalInstance.close($scope.participants);
