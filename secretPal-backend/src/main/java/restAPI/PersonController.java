@@ -1,15 +1,18 @@
 package restAPI;
 
 import application.SecretPalSystem;
+import builder.TestUtil;
 import model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -25,17 +28,20 @@ public class PersonController {
         return system.retrieveAllPersons();
     }
 
+
     @RequestMapping(value = "/new", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void save(@RequestBody Person aPerson){
+    public void save(@RequestBody @Valid Person aPerson, BindingResult result, Model m) throws Exception {
+        if (result.hasErrors())
+            throw new RestfulException(result.getAllErrors());
         system.savePerson(aPerson);
     }
 
-
-    public SecretPalSystem getSystem() { return system; }
-
-    public void setSystem(SecretPalSystem system) {
-        this.system = system;
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public RestfulException handleException(RestfulException e){
+        return e;
     }
 
 }

@@ -90,4 +90,21 @@ public class PersonControllerTest {
         assertThat(sentPerson, is(aPerson));
     }
 
+    @Test
+    public void When_I_Add_A_User_With_No_Name_I_Should_Get_An_Error() throws Exception {
+        mockMvc.perform(post("/person/new")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"lastName\":\"Conn\",\"eMail\":\"dimitri.bahringer@yahoo.com\",\"birthdayDate\":[1993,4,12]}")
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0].field", is("name")))
+                .andExpect(jsonPath("$.errors[0].defaultMessage", is("may not be empty")));
+
+        System.out.println(content().toString());
+
+        verifyZeroInteractions(secretPalSystemMock);
+    }
+
 }
