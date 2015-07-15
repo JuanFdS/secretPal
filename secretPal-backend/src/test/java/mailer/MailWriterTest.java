@@ -26,7 +26,7 @@ public class MailWriterTest {
 
     @Test
     public void When_I_Build_An_Assignation_Message_The_Subject_Is_About_An_Assignation() throws MessagingException, IOException {
-        assertEquals("[SecretPal] Se te ha asignado un amigo invisible", anAssignationMessage.getSubject());
+        assertEquals("[SecretPal] A secret pal was assigned to you!", anAssignationMessage.getSubject());
     }
 
     @Test

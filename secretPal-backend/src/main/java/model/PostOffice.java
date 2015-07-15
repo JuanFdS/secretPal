@@ -20,9 +20,15 @@ public class PostOffice {
         this.mailService = mailService;
     }
 
-    public void sendMailToWithFriendName(String emailAddress, Person pal) throws IOException, MessagingException {
+    public void sendAssignationMailToWithFriendInformation(String emailAddress, Person pal)  {
         checkIfValidEmail(emailAddress);
-        mailService.sendMessage(mailWriter.buildAssignationMessage(pal));
+        try {
+            mailService.sendMessage(mailWriter.buildAssignationMessage(pal));
+        } catch (MessagingException e) {
+            throw new RuntimeException(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     private void checkIfValidEmail(String email) {

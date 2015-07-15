@@ -38,8 +38,14 @@
 			<artifactId>javafaker</artifactId>
 			<version>0.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+		</dependency>
 
-        <!-- Spring dependencies -->
+
+		<!-- Spring dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -96,7 +102,7 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
-    </dependencies>
+	</dependencies>
 	
 	<build>
 		<plugins>
