@@ -4,6 +4,7 @@ import application.SecretPalSystem;
 import builder.PersonBuilder;
 import builder.TestUtil;
 import model.Person;
+import model.SecretPalEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,11 +51,13 @@ public class PersonControllerTest {
     public void When_I_GET_all_the_people_it_should_return_them() throws Exception {
         Person aPerson = new PersonBuilder().build();
         Person anotherPerson = new PersonBuilder().build();
-        //No hace falta guardarlos, porque mockeo el como los levanta
+        SecretPalEvent secretPalEvent = new SecretPalEvent();
+        secretPalEvent.registerParticipant(aPerson, anotherPerson);
+        //No hace falta guardarlos, porque mockeo el como los levanta. TODO: Sacar el mock cuando pueda implementar DBs de test
 
         when(secretPalSystemMock.retrieveAllPersons()).thenReturn(Arrays.asList(aPerson, anotherPerson));
 
-        mockMvc.perform(get("/person/all"))
+        mockMvc.perform(get("/person/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(2)))

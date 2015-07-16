@@ -38,21 +38,4 @@ public class DatabasePersonDAOTest {
         //assertEquals("The list should Have One More Person", result.size(), 1);
         assertTrue("The list should contain the new person elements", result.contains(aPerson));
     }
-
-    @Test
-    public void When_I_Add_a_Participant_It_should_stay_persisted_and_as_a_participant() {
-        Person aParticipant = new PersonBuilder().build();
-        Person aPerson = new PersonBuilder().build();
-        SecretPalEvent secretPalEvent = new SecretPalEvent();
-
-        //aParticipant.getSecretPalEvents().add(secretPalEvent);
-        secretPalEvent.getParticipants().add(aParticipant);
-        personDao.save(aPerson);
-        secretPalEventDao.save(secretPalEvent);
-
-        secretPalEventDao.refresh(secretPalEvent); //recarga de la DB
-
-        assertTrue("The participant should be saved as such", secretPalEvent.getParticipants().contains(aParticipant));
-        assertFalse("The non-participant should not be saved as participant", secretPalEvent.getParticipants().contains(aPerson));
-    }
 }

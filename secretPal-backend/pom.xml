@@ -23,6 +23,11 @@
             <version>3.4</version>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlets</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>1.4.1</version>

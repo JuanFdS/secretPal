@@ -16,7 +16,16 @@
 
     <bean id="secretPalSystem" class="application.SecretPalSystem"></bean>
     <context:component-scan base-package="restAPI" />
-    <mvc:annotation-driven/>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="dateObjectMapper"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="dateObjectMapper" class="DateObjectMapper"/>
 
 </beans>
 

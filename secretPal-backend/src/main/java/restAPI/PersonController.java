@@ -20,12 +20,11 @@ public class PersonController {
     @Autowired
     private SecretPalSystem system;
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public List<Person> persons(){
         return system.retrieveAllPersons();
     }
-
 
     @RequestMapping(value = "/new", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
     @ResponseBody

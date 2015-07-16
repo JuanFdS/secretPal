@@ -1,6 +1,8 @@
 package persistence;
 
+import model.Person;
 import model.SecretPalEvent;
+import org.hibernate.PersistentObjectException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
@@ -33,6 +35,7 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         session.beginTransaction();
 
         for (SecretPalEvent secretPalEvent: secretPalEvents){
+            secretPalEvent.getParticipants().forEach(session::save);
             session.save( secretPalEvent );
         }
 

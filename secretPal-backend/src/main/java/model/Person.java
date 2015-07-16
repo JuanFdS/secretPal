@@ -12,8 +12,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table
@@ -44,12 +42,8 @@ public class Person {
 
     public Person(){}
 
-    @ManyToMany(mappedBy="participants")
-    private Set<SecretPalEvent> secretPalEvents = new HashSet<>();
-
-    public Set<SecretPalEvent> getSecretPalEvents() {
-        return secretPalEvents;
-    }
+    /* @ManyToMany(mappedBy="participants")
+    private Set<SecretPalEvent> secretPalEvents = new HashSet<>();*/
 
     public Person(String name, String lastName, String email, LocalDate birthdayDate) {
         checkIfIsValid(name, "Name is invalid");

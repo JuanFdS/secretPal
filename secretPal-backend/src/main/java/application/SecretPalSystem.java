@@ -37,4 +37,8 @@ public class SecretPalSystem {
     public List<SecretPalEvent> retrieveAllSecretPalEvents() {
         return secretPalEventRepository.retrieveAll();
     }
+
+    public Person retrieveAPerson(int id) {
+        return personRepository.findById( id );
+    }
 }
