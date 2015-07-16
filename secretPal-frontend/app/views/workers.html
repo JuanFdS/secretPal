@@ -32,17 +32,17 @@
       <form class="navbar-form" name="form" ng-submit="Add()">
         <div class="field">
           <label class="control-label col-md-4" for="name">Name: </label>
-          <input type="text" id="name" name="newName" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newName" required unique ng-model-options="{ debounce: 500 }">
+          <input type="text" id="name" name="name" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newWorker.name" required unique ng-model-options="{ debounce: 500 }">
           <span ng-show="form.newName.$error.unique">This worker is already in!</span>
         </div>
         <div class="field">
           <label class="control-label col-md-4" for="mail">Email: </label>
-          <input id="mail" required type="email" placeholder="Email" class="form-control" ng-model="newMail">
+          <input id="mail" required type="email" placeholder="Email" class="form-control" ng-model="newWorker.eMail">
         </div>
         <div class="field">
           <label class="control-label col-md-4" for="date">Date of Birthday: </label>
           <p class="input-group">
-            <input id="date" required type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="newDate" is-open="opened" />
+            <input id="date" required type="text" class="form-control" datepicker-popup="[yyyy-MM-dd]" ng-model="newWorker.birthdayDate" is-open="opened" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>

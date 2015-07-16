@@ -25,16 +25,12 @@ angular.module('secretPalApp')
       { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true }
     ]; */
 
-    $scope.workers = Workers.query(function (data) {
-      console.log(data);
-
-
-      asd
-
-
-
-
-    });
+    $scope.workers = Workers.query(function () {});
+    $scope.initialWorker = {
+      name: '',
+      eMail: '',
+      birthdayDate: ''
+    };
 
     $scope.Delete = function (index) {
       if ($scope.history.length === 10){
@@ -45,21 +41,20 @@ angular.module('secretPalApp')
     };
     $scope.Reset = function () {
       $scope.form.$setPristine();
-      $scope.newName = '';
-      $scope.newMail = '';
-      $scope.newDate = '';
+      $scope.newWorker = angular.copy($scope.initialWorker);;
     };
     $scope.Add = function () {
-      if (!$scope.newName || !$scope.newMail){
+      if (!$scope.workers == $scope.initialWorker){
         return;
       }
-      $scope.workers.push({
-        name: $scope.newName,
-        mail: $scope.newMail,
-        date: $scope.newDate
-      });
+
+      debugger;
+
+      Workers.save($scope.newWorker);
+
       $scope.Reset();
       $("#add_worker").collapse('hide');
+
     };
     $scope.Undo = function () {
       $scope.workers.push($scope.history[ $scope.history.length - 1 ]);

@@ -79,7 +79,7 @@ public class PersonControllerTest {
 
         doNothing().when(secretPalSystemMock).savePerson(org.mockito.Mockito.any(Person.class));
 
-        mockMvc.perform(post("/person/new")
+        mockMvc.perform(post("/person/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestUtil.convertObjectToJsonStrings(aPerson))
         )
@@ -95,7 +95,7 @@ public class PersonControllerTest {
 
     @Test
     public void When_I_Add_A_User_With_No_Name_I_Should_Get_An_Error() throws Exception {
-        mockMvc.perform(post("/person/new")
+        mockMvc.perform(post("/person/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"lastName\":\"Conn\",\"eMail\":\"dimitri.bahringer@yahoo.com\",\"birthdayDate\":[1993,4,12]}")
         )
@@ -113,7 +113,7 @@ public class PersonControllerTest {
     public void add_TitleAndDescriptionAreTooLong_ShouldReturnValidationErrorsForTitleAndDescription() throws Exception {
         Person person = new Person(); //completely blank
 
-        mockMvc.perform(post("/person/new")
+        mockMvc.perform(post("/person/")
                         .contentType(TestUtil.APPLICATION_JSON_UTF8)
                         .content(TestUtil.convertObjectToJsonStrings(person))
         )

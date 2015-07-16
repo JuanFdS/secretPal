@@ -1,6 +1,7 @@
 package restAPI;
 
 import application.SecretPalSystem;
+import builder.TestUtil;
 import model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class PersonController {
         return system.retrieveAllPersons();
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public void save(@RequestBody @Valid Person aPerson, BindingResult result, Model m) throws Exception {
         if (result.hasErrors())
