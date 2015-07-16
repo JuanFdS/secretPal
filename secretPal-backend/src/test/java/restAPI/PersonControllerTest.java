@@ -97,10 +97,9 @@ public class PersonControllerTest {
     public void When_I_Add_A_User_With_No_Name_I_Should_Get_An_Error() throws Exception {
         mockMvc.perform(post("/person/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"lastName\":\"Conn\",\"eMail\":\"dimitri.bahringer@yahoo.com\",\"birthdayDate\":[1993,4,12]}")
+                        .content("{\"lastName\":\"Conn\",\"eMail\":\"dimitri.bahringer@yahoo.com\",\"birthdayDate\":\"2000-4-3\"}")
         )
-                .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isBadRequest()) //TODO: Este bad request no se de donde sale
                 .andExpect(jsonPath("$.errors", hasSize(1)))
                 .andExpect(jsonPath("$.errors[0].field", is("name")))
                 .andExpect(jsonPath("$.errors[0].defaultMessage", is("may not be empty")));
@@ -118,7 +117,6 @@ public class PersonControllerTest {
                         .content(TestUtil.convertObjectToJsonStrings(person))
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.errors", hasSize(4)))
                 .andExpect(jsonPath("$.errors[*].field", containsInAnyOrder("name", "lastName", "eMail", "birthdayDate")))
                 .andExpect(jsonPath("$.errors[*].defaultMessage", containsInAnyOrder(

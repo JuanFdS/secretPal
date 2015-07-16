@@ -37,7 +37,7 @@ public class PersonController {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
     public RestfulException handleException(RestfulException e){
         return e;
     }
