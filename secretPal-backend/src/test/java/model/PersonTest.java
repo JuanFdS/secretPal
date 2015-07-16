@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.function.Supplier;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 public class PersonTest {
@@ -62,6 +63,12 @@ public class PersonTest {
     public void When_I_try_to_create_a_person_with_a_last_name_that_contains_a_single_quote_on_it_should_not_raise_an_exception(){
         Person aPerson = personBuilder.withLastName("O'Connel").build();
         assertEquals(aPerson.getLastName(), "O'Connel");
+    }
+
+    @Test
+    public void When_I_try_to_create_a_person_he_should_not_want_to_participate_yet(){
+        Person aPerson = personBuilder.build();
+        assertFalse(aPerson.wantsToParticipate());
     }
 
     private void checkExceptionIsRaisedUponCreation(Supplier<Person> creationFunction, String assertionMessage){

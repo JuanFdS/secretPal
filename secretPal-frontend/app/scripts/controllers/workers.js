@@ -68,7 +68,14 @@ app.controller('WorkersController', function ($scope, $modal) {
         $scope.workers[index].participating = true;
         return;
       }
-      /*TODO si alguien te tiene como secretPal tmp podes dejar de participar*/
+
+      var total = $scope.workers.length;
+      for (var i=0; i<total; i++)
+        if ($scope.workers[i].secretpal === $scope.workers[index]) {
+          alert("This worker is a participant's secretpal. Please remove it before stop participating");
+          $scope.workers[index].participating = true;
+          return;
+        }
     };
 
     /*DATEPICKER FUNCTIONS*/
@@ -100,18 +107,20 @@ app.controller('WorkersController', function ($scope, $modal) {
 app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, workers) {
 
   $scope.participants = workers;
-  /*$scope.secretpals = $filter('filter')(participants, {participating:true});*/
 
 /*  $scope.notUsed = function (participant) {
     var isUsed = false;
-    angular.forEach(workers, function(worker) {
 
-      if (worker.secretpal === participant) {
-        if (worker !== participant) {isUsed = true};
+    var total = $scope.participants.length;
+    for (var i=0; i<total; i++)
+      if ($scope.participants[i].secretpal === participant) {
+        if ($scope.participants[i] !== participant) {isUsed = true};
       }
-
-    });
     return (!isUsed);
+  }*/
+
+/*  $scope.notMe = function (participant) {
+    TODO
   }*/
 
   $scope.ok = function () {

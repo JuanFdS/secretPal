@@ -12,7 +12,7 @@ public class Person {
     private String lastName;
     private String eMail;
     private LocalDate birthdayDate;
-
+    private Boolean wantsToParticipate;
     /**
      * Hibernate use only.
      */
@@ -26,31 +26,29 @@ public class Person {
         this.lastName = lastName;
         this.eMail = email;
         this.birthdayDate = birthdayDate;
+        this.wantsToParticipate = false;
     }
 
-    public String getName() { return name; }
-
+    public String getName() { return this.name; }
     public String getLastName() { return this.lastName; }
-
     public String geteMail() { return eMail; }
+    public LocalDate getBirthdayDate() { return birthdayDate; }
 
     public void seteMail(String eMail) { this.eMail = eMail; }
-
-    public LocalDate getBirthdayDate() {
-        return birthdayDate;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
     public void setBirthdayDate(LocalDate birthdayDate) {
         this.birthdayDate = birthdayDate;
     }
+    public void setWantsToParticipate(Boolean wantsToParticipate) {
+        this.wantsToParticipate = wantsToParticipate;
+    }
+
+    public boolean wantsToParticipate() { return this.wantsToParticipate;}
 
     private void checkIfIsValid(String name, String message) {
         //TODO: Check for names and last name that contains tittles
