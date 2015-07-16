@@ -46,5 +46,16 @@ public class ParticipantTest {
         }
     }
 
+    @Test
+    public void When_I_try_to_create_a_participant_whose_secretpal_is_him_an_exception_is_raised(){
+        aPerson.setWantsToParticipate(true);
+
+        try {
+            participant = new Participant(aPerson, aPerson);
+            fail("The exception was not raised");
+        } catch (Exception e) {
+            assertEquals(e.getMessage(), "You cant assign the participant to be his secretPal");
+        }
+    }
 
 }

@@ -65,7 +65,7 @@ public class SecretPalEventTest {
     public void When_I_add_two_times_the_same_secretPal_to_a_participant_an_exception_is_raised() throws Exception {
         Person aPerson = new PersonBuilder().build();
         aPerson.setWantsToParticipate(true);
-        Participant otherParticipant = new Participant(aPerson, otherPerson);
+        Participant otherParticipant = new Participant(aPerson, aParticipant.getSecretPal());
 
         try {
             aSecretPalEvent.registerParticipant(aParticipant);
