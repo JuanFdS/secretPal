@@ -50,7 +50,7 @@ public class SecretPalEventTest {
     }
 
     @Test
-    public void When_I_add_two_times_the_same_person_an_exception_is_raised(){
+    public void When_I_add_two_times_the_same_participant_an_exception_is_raised(){
     try {
         aSecretPalEvent.registerParticipant(aParticipant);
         aSecretPalEvent.registerParticipant(aParticipant);
@@ -58,6 +58,22 @@ public class SecretPalEventTest {
     } catch (RuntimeException e) {
         assertEquals(e.getMessage(), "That user was already registered in the event");
     }
+        amountOfParticipants(1);
+    }
+
+    @Test
+    public void When_I_add_two_times_the_same_secretPal_to_a_participant_an_exception_is_raised() throws Exception {
+        Person aPerson = new PersonBuilder().build();
+        aPerson.setWantsToParticipate(true);
+        Participant otherParticipant = new Participant(aPerson, otherPerson);
+
+        try {
+            aSecretPalEvent.registerParticipant(aParticipant);
+            aSecretPalEvent.registerParticipant(otherParticipant);
+            fail("Exception was not raised");
+        } catch (RuntimeException e) {
+            assertEquals(e.getMessage(), "The secretPal was already assign to other participant");
+        }
         amountOfParticipants(1);
     }
 

@@ -2,6 +2,7 @@ package model;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SecretPalEvent {
 
@@ -16,14 +17,20 @@ public class SecretPalEvent {
     }
 
     public void registerParticipant(Participant aParticipant) {
-        /*TODO: mapear solo con particpantes y ver si participa, y mapear solo con secretPal y ver si ya esta asignado*/
-        if (this.participants.contains(aParticipant)) {
+        List<Person> participantsToCheck = participants.stream().map(p -> p.getParticipant()).collect(Collectors.toList());
+
+        if (participantsToCheck.contains(aParticipant.getParticipant()) ) {
             throw new RuntimeException("That user was already registered in the event");
         } else {
-            this.participants.add(aParticipant);
+            List<Person> secretPalsToCheck = participants.stream().map(p -> p.getSecretPal()).collect(Collectors.toList());
+
+            if (secretPalsToCheck.contains(aParticipant.getSecretPal())) {
+                throw new RuntimeException("The secretPal was already assign to other participant");
+            } else {
+                this.participants.add(aParticipant);
+            }
         }
     }
-
     public int amountOfParticipant() {
         return participants.size();
     }

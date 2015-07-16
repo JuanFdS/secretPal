@@ -17,4 +17,12 @@ public class Participant {
     private void checkIfWantToParticipate(Person person) throws Exception {
         if(!person.wantsToParticipate()) throw new RuntimeException(person.getName() + " " + person.getLastName()  + " does not want to participate");
     }
+
+    public Person getParticipant() {
+        return this.participant;
+    }
+
+    public Person getSecretPal() {
+        return this.secretPal;
+    }
 }
