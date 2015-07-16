@@ -1,32 +1,43 @@
 package mailer;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+import javax.mail.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import static org.mockito.Mockito.mock;
 
-public class DumbPostMan implements PostManService {
+public class DumbPostMan extends SMTPPostMan {
 
-    private List<Message> messages = new ArrayList<>();
+    private static List<Message> messages = new ArrayList<>();
 
-    @Override
-    public Message createEmptyMessage() {
-        return new MimeMessage(mock(Session.class));
+    public DumbPostMan(Properties templateProperties) {
+        super(mock(Properties.class), templateProperties);
     }
 
+
     @Override
-    public void sendMessage(Message message) {
+    protected void sendMessage(Message message) throws MessagingException, IOException {
         messages.add(message);
     }
 
-    public int getEmailCount() {
-        return messages.size();
+    public boolean containsMessageWith(String subject, String bodyText) throws java.io.IOException, javax.mail.MessagingException{
+        return messages.stream().anyMatch(message -> messageContainsInformation(message,subject,bodyText));
     }
 
-    public Message getMessage() {
-        return messages.get(0);
+    private boolean messageContainsInformation(Message message, String subject, String body) {
+            boolean ret = false;
+        try {
+            ret |= message.getSubject().equals(subject) && message.getContent().equals(body);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
     }
+
 }
