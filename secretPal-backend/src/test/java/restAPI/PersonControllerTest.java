@@ -92,6 +92,22 @@ public class PersonControllerTest {
     }
 
     @Test
+    public void When_I_Delete_An_Existing_Person_It_Should_Be_No_More() throws Exception {
+        Person aPerson = new PersonBuilder().build();
+
+        //TODO: Cambiar el ID por el posta cuando lo des-mokee
+        int pseudoId=18;
+
+        doNothing().when(secretPalSystemMock).deletePerson(aPerson);
+
+        mockMvc.perform(delete("/person/" + pseudoId))
+                .andExpect(status().isOk());
+
+        verify(secretPalSystemMock, times(1)).deletePerson(aPerson);
+        verifyNoMoreInteractions(secretPalSystemMock);
+    }
+
+    @Test
     public void When_I_Add_A_User_With_No_Name_I_Should_Get_An_Error() throws Exception {
         Person aPerson = new PersonBuilder().build();
 

@@ -28,12 +28,21 @@ angular.module('secretPalApp')
       birthdayDate: ''
     };
 
-    $scope.Delete = function (index) {
+    $scope.Delete = function (worker) {
       if ($scope.history.length === 10){
         $scope.history.shift();
       }
-      $scope.history.push($scope.workers[index]);
+      $scope.history.push(worker);
+
+      Workers.remove(worker, function(data){
+        console.log(data);
+        //TODO: Creo que aca llega solo sihace succes. Habria que dar un error de otro modo
+      });
+
+      var index = $scope.workers.indexOf(worker);
       $scope.workers.splice(index, 1);
+
+
     };
     $scope.Reset = function () {
       $scope.form.$setPristine();

@@ -50,7 +50,17 @@ public class DatabasePersonDao implements AbstractRepository<Person>  {
     }
 
     @Override
-    public Person findById(int id) {
+    public void delete(Person aPerson) {
+        Session session = DatabasePersonDao.getSessionFactory().openSession();
+        session.beginTransaction();
+
+            session.delete(aPerson);
+
+        session.getTransaction().commit();
+    }
+
+    @Override
+    public Person findById(Long id) {
         return (Person) DatabaseSecretPalEventDao.getSessionFactory().openSession().get(Person.class, id);
     }
 

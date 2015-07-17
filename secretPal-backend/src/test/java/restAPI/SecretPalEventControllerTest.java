@@ -78,14 +78,14 @@ public class SecretPalEventControllerTest {
         secretPalEvent.getParticipants().add(aPerson);
         secretPalEvent.getParticipants().add(anotherPerson);
 
-        when(secretPalSystemMock.retrieveASecretPalEvent(3)).thenReturn(secretPalEvent);
+        when(secretPalSystemMock.retrieveASecretPalEvent((long) 3)).thenReturn(secretPalEvent);
 
         mockMvc.perform(get("/secretpalevent/3"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.participants", hasSize(2)));
 
-        verify(secretPalSystemMock, times(1)).retrieveASecretPalEvent(3);
+        verify(secretPalSystemMock, times(1)).retrieveASecretPalEvent((long) 3);
         verifyNoMoreInteractions(secretPalSystemMock);
     }
 }

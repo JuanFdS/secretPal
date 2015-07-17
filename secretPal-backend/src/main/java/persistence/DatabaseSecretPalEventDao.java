@@ -1,8 +1,6 @@
 package persistence;
 
-import model.Person;
 import model.SecretPalEvent;
-import org.hibernate.PersistentObjectException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
@@ -53,7 +51,12 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
     }
 
     @Override
-    public SecretPalEvent findById(int id) {
+    public void delete(SecretPalEvent secretPalEvent) {
+        DatabaseSecretPalEventDao.getSessionFactory().openSession().delete(secretPalEvent);
+    }
+
+    @Override
+    public SecretPalEvent findById(Long id) {
         return (SecretPalEvent) DatabaseSecretPalEventDao.getSessionFactory().openSession().get(SecretPalEvent.class, id);
     }
 

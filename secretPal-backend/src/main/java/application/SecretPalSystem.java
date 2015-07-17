@@ -30,7 +30,7 @@ public class SecretPalSystem {
         SecretPalSystem.personRepository = personRepository;
     }
 
-    public SecretPalEvent retrieveASecretPalEvent(int event_id) {
+    public SecretPalEvent retrieveASecretPalEvent(Long event_id) {
         return secretPalEventRepository.findById(event_id) ;
     }
 
@@ -38,7 +38,11 @@ public class SecretPalSystem {
         return secretPalEventRepository.retrieveAll();
     }
 
-    public Person retrieveAPerson(int id) {
-        return personRepository.findById( id );
+    public Person retrieveAPerson(Long id) {
+        return personRepository.findById(id);
+    }
+
+    public void deletePerson(Person aPerson) {
+        personRepository.delete(aPerson);
     }
 }

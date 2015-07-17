@@ -25,8 +25,13 @@ public class InMemoryPersonDao implements AbstractRepository<Person> {
     public void refresh(Person person){ }
 
     @Override
-    public Person findById(int id) {
-        return persons.get(id);
+    public void delete(Person aPerson) {
+        persons.remove(aPerson);
+    }
+
+    @Override
+    public Person findById(Long id) {
+        return persons.get(id.intValue()-1);
     }
 
 

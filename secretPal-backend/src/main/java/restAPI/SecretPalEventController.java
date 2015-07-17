@@ -24,7 +24,7 @@ public class SecretPalEventController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public SecretPalEvent secretPalEvent(@PathVariable int id){
+    public SecretPalEvent secretPalEvent(@PathVariable Long id){
         return system.retrieveASecretPalEvent( id );
     }
 

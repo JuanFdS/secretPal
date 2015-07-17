@@ -35,6 +35,13 @@ public class PersonController {
         system.savePerson(aPerson);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public void delete(@PathVariable Long id) {
+        Person aPerson = system.retrieveAPerson(id);
+        system.deletePerson(aPerson);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CONFLICT)
