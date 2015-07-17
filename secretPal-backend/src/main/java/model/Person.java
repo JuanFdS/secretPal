@@ -8,44 +8,44 @@ import java.time.LocalDate;
 
 public class Person {
 
-    private String name;
-    private String lastName;
+    private String fullName;
     private String eMail;
     private LocalDate birthdayDate;
 
+
     /**
      * Hibernate use only.
+
      */
     public Person(){}
 
-    public Person(String name, String lastName, String email, LocalDate birthdayDate) {
-        checkIfIsValid(name, "Name is invalid");
-        checkIfIsValid(lastName, "Last name is invalid");
+    public Person(String fullName, String email, LocalDate birthdayDate) {
+        checkIfIsValid(fullName, "Full name is invalid");
         checkIfValidEmail(email);
-        this.name = name;
-        this.lastName = lastName;
+        this.fullName = fullName;
         this.eMail = email;
         this.birthdayDate = birthdayDate;
     }
 
-    public String getName() { return name; }
 
-    public String getLastName() { return this.lastName; }
+    public String getEMail() { return eMail; }
 
-    public String geteMail() { return eMail; }
+    public void setEMail(String eMail) {
+        checkIfValidEmail(eMail);
+        this.eMail = eMail;
+    }
 
-    public void seteMail(String eMail) { this.eMail = eMail; }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
     public LocalDate getBirthdayDate() {
         return birthdayDate;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public void setBirthdayDate(LocalDate birthdayDate) {
@@ -54,7 +54,7 @@ public class Person {
 
     private void checkIfIsValid(String name, String message) {
         //TODO: Check for names and last name that contains tittles
-        checkIfFieldIsValidUponCondition(StringUtils.isBlank(name) || !name.matches("[a-zA-Z ']+"), message);
+        checkIfFieldIsValidUponCondition(StringUtils.isBlank(name) || !name.matches("[a-zA-Z ,.'-]+"), message);
     }
 
     private void checkIfValidEmail(String email) {
