@@ -61,12 +61,10 @@ public class PersonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is(aPerson.getName())))
-                .andExpect(jsonPath("$[0].lastName", is(aPerson.getLastName())))
+                .andExpect(jsonPath("$[0].fullName", is(aPerson.getFullName())))
                 .andExpect(jsonPath("$[0].eMail", is(aPerson.geteMail())))
 
-                .andExpect(jsonPath("$[1].name", is(anotherPerson.getName())))
-                .andExpect(jsonPath("$[1].lastName", is(anotherPerson.getLastName())))
+                .andExpect(jsonPath("$[1].fullName", is(anotherPerson.getFullName())))
                 .andExpect(jsonPath("$[1].eMail", is(anotherPerson.geteMail())));
 
         verify(secretPalSystemMock, times(1)).retrieveAllPersons();
@@ -95,13 +93,17 @@ public class PersonControllerTest {
 
     @Test
     public void When_I_Add_A_User_With_No_Name_I_Should_Get_An_Error() throws Exception {
+        Person aPerson = new PersonBuilder().build();
+
+        aPerson.setFullName("");
+
         mockMvc.perform(post("/person/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"lastName\":\"Conn\",\"eMail\":\"dimitri.bahringer@yahoo.com\",\"birthdayDate\":\"2000-4-3\"}")
+                        .content(TestUtil.convertObjectToJsonStrings(aPerson))
         )
-                .andExpect(status().isBadRequest()) //TODO: Este bad request no se de donde sale
+                .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
-                .andExpect(jsonPath("$.errors[0].field", is("name")))
+                .andExpect(jsonPath("$.errors[0].field", is("fullName")))
                 .andExpect(jsonPath("$.errors[0].defaultMessage", is("may not be empty")));
         verifyZeroInteractions(secretPalSystemMock);
     }
@@ -116,12 +118,11 @@ public class PersonControllerTest {
                         .contentType(TestUtil.APPLICATION_JSON_UTF8)
                         .content(TestUtil.convertObjectToJsonStrings(person))
         )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errors", hasSize(4)))
-                .andExpect(jsonPath("$.errors[*].field", containsInAnyOrder("name", "lastName", "eMail", "birthdayDate")))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.errors", hasSize(3)))
+                .andExpect(jsonPath("$.errors[*].field", containsInAnyOrder("fullName", "eMail", "birthdayDate")))
                 .andExpect(jsonPath("$.errors[*].defaultMessage", containsInAnyOrder(
                         "may not be null",
-                        "may not be empty",
                         "may not be empty",
                         "may not be empty"
                 )));

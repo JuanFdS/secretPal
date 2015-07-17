@@ -12,7 +12,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="worker in workers">
-          <td>{{worker.name}}</td>
+          <td>{{worker.fullName}}</td>
           <td>{{worker.eMail}}</td>
           <td>{{worker.birthdayDate | date }}</td>
           <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.name}}" ng-model="worker.participating"></td>
@@ -31,9 +31,9 @@
   <div class="well">
       <form class="navbar-form" name="form" ng-submit="Add()">
         <div class="field">
-          <label class="control-label col-md-4" for="name">Name: </label>
-          <input type="text" id="name" name="name" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newWorker.name" required unique ng-model-options="{ debounce: 500 }">
-          <span ng-show="form.newName.$error.unique">This worker is already in!</span>
+          <label class="control-label col-md-4" for="fullName">Name: </label>
+          <input type="text" id="fullName" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newWorker.fullName" required ng-model-options="{ debounce: 500 }">
+          <span ng-show="form.newWorker.fullName.$error.unique">This worker is already in!</span>
         </div>
         <div class="field">
           <label class="control-label col-md-4" for="mail">Email: </label>
@@ -42,7 +42,7 @@
         <div class="field">
           <label class="control-label col-md-4" for="date">Date of Birthday: </label>
           <p class="input-group">
-            <input id="date" required type="text" class="form-control" datepicker-popup="[yyyy-MM-dd]" ng-model="newWorker.birthdayDate" is-open="opened" />
+            <input id="date" required type="text" class="form-control" datepicker-popup="MMM dd yyyy" ng-model="newWorker.birthdayDate" is-open="opened" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>

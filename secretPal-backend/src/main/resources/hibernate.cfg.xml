@@ -13,7 +13,7 @@
 
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
-        <property name="hbm2ddl.auto">create</property> <!-- TODO: Esto crea la DB cada vez que corres algo (Test o Dev) -->
+        <property name="hbm2ddl.auto">create</property> <!--TODO: Esto crea la DB cada vez que corres algo (Test o Dev) -->
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>

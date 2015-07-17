@@ -20,14 +20,10 @@ angular.module('secretPalApp')
 .controller('WorkersController', function($scope, Workers) {
 
     $scope.history = [];
-    /* $scope.workers = [
-      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false  },
-      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true }
-    ]; */
 
     $scope.workers = Workers.query(function () {});
     $scope.initialWorker = {
-      name: '',
+      fullName: '',
       eMail: '',
       birthdayDate: ''
     };
@@ -48,9 +44,8 @@ angular.module('secretPalApp')
         return;
       }
 
-      debugger;
-
-      Workers.save($scope.newWorker);
+      Workers.save($scope.newWorker)
+      $scope.workers.push($scope.newWorker);
 
       $scope.Reset();
       $("#add_worker").collapse('hide');
