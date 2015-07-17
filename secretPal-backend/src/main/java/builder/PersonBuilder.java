@@ -10,18 +10,12 @@ import java.time.Month;
 public class PersonBuilder {
 
     private Faker faker = new Faker();
-    private String name = faker.name().firstName();
-    private String lastName = faker.name().lastName();
+    private String fullName = faker.name().fullName();
     private String email = faker.internet().emailAddress();
     private LocalDate birthdayDate = LocalDate.of(1993, Month.APRIL,12);
 
-    public PersonBuilder withName(String name){
-        this.name = name;
-        return this;
-    }
-
-    public PersonBuilder withLastName(String lastName){
-        this.lastName = lastName;
+    public PersonBuilder withFullName(String fullName){
+        this.fullName = fullName;
         return this;
     }
 
@@ -36,10 +30,10 @@ public class PersonBuilder {
     }
 
     public Person build(){
-        return new Person(name,lastName,email,birthdayDate);
+        return new Person(fullName,email,birthdayDate);
     }
 
     public Person buildFromDate(int day, Month month) {
-        return new Person(faker.name().firstName(), faker.name().lastName(),faker.internet().emailAddress(), LocalDate.of(1800, month.getValue(), day));
+        return new Person(faker.name().fullName(),faker.internet().emailAddress(), LocalDate.of(1800, month.getValue(), day));
     }
 }
