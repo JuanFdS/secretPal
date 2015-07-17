@@ -18,8 +18,8 @@ public class ParticipantTest {
     @Before
     public void setUp(){
         this.personBuilder = new PersonBuilder();
-        this.aPerson = personBuilder.withName("Victoria").withLastName("Cabrera").build();
-        this.otherPerson = personBuilder.withName("Maria").withLastName("Cabrera").build();
+        this.aPerson = personBuilder.withFullName("Victoria Cabrera").build();
+        this.otherPerson = personBuilder.withFullName("Maria Cabrera").build();
     }
 
     @Test

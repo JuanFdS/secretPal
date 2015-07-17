@@ -8,15 +8,19 @@
  * Controller of the secretPalApp
  */
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function ($scope, $modal) {
+app.controller('WorkersController', function ($scope, $modal, $http) {
 
     $scope.history = [];
-    $scope.workers = [
+    $scope.getWorkers = function() { $http.get('http://localhost:9090/person/all').success(function(data){
+      debugger;
+      $scope.workers = data}) };
+
+    /*[
       { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: ''  },
       { name: 'Roman', mail: 'roman@10pines.com', date: 'Oct 29, 1990', participating: true, secretpal: ''  },
       { name: 'Joaquin', mail: 'joaquin@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: ''  },
       { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true, secretpal: '' }
-    ];
+    ];*/
 
     $scope.Delete = function (index) {
       if ($scope.workers[index].participating) {
@@ -43,6 +47,8 @@ app.controller('WorkersController', function ($scope, $modal) {
     };
 
     $scope.Add = function () {
+
+
       if (!$scope.newName || !$scope.newMail){
         return;
       }
