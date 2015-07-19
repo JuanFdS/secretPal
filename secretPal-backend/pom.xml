@@ -57,6 +57,12 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
         <!--JSON Dependencies -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -213,21 +219,21 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.7</version>
-                <configuration>
+                <com.tenPines.configuration>
                     <instrumentation>
                         <ignoreTrivial>true</ignoreTrivial>
                         <ignores>
-                            <ignoreregex>builder.*.java</ignoreregex>
-                            <ignoreregex>persistence.InMemoryPersonDao</ignoreregex>
-                            <ignoreregex>restAPI.PersonController</ignoreregex>
-                            <ignoreregex>application.SecretPalSystem</ignoreregex>
+                            <ignoreregex>com.tenPines.builder.*.java</ignoreregex>
+                            <ignoreregex>com.tenPines.persistence.InMemoryPersonDao</ignoreregex>
+                            <ignoreregex>com.tenPines.restAPI.PersonController</ignoreregex>
+                            <ignoreregex>com.tenPines.application.SecretPalSystem</ignoreregex>
                         </ignores>
                         <excludes>
-                            <exclude>builder/**/*.class</exclude>
-                            <exclude>application/**/*.class</exclude>
-                            <exclude>configuration/**/*.class</exclude>
-                            <exclude>persistence/**/*.class</exclude>
-                            <exclude>restAPI/**/*.class</exclude>
+                            <exclude>com.tenPines.builder/**/*.class</exclude>
+                            <exclude>com.tenPines.application/**/*.class</exclude>
+                            <exclude>com.tenPines.configuration/**/*.class</exclude>
+                            <exclude>com.tenPines.persistence/**/*.class</exclude>
+                            <exclude>com.tenPines.restAPI/**/*.class</exclude>
                         </excludes>
                     </instrumentation>
                     <check>
@@ -239,7 +245,7 @@
                         <packageLineRate>60</packageLineRate>
                         <packageBranchRate>60</packageBranchRate>
                     </check>
-                </configuration>
+                </com.tenPines.configuration>
                 <executions>
                     <execution>
                         <goals>

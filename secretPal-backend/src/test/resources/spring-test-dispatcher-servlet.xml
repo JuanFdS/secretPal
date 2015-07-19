@@ -15,9 +15,9 @@
     <!-- beans de spring -->
 
     <bean id="secretPalSystem" name="secretPalSystem" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="application.SecretPalSystem"/>
+        <constructor-arg value="com.tenPines.application.SecretPalSystem"/>
     </bean>
-    <context:component-scan base-package="restAPI" />
+    <context:component-scan base-package="com.tenPines.restAPI" />
     <mvc:annotation-driven/>
 
 </beans>

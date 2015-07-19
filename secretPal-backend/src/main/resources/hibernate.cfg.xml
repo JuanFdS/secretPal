@@ -5,22 +5,24 @@
 <hibernate-configuration>
     <session-factory>
 
-        <property name="connection.url">jdbc:mysql://localhost/calendardb</property>
-        <property name="connection.username">apprentice</property> <!-- TODO: Habrá forma de no comitear usr y psw? -->
-        <property name="connection.password">apprenticerulz</property>
+        <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost/calendardb</property>
+        <property name="connection.username">apprentice</property>
+        <property name="connection.password">apprenticerulz</property>
+
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
-        <!-- <property name="hbm2ddl.auto">create</property> TODO: Esto crea la DB cada vez que corres algo (Test o Dev) -->
+        <property name="hbm2ddl.auto">validate</property>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
         <property name="current_session_context_class">thread</property>
 
-        <mapping class="model.Person" />
-        <mapping class="model.SecretPalEvent" />
+        <mapping class="com.tenPines.model.Person" />
+        <mapping class="com.tenPines.model.SecretPalEvent" />
 
         <!-- <mapping resource="com/mkyong/user/DBUser.hbm.xml"></mapping> -->
     </session-factory>
