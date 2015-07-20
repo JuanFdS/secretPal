@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Worker;
+
 import java.util.List;
 
 public interface AbstractRepository<T> {
@@ -8,4 +10,5 @@ public interface AbstractRepository<T> {
 
     void save(T element);
 
+    T find(T element);
 }

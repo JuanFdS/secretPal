@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SecretPalSystem {
 
-    private static AbstractRepository personRepository = new InMemoryPersonDao();
+    private static AbstractRepository<Worker> personRepository = new InMemoryPersonDao();
 
     public void savePerson(Worker newWorker){
         this.personRepository.save(newWorker);
@@ -25,5 +25,10 @@ public class SecretPalSystem {
 
     public static void setPersonRepository(AbstractRepository personRepository) {
         SecretPalSystem.personRepository = personRepository;
+    }
+
+    public void changeIntention(Worker aWorker, boolean intention) {
+        Worker worker = personRepository.find(aWorker);
+        worker.changeParticipationIntention(intention);
     }
 }

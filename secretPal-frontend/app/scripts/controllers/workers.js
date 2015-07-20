@@ -12,18 +12,10 @@ app.controller('WorkersController', function ($scope, $modal, $http) {
 
     $scope.history = [];
     $scope.getWorkers = function() { $http.get('http://localhost:9090/person/all').success(function(data){
-      debugger;
       $scope.workers = data}) };
 
-    /*[
-      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: ''  },
-      { name: 'Roman', mail: 'roman@10pines.com', date: 'Oct 29, 1990', participating: true, secretpal: ''  },
-      { name: 'Joaquin', mail: 'joaquin@10pines.com', date: 'Oct 29, 1990', participating: false, secretpal: ''  },
-      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true, secretpal: '' }
-    ];*/
-
     $scope.Delete = function (index) {
-      if ($scope.workers[index].participating) {
+      if ($scope.workers[index].wantsToParticipate) {
         alert("This worker is participating. You cant delete it");
         return;
       }
@@ -47,8 +39,6 @@ app.controller('WorkersController', function ($scope, $modal, $http) {
     };
 
     $scope.Add = function () {
-
-
       if (!$scope.newName || !$scope.newMail){
         return;
       }
@@ -93,7 +83,6 @@ app.controller('WorkersController', function ($scope, $modal, $http) {
     };
 
     $scope.Open = function() {
-      /*alert("Hello! I am an alert box!!");*/
       var modalInstance = $modal.open({
         animation: false,
         templateUrl: '../../views/pal_assignment_modal.html',
@@ -113,21 +102,6 @@ app.controller('WorkersController', function ($scope, $modal, $http) {
 app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, workers) {
 
   $scope.participants = workers;
-
-/*  $scope.notUsed = function (participant) {
-    var isUsed = false;
-
-    var total = $scope.participants.length;
-    for (var i=0; i<total; i++)
-      if ($scope.participants[i].secretpal === participant) {
-        if ($scope.participants[i] !== participant) {isUsed = true};
-      }
-    return (!isUsed);
-  }*/
-
-/*  $scope.notMe = function (participant) {
-    TODO
-  }*/
 
   $scope.ok = function () {
     $modalInstance.close($scope.participants);

@@ -25,4 +25,9 @@ public class InMemoryParticipantDao implements AbstractRepository<Participant> {
     public void save(Participant element) {
         participants.add(element);
     }
+
+    @Override
+    public Participant find(Participant element) {
+        return null;
+    }
 }
