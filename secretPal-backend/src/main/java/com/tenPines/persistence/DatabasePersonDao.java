@@ -1,6 +1,6 @@
 package com.tenPines.persistence;
 
-import com.tenPines.model.Person;
+import com.tenPines.model.Worker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @Repository
-public class DatabasePersonDao implements AbstractRepository<Person> {
+public class DatabasePersonDao implements AbstractRepository<Worker> {
     private SessionFactory sessionFactory;
 
     public DatabasePersonDao(SessionFactory sessionFactory) {
@@ -30,10 +30,10 @@ public class DatabasePersonDao implements AbstractRepository<Person> {
     }
 
     @Override
-    public List save(Person... people) {
+    public List save(Worker... people) {
         Function<Session, List> function = session -> {
             ArrayList idList = new ArrayList();
-            for (Person person : people) {
+            for (Worker person : people) {
                 idList.add(session.save(person));
             }
             return idList;
@@ -42,31 +42,31 @@ public class DatabasePersonDao implements AbstractRepository<Person> {
     }
 
     @Override
-    public List<Person> retrieveAll() {
+    public List<Worker> retrieveAll() {
         return transaction(session -> {
-            return session.createCriteria(Person.class).list();
+            return session.createCriteria(Worker.class).list();
         });
     }
 
     @Override
-    public Person refresh(Person person) {
+    public Worker refresh(Worker worker) {
         return transaction(session -> {
-            session.refresh(person);
-            return person;
+            session.refresh(worker);
+            return worker;
         });
     }
 
     @Override
-    public void delete(Person aPerson) {
+    public void delete(Worker aWorker) {
         transaction(session -> {
-            session.delete(aPerson);
-            return aPerson;
+            session.delete(aWorker);
+            return aWorker;
         });
     }
 
     @Override
-    public Person findById(Long id) {
-        return transaction((Session session) -> (Person) session.get(Person.class, id));
+    public Worker findById(Long id) {
+        return transaction((Session session) -> (Worker) session.get(Worker.class, id));
 
     }
 

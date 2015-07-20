@@ -1,41 +1,37 @@
 package com.tenPines.application;
 
-import com.tenPines.model.Person;
-import com.tenPines.model.SecretPalEvent;
-import com.tenPines.persistence.AbstractRepository;
-import com.tenPines.persistence.DatabasePersonDao;
-import com.tenPines.persistence.DatabaseSecretPalEventDao;
-import com.tenPines.persistence.HibernateUtils;
+import com.tenPines.model.Worker;
+import com.tenPines.persistence.*;
 
 import java.util.List;
 
 
 public class SecretPalSystem {
 
-    private AbstractRepository<Person> personRepository = new DatabasePersonDao(HibernateUtils.createSessionFactory());
-    private AbstractRepository<SecretPalEvent> secretPalEventRepository = new DatabaseSecretPalEventDao();
+    private AbstractRepository<Worker> personRepository = new DatabasePersonDao(HibernateUtils.createSessionFactory());
 
-    public void savePerson(Person newPerson) {
-        this.personRepository.save(newPerson);
+    public void savePerson(Worker newWorker) {
+        this.personRepository.save(newWorker);
     }
 
-    public List<Person> retrieveAllPeople() {
+    public List<Worker> retrieveAllPeople() {
         return personRepository.retrieveAll();
     }
 
-    public SecretPalEvent retrieveASecretPalEvent(Long event_id) {
-        return secretPalEventRepository.findById(event_id);
-    }
-
-    public List<SecretPalEvent> retrieveAllSecretPalEvents() {
-        return secretPalEventRepository.retrieveAll();
-    }
-
-    public Person retrieveAPerson(Long id) {
+    public Worker retrieveAPerson(Long id) {
         return personRepository.findById(id);
     }
 
-    public void deletePerson(Person aPerson) {
-        personRepository.delete(aPerson);
+    public void deletePerson(Worker aWorker) {
+        personRepository.delete(aWorker);
+    }
+
+    public void changeIntention(Worker aWorker) {
+        Worker worker = getWorker(aWorker);
+        worker.changeParticipationIntention(aWorker.getWantsToParticipate());
+    }
+
+    public Worker getWorker(Worker aWorker) {
+        return personRepository.refresh(aWorker);
     }
 }

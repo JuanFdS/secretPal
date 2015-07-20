@@ -14,9 +14,10 @@
         <tr ng-repeat="worker in workers">
           <td>{{worker.fullName}}</td>
           <td>{{worker.eMail}}</td>
-          <td>{{worker.birthdayDate | date }}</td>
-          <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.name}}" ng-model="worker.participating"></td>
-          <td><button class="btn btn-group-justified" ng-click="Delete(worker)">Delete</button></td>
+          <td>{{worker.dateOfBirth | date}}</td>
+          <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.fullName}}" ng-change="Change($index)" ng-model="worker.wantsToParticipate"></td>
+          <td><button class="btn btn-group-justified" ng-click="Delete($index)">Delete</button></td>
+          <!--<td><button ng-show="worker.secretpal" class="btn btn-group-justified" ng-click="RemovePal($index)">Remove Secret Pal</button></td>-->
         </tr>
       </tbody>
     </table>
@@ -24,6 +25,7 @@
   <button class="btn btn-info" id="undo_delete_button" ng-show="history.length > 0" ng-click="Undo()">Undo Delete</button>
 </div>
 
+<button class="btn btn-primary" ng-click="Open()">Asignar Amigos!</button>
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_worker" aria-expanded="false" aria-controls="add_worker" id="add_worker_button">
   Add a new Worker!
 </button>
@@ -31,18 +33,18 @@
   <div class="well">
       <form class="navbar-form" name="form" ng-submit="Add()">
         <div class="field">
-          <label class="control-label col-md-4" for="fullName">Name: </label>
-          <input type="text" id="fullName" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newWorker.fullName" required ng-model-options="{ debounce: 500 }">
-          <span ng-show="form.newWorker.fullName.$error.unique">This worker is already in!</span>
+          <label class="control-label col-md-4" for="name">Name: </label>
+          <input type="text" id="name" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newName" required ng-model-options="{ debounce: 500 }">
+          <span ng-show="form.newName.$error.unique">This worker is already in!</span>
         </div>
         <div class="field">
           <label class="control-label col-md-4" for="mail">Email: </label>
-          <input id="mail" required type="email" placeholder="Email" class="form-control" ng-model="newWorker.eMail">
+          <input id="mail" required type="email" placeholder="Email" class="form-control" ng-model="newMail">
         </div>
         <div class="field">
           <label class="control-label col-md-4" for="date">Date of Birthday: </label>
           <p class="input-group">
-            <input id="date" required type="text" class="form-control" datepicker-popup="MMM dd yyyy" ng-model="newWorker.birthdayDate" is-open="opened" />
+            <input id="date" required type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="newDate" is-open="opened" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>

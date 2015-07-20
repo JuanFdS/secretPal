@@ -33,7 +33,7 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         session.beginTransaction();
 
         for (SecretPalEvent secretPalEvent : secretPalEvents) {
-            secretPalEvent.getParticipants().forEach(session::save);
+            secretPalEvent.getFriendRelations().forEach(session::save);
             session.save(secretPalEvent);
         }
 

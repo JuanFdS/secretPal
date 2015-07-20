@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h3 class="modal-title">Asignar Amigo!</h3>
+</div>
+<div class="modal-body">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Secret Pal</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="participant in participants | filter:{participating:true}">
+      <td>{{participant.name}}</td>
+      <td><select ng-model="participant.secretpal" ng-options="participant as participant.name for participant in participants | filter:{participating:true}"></select></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
+
+

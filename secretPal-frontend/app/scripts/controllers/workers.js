@@ -7,64 +7,65 @@
  * # AboutCtrl
  * Controller of the secretPalApp
  */
-angular.module('secretPalApp')
+var app = angular.module('secretPalApp');
+app.controller('WorkersController', function($scope) {
 
-  .factory('Workers', ['$resource', function($resource) {
-    //TODO: Como podria cambiar esta URL de forma linda?
-  return $resource('http://localhost:9090/person/:id', null,
-    {
-      'update': { method:'PUT' }
-    });
-}])
+    WorkerService.all(function(data){ $scope.workers = data });
 
-.controller('WorkersController', function($scope, Workers) {
-
-    $scope.history = [];
-
-    $scope.workers = Workers.query(function () {});
-    $scope.initialWorker = {
-      fullName: '',
-      eMail: '',
-      birthdayDate: ''
-    };
-
-    $scope.Delete = function (worker) {
-      if ($scope.history.length === 10){
-        $scope.history.shift();
+    $scope.Delete = function (index) {
+      if ($scope.workers[index].wantsToParticipate) {
+        alert("This worker is participating. You cant delete it");
+        return;
       }
-      $scope.history.push(worker);
-
-
-      //TODO: Esta mandando un "OPTIONS" y el CORS lo bloquea. es más simple pasar un POST a mano y a la bosta :D
-      Workers.remove(worker, function(data){
-        console.log(data);
-        //TODO: Creo que aca llega solo sihace succes. Habria que dar un error de otro modo
-      });
-
-      var index = $scope.workers.indexOf(worker);
+      $scope.history.push($scope.workers[index]);
       $scope.workers.splice(index, 1);
-
-
     };
+
+    $scope.RemovePal = function (index) {
+      $scope.workers[index].secretpal = '';
+    };
+
     $scope.Reset = function () {
       $scope.form.$setPristine();
-      $scope.newWorker = angular.copy($scope.initialWorker);;
+      $scope.newName = '';
+      $scope.newMail = '';
+      $scope.newDate = '';
     };
+
     $scope.Add = function () {
-      if (!$scope.workers == $scope.initialWorker){
+      var newWorker = buildWorker();
+      WorkerService.new(newWorker, function() {
+        debugger;
+        $scope.workers.push(newWorker);
+        $scope.Reset();
+        $("#add_worker").collapse('hide');
+      });
+      $scope.Reset();
+      $("#add_worker").collapse('hide');
+    };
+
+    function buildWorker() {
+      return {fullName: $scope.newName, eMail: $scope.newMail, dateOfBirth: parseDate($scope.newDate),  wantsToParticipate: false}
+    };
+
+    function parseDate(date) {
+      $filter('date')(date, 'yyyy-MM-dd')
+    }
+
+    $scope.Change = function (index) {
+      if ($scope.workers[index].secretpal !== '') {
+        alert("This worker has a secretpal associated. Please remove it before stop participating");
+        $scope.workers[index].wantsToParticipate = true;
         return;
       }
 
-      Workers.save($scope.newWorker)
-      $scope.workers.push($scope.newWorker);
-
-      $scope.Reset();
-      $("#add_worker").collapse('hide');
-
-    };
-    $scope.Undo = function () {
-      $scope.workers.push($scope.history[ $scope.history.length - 1 ]);
-      $scope.history.pop();
+      var total = $scope.workers.length;
+      for (var i=0; i<total; i++)
+        if ($scope.workers[i].secretpal === $scope.workers[index]) {
+          alert("This worker is a participant's secretpal. Please remove it before stop participating");
+          $scope.workers[index].wantsToParticipate = true;
+          return;
+        }
     };
 
     /*DATEPICKER FUNCTIONS*/
@@ -75,9 +76,37 @@ angular.module('secretPalApp')
       $scope.opened = true;
     };
 
-})
+    $scope.Open = function() {
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: '../../views/pal_assignment_modal.html',
+        controller: 'pal_assignmentCtrl',
+        resolve: {
+          workers: function () {
+            return $scope.workers;
+          }
+        }
+      });
+      modalInstance.result.then(function (updatedWorkers) {
+        $scope.workers = updatedWorkers;
+      });
+  };
+});
 
-.directive('unique', function() {
+app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, workers) {
+
+  $scope.participants = workers;
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.participants);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+});
+
+app.directive('unique', function() {
   return {
     require: 'ngModel',
     restrict: 'A',

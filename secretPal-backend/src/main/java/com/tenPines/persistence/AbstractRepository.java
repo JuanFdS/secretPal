@@ -12,5 +12,4 @@ public interface AbstractRepository<T> {
     void delete(T element);
 
     T findById(Long id);
-
 }

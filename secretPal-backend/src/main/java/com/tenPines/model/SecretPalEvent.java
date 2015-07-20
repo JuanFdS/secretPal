@@ -1,9 +1,12 @@
 package com.tenPines.model;
 
-import javax.persistence.*;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table
@@ -13,13 +16,18 @@ public class SecretPalEvent {
     @GeneratedValue
     private Long id;
 
+
+
     /* TODO Estaria bueno diferenciarlos. No se si asi
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @NotNull
     private LocalDate startingDate; */
-    @ManyToMany(cascade = {CascadeType.ALL})
-    private Set<Person> participants = new HashSet<>();
+    /* TODO Hacer la DB para los participantes @ManyToMany(cascade = {CascadeType.ALL}) */
+    private List<FriendRelation> friendRelations = new ArrayList<>();
+
+    public SecretPalEvent() {
+    }
 
     public Long getId() {
         return id;
@@ -29,19 +37,31 @@ public class SecretPalEvent {
         this.id = id;
     }
 
-    public Set<Person> getParticipants() {
-        return participants;
+    public List<FriendRelation> getFriendRelations() {
+        return friendRelations;
     }
 
-    public void registerParticipant(Person... participants) {
-        Collections.addAll(this.participants, participants);
+    public void registerParticipant(FriendRelation aFriendRelation) {
+        List<Worker> participantsToCheck = friendRelations.stream().map(p -> p.getParticipant()).collect(Collectors.toList());
+
+        if (participantsToCheck.contains(aFriendRelation.getParticipant()) ) {
+            throw new RuntimeException("That user was already registered in the event");
+        } else {
+            List<Worker> secretPalsToCheck = friendRelations.stream().map(p -> p.getSecretPal()).collect(Collectors.toList());
+
+            if (secretPalsToCheck.contains(aFriendRelation.getSecretPal())) {
+                throw new RuntimeException("The secretPal was already assign to other participant");
+            } else {
+                this.friendRelations.add(aFriendRelation);
+            }
+        }
     }
 
     public boolean hasAnyParticipant() {
-        return !this.participants.isEmpty();
+        return !this.friendRelations.isEmpty();
     }
 
     public int amountOfParticipant() {
-        return participants.size();
+        return friendRelations.size();
     }
 }

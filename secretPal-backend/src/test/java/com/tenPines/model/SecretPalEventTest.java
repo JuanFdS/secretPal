@@ -10,10 +10,18 @@ import static org.junit.Assert.*;
 public class SecretPalEventTest {
 
     private SecretPalEvent aSecretPalEvent;
+    private FriendRelation aFriendRelation;
+    private Worker aWorker;
+    private Worker otherWorker;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         aSecretPalEvent = new SecretPalEvent();
+        aWorker = new PersonBuilder().build();
+        aWorker.changeParticipationIntention(true);
+        otherWorker = new PersonBuilder().build();
+        otherWorker.changeParticipationIntention(true);
+        aFriendRelation = new FriendRelation(aWorker, otherWorker);
     }
 
     @Test
@@ -22,61 +30,61 @@ public class SecretPalEventTest {
     }
 
     @Test
-    public void When_I_add_a_participant_to_a_secret_pal_event_it_has_participants() {
-        Person aRandomPerson = new PersonBuilder().build();
-        aSecretPalEvent.registerParticipant(aRandomPerson);
+    public void When_I_add_a_participant_to_a_secret_pal_event_it_has_participants(){
+        aSecretPalEvent.registerParticipant(aFriendRelation);
 
         eventHasParticipants();
+        amountOfParticipants(1);
     }
 
     @Test
-    public void When_I_add_two_participants_the_amount_of_participants_is_two() {
-        Person aRandomPerson = new PersonBuilder().build();
-        Person anotherRandomPerson = new PersonBuilder().build();
+    public void When_I_add_two_participants_the_amount_of_participants_is_two() throws Exception {
+        FriendRelation otherFriendRelation = new FriendRelation(otherWorker, aWorker);
 
-        aSecretPalEvent.registerParticipant(aRandomPerson);
-        aSecretPalEvent.registerParticipant(anotherRandomPerson);
+        aSecretPalEvent.registerParticipant(aFriendRelation);
+        aSecretPalEvent.registerParticipant(otherFriendRelation);
 
         amountOfParticipants(2);
     }
 
     @Test
-    public void When_I_add_two_participants_as_an_array_the_amount_of_participants_is_two() {
-        Person aRandomPerson = new PersonBuilder().build();
-        Person anotherRandomPerson = new PersonBuilder().build();
-
-        aSecretPalEvent.registerParticipant(aRandomPerson, anotherRandomPerson);
-
-        amountOfParticipants(2);
+    public void When_I_add_two_times_the_same_participant_an_exception_is_raised(){
+    try {
+        aSecretPalEvent.registerParticipant(aFriendRelation);
+        aSecretPalEvent.registerParticipant(aFriendRelation);
+        fail("Exception was not raised");
+    } catch (RuntimeException e) {
+        assertEquals(e.getMessage(), "That user was already registered in the event");
     }
-
-    @Test
-    public void When_I_add_one_participants_the_amount_of_participants_is_one() {
-        Person aRandomPerson = new PersonBuilder().build();
-
-        aSecretPalEvent.registerParticipant(aRandomPerson);
-
         amountOfParticipants(1);
     }
 
     @Test
-    public void When_I_add_two_times_the_same_person_only_one_stays() {
-        Person aRandomPerson = new PersonBuilder().build();
-        aSecretPalEvent.registerParticipant(aRandomPerson);
-        aSecretPalEvent.registerParticipant(aRandomPerson);
+    public void When_I_add_two_times_the_same_secretPal_to_a_participant_an_exception_is_raised() throws Exception {
+        Worker aWorker = new PersonBuilder().build();
+        aWorker.changeParticipationIntention(true);
+        FriendRelation otherFriendRelation = new FriendRelation(aWorker, aFriendRelation.getSecretPal());
 
+        try {
+            aSecretPalEvent.registerParticipant(aFriendRelation);
+            aSecretPalEvent.registerParticipant(otherFriendRelation);
+            fail("Exception was not raised");
+        } catch (RuntimeException e) {
+            assertEquals(e.getMessage(), "The secretPal was already assign to other participant");
+        }
         amountOfParticipants(1);
     }
 
-    private void eventHasParticipants() {
+
+    private void eventHasParticipants(){
         assertTrue(aSecretPalEvent.hasAnyParticipant());
     }
 
-    private void eventHasNoParticipants() {
+    private void eventHasNoParticipants(){
         assertFalse(aSecretPalEvent.hasAnyParticipant());
     }
 
-    private void amountOfParticipants(int amount) {
+    private void amountOfParticipants(int amount){
         assertEquals(aSecretPalEvent.amountOfParticipant(), amount);
     }
 }
