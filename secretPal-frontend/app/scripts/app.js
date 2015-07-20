@@ -12,6 +12,7 @@ angular
   .module('secretPalApp', [
     'ngAnimate',
     'ngRoute',
+    'ngResource',
     'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
@@ -35,4 +36,9 @@ angular
       var currentRoute = $location.path().substring(1) || 'home';
       return page === currentRoute ? 'active' : '';
     };
+  }])
+
+  .config(['$resourceProvider', function($resourceProvider) {
+    $resourceProvider.defaults.stripTrailingSlashes = false;
   }]);
+;

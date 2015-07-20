@@ -7,38 +7,60 @@
  * # AboutCtrl
  * Controller of the secretPalApp
  */
-var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope) {
+angular.module('secretPalApp')
+
+  .factory('Workers', ['$resource', function($resource) {
+    //TODO: Como podria cambiar esta URL de forma linda?
+  return $resource('http://localhost:9090/person/:id', null,
+    {
+      'update': { method:'PUT' }
+    });
+}])
+
+.controller('WorkersController', function($scope, Workers) {
 
     $scope.history = [];
-    $scope.workers = [
-      { name: 'Toia', mail: 'toia@10pines.com', date: 'Oct 29, 1990', participating: false  },
-      { name: 'Maria', mail: 'maria@10pines.com', date: '662321623906', participating: true }
-    ];
-    $scope.Delete = function (index) {
+
+    $scope.workers = Workers.query(function () {});
+    $scope.initialWorker = {
+      fullName: '',
+      eMail: '',
+      birthdayDate: ''
+    };
+
+    $scope.Delete = function (worker) {
       if ($scope.history.length === 10){
         $scope.history.shift();
       }
-      $scope.history.push($scope.workers[index]);
+      $scope.history.push(worker);
+
+
+      //TODO: Esta mandando un "OPTIONS" y el CORS lo bloquea. es más simple pasar un POST a mano y a la bosta :D
+      Workers.remove(worker, function(data){
+        console.log(data);
+        //TODO: Creo que aca llega solo sihace succes. Habria que dar un error de otro modo
+      });
+
+      var index = $scope.workers.indexOf(worker);
       $scope.workers.splice(index, 1);
+
+
     };
     $scope.Reset = function () {
       $scope.form.$setPristine();
-      $scope.newName = '';
-      $scope.newMail = '';
-      $scope.newDate = '';
+      $scope.newWorker = angular.copy($scope.initialWorker);;
     };
     $scope.Add = function () {
-      if (!$scope.newName || !$scope.newMail){
+      if (!$scope.workers == $scope.initialWorker){
         return;
       }
-      $scope.workers.push({
-        name: $scope.newName,
-        mail: $scope.newMail,
-        date: $scope.newDate
-      });
+
+      Workers.save($scope.newWorker)
+      $scope.workers.push($scope.newWorker);
+
       $scope.Reset();
       $("#add_worker").collapse('hide');
+
     };
     $scope.Undo = function () {
       $scope.workers.push($scope.history[ $scope.history.length - 1 ]);
@@ -53,9 +75,9 @@ app.controller('WorkersController', function($scope) {
       $scope.opened = true;
     };
 
-});
+})
 
-app.directive('unique', function() {
+.directive('unique', function() {
   return {
     require: 'ngModel',
     restrict: 'A',
