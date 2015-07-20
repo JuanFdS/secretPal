@@ -9,7 +9,10 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -20,28 +23,18 @@ public class Person {
     @Id
     @GeneratedValue
     private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    private void setId(Long id) {
-        this.id = id;
-    }
-
     @NotEmpty
     private String fullName;
-    @NotEmpty @Email
+    @NotEmpty
+    @Email
     private String eMail;
     @JsonSerialize(using = JsonDateSerializer.class)
     @JsonDeserialize(using = JsonDateDeserializer.class)
     @NotNull
     private LocalDate birthdayDate;
 
-    public Person(){}
-
-    /* @ManyToMany(mappedBy="participants")
-    private Set<SecretPalEvent> secretPalEvents = new HashSet<>();*/
+    public Person() {
+    }
 
     public Person(String fullName, String email, LocalDate birthdayDate) {
         checkIfIsValid(fullName, "Name is invalid");
@@ -51,20 +44,36 @@ public class Person {
         this.birthdayDate = birthdayDate;
     }
 
-    public String getFullName() { return fullName; }
+    public Long getId() {
+        return id;
+    }
 
-    public String geteMail() { return eMail; }
+    /* @ManyToMany(mappedBy="participants")
+    private Set<SecretPalEvent> secretPalEvents = new HashSet<>();*/
 
-    public void seteMail(String eMail) { this.eMail = eMail; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public LocalDate getBirthdayDate() {
-        return birthdayDate;
+    public String getFullName() {
+        return fullName;
     }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
+    public String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
+    }
+
+    public LocalDate getBirthdayDate() {
+        return birthdayDate;
+    }
 
     public void setBirthdayDate(LocalDate birthdayDate) {
         this.birthdayDate = birthdayDate;
@@ -78,21 +87,20 @@ public class Person {
         checkIfFieldIsValidUponCondition(!EmailValidator.getInstance().isValid(email), "Email is invalid");
     }
 
-    private void checkIfFieldIsValidUponCondition(Boolean condition, String message){
-        if(condition) throw new RuntimeException(message);
+    private void checkIfFieldIsValidUponCondition(Boolean condition, String message) {
+        if (condition) throw new RuntimeException(message);
     }
 
     @Override
-    public boolean equals(Object anObject){
-        if ( this == anObject ) return true;
+    public boolean equals(Object anObject) {
+        if (this == anObject) return true;
 
-        if ( !(anObject instanceof Person) ) return false;
-        Person otherPerson = (Person)anObject;
+        if (!(anObject instanceof Person)) return false;
+        Person otherPerson = (Person) anObject;
 
         return
                 this.getFullName().equals(otherPerson.getFullName()) &&
-                this.geteMail().equals(otherPerson.geteMail()) &&
-                this.getBirthdayDate().equals(otherPerson.getBirthdayDate());
+                        this.geteMail().equals(otherPerson.geteMail()) &&
+                        this.getBirthdayDate().equals(otherPerson.getBirthdayDate());
     }
-
 }

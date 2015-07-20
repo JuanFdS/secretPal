@@ -34,6 +34,8 @@ angular.module('secretPalApp')
       }
       $scope.history.push(worker);
 
+
+      //TODO: Esta mandando un "OPTIONS" y el CORS lo bloquea. es más simple pasar un POST a mano y a la bosta :D
       Workers.remove(worker, function(data){
         console.log(data);
         //TODO: Creo que aca llega solo sihace succes. Habria que dar un error de otro modo
