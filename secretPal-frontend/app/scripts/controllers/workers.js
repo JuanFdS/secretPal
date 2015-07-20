@@ -1,29 +1,15 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name secretPalApp.controller:WorkersCtrl
- * @description
- * # AboutCtrl
- * Controller of the secretPalApp
- */
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function ($scope, $modal, $http) {
+app.controller('WorkersController', function ($scope, $modal, WorkerService) {
 
-    $scope.history = [];
-    $scope.getWorkers = function() { $http.get('http://localhost:9090/person/all').success(function(data){
-      $scope.workers = data}) };
+    WorkerService.all(function(data){ $scope.workers = data });
 
     $scope.Delete = function (index) {
       if ($scope.workers[index].wantsToParticipate) {
         alert("This worker is participating. You cant delete it");
         return;
       }
-
-      if ($scope.history.length === 10){
-        $scope.history.shift();
-      }
-      $scope.history.push($scope.workers[index]);
       $scope.workers.splice(index, 1);
     };
 
@@ -39,29 +25,20 @@ app.controller('WorkersController', function ($scope, $modal, $http) {
     };
 
     $scope.Add = function () {
-      if (!$scope.newName || !$scope.newMail){
-        return;
-      }
       $scope.workers.push({
-        name: $scope.newName,
-        mail: $scope.newMail,
-        date: $scope.newDate,
-        participating: false,
-        secretpal: ''
+        fullName: $scope.newName,
+        eMail: $scope.newMail,
+        dateOfBirth: $scope.newDate,
+        wantsToParticipate: false
       });
       $scope.Reset();
       $("#add_worker").collapse('hide');
     };
 
-    $scope.Undo = function () {
-      $scope.workers.push($scope.history[ $scope.history.length - 1 ]);
-      $scope.history.pop();
-    };
-
     $scope.Change = function (index) {
       if ($scope.workers[index].secretpal !== '') {
         alert("This worker has a secretpal associated. Please remove it before stop participating");
-        $scope.workers[index].participating = true;
+        $scope.workers[index].wantsToParticipate = true;
         return;
       }
 
@@ -69,7 +46,7 @@ app.controller('WorkersController', function ($scope, $modal, $http) {
       for (var i=0; i<total; i++)
         if ($scope.workers[i].secretpal === $scope.workers[index]) {
           alert("This worker is a participant's secretpal. Please remove it before stop participating");
-          $scope.workers[index].participating = true;
+          $scope.workers[index].wantsToParticipate = true;
           return;
         }
     };
