@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('secretPalApp').service('WorkerService', function($http) {
 
   function buildRoute(path) {
@@ -8,6 +10,7 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
   this.all = function(callback) {
     $http.get(buildRoute('/all')).
       success(function(data) {
+        debugger;
         callback(data);
       }).
       error(function() {
@@ -15,8 +18,15 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
       });
   };
 
-
-
-
+  this.new = function(worker, successFunction) {
+    $http.post(buildRoute('/new'), worker).
+      success(function() {
+        alert("The worker was created.");
+        successFunction();
+      }).
+      error(function() {
+        alert("Something went wrong, try again later.");
+      });
+  };
 
 });

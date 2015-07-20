@@ -20,7 +20,7 @@ public class Participant {
             throw new RuntimeException("You cant assign the participant to be his secretPal");
     }
     private void checkIfWantToParticipate(Worker worker) {
-        if(!worker.wantsToParticipate()) throw new RuntimeException(worker.fullName()  + " does not want to participate");
+        if(!worker.getWantsToParticipate()) throw new RuntimeException(worker.getFullName()  + " does not want to participate");
     }
 
 

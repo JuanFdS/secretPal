@@ -29,7 +29,7 @@ public class SecretPalSystem {
 
     public void changeIntention(Worker aWorker) {
         Worker worker = getWorker(aWorker);
-        worker.changeParticipationIntention(aWorker.wantsToParticipate());
+        worker.changeParticipationIntention(aWorker.getWantsToParticipate());
     }
 
     public Worker getWorker(Worker aWorker) {

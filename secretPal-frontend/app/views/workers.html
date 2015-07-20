@@ -12,12 +12,12 @@
       </thead>
       <tbody>
         <tr ng-repeat="worker in workers">
-          <td>{{worker.name}}</td>
-          <td>{{worker.mail}}</td>
-          <td>{{worker.date | date}}</td>
-          <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.name}}" ng-change="Change($index)" ng-model="worker.participating"></td>
+          <td>{{worker.fullName}}</td>
+          <td>{{worker.eMail}}</td>
+          <td>{{worker.dateOfBirth | date}}</td>
+          <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.fullName}}" ng-change="Change($index)" ng-model="worker.wantsToParticipate"></td>
           <td><button class="btn btn-group-justified" ng-click="Delete($index)">Delete</button></td>
-          <td><button ng-show="worker.secretpal" class="btn btn-group-justified" ng-click="RemovePal($index)">Remove Secret Pal</button></td>
+          <!--<td><button ng-show="worker.secretpal" class="btn btn-group-justified" ng-click="RemovePal($index)">Remove Secret Pal</button></td>-->
         </tr>
       </tbody>
     </table>
@@ -33,7 +33,7 @@
       <form class="navbar-form" name="form" ng-submit="Add()">
         <div class="field">
           <label class="control-label col-md-4" for="name">Name: </label>
-          <input type="text" id="name" name="newName" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newName" required unique ng-model-options="{ debounce: 500 }">
+          <input type="text" id="name" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newName" required ng-model-options="{ debounce: 500 }">
           <span ng-show="form.newName.$error.unique">This worker is already in!</span>
         </div>
         <div class="field">

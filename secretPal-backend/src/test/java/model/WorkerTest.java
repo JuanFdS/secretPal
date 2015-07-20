@@ -45,13 +45,13 @@ public class WorkerTest {
     @Test
     public void When_I_try_to_create_a_person_with_a_last_name_that_contains_a_single_quote_on_it_should_not_raise_an_exception(){
         Worker aWorker = personBuilder.withFullName("Jason O'Connel").build();
-        assertEquals(aWorker.fullName(), "Jason O'Connel");
+        assertEquals(aWorker.getFullName(), "Jason O'Connel");
     }
 
     @Test
     public void When_I_try_to_create_a_person_he_should_not_want_to_participate_yet(){
         Worker aWorker = personBuilder.build();
-        assertFalse(aWorker.wantsToParticipate());
+        assertFalse(aWorker.getWantsToParticipate());
     }
 
     private void checkExceptionIsRaisedUponCreation(Supplier<Worker> creationFunction, String assertionMessage){

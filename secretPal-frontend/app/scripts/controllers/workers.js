@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function ($scope, $modal, WorkerService) {
+app.controller('WorkersController', function ($scope, $modal, WorkerService, $filter) {
 
     WorkerService.all(function(data){ $scope.workers = data });
 
@@ -18,22 +18,28 @@ app.controller('WorkersController', function ($scope, $modal, WorkerService) {
     };
 
     $scope.Reset = function () {
-      $scope.form.$setPristine();
       $scope.newName = '';
-      $scope.newMail = '';
       $scope.newDate = '';
+      $scope.newMail = '';
     };
 
     $scope.Add = function () {
-      $scope.workers.push({
-        fullName: $scope.newName,
-        eMail: $scope.newMail,
-        dateOfBirth: $scope.newDate,
-        wantsToParticipate: false
+      var newWorker = buildWorker();
+      WorkerService.new(newWorker, function() {
+        debugger;
+        $scope.workers.push(newWorker);
+        $scope.Reset();
+        $("#add_worker").collapse('hide');
       });
-      $scope.Reset();
-      $("#add_worker").collapse('hide');
     };
+
+    function buildWorker() {
+      return {fullName: $scope.newName, eMail: $scope.newMail, dateOfBirth: parseDate($scope.newDate),  wantsToParticipate: false}
+    };
+
+    function parseDate(date) {
+      $filter('date')(date, 'yyyy-MM-dd')
+    }
 
     $scope.Change = function (index) {
       if ($scope.workers[index].secretpal !== '') {

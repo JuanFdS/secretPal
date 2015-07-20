@@ -55,14 +55,14 @@ public class SMTPPostMan implements PostMan {
     }
 
     private String assignationBodyText(Worker receiver) {
-        templateProperties.setProperty("receiver.fullName",receiver.fullName());
-        templateProperties.setProperty("receiver.dateOfBirth", receiver.dateOfBirth().toString() );
+        templateProperties.setProperty("receiver.fullName",receiver.getFullName());
+        templateProperties.setProperty("receiver.dateOfBirth", receiver.getDateOfBirth().toString() );
         return templateProperties.getProperty("mail.bodyText");
     }
 
     @Override
     public void notifyPersonWithSecretPalInformation(Worker participant, Worker secretPal) throws MessagingException, IOException {
-        Message aMessage = fillEMailFor(participant.emailAdress(), secretPal.emailAdress(), assignationSubject(),assignationBodyText(secretPal));
+        Message aMessage = fillEMailFor(participant.getEMailAdress(), secretPal.getEMailAdress(), assignationSubject(),assignationBodyText(secretPal));
         sendMessage(aMessage);
     }
 

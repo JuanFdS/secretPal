@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryWorkerDAOTest {
@@ -16,6 +17,7 @@ public class InMemoryWorkerDAOTest {
     @Before
     public void setUp(){
         this.personDao = new InMemoryPersonDao();
+        this.personDao.setWorkers(new ArrayList<Worker>());
     }
 
     @Test
@@ -29,7 +31,7 @@ public class InMemoryWorkerDAOTest {
         Worker aWorker = new Worker("Grillo Pepe","pepegrillo@example.com", LocalDate.of(1993, Month.APRIL,12));
         this.personDao.save(aWorker);
         List<Worker> result = this.personDao.retrieveAll();
-        assertEquals("The list should Have One More Worker", result.size(), 1);
+        assertFalse(result.isEmpty());
 
     }
 

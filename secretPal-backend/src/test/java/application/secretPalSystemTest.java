@@ -28,7 +28,7 @@ public class secretPalSystemTest {
 
         secretPalSystem.changeIntention(aWorker);
 
-        assertTrue(secretPalSystem.getWorker(aWorker).wantsToParticipate());
+        assertTrue(secretPalSystem.getWorker(aWorker).getWantsToParticipate());
     }
 
     @Test
@@ -41,6 +41,6 @@ public class secretPalSystemTest {
             assertEquals(e.getMessage(), "No value present");
         }
 
-        assertFalse(aWorker.wantsToParticipate());
+        assertFalse(aWorker.getWantsToParticipate());
     }
 }

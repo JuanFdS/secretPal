@@ -30,7 +30,7 @@ public class InMemoryPersonDao implements AbstractRepository<Worker> {
 
     @Override
     public Worker find(Worker element) {
-        return getWorkers().stream().filter( (Worker aWorker) -> element.emailAdress().equals(aWorker.emailAdress())).findFirst().get();
+        return getWorkers().stream().filter( (Worker aWorker) -> element.getEMailAdress().equals(aWorker.getEMailAdress())).findFirst().get();
     }
 
 

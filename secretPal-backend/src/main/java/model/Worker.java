@@ -27,12 +27,12 @@ public class Worker {
         this.wantsToParticipate = false;
     }
 
-    public String emailAdress() { return eMail; }
+    public String getEMailAdress() { return eMail; }
     public void setEMail(String eMail) {
         this.eMail = eMail;
     }
 
-    public String fullName() {
+    public String getFullName() {
         return fullName;
     }
 
@@ -40,21 +40,21 @@ public class Worker {
         setWantsToParticipate(intention);
     }
 
-    public boolean wantsToParticipate() { return this.wantsToParticipate;}
+    public boolean getWantsToParticipate() { return this.wantsToParticipate;}
 
-    public LocalDate dateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    private void setFullName(String fullName) {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    private void setDateOfBirth(LocalDate birthdayDate) {
+    public void setDateOfBirth(LocalDate birthdayDate) {
         this.dateOfBirth = birthdayDate;
     }
 
-    private void setWantsToParticipate(Boolean wantsToParticipate) {
+    public void setWantsToParticipate(Boolean wantsToParticipate) {
         this.wantsToParticipate = wantsToParticipate;
     }
 
