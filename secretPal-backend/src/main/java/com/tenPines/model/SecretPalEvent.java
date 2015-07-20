@@ -1,8 +1,9 @@
 package com.tenPines.model;
 
+import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
 
 @Entity
 @Table
@@ -17,6 +18,8 @@ public class SecretPalEvent {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @NotNull
     private LocalDate startingDate; */
+    @ManyToMany(cascade = {CascadeType.ALL})
+    private Set<Person> participants = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -26,21 +29,12 @@ public class SecretPalEvent {
         this.id = id;
     }
 
-    public void setParticipants(Set<Person> participants) {
-        this.participants = participants;
-    }
-
     public Set<Person> getParticipants() {
         return participants;
     }
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    private Set<Person> participants = new HashSet<>();
-
     public void registerParticipant(Person... participants) {
-        for (Person person : participants) {
-            this.participants.add(person);
-        }
+        Collections.addAll(this.participants, participants);
     }
 
     public boolean hasAnyParticipant() {

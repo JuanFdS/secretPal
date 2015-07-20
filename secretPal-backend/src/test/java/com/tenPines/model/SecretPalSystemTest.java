@@ -11,8 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.util.MatcherAssertionErrors.assertThat;
 
 public class SecretPalSystemTest {
 
@@ -30,7 +30,7 @@ public class SecretPalSystemTest {
     public void When_I_Save_A_New_User_This_Should_Be_Stored() throws Exception {
         Person aPerson = new PersonBuilder().build();
 
-        secretPalSystem.savePerson( aPerson );
+        secretPalSystem.savePerson(aPerson);
 
         assertThat(secretPalSystem.retrieveAllPeople(), hasSize(1));
     }
@@ -41,7 +41,7 @@ public class SecretPalSystemTest {
         Person anotherPerson = new PersonBuilder().build();
 
         secretPalSystem.savePerson(aPerson);
-        secretPalSystem.savePerson( anotherPerson );
+        secretPalSystem.savePerson(anotherPerson);
 
         assertThat(secretPalSystem.retrieveAllPeople(),
                 hasItems(aPerson, anotherPerson));
@@ -67,7 +67,7 @@ public class SecretPalSystemTest {
 
         try {
             secretPalSystem.savePerson(aPerson);
-        } catch (ConstraintViolationException e){
+        } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations(), hasSize(1));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Person", "may not be empty", "fullName")));
         }
@@ -79,7 +79,7 @@ public class SecretPalSystemTest {
 
         try {
             secretPalSystem.savePerson(aPerson);
-        } catch (ConstraintViolationException e){
+        } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations(), hasSize(3));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Person", "may not be empty", "fullName")));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Person", "may not be empty", "eMail")));

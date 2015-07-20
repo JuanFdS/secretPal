@@ -12,7 +12,7 @@ public class SecretPalEventTest {
     private SecretPalEvent aSecretPalEvent;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         aSecretPalEvent = new SecretPalEvent();
     }
 
@@ -22,7 +22,7 @@ public class SecretPalEventTest {
     }
 
     @Test
-    public void When_I_add_a_participant_to_a_secret_pal_event_it_has_participants(){
+    public void When_I_add_a_participant_to_a_secret_pal_event_it_has_participants() {
         Person aRandomPerson = new PersonBuilder().build();
         aSecretPalEvent.registerParticipant(aRandomPerson);
 
@@ -30,7 +30,7 @@ public class SecretPalEventTest {
     }
 
     @Test
-    public void When_I_add_two_participants_the_amount_of_participants_is_two(){
+    public void When_I_add_two_participants_the_amount_of_participants_is_two() {
         Person aRandomPerson = new PersonBuilder().build();
         Person anotherRandomPerson = new PersonBuilder().build();
 
@@ -41,7 +41,7 @@ public class SecretPalEventTest {
     }
 
     @Test
-    public void When_I_add_two_participants_as_an_array_the_amount_of_participants_is_two(){
+    public void When_I_add_two_participants_as_an_array_the_amount_of_participants_is_two() {
         Person aRandomPerson = new PersonBuilder().build();
         Person anotherRandomPerson = new PersonBuilder().build();
 
@@ -51,7 +51,7 @@ public class SecretPalEventTest {
     }
 
     @Test
-    public void When_I_add_one_participants_the_amount_of_participants_is_one(){
+    public void When_I_add_one_participants_the_amount_of_participants_is_one() {
         Person aRandomPerson = new PersonBuilder().build();
 
         aSecretPalEvent.registerParticipant(aRandomPerson);
@@ -60,7 +60,7 @@ public class SecretPalEventTest {
     }
 
     @Test
-    public void When_I_add_two_times_the_same_person_only_one_stays(){
+    public void When_I_add_two_times_the_same_person_only_one_stays() {
         Person aRandomPerson = new PersonBuilder().build();
         aSecretPalEvent.registerParticipant(aRandomPerson);
         aSecretPalEvent.registerParticipant(aRandomPerson);
@@ -68,15 +68,15 @@ public class SecretPalEventTest {
         amountOfParticipants(1);
     }
 
-    private void eventHasParticipants(){
+    private void eventHasParticipants() {
         assertTrue(aSecretPalEvent.hasAnyParticipant());
     }
 
-    private void eventHasNoParticipants(){
+    private void eventHasNoParticipants() {
         assertFalse(aSecretPalEvent.hasAnyParticipant());
     }
 
-    private void amountOfParticipants(int amount){
+    private void amountOfParticipants(int amount) {
         assertEquals(aSecretPalEvent.amountOfParticipant(), amount);
     }
 }

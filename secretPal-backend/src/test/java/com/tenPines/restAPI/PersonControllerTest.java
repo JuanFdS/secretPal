@@ -2,8 +2,8 @@ package com.tenPines.restAPI;
 
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.builder.PersonBuilder;
-import com.tenPines.builder.TestUtil;
 import com.tenPines.model.Person;
+import com.tenPines.utils.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

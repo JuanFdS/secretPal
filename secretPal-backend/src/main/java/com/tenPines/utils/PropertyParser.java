@@ -1,4 +1,5 @@
 package com.tenPines.utils;
+
 import java.util.Properties;
 
 public class PropertyParser extends Properties {
@@ -13,10 +14,10 @@ public class PropertyParser extends Properties {
         String value = super.getProperty(key);
 
         if (value != null) {
-            int startIndex = 0;
+            int startIndex;
             int endIndex = 0;
-            while ( (startIndex = value.indexOf(START_DELIMITER, endIndex)) >= 0
-                    && (endIndex = value.indexOf(END_DELIMITER, startIndex) ) >= 0) {
+            while ((startIndex = value.indexOf(START_DELIMITER, endIndex)) >= 0
+                    && (endIndex = value.indexOf(END_DELIMITER, startIndex)) >= 0) {
 
                 String variableName = value.substring(startIndex + START_DELIMITER.length(), endIndex);
                 // now call getProperty recursively to have this looked up

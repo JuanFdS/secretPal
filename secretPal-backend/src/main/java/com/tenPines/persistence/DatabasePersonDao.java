@@ -4,8 +4,6 @@ import com.tenPines.model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -13,24 +11,16 @@ import java.util.List;
 import java.util.function.Function;
 
 @Repository
-public class DatabasePersonDao implements AbstractRepository<Person>  {
+public class DatabasePersonDao implements AbstractRepository<Person> {
+    private SessionFactory sessionFactory;
+
     public DatabasePersonDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    private SessionFactory sessionFactory;
-
-    public void setSessionFactory(SessionFactory sf){
-        this.sessionFactory = sf;
-    }
-
-    public SessionFactory getSessionFactory(){
-        return sessionFactory;
-    }
-
-    private <T> T transaction(Function<Session, T> function){
+    private <T> T transaction(Function<Session, T> function) {
         Session session = this.sessionFactory.getCurrentSession();
-        Transaction transaction=session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
 
         T ret = function.apply(session);
 
@@ -59,7 +49,7 @@ public class DatabasePersonDao implements AbstractRepository<Person>  {
     }
 
     @Override
-    public Person refresh(Person person){
+    public Person refresh(Person person) {
         return transaction(session -> {
             session.refresh(person);
             return person;

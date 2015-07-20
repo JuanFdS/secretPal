@@ -5,7 +5,6 @@ import com.tenPines.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +20,13 @@ public class PersonController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
-    public List<Person> persons(){
+    public List<Person> persons() {
         return system.retrieveAllPeople();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
-    public void save(@RequestBody @Valid Person aPerson, BindingResult result, Model m) throws Exception {
+    public void save(@RequestBody @Valid Person aPerson, BindingResult result) throws Exception {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
         system.savePerson(aPerson);
@@ -43,7 +42,7 @@ public class PersonController {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CONFLICT)
-    public RestfulException handleException(RestfulException e){
+    public RestfulException handleException(RestfulException e) {
         return e;
     }
 

@@ -18,21 +18,21 @@ public class SecretPalEventController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
-    public List<SecretPalEvent> secretPalEvents(){
+    public List<SecretPalEvent> secretPalEvents() {
         return system.retrieveAllSecretPalEvents();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public SecretPalEvent secretPalEvent(@PathVariable Long id){
-        return system.retrieveASecretPalEvent( id );
+    public SecretPalEvent secretPalEvent(@PathVariable Long id) {
+        return system.retrieveASecretPalEvent(id);
     }
 
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public RestfulException handleException(RestfulException e){
+    public RestfulException handleException(RestfulException e) {
         return e;
     }
 

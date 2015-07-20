@@ -1,15 +1,13 @@
 package com.tenPines.persistence;
 
-import com.tenPines.model.Person;
 import com.tenPines.model.SecretPalEvent;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import java.nio.channels.SeekableByteChannel;
 import java.util.List;
 
-public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEvent>  {
+public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEvent> {
 
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
@@ -22,11 +20,11 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         }
     }
 
-    public static SessionFactory getSessionFactory(){
+    public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
-    public static void shutdown(){
+    public static void shutdown() {
         getSessionFactory().close();
     }
 
@@ -34,9 +32,9 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         Session session = DatabaseSecretPalEventDao.getSessionFactory().openSession();
         session.beginTransaction();
 
-        for (SecretPalEvent secretPalEvent: secretPalEvents){
+        for (SecretPalEvent secretPalEvent : secretPalEvents) {
             secretPalEvent.getParticipants().forEach(session::save);
-            session.save( secretPalEvent );
+            session.save(secretPalEvent);
         }
 
         session.getTransaction().commit();
@@ -45,11 +43,11 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
 
     @Override
     public List<SecretPalEvent> retrieveAll() {
-        return DatabaseSecretPalEventDao.getSessionFactory().openSession().createCriteria( SecretPalEvent.class ).list();
+        return DatabaseSecretPalEventDao.getSessionFactory().openSession().createCriteria(SecretPalEvent.class).list();
     }
 
     @Override
-    public SecretPalEvent refresh(SecretPalEvent secretPalEvent){
+    public SecretPalEvent refresh(SecretPalEvent secretPalEvent) {
         DatabaseSecretPalEventDao.getSessionFactory().openSession().refresh(secretPalEvent);
         return secretPalEvent;
     }

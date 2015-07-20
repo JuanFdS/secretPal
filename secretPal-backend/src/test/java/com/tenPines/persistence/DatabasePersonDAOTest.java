@@ -2,7 +2,6 @@ package com.tenPines.persistence;
 
 import com.tenPines.builder.PersonBuilder;
 import com.tenPines.model.Person;
-import com.tenPines.model.SecretPalEvent;
 import org.hibernate.cfg.Environment;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import static org.junit.Assert.assertThat;
 public class DatabasePersonDAOTest {
 
     private AbstractRepository<Person> personDao;
-    private AbstractRepository<SecretPalEvent> secretPalEventDao;
 
 
     @Before
@@ -23,8 +21,7 @@ public class DatabasePersonDAOTest {
         HibernateUtils.addConfiguration(Environment.URL, "jdbc:mysql://localhost/calendardbtest");
         HibernateUtils.addConfiguration(Environment.HBM2DDL_AUTO, "create-drop");
 
-        this.personDao = new DatabasePersonDao( HibernateUtils.createSessionFactory() );
-        this.secretPalEventDao = new DatabaseSecretPalEventDao();
+        this.personDao = new DatabasePersonDao(HibernateUtils.createSessionFactory());
     }
 
     @Test

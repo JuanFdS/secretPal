@@ -2,9 +2,9 @@ package com.tenPines.restAPI;
 
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.builder.PersonBuilder;
-import com.tenPines.builder.TestUtil;
 import com.tenPines.model.Person;
 import com.tenPines.model.SecretPalEvent;
+import com.tenPines.utils.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,12 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -56,7 +55,7 @@ public class SecretPalEventControllerTest {
         secretPalEvent.getParticipants().add(anotherPerson);
 
         //when(secretPalSystemMock.retrieveASecretPalEvent(org.mockito.Mockito.any(int.class))).thenReturn(secretPalEvent);
-        when(secretPalSystemMock.retrieveAllSecretPalEvents()).thenReturn(Arrays.asList(secretPalEvent, anotherSecretPalEvent ));
+        when(secretPalSystemMock.retrieveAllSecretPalEvents()).thenReturn(Arrays.asList(secretPalEvent, anotherSecretPalEvent));
 
         mockMvc.perform(get("/secretpalevent/all"))
                 .andExpect(status().isOk())
@@ -69,6 +68,7 @@ public class SecretPalEventControllerTest {
         verify(secretPalSystemMock, times(1)).retrieveAllSecretPalEvents();
         verifyNoMoreInteractions(secretPalSystemMock);
     }
+
     @Test
     public void When_I_Get_A_SecretPal_Event_I_Should_See_Its_participants() throws Exception {
         Person aPerson = new PersonBuilder().build();

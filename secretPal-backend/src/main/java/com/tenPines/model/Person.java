@@ -37,7 +37,7 @@ public class Person {
     }
 
     public Person(String fullName, String email, LocalDate birthdayDate) {
-        checkIfIsValid(fullName, "Name is invalid");
+        checkIfIsValid(fullName, "Full name is invalid");
         checkIfValidEmail(email);
         this.fullName = fullName;
         this.eMail = email;
@@ -68,6 +68,7 @@ public class Person {
     }
 
     public void seteMail(String eMail) {
+        checkIfValidEmail(eMail); //TODO Usar los validators de Hibernate
         this.eMail = eMail;
     }
 
@@ -80,7 +81,7 @@ public class Person {
     }
 
     private void checkIfIsValid(String name, String message) {
-        checkIfFieldIsValidUponCondition(StringUtils.isBlank(name) || !name.matches("[a-zA-Z '-.]+"), message);
+        checkIfFieldIsValidUponCondition(StringUtils.isBlank(name) || !name.matches("[a-zA-Z ,.'-]+"), message);
     }
 
     private void checkIfValidEmail(String email) {

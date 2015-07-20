@@ -15,9 +15,9 @@
     <!-- beans de spring -->
 
     <bean id="secretPalSystem" class="com.tenPines.application.SecretPalSystem"/>
-    <context:component-scan base-package="com.tenPines.restAPI" />
+    <context:component-scan base-package="com.tenPines.restAPI"/>
 
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 </beans>
 
 

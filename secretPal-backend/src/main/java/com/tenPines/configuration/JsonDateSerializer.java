@@ -1,7 +1,6 @@
 package com.tenPines.configuration;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
@@ -15,8 +14,7 @@ public class JsonDateSerializer extends JsonSerializer<LocalDate> {
 
     @Override
     public void serialize(LocalDate date, JsonGenerator generator,
-                          SerializerProvider provider) throws IOException,
-            JsonProcessingException {
+                          SerializerProvider provider) throws IOException {
 
         String dateString = date.format(formatter);
         generator.writeString(dateString);

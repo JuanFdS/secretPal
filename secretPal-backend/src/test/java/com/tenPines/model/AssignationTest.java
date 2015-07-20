@@ -1,12 +1,15 @@
 package com.tenPines.model;
 
-import static org.junit.Assert.*;
-
 import com.tenPines.builder.PersonBuilder;
 import org.junit.Test;
 
 import java.time.Month;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 
 public class AssignationTest {
@@ -17,7 +20,7 @@ public class AssignationTest {
     PersonBuilder personBuilder = new PersonBuilder();
 
     @Test
-    public void When_there_is_no_person_the_assignation_should_give_an_error(){
+    public void When_there_is_no_person_the_assignation_should_give_an_error() {
         try {
             assignment = assign(personList);
         } catch (Exception e) {
@@ -31,8 +34,8 @@ public class AssignationTest {
     }
 
     @Test
-    public void When_there_is_only_one_person_the_assignation_should_give_an_error(){
-        personList.add( personBuilder.build() );
+    public void When_there_is_only_one_person_the_assignation_should_give_an_error() {
+        personList.add(personBuilder.build());
         try {
             assignment = assign(personList);
         } catch (Exception e) {
@@ -40,6 +43,7 @@ public class AssignationTest {
         }
         assertEmptyAssignment();
     }
+
     @Test
     public void When_there_are_two_people_the_assignation_should_give_each_other() throws Exception {
         Person ajani = personBuilder.buildFromDate(1, Month.JANUARY);
@@ -55,6 +59,7 @@ public class AssignationTest {
         assertGift(ajani, chandra);
         assertGift(chandra, ajani);
     }
+
     @Test
     public void When_there_are_three_people_the_assignation_should_not_give_each_other() throws Exception {
         Person ajani = personBuilder.buildFromDate(1, Month.JANUARY);
@@ -73,14 +78,14 @@ public class AssignationTest {
     }
 
     private void assertNoDualGift() {
-        for( Person p : personList){
+        for (Person p : personList) {
             // Que el que tiene asignado P no le regale a P
             assertNotGift(assignment.get(p), p);
         }
     }
 
     private void assertNoSelfGift() {
-        for( Person p : personList){
+        for (Person p : personList) {
             assertNotGift(p, p);
         }
     }
@@ -100,12 +105,12 @@ public class AssignationTest {
     private Map<Person, Person> assign(List<Person> personList) throws Exception {
         LinkedHashMap<Person, Person> assignment = new LinkedHashMap<>();
 
-        if(personList.size() < 2) {
+        if (personList.size() < 2) {
             throw new Exception("Can't assign with less than 2 people");
         }
 
         for (int i = 0; i < personList.size(); i++) {
-            assignment.put(personList.get(i), personList.get((i +1)% personList.size()));
+            assignment.put(personList.get(i), personList.get((i + 1) % personList.size()));
         }
 
         return assignment;

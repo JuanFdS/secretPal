@@ -1,6 +1,7 @@
 package com.tenPines.mailer;
 
-import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +23,15 @@ public class DumbPostMan extends SMTPPostMan {
         messages.add(message);
     }
 
-    public boolean containsMessageWith(String subject, String bodyText) throws java.io.IOException, javax.mail.MessagingException{
-        return messages.stream().anyMatch(message -> messageContainsInformation(message,subject,bodyText));
+    public boolean containsMessageWith(String subject, String bodyText) throws java.io.IOException, javax.mail.MessagingException {
+        return messages.stream().anyMatch(message -> messageContainsInformation(message, subject, bodyText));
     }
 
     private boolean messageContainsInformation(Message message, String subject, String body) {
-            boolean ret = false;
+        boolean ret = false;
         try {
             ret |= message.getSubject().equals(subject) && message.getContent().equals(body);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (MessagingException | IOException e) {
             e.printStackTrace();
         }
         return ret;

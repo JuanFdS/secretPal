@@ -1,6 +1,6 @@
 package com.tenPines.mailer;
 
-import model.Person;
+import com.tenPines.model.Person;
 
 import javax.mail.MessagingException;
 import java.io.IOException;

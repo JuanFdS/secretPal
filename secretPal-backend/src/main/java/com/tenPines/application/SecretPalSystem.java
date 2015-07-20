@@ -12,19 +12,19 @@ import java.util.List;
 
 public class SecretPalSystem {
 
-    private AbstractRepository<Person> personRepository = new DatabasePersonDao( HibernateUtils.createSessionFactory() );
+    private AbstractRepository<Person> personRepository = new DatabasePersonDao(HibernateUtils.createSessionFactory());
     private AbstractRepository<SecretPalEvent> secretPalEventRepository = new DatabaseSecretPalEventDao();
 
-    public void savePerson(Person newPerson){
+    public void savePerson(Person newPerson) {
         this.personRepository.save(newPerson);
     }
 
-    public List<Person> retrieveAllPeople(){
+    public List<Person> retrieveAllPeople() {
         return personRepository.retrieveAll();
     }
 
     public SecretPalEvent retrieveASecretPalEvent(Long event_id) {
-        return secretPalEventRepository.findById(event_id) ;
+        return secretPalEventRepository.findById(event_id);
     }
 
     public List<SecretPalEvent> retrieveAllSecretPalEvents() {

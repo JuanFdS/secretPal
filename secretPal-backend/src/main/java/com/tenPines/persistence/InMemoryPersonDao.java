@@ -3,11 +3,12 @@ package com.tenPines.persistence;
 import com.tenPines.model.Person;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class InMemoryPersonDao implements AbstractRepository<Person> {
 
-    protected static List<Person> persons = new ArrayList<Person>();
+    protected static List<Person> persons = new ArrayList<>();
 
     @Override
     public List<Person> retrieveAll() {
@@ -16,14 +17,12 @@ public class InMemoryPersonDao implements AbstractRepository<Person> {
 
     @Override
     public List save(Person... people) {
-        for (Person person : people){
-            persons.add(person);
-        }
+        Collections.addAll(persons, people);
         return null;
     }
 
     @Override
-    public Person refresh(Person person){
+    public Person refresh(Person person) {
         return person;
     }
 
@@ -34,7 +33,7 @@ public class InMemoryPersonDao implements AbstractRepository<Person> {
 
     @Override
     public Person findById(Long id) {
-        return persons.get(id.intValue()-1);
+        return persons.get(id.intValue() - 1);
     }
 
 

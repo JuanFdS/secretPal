@@ -1,6 +1,6 @@
 package com.tenPines.mailer;
 
-import model.Person;
+import com.tenPines.model.Person;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -14,7 +14,7 @@ public class SMTPPostMan implements PostMan {
     private Properties addressProperties;
     private Properties templateProperties;
 
-    public SMTPPostMan(Properties addressProperties, Properties templateProperties){
+    public SMTPPostMan(Properties addressProperties, Properties templateProperties) {
         this.addressProperties = addressProperties;
         this.templateProperties = templateProperties;
     }
@@ -23,13 +23,12 @@ public class SMTPPostMan implements PostMan {
     private Session getAuthenticatedSession() {
         String user = addressProperties.getProperty("auth.user");
         String password = addressProperties.getProperty("auth.password");
-        Session session = Session.getInstance(addressProperties,
-            new javax.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(user, password);
-                }
-            });
-        return session;
+        return Session.getInstance(addressProperties,
+                new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user, password);
+                    }
+                });
     }
 
     private Message createEmptyMessage() {
@@ -47,26 +46,24 @@ public class SMTPPostMan implements PostMan {
     }
 
     protected void sendMessage(Message message) throws MessagingException, IOException {
-            Transport.send(message);
+        Transport.send(message);
     }
 
-    private String assignationSubject(){
+    private String assignationSubject() {
         return templateProperties.getProperty("mail.subject");
     }
 
     private String assignationBodyText(Person receiver) {
-        templateProperties.setProperty("receiver.fullName",receiver.getFullName());
-        templateProperties.setProperty("receiver.dateOfBirth", receiver.getBirthdayDate().toString() );
+        templateProperties.setProperty("receiver.fullName", receiver.getFullName());
+        templateProperties.setProperty("receiver.dateOfBirth", receiver.getBirthdayDate().toString());
         return templateProperties.getProperty("mail.bodyText");
     }
 
     @Override
     public void notifyPersonWithSecretPalInformation(Person participant, Person secretPal) throws MessagingException, IOException {
-        Message aMessage = fillEMailFor(participant.getEMail(), secretPal.getEMail(), assignationSubject(),assignationBodyText(secretPal));
+        Message aMessage = fillEMailFor(participant.geteMail(), secretPal.geteMail(), assignationSubject(), assignationBodyText(secretPal));
         sendMessage(aMessage);
     }
-
-
 
 
 }
