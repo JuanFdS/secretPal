@@ -13,17 +13,17 @@ public class SecretPalEventTest {
 
     private SecretPalEvent aSecretPalEvent;
     private Participant aParticipant;
-    private Person aPerson;
-    private Person otherPerson;
+    private Worker aWorker;
+    private Worker otherWorker;
 
     @Before
     public void setUp() throws Exception {
         aSecretPalEvent = new SecretPalEvent(new ArrayList<>());
-        aPerson = new PersonBuilder().build();
-        aPerson.changeParticipationIntention(true);
-        otherPerson = new PersonBuilder().build();
-        otherPerson.changeParticipationIntention(true);
-        aParticipant = new Participant(aPerson, otherPerson);
+        aWorker = new PersonBuilder().build();
+        aWorker.changeParticipationIntention(true);
+        otherWorker = new PersonBuilder().build();
+        otherWorker.changeParticipationIntention(true);
+        aParticipant = new Participant(aWorker, otherWorker);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class SecretPalEventTest {
 
     @Test
     public void When_I_add_two_participants_the_amount_of_participants_is_two() throws Exception {
-        Participant otherParticipant = new Participant(otherPerson, aPerson);
+        Participant otherParticipant = new Participant(otherWorker, aWorker);
 
         aSecretPalEvent.registerParticipant(aParticipant);
         aSecretPalEvent.registerParticipant(otherParticipant);
@@ -63,9 +63,9 @@ public class SecretPalEventTest {
 
     @Test
     public void When_I_add_two_times_the_same_secretPal_to_a_participant_an_exception_is_raised() throws Exception {
-        Person aPerson = new PersonBuilder().build();
-        aPerson.changeParticipationIntention(true);
-        Participant otherParticipant = new Participant(aPerson, aParticipant.getSecretPal());
+        Worker aWorker = new PersonBuilder().build();
+        aWorker.changeParticipationIntention(true);
+        Participant otherParticipant = new Participant(aWorker, aParticipant.getSecretPal());
 
         try {
             aSecretPalEvent.registerParticipant(aParticipant);

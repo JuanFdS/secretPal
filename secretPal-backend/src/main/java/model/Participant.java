@@ -2,12 +2,12 @@ package model;
 
 public class Participant {
 
-    private Person participant;
-    private Person secretPal;
+    private Worker participant;
+    private Worker secretPal;
 
     public Participant(){}
 
-    public Participant(Person participant, Person secretPal)  {
+    public Participant(Worker participant, Worker secretPal)  {
         checkIfWantToParticipate(participant);
         checkIfWantToParticipate(secretPal);
         checkIfNotTheSameParticipant(participant, secretPal);
@@ -15,20 +15,20 @@ public class Participant {
         this.secretPal = secretPal;
     }
 
-    private void checkIfNotTheSameParticipant(Person participant, Person secretPal) {
+    private void checkIfNotTheSameParticipant(Worker participant, Worker secretPal) {
         if(participant.equals(secretPal))
             throw new RuntimeException("You cant assign the participant to be his secretPal");
     }
-    private void checkIfWantToParticipate(Person person) {
-        if(!person.wantsToParticipate()) throw new RuntimeException(person.fullName()  + " does not want to participate");
+    private void checkIfWantToParticipate(Worker worker) {
+        if(!worker.wantsToParticipate()) throw new RuntimeException(worker.fullName()  + " does not want to participate");
     }
 
 
-    public Person getParticipant() {
+    public Worker getParticipant() {
         return this.participant;
     }
 
-    public Person getSecretPal() {
+    public Worker getSecretPal() {
         return this.secretPal;
     }
 }

@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 public class PostManTest {
 
     private DumbPostMan aPostMan;
-    private Person aSecretPal;
+    private Worker aSecretPal;
 
     @Before
     public void setUp() throws IOException, ConfigurationException {
@@ -31,7 +31,7 @@ public class PostManTest {
 
     @Test
     public void When_I_try_to_send_a_mail_with_a_valid_address_the_operation_is_successful() throws MessagingException, IOException {
-        Person aReceiver = new PersonBuilder().withEmail("roman.rizzi@10pines.com").build();
+        Worker aReceiver = new PersonBuilder().withEmail("roman.rizzi@10pines.com").build();
         aPostMan.notifyPersonWithSecretPalInformation(aReceiver, aSecretPal);
         validateThatAssignationMainArrivesProperly();
     }
@@ -44,7 +44,7 @@ public class PostManTest {
         return "[SecretPal] A secret pal was assigned to you!";
     }
 
-    private String assignationTextFor(Person receiver) {
+    private String assignationTextFor(Worker receiver) {
         return "You're the secret pal of " + receiver.fullName() + ". His/Her birthday is on: "
                 + receiver.dateOfBirth().toString();
     }

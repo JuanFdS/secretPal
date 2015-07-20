@@ -5,7 +5,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 
 import java.time.LocalDate;
 
-public class Person {
+public class Worker {
 
     private String fullName;
     private String eMail;
@@ -16,9 +16,9 @@ public class Person {
      * Hibernate use only.
 
      */
-    public Person(){}
+    public Worker(){}
 
-    public Person(String fullName, String email, LocalDate dateOfBirth) {
+    public Worker(String fullName, String email, LocalDate dateOfBirth) {
         checkIfIsValid(fullName, "Full name is invalid");
         checkIfValidEmail(email);
         this.fullName = fullName;

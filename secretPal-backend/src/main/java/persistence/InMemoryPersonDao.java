@@ -1,30 +1,30 @@
 package persistence;
 
-import model.Person;
+import model.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class InMemoryPersonDao implements AbstractRepository<Person> {
+public class InMemoryPersonDao implements AbstractRepository<Worker> {
 
-    protected static List<Person> persons = new ArrayList<Person>();
+    protected static List<Worker> workers = new ArrayList<Worker>();
 
-    public static List<Person> getPersons() {
-        return persons;
+    public static List<Worker> getWorkers() {
+        return workers;
     }
 
-    public static void setPersons(List<Person> persons) {
-        InMemoryPersonDao.persons = persons;
-    }
-
-    @Override
-    public List<Person> retrieveAll() {
-        return persons;
+    public static void setWorkers(List<Worker> workers) {
+        InMemoryPersonDao.workers = workers;
     }
 
     @Override
-    public void save(Person element) {
-        persons.add(element);
+    public List<Worker> retrieveAll() {
+        return workers;
+    }
+
+    @Override
+    public void save(Worker element) {
+        workers.add(element);
     }
 }

@@ -1,7 +1,7 @@
 package restAPI;
 
 import application.SecretPalSystem;
-import model.Person;
+import model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,14 +21,14 @@ public class PersonController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
-    public List<Person> persons(){
+    public List<Worker> persons(){
         return system.retrieveAllPersons();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void save(@RequestBody Person aPerson){
-        system.savePerson(aPerson);
+    public void save(@RequestBody Worker aWorker){
+        system.savePerson(aWorker);
     }
 
 

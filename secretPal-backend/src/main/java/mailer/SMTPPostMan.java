@@ -1,6 +1,6 @@
 package mailer;
 
-import model.Person;
+import model.Worker;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -54,14 +54,14 @@ public class SMTPPostMan implements PostMan {
         return templateProperties.getProperty("mail.subject");
     }
 
-    private String assignationBodyText(Person receiver) {
+    private String assignationBodyText(Worker receiver) {
         templateProperties.setProperty("receiver.fullName",receiver.fullName());
         templateProperties.setProperty("receiver.dateOfBirth", receiver.dateOfBirth().toString() );
         return templateProperties.getProperty("mail.bodyText");
     }
 
     @Override
-    public void notifyPersonWithSecretPalInformation(Person participant, Person secretPal) throws MessagingException, IOException {
+    public void notifyPersonWithSecretPalInformation(Worker participant, Worker secretPal) throws MessagingException, IOException {
         Message aMessage = fillEMailFor(participant.emailAdress(), secretPal.emailAdress(), assignationSubject(),assignationBodyText(secretPal));
         sendMessage(aMessage);
     }

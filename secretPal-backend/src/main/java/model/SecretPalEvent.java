@@ -17,12 +17,12 @@ public class SecretPalEvent {
     }
 
     public void registerParticipant(Participant aParticipant) {
-        List<Person> participantsToCheck = participants.stream().map(p -> p.getParticipant()).collect(Collectors.toList());
+        List<Worker> participantsToCheck = participants.stream().map(p -> p.getParticipant()).collect(Collectors.toList());
 
         if (participantsToCheck.contains(aParticipant.getParticipant()) ) {
             throw new RuntimeException("That user was already registered in the event");
         } else {
-            List<Person> secretPalsToCheck = participants.stream().map(p -> p.getSecretPal()).collect(Collectors.toList());
+            List<Worker> secretPalsToCheck = participants.stream().map(p -> p.getSecretPal()).collect(Collectors.toList());
 
             if (secretPalsToCheck.contains(aParticipant.getSecretPal())) {
                 throw new RuntimeException("The secretPal was already assign to other participant");

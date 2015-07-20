@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import builder.PersonBuilder;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
 
@@ -13,14 +12,14 @@ import java.util.*;
 public class AssignationTest {
 
 
-    List<Person> personList = new ArrayList<>();
-    Map<Person, Person> assignment = null;
+    List<Worker> workerList = new ArrayList<>();
+    Map<Worker, Worker> assignment = null;
     PersonBuilder personBuilder = new PersonBuilder();
 
     @Test
     public void When_there_is_no_person_the_assignation_should_give_an_error(){
         try {
-            assignment = assign(personList);
+            assignment = assign(workerList);
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Can't assign with less than 2 people");
         }
@@ -33,9 +32,9 @@ public class AssignationTest {
 
     @Test
     public void When_there_is_only_one_person_the_assignation_should_give_an_error(){
-        personList.add( personBuilder.build() );
+        workerList.add( personBuilder.build() );
         try {
-            assignment = assign(personList);
+            assignment = assign(workerList);
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Can't assign with less than 2 people");
         }
@@ -43,13 +42,13 @@ public class AssignationTest {
     }
     @Test
     public void When_there_are_two_people_the_assignation_should_give_each_other() throws Exception {
-        Person ajani = personBuilder.buildFromDate(1, Month.JANUARY);
-        Person chandra = personBuilder.buildFromDate(5, Month.JANUARY);
+        Worker ajani = personBuilder.buildFromDate(1, Month.JANUARY);
+        Worker chandra = personBuilder.buildFromDate(5, Month.JANUARY);
 
-        personList.add(ajani);
-        personList.add(chandra);
+        workerList.add(ajani);
+        workerList.add(chandra);
 
-        assignment = assign(personList);
+        assignment = assign(workerList);
         assertNotEmptyAssignment();
 
         assertEquals(assignment.size(), 2);
@@ -58,15 +57,15 @@ public class AssignationTest {
     }
     @Test
     public void When_there_are_three_people_the_assignation_should_not_give_each_other() throws Exception {
-        Person ajani = personBuilder.buildFromDate(1, Month.JANUARY);
-        Person chandra = personBuilder.buildFromDate(5, Month.JANUARY);
-        Person dack = personBuilder.buildFromDate(10, Month.JANUARY);
+        Worker ajani = personBuilder.buildFromDate(1, Month.JANUARY);
+        Worker chandra = personBuilder.buildFromDate(5, Month.JANUARY);
+        Worker dack = personBuilder.buildFromDate(10, Month.JANUARY);
 
-        personList.add(ajani);
-        personList.add(chandra);
-        personList.add(dack);
+        workerList.add(ajani);
+        workerList.add(chandra);
+        workerList.add(dack);
 
-        assignment = assign(personList);
+        assignment = assign(workerList);
         assertNotEmptyAssignment();
 
         assertNoSelfGift();
@@ -74,23 +73,23 @@ public class AssignationTest {
     }
 
     private void assertNoDualGift() {
-        for( Person p : personList){
+        for( Worker p : workerList){
             // Que el que tiene asignado P no le regale a P
             assertNotGift(assignment.get(p), p);
         }
     }
 
     private void assertNoSelfGift() {
-        for( Person p : personList){
+        for( Worker p : workerList){
             assertNotGift(p, p);
         }
     }
 
-    private void assertGift(Person gifter, Person gifted) {
+    private void assertGift(Worker gifter, Worker gifted) {
         assertEquals(assignment.get(gifter), gifted);
     }
 
-    private void assertNotGift(Person gifter, Person gifted) {
+    private void assertNotGift(Worker gifter, Worker gifted) {
         assertNotEquals(assignment.get(gifter), gifted);
     }
 
@@ -98,15 +97,15 @@ public class AssignationTest {
         assertTrue(assignment.size() > 0);
     }
 
-    private Map<Person, Person> assign(List<Person> personList) throws Exception {
-        LinkedHashMap<Person, Person> assignment = new LinkedHashMap<>();
+    private Map<Worker, Worker> assign(List<Worker> workerList) throws Exception {
+        LinkedHashMap<Worker, Worker> assignment = new LinkedHashMap<>();
 
-        if(personList.size() < 2) {
+        if(workerList.size() < 2) {
             throw new Exception("Can't assign with less than 2 people");
         }
 
-        for (int i = 0; i < personList.size(); i++) {
-            assignment.put(personList.get(i), personList.get((i +1)% personList.size()));
+        for (int i = 0; i < workerList.size(); i++) {
+            assignment.put(workerList.get(i), workerList.get((i +1)% workerList.size()));
         }
 
         return assignment;

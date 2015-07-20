@@ -1,7 +1,7 @@
 package builder;
 
 import com.github.javafaker.Faker;
-import model.Person;
+import model.Worker;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -29,11 +29,11 @@ public class PersonBuilder {
         return this;
     }
 
-    public Person build(){
-        return new Person(fullName,email,birthdayDate);
+    public Worker build(){
+        return new Worker(fullName,email,birthdayDate);
     }
 
-    public Person buildFromDate(int day, Month month) {
-        return new Person(faker.name().fullName(),faker.internet().emailAddress(), LocalDate.of(1800, month.getValue(), day));
+    public Worker buildFromDate(int day, Month month) {
+        return new Worker(faker.name().fullName(),faker.internet().emailAddress(), LocalDate.of(1800, month.getValue(), day));
     }
 }

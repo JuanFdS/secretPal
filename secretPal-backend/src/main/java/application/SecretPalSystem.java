@@ -1,6 +1,6 @@
 package application;
 
-import model.Person;
+import model.Worker;
 import persistence.AbstractRepository;
 import persistence.InMemoryPersonDao;
 
@@ -11,11 +11,11 @@ public class SecretPalSystem {
 
     private static AbstractRepository personRepository = new InMemoryPersonDao();
 
-    public void savePerson(Person newPerson){
-        this.personRepository.save(newPerson);
+    public void savePerson(Worker newWorker){
+        this.personRepository.save(newWorker);
     }
 
-    public List<Person> retrieveAllPersons(){
+    public List<Worker> retrieveAllPersons(){
         return personRepository.retrieveAll();
     }
 

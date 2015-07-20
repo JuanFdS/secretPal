@@ -1,14 +1,13 @@
 package mailer;
 
-import model.Person;
+import model.Worker;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.io.IOException;
 
 public interface PostMan {
 
-    void notifyPersonWithSecretPalInformation(Person participant, Person secretPal) throws MessagingException, IOException;
+    void notifyPersonWithSecretPalInformation(Worker participant, Worker secretPal) throws MessagingException, IOException;
 
 
 }
