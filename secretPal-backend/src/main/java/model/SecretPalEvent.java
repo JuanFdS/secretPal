@@ -31,7 +31,7 @@ public class SecretPalEvent {
             }
         }
     }
-    public int amountOfParticipant() {
+    public int amountOfParticipants() {
         return participants.size();
     }
 }

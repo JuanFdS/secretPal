@@ -45,7 +45,7 @@ public class PersonTest {
     @Test
     public void When_I_try_to_create_a_person_with_a_last_name_that_contains_a_single_quote_on_it_should_not_raise_an_exception(){
         Person aPerson = personBuilder.withFullName("Jason O'Connel").build();
-        assertEquals(aPerson.getFullName(), "Jason O'Connel");
+        assertEquals(aPerson.fullName(), "Jason O'Connel");
     }
 
     @Test

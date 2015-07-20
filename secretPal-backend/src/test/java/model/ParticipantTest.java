@@ -24,7 +24,7 @@ public class ParticipantTest {
 
     @Test
     public void When_I_try_to_create_a_participant_that_does_not_want_to_participate_an_exception_is_raised(){
-        otherPerson.setWantsToParticipate(true);
+        otherPerson.changeParticipationIntention(true);
 
         try {
             participant = new Participant(aPerson, otherPerson);
@@ -36,7 +36,7 @@ public class ParticipantTest {
 
     @Test
     public void When_I_try_to_create_a_participant_whose_secretpal_does_not_want_to_participate_an_exception_is_raised(){
-        aPerson.setWantsToParticipate(true);
+        aPerson.changeParticipationIntention(true);
 
         try {
             participant = new Participant(aPerson, otherPerson);
@@ -48,7 +48,7 @@ public class ParticipantTest {
 
     @Test
     public void When_I_try_to_create_a_participant_whose_secretpal_is_him_an_exception_is_raised(){
-        aPerson.setWantsToParticipate(true);
+        aPerson.changeParticipationIntention(true);
 
         try {
             participant = new Participant(aPerson, aPerson);

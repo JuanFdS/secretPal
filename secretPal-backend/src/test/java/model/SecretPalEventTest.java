@@ -20,9 +20,9 @@ public class SecretPalEventTest {
     public void setUp() throws Exception {
         aSecretPalEvent = new SecretPalEvent(new ArrayList<>());
         aPerson = new PersonBuilder().build();
-        aPerson.setWantsToParticipate(true);
+        aPerson.changeParticipationIntention(true);
         otherPerson = new PersonBuilder().build();
-        otherPerson.setWantsToParticipate(true);
+        otherPerson.changeParticipationIntention(true);
         aParticipant = new Participant(aPerson, otherPerson);
     }
 
@@ -64,7 +64,7 @@ public class SecretPalEventTest {
     @Test
     public void When_I_add_two_times_the_same_secretPal_to_a_participant_an_exception_is_raised() throws Exception {
         Person aPerson = new PersonBuilder().build();
-        aPerson.setWantsToParticipate(true);
+        aPerson.changeParticipationIntention(true);
         Participant otherParticipant = new Participant(aPerson, aParticipant.getSecretPal());
 
         try {
@@ -87,6 +87,6 @@ public class SecretPalEventTest {
     }
 
     private void amountOfParticipants(int amount){
-        assertEquals(aSecretPalEvent.amountOfParticipant(), amount);
+        assertEquals(aSecretPalEvent.amountOfParticipants(), amount);
     }
 }

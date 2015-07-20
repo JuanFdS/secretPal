@@ -45,8 +45,8 @@ public class PostManTest {
     }
 
     private String assignationTextFor(Person receiver) {
-        return "You're the secret pal of " + receiver.getFullName() + ". His/Her birthday is on: "
-                + receiver.getBirthdayDate().toString();
+        return "You're the secret pal of " + receiver.fullName() + ". His/Her birthday is on: "
+                + receiver.dateOfBirth().toString();
     }
 
 }
