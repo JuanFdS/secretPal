@@ -3,6 +3,8 @@ package com.tenPines.restAPI;
 import com.tenPines.builder.PersonBuilder;
 import com.tenPines.builder.TestUtil;
 import com.tenPines.model.Person;
+import com.tenPines.persistence.HibernateUtils;
+import org.hibernate.cfg.Environment;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.util.MatcherAssertionErrors.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -32,6 +34,8 @@ public class PersonControllerTest {
 
     @Before
     public void setUp() {
+        HibernateUtils.addConfiguration(Environment.URL, "jdbc:mysql://localhost/calendardbtest");
+        HibernateUtils.addConfiguration(Environment.HBM2DDL_AUTO, "create-drop");
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 

@@ -23,14 +23,6 @@ public class SecretPalSystem {
         return personRepository.retrieveAll();
     }
 
-    public AbstractRepository getPersonRepository() {
-        return personRepository;
-    }
-
-    public void setPersonRepository(AbstractRepository personRepository) {
-        this.personRepository = personRepository;
-    }
-
     public SecretPalEvent retrieveASecretPalEvent(Long event_id) {
         return secretPalEventRepository.findById(event_id) ;
     }

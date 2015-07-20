@@ -6,10 +6,10 @@
     <session-factory>
 
         <!-- Database connection settings -->
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost/calendardb</property>
         <property name="connection.username">apprentice</property>
         <property name="connection.password">apprenticerulz</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
 
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 

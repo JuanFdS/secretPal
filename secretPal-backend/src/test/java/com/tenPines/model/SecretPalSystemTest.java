@@ -2,8 +2,10 @@ package com.tenPines.model;
 
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.builder.PersonBuilder;
+import com.tenPines.persistence.HibernateUtils;
+import org.hibernate.cfg.Environment;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.validation.ConstraintViolationException;
@@ -12,13 +14,17 @@ import java.util.Arrays;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.util.MatcherAssertionErrors.assertThat;
 
-@TransactionConfiguration(transactionManager = "jdbcTransactionManager", defaultRollback = true)
 public class SecretPalSystemTest {
 
     private MockMvc mockMvc;
 
     private SecretPalSystem secretPalSystem = new SecretPalSystem();
 
+    @Before
+    public void setUp() {
+        HibernateUtils.addConfiguration(Environment.URL, "jdbc:mysql://localhost/calendardbtest");
+        HibernateUtils.addConfiguration(Environment.HBM2DDL_AUTO, "create-drop");
+    }
 
     @Test
     public void When_I_Save_A_New_User_This_Should_Be_Stored() throws Exception {
@@ -50,8 +56,7 @@ public class SecretPalSystemTest {
         secretPalSystem.savePerson(aPerson);
         secretPalSystem.deletePerson(aPerson);
 
-
-        assertThat(secretPalSystem.retrieveAllPeople(), hasItem(not(aPerson)));
+        assertThat(secretPalSystem.retrieveAllPeople(), not(hasItem(aPerson)));
         assertThat(secretPalSystem.retrieveAllPeople(), hasSize(0));
     }
 
