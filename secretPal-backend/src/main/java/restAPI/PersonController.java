@@ -31,6 +31,12 @@ public class PersonController {
         system.savePerson(aWorker);
     }
 
+    @RequestMapping(value = "/intention", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public void changeIntention(@RequestBody Worker aWorker){
+        system.changeIntention(aWorker);
+    }
+
 
     public SecretPalSystem getSystem() { return system; }
 

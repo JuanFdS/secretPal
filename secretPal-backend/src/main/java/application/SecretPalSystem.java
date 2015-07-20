@@ -27,8 +27,14 @@ public class SecretPalSystem {
         SecretPalSystem.personRepository = personRepository;
     }
 
-    public void changeIntention(Worker aWorker, boolean intention) {
-        Worker worker = personRepository.find(aWorker);
-        worker.changeParticipationIntention(intention);
+    public void changeIntention(Worker aWorker) {
+        Worker worker = getWorker(aWorker);
+        worker.changeParticipationIntention(aWorker.wantsToParticipate());
     }
+
+    public Worker getWorker(Worker aWorker) {
+        return personRepository.find(aWorker);
+    }
+
+
 }
