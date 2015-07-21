@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table
@@ -33,8 +33,7 @@ public class Worker {
     private Boolean wantsToParticipate;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "worker")
-    //@ManyToOne(fetch = FetchType.LAZY)
-    private Set<Wish> wishList;
+    private List<Wish> wishList;
 
     public Worker() {
     }
@@ -106,7 +105,7 @@ public class Worker {
         if(condition) throw new RuntimeException(message);
     }
 
-    public Set<Wish> getWishList() {
+    public List<Wish> getWishList() {
         return wishList;
     }
 

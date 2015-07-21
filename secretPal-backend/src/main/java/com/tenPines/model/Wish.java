@@ -11,7 +11,6 @@ public class Wish {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "gift")
     public Worker worker;
     @NotEmpty
     public String gift;

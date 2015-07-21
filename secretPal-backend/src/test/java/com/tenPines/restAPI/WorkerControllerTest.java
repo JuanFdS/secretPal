@@ -59,7 +59,7 @@ public class WorkerControllerTest {
 
         verify(secretPalSystemMock, times(1)).savePerson(aWorker);
 
-        when(secretPalSystemMock.retrieveAllPeople()).thenReturn(Arrays.asList(aWorker));
+        when(secretPalSystemMock.retrieveAllWorkers()).thenReturn(Arrays.asList(aWorker));
 
         mockMvc.perform(get("/person/"))
                 .andExpect(status().isOk())
@@ -68,7 +68,7 @@ public class WorkerControllerTest {
                 .andExpect(jsonPath("$[0].eMail", is(aWorker.geteMail())));
 
 
-        verify(secretPalSystemMock, times(1)).retrieveAllPeople();
+        verify(secretPalSystemMock, times(1)).retrieveAllWorkers();
         verifyNoMoreInteractions(secretPalSystemMock);
     }
 
@@ -77,7 +77,7 @@ public class WorkerControllerTest {
         Worker aWorker = new PersonBuilder().build();
         Worker anotherWorker = new PersonBuilder().build();
 
-        when(secretPalSystemMock.retrieveAllPeople()).thenReturn(Arrays.asList(aWorker, anotherWorker));
+        when(secretPalSystemMock.retrieveAllWorkers()).thenReturn(Arrays.asList(aWorker, anotherWorker));
 
         mockMvc.perform(get("/person/"))
                 .andExpect(status().isOk())
@@ -89,7 +89,7 @@ public class WorkerControllerTest {
                 .andExpect(jsonPath("$[1].fullName", is(anotherWorker.getFullName())))
                 .andExpect(jsonPath("$[1].eMail", is(anotherWorker.geteMail())));
 
-        verify(secretPalSystemMock, times(1)).retrieveAllPeople();
+        verify(secretPalSystemMock, times(1)).retrieveAllWorkers();
         verifyNoMoreInteractions(secretPalSystemMock);
     }
 
@@ -99,13 +99,13 @@ public class WorkerControllerTest {
         Worker aWorker = new PersonBuilder().build();
         aWorker.setId(anId);
 
-        when(secretPalSystemMock.retrieveAPerson(anId)).thenReturn(aWorker);
+        when(secretPalSystemMock.retrieveAWorker(anId)).thenReturn(aWorker);
 
         mockMvc.perform(delete("/person/" + anId))
                 .andExpect(status().isOk());
 
         ArgumentCaptor<Worker> formObjectArgument = ArgumentCaptor.forClass(Worker.class);
-        verify(secretPalSystemMock, times(1)).deletePerson(formObjectArgument.capture());
+        verify(secretPalSystemMock, times(1)).deleteAWorker(formObjectArgument.capture());
 
         Worker deletedWorker = formObjectArgument.getValue();
         assertThat(deletedWorker, is(aWorker));

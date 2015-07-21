@@ -34,7 +34,7 @@ public class SecretPalSystemTest {
     public void When_I_Save_A_New_User_This_Should_Be_Stored() throws Exception {
         secretPalSystem.savePerson(aWorker);
 
-        assertThat(secretPalSystem.retrieveAllPeople(), hasSize(1));
+        assertThat(secretPalSystem.retrieveAllWorkers(), hasSize(1));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class SecretPalSystemTest {
         secretPalSystem.savePerson(aWorker);
         secretPalSystem.savePerson(anotherWorker);
 
-        assertThat(secretPalSystem.retrieveAllPeople(),
+        assertThat(secretPalSystem.retrieveAllWorkers(),
                 hasItems(aWorker, anotherWorker));
 
     }
@@ -56,10 +56,10 @@ public class SecretPalSystemTest {
         Worker aWorker = new PersonBuilder().build();
 
         secretPalSystem.savePerson(aWorker);
-        secretPalSystem.deletePerson(aWorker);
+        secretPalSystem.deleteAWorker(aWorker);
 
-        assertThat(secretPalSystem.retrieveAllPeople(), not(hasItem(aWorker)));
-        assertThat(secretPalSystem.retrieveAllPeople(), hasSize(0));
+        assertThat(secretPalSystem.retrieveAllWorkers(), not(hasItem(aWorker)));
+        assertThat(secretPalSystem.retrieveAllWorkers(), hasSize(0));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class SecretPalSystemTest {
     }
 
     @Test
-    public void add_TitleAndDescriptionAreTooLong_ShouldReturnValidationErrorsForTitleAndDescription() {
+    public void When_I_Add_A_Blank_Worker_I_Should_Get_A_Ton_of_Errors() {
         Worker aWorker = new Worker(); //completely blank
 
         try {
@@ -84,8 +84,8 @@ public class SecretPalSystemTest {
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations(), hasSize(3));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "fullName")));
+            assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be null", "dateOfBirth")));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "eMail")));
-            assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be null", "birthdayDate")));
         }
 
     }
@@ -108,7 +108,7 @@ public class SecretPalSystemTest {
             fail("An exception should raise!");
         }
         catch (RuntimeException e) {
-            assertThat(e.getMessage(), is("No value present"));
+            assertThat(e, hasProperty("message", is("id to load is required for loading")));
         }
 
         assertThat(aWorker.getWantsToParticipate(), is(false));
