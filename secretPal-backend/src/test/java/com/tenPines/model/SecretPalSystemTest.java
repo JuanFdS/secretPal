@@ -97,7 +97,7 @@ public class SecretPalSystemTest {
     @Test
     public void when_a_worker_wants_to_participate_then_his_intention_changes() {
         secretPalSystem.savePerson(aWorker);
-        aWorker.changeParticipationIntention(true);
+        aWorker.changeParticipationIntention();
 
         secretPalSystem.changeIntention(aWorker);
 
@@ -111,7 +111,7 @@ public class SecretPalSystemTest {
             fail("An exception should raise!");
         }
         catch (RuntimeException e) {
-            assertEquals(e.getMessage(), "No value present");
+            assertEquals(e.getMessage(), "id to load is required for loading");
         }
 
         assertFalse(aWorker.getWantsToParticipate());

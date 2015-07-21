@@ -22,7 +22,7 @@ public class FriendRelationTest {
 
     @Test
     public void When_I_try_to_create_a_participant_that_does_not_want_to_participate_an_exception_is_raised(){
-        otherWorker.changeParticipationIntention(true);
+        otherWorker.changeParticipationIntention();
 
         try {
             friendRelation = new FriendRelation(aWorker, otherWorker);
@@ -34,7 +34,7 @@ public class FriendRelationTest {
 
     @Test
     public void When_I_try_to_create_a_participant_whose_secretpal_does_not_want_to_participate_an_exception_is_raised(){
-        aWorker.changeParticipationIntention(true);
+        aWorker.changeParticipationIntention();
 
         try {
             friendRelation = new FriendRelation(aWorker, otherWorker);
@@ -46,7 +46,7 @@ public class FriendRelationTest {
 
     @Test
     public void When_I_try_to_create_a_participant_whose_secretpal_is_him_an_exception_is_raised(){
-        aWorker.changeParticipationIntention(true);
+        aWorker.changeParticipationIntention();
 
         try {
             friendRelation = new FriendRelation(aWorker, aWorker);
