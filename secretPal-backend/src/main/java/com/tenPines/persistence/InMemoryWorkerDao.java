@@ -36,4 +36,9 @@ public class InMemoryWorkerDao implements AbstractRepository<Worker> {
         return workers.get(id.intValue() - 1);
     }
 
+    @Override
+    public void update(Worker element) {
+
+    }
+
 }

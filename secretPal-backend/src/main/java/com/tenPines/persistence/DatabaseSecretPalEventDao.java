@@ -62,4 +62,9 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         return (SecretPalEvent) DatabaseSecretPalEventDao.getSessionFactory().openSession().get(SecretPalEvent.class, id);
     }
 
+    @Override
+    public void update(SecretPalEvent element) {
+
+    }
+
 }

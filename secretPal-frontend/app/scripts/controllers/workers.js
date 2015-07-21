@@ -12,13 +12,14 @@ app.controller('WorkersController', function($scope, WorkerService, $filter) {
 
     WorkerService.all(function(data){ $scope.workers = data; debugger; });
 
-    $scope.Delete = function (index) {
-      if ($scope.workers[index].wantsToParticipate) {
+    $scope.delete = function (worker) {
+      if (worker.wantsToParticipate) {
         alert("This worker is participating. You cant delete it");
-        return;
+      } else {
+          WorkerService.delete(worker.id, function() {
+              $scope.workers = $filter('filter')($scope.workers, {id: '!' + worker.id})
+          });
       }
-      $scope.history.push($scope.workers[index]);
-      $scope.workers.splice(index, 1);
     };
 
     $scope.RemovePal = function (index) {
@@ -52,8 +53,9 @@ app.controller('WorkersController', function($scope, WorkerService, $filter) {
       $filter('date')(date, 'yyyy-MM-dd')
     }
 
-    $scope.Change = function (index) {
-      if ($scope.workers[index].secretpal !== '') {
+    $scope.changeIntention = function (worker) {
+        WorkerService.changeIntention(worker);
+      /*if ($scope.workers[index].secretpal !== '') {
         alert("This worker has a secretpal associated. Please remove it before stop participating");
         $scope.workers[index].wantsToParticipate = true;
         return;
@@ -65,7 +67,7 @@ app.controller('WorkersController', function($scope, WorkerService, $filter) {
           alert("This worker is a participant's secretpal. Please remove it before stop participating");
           $scope.workers[index].wantsToParticipate = true;
           return;
-        }
+        }*/
     };
 
     /*DATEPICKER FUNCTIONS*/

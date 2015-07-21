@@ -70,4 +70,9 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
 
     }
 
+    @Override
+    public void update(Worker element) {
+        transaction(session -> { session.update(element); return element; } );
+    }
+
 }

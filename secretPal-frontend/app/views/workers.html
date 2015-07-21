@@ -15,14 +15,13 @@
           <td>{{worker.fullName}}</td>
           <td>{{worker.eMail}}</td>
           <td>{{worker.dateOfBirth | date}}</td>
-          <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.fullName}}" ng-change="Change($index)" ng-model="worker.wantsToParticipate"></td>
-          <td><button class="btn btn-group-justified" ng-click="Delete($index)">Delete</button></td>
+          <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.fullName}}" ng-change="changeIntention(worker)" ng-model="worker.wantsToParticipate"></td>
+          <td><button class="btn btn-group-justified" ng-click="delete(worker)">Delete</button></td>
           <!--<td><button ng-show="worker.secretpal" class="btn btn-group-justified" ng-click="RemovePal($index)">Remove Secret Pal</button></td>-->
         </tr>
       </tbody>
     </table>
   </div>
-  <button class="btn btn-info" id="undo_delete_button" ng-show="history.length > 0" ng-click="Undo()">Undo Delete</button>
 </div>
 
 <button class="btn btn-primary" ng-click="Open()">Asignar Amigos!</button>

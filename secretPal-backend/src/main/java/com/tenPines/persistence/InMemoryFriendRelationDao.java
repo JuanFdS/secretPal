@@ -44,4 +44,9 @@ public class InMemoryFriendRelationDao implements AbstractRepository<FriendRelat
         return friendRelations.get(id.intValue() - 1);
     }
 
+    @Override
+    public void update(FriendRelation element) {
+
+    }
+
 }

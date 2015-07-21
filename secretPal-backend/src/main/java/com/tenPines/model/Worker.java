@@ -61,8 +61,8 @@ public class Worker {
         return fullName;
     }
 
-   public void changeParticipationIntention(Boolean intention) {
-        setWantsToParticipate(intention);
+   public void changeParticipationIntention() {
+        setWantsToParticipate(!wantsToParticipate);
     }
     public boolean getWantsToParticipate() { return this.wantsToParticipate;}
 

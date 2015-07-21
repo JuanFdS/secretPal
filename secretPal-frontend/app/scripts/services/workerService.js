@@ -28,4 +28,18 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
       });
   };
 
+  this.changeIntention = function(worker) {
+    $http.post(buildRoute('/intention'), worker).
+        success(function() {
+          alert('FIne');
+        });
+  };
+
+  this.delete = function(id, successFunction) {
+    $http.delete(buildRoute('/' + id)).
+        success(function() {
+          successFunction();
+        });
+  };
+
 });
