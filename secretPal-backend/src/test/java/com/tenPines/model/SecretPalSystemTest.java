@@ -11,9 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
@@ -97,11 +94,11 @@ public class SecretPalSystemTest {
     @Test
     public void when_a_worker_wants_to_participate_then_his_intention_changes() {
         secretPalSystem.savePerson(aWorker);
-        aWorker.changeParticipationIntention(true);
+        aWorker.changeParticipationIntention();
 
         secretPalSystem.changeIntention(aWorker);
 
-        assertTrue(secretPalSystem.getWorker(aWorker).getWantsToParticipate());
+        assertThat(secretPalSystem.getWorker(aWorker).getWantsToParticipate(), is(true));
     }
 
     @Test
@@ -111,10 +108,10 @@ public class SecretPalSystemTest {
             fail("An exception should raise!");
         }
         catch (RuntimeException e) {
-            assertEquals(e.getMessage(), "No value present");
+            assertThat(e.getMessage(), is("No value present"));
         }
 
-        assertFalse(aWorker.getWantsToParticipate());
+        assertThat(aWorker.getWantsToParticipate(), is(false));
     }
 
 }
