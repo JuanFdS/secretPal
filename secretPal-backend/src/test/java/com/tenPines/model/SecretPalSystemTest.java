@@ -1,7 +1,7 @@
 package com.tenPines.model;
 
 import com.tenPines.application.SecretPalSystem;
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.persistence.HibernateUtils;
 import org.hibernate.cfg.Environment;
 import org.junit.Before;
@@ -23,8 +23,8 @@ public class SecretPalSystemTest {
     private Worker aWorker;
 
     @Before
-    public void setUp() {
-        aWorker = new PersonBuilder().build();
+    public void setUp() throws Exception {
+        aWorker = new WorkerBuilder().build();
 
         HibernateUtils.addConfiguration(Environment.URL, "jdbc:mysql://localhost/calendardbtest");
         HibernateUtils.addConfiguration(Environment.HBM2DDL_AUTO, "create-drop");
@@ -32,18 +32,18 @@ public class SecretPalSystemTest {
 
     @Test
     public void When_I_Save_A_New_User_This_Should_Be_Stored() throws Exception {
-        secretPalSystem.savePerson(aWorker);
+        secretPalSystem.saveWorker(aWorker);
 
         assertThat(secretPalSystem.retrieveAllWorkers(), hasSize(1));
     }
 
     @Test
     public void When_I_Ask_For_All_The_People_It_Should_Return_Them() throws Exception {
-        Worker aWorker = new PersonBuilder().build();
-        Worker anotherWorker = new PersonBuilder().build();
+        Worker aWorker = new WorkerBuilder().build();
+        Worker anotherWorker = new WorkerBuilder().build();
 
-        secretPalSystem.savePerson(aWorker);
-        secretPalSystem.savePerson(anotherWorker);
+        secretPalSystem.saveWorker(aWorker);
+        secretPalSystem.saveWorker(anotherWorker);
 
         assertThat(secretPalSystem.retrieveAllWorkers(),
                 hasItems(aWorker, anotherWorker));
@@ -53,9 +53,9 @@ public class SecretPalSystemTest {
 
     @Test
     public void When_I_Delete_An_Existing_Person_It_Should_Be_No_More() throws Exception {
-        Worker aWorker = new PersonBuilder().build();
+        Worker aWorker = new WorkerBuilder().build();
 
-        secretPalSystem.savePerson(aWorker);
+        secretPalSystem.saveWorker(aWorker);
         secretPalSystem.deleteAWorker(aWorker);
 
         assertThat(secretPalSystem.retrieveAllWorkers(), not(hasItem(aWorker)));
@@ -63,12 +63,12 @@ public class SecretPalSystemTest {
     }
 
     @Test
-    public void When_I_Add_A_User_With_No_Name_I_Should_Get_An_Error() {
-        Worker aWorker = new PersonBuilder().build();
+    public void When_I_Add_A_User_With_No_Name_I_Should_Get_An_Error() throws Exception {
+        Worker aWorker = new WorkerBuilder().build();
         aWorker.setFullName("");
 
         try {
-            secretPalSystem.savePerson(aWorker);
+            secretPalSystem.saveWorker(aWorker);
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations(), hasSize(1));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "fullName")));
@@ -80,7 +80,7 @@ public class SecretPalSystemTest {
         Worker aWorker = new Worker(); //completely blank
 
         try {
-            secretPalSystem.savePerson(aWorker);
+            secretPalSystem.saveWorker(aWorker);
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations(), hasSize(3));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "fullName")));
@@ -93,7 +93,7 @@ public class SecretPalSystemTest {
 
     @Test
     public void when_a_worker_wants_to_participate_then_his_intention_changes() {
-        secretPalSystem.savePerson(aWorker);
+        secretPalSystem.saveWorker(aWorker);
         aWorker.changeParticipationIntention();
 
         secretPalSystem.changeIntention(aWorker);

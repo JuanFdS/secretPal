@@ -1,67 +1,72 @@
 package com.tenPines.model;
 
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.function.Supplier;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class WorkerTest {
 
-    private PersonBuilder personBuilder;
+    private WorkerBuilder workerBuilder;
 
     @Before
     public void setUp() {
-        this.personBuilder = new PersonBuilder();
+        this.workerBuilder = new WorkerBuilder();
     }
 
     @Test
     public void When_I_try_to_create_a_person_with_an_invalid_name_an_exception_is_raised() {
-        Supplier<Worker> aPersonWithNullName = () -> this.personBuilder.withFullName(null).build();
-        checkExceptionIsRaisedUponCreation(aPersonWithNullName, "Full name is invalid");
+        try {
+            this.workerBuilder.withFullName(null).build();
+            fail("The exception was not raised");
+        } catch (Exception e) {
+            assertThat(e.getMessage(), is("Full name is invalid"));
+        }
     }
 
     @Test
     public void When_I_try_to_create_a_person_with_an_empty_name_an_exception_is_raised() {
-        Supplier<Worker> aPersonWithAnEmptyName = () -> this.personBuilder.withFullName("").build();
-        checkExceptionIsRaisedUponCreation(aPersonWithAnEmptyName, "Full name is invalid");
+        try {
+            this.workerBuilder.withFullName("").build();
+            fail("The exception was not raised");
+        } catch (Exception e) {
+            assertThat(e.getMessage(), is("Full name is invalid"));
+        }
     }
 
     @Test
     public void When_I_try_to_create_a_person_with_a_non_char_name_an_exception_is_raised() {
-        Supplier<Worker> aPersonWithANonCharName = () -> this.personBuilder.withFullName("123$_").build();
-        checkExceptionIsRaisedUponCreation(aPersonWithANonCharName, "Full name is invalid");
-    }
-
-
-    @Test
-    public void When_I_try_to_create_a_person_with_an_invalid_email_an_exception_is_raised() {
-        Supplier<Worker> aPersonWithInvalidEmail = () -> personBuilder.withEmail("invalidEmail").build();
-        checkExceptionIsRaisedUponCreation(aPersonWithInvalidEmail, "Email is invalid");
-    }
-
-    @Test
-    public void When_I_try_to_create_a_person_with_a_last_name_that_contains_a_single_quote_on_it_should_not_raise_an_exception() {
-        Worker aWorker = personBuilder.withFullName("Jason O'Connel").build();
-        assertEquals(aWorker.getFullName(), "Jason O'Connel");
-    }
-
-    private void checkExceptionIsRaisedUponCreation(Supplier<Worker> creationFunction, String assertionMessage) {
         try {
-            creationFunction.get();
+            this.workerBuilder.withFullName("123$_").build();
             fail("The exception was not raised");
-        } catch (RuntimeException e) {
-            assertThat(e.getMessage(), is(assertionMessage));
+        } catch (Exception e) {
+            assertThat(e.getMessage(), is("Full name is invalid"));
         }
     }
 
 
     @Test
-    public void When_I_try_to_create_a_person_he_should_not_want_to_participate_yet(){
-        Worker aWorker = personBuilder.build();
-        assertFalse(aWorker.getWantsToParticipate());
+    public void When_I_try_to_create_a_person_with_an_invalid_email_an_exception_is_raised() {
+        try {
+            this.workerBuilder.withEmail("invalidEmail").build();
+            fail("The exception was not raised");
+        } catch (Exception e) {
+            assertThat(e.getMessage(), is("Email is invalid"));
+        }
     }
+
+    @Test
+    public void When_I_try_to_create_a_person_with_a_last_name_that_contains_a_single_quote_on_it_should_not_raise_an_exception() throws Exception {
+        Worker aWorker = workerBuilder.withFullName("Jason O'Connel").build();
+        assertEquals(aWorker.getFullName(), "Jason O'Connel");
+    }
+
+    @Test
+    public void When_I_try_to_create_a_person_he_should_not_want_to_participate_yet() throws Exception {
+        Worker aWorker = workerBuilder.build();
+        assertThat(aWorker.getWantsToParticipate(), is(false));
+    }
+
 }

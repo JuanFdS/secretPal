@@ -1,6 +1,6 @@
 package com.tenPines.model;
 
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,9 +17,9 @@ public class SecretPalEventTest {
     @Before
     public void setUp() throws Exception {
         aSecretPalEvent = new SecretPalEvent();
-        aWorker = new PersonBuilder().build();
+        aWorker = new WorkerBuilder().build();
         aWorker.changeParticipationIntention();
-        otherWorker = new PersonBuilder().build();
+        otherWorker = new WorkerBuilder().build();
         otherWorker.changeParticipationIntention();
         aFriendRelation = new FriendRelation(aWorker, otherWorker);
     }
@@ -61,7 +61,7 @@ public class SecretPalEventTest {
 
     @Test
     public void When_I_add_two_times_the_same_secretPal_to_a_participant_an_exception_is_raised() throws Exception {
-        Worker aWorker = new PersonBuilder().build();
+        Worker aWorker = new WorkerBuilder().build();
         aWorker.changeParticipationIntention();
         FriendRelation otherFriendRelation = new FriendRelation(aWorker, aFriendRelation.getSecretPal());
 

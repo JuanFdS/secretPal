@@ -1,6 +1,6 @@
 package com.tenPines.persistence;
 
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.Worker;
 import org.hibernate.cfg.Environment;
 import org.junit.Before;
@@ -30,8 +30,8 @@ public class DatabaseWorkerDAOTest {
     }
 
     @Test
-    public void When_I_Save_A_New_Person_Then_I_Have_One_More_Person_Persisted() {
-        Worker aWorker = new PersonBuilder().build();
+    public void When_I_Save_A_New_Person_Then_I_Have_One_More_Person_Persisted() throws Exception {
+        Worker aWorker = new WorkerBuilder().build();
         personDao.save(aWorker);
 
         List<Worker> result = this.personDao.retrieveAll();
@@ -41,8 +41,8 @@ public class DatabaseWorkerDAOTest {
     }
 
     @Test
-    public void When_I_Delete_A_Person_It_Should_Be_No_More() {
-        Worker aWorker = new PersonBuilder().build();
+    public void When_I_Delete_A_Person_It_Should_Be_No_More() throws Exception {
+        Worker aWorker = new WorkerBuilder().build();
         personDao.save(aWorker);
 
         personDao.delete(aWorker);

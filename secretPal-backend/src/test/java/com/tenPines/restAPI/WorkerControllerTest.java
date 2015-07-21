@@ -1,7 +1,7 @@
 package com.tenPines.restAPI;
 
 import com.tenPines.application.SecretPalSystem;
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.Worker;
 import com.tenPines.utils.TestUtil;
 import org.junit.Before;
@@ -50,14 +50,14 @@ public class WorkerControllerTest {
 
     @Test
     public void When_I_Post_A_New_User_This_Should_Be_Stored() throws Exception {
-        Worker aWorker = new PersonBuilder().build();
+        Worker aWorker = new WorkerBuilder().build();
 
         mockMvc.perform(post("/person/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestUtil.convertObjectToJsonStrings(aWorker))
         );
 
-        verify(secretPalSystemMock, times(1)).savePerson(aWorker);
+        verify(secretPalSystemMock, times(1)).saveWorker(aWorker);
 
         when(secretPalSystemMock.retrieveAllWorkers()).thenReturn(Arrays.asList(aWorker));
 
@@ -74,8 +74,8 @@ public class WorkerControllerTest {
 
     @Test
     public void When_I_GET_all_the_people_it_should_return_them() throws Exception {
-        Worker aWorker = new PersonBuilder().build();
-        Worker anotherWorker = new PersonBuilder().build();
+        Worker aWorker = new WorkerBuilder().build();
+        Worker anotherWorker = new WorkerBuilder().build();
 
         when(secretPalSystemMock.retrieveAllWorkers()).thenReturn(Arrays.asList(aWorker, anotherWorker));
 
@@ -96,7 +96,7 @@ public class WorkerControllerTest {
     @Test
     public void When_I_Delete_An_Existing_Person_It_Should_Be_No_More() throws Exception {
         Long anId = new Random().nextLong();
-        Worker aWorker = new PersonBuilder().build();
+        Worker aWorker = new WorkerBuilder().build();
         aWorker.setId(anId);
 
         when(secretPalSystemMock.retrieveAWorker(anId)).thenReturn(aWorker);

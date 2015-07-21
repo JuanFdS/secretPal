@@ -1,5 +1,6 @@
 package com.tenPines.application;
 
+import com.tenPines.builder.Seed;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
 import com.tenPines.persistence.AbstractRepository;
@@ -8,18 +9,22 @@ import com.tenPines.persistence.DatabaseWishlist;
 import com.tenPines.persistence.HibernateUtils;
 import org.hibernate.SessionFactory;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 
 public class SecretPalSystem {
 
     SessionFactory sessionFactory = HibernateUtils.createSessionFactory();
-
     private AbstractRepository<Worker> personRepository = new DatabasePersonDao(sessionFactory);
     private AbstractRepository<Wish> wishRepository = new DatabaseWishlist(sessionFactory);
 
+    @PostConstruct
+    private void seed() throws Exception {
+        Seed.seed(this);
+    }
 
-    public void savePerson(Worker newWorker) {
+    public void saveWorker(Worker newWorker) {
         this.personRepository.save(newWorker);
     }
 

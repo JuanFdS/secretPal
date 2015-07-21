@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tenPines.configuration.JsonDateDeserializer;
 import com.tenPines.configuration.JsonDateSerializer;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -38,9 +36,7 @@ public class Worker {
     public Worker() {
     }
 
-    public Worker(String fullName, String email, LocalDate dateOfBirth) throws Exception {
-        checkIfIsValid(fullName, "Full name is invalid");
-        checkIfValidEmail(email);
+    public Worker(String fullName, String email, LocalDate dateOfBirth) {
         this.fullName = fullName;
         this.eMail = email;
         this.dateOfBirth = dateOfBirth;
@@ -81,7 +77,6 @@ public class Worker {
     }
 
     public void seteMail(String eMail) throws Exception {
-        checkIfValidEmail(eMail); //TODO Usar los validators de Hibernate
         this.eMail = eMail;
     }
 
@@ -91,14 +86,6 @@ public class Worker {
 
     public void setDateOfBirth(LocalDate birthdayDate) {
         this.dateOfBirth = birthdayDate;
-    }
-
-    private void checkIfIsValid(String name, String message) throws Exception {
-        checkIfFieldIsValidUponCondition(StringUtils.isBlank(name) || !name.matches("[a-zA-Z ,.'-]+"), message);
-    }
-
-    private void checkIfValidEmail(String email) throws Exception {
-        checkIfFieldIsValidUponCondition(!EmailValidator.getInstance().isValid(email), "Email is invalid");
     }
 
     private void checkIfFieldIsValidUponCondition(Boolean condition, String message) throws Exception {

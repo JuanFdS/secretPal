@@ -1,6 +1,6 @@
 package com.tenPines.persistence;
 
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
 import org.hibernate.cfg.Environment;
@@ -29,8 +29,8 @@ public class DatabaseWishlistTest {
     }
 
     @Test
-    public void When_I_Add_A_Wish_To_A_Wishlist_It_Should_Get_Stored() {
-        Wish aWish = new Wish(new PersonBuilder().build(), "Un pony");
+    public void When_I_Add_A_Wish_To_A_Wishlist_It_Should_Get_Stored() throws Exception {
+        Wish aWish = new Wish(new WorkerBuilder().build(), "Un pony");
 
         wishlist.save(aWish);
         wishlist.refresh(aWish);
@@ -40,8 +40,8 @@ public class DatabaseWishlistTest {
     }
 
     @Test
-    public void When_I_Remove_A_Wish_From_A_Wishlist_It_Should_Be_No_More() {
-        Worker worker = new PersonBuilder().build();
+    public void When_I_Remove_A_Wish_From_A_Wishlist_It_Should_Be_No_More() throws Exception {
+        Worker worker = new WorkerBuilder().build();
 
         Wish aWish = new Wish(worker, "Un pony");
 
@@ -53,8 +53,8 @@ public class DatabaseWishlistTest {
     }
 
     @Test
-    public void When_I_Edit_A_Wish_From_A_Wishlist_It_Should_Be_Changed() {
-        Worker worker = new PersonBuilder().build();
+    public void When_I_Edit_A_Wish_From_A_Wishlist_It_Should_Be_Changed() throws Exception {
+        Worker worker = new WorkerBuilder().build();
         Wish aWish = new Wish(worker, "Un pony");
 
         wishlist.save(aWish);

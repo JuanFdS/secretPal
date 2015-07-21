@@ -33,18 +33,18 @@ public class WishlistController {
         system.saveWish(wish);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public void delete(@PathVariable Long id) {
-        Wish wish = system.retrieveAWish(id);
-        system.deleteAWish(wish);
-    }
-
     @RequestMapping(value = "/person/{id}", method = RequestMethod.GET)
     @ResponseBody
     public List<Wish> personalWish(@PathVariable Long id) {
         Worker worker = system.retrieveAWorker(id);
         return system.retrievePersonalGiftsFor(worker);
+    }
+
+    @RequestMapping(value = "/person/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public void updateWish(@PathVariable Long id, @RequestBody String gift) {
+        Worker worker = system.retrieveAWorker(id);
+        system.saveWish(new Wish(worker, gift));
     }
 
     @ExceptionHandler(Exception.class)

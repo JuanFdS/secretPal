@@ -30,7 +30,7 @@ public class PersonController {
     public void save(@RequestBody @Valid Worker aWorker, BindingResult result) throws Exception {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
-        system.savePerson(aWorker);
+        system.saveWorker(aWorker);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

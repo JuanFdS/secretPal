@@ -1,6 +1,6 @@
 package com.tenPines.persistence;
 
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.Wish;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,8 +24,8 @@ public class InMemoryWishlistTest {
     }
 
     @Test
-    public void When_I_Add_A_Wish_To_A_Wishlist_It_Should_Get_Stored() {
-        Wish aWish = new Wish(new PersonBuilder().build(), "Un pony");
+    public void When_I_Add_A_Wish_To_A_Wishlist_It_Should_Get_Stored() throws Exception {
+        Wish aWish = new Wish(new WorkerBuilder().build(), "Un pony");
 
         wishlist.save(aWish);
         assertThat(wishlist.retrieveAll(), hasSize(1));
@@ -33,8 +33,8 @@ public class InMemoryWishlistTest {
     }
 
     @Test
-    public void When_I_Remove_A_Wish_From_A_Wishlist_It_Should_Be_No_More() {
-        Wish aWish = new Wish(new PersonBuilder().build(), "Un pony");
+    public void When_I_Remove_A_Wish_From_A_Wishlist_It_Should_Be_No_More() throws Exception {
+        Wish aWish = new Wish(new WorkerBuilder().build(), "Un pony");
 
         wishlist.save(aWish);
         wishlist.delete(aWish);
@@ -44,8 +44,8 @@ public class InMemoryWishlistTest {
     }
 
     @Test
-    public void When_I_Edit_A_Wish_From_A_Wishlist_It_Should_Be_Changed() {
-        Wish aWish = new Wish(new PersonBuilder().build(), "Un pony");
+    public void When_I_Edit_A_Wish_From_A_Wishlist_It_Should_Be_Changed() throws Exception {
+        Wish aWish = new Wish(new WorkerBuilder().build(), "Un pony");
 
         wishlist.save(aWish);
 
