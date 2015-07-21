@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.io.Serializable;
@@ -45,6 +47,7 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<SecretPalEvent> retrieveAll() {
         return transaction(session -> {
             return session.createCriteria(SecretPalEvent.class).list();
@@ -84,15 +87,10 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
 
     @Override
     public Worker retrieveAssignedFriendFor(Worker participant) {
-        FriendRelation relation = transaction( session -> { return (FriendRelation) session.createCriteria(FriendRelation.class).
+        return transaction( session -> { return (Worker) session.createCriteria(FriendRelation.class).
                 add(Restrictions.eq("giftGiver.id", participant.getId())).
+                setProjection(Projections.property("giftReceiver")).
                 uniqueResult(); });
-        Worker giftReceiver = null;
-        if (relation != null) {
-            giftReceiver = relation.getGiftReceiver();
-        }
-            return giftReceiver;
-
     }
 
 }
