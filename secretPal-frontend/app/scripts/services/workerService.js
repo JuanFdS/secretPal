@@ -8,9 +8,8 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
   }
 
   this.all = function(callback) {
-    $http.get(buildRoute('/all')).
+    $http.get(buildRoute('/')).
       success(function(data) {
-        debugger;
         callback(data);
       }).
       error(function() {
@@ -19,7 +18,7 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
   };
 
   this.new = function(worker, successFunction) {
-    $http.post(buildRoute('/new'), worker).
+    $http.post(buildRoute('/'), worker).
       success(function() {
         alert("The worker was created.");
         successFunction();

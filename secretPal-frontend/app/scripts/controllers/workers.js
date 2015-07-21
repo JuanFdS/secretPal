@@ -8,9 +8,9 @@
  * Controller of the secretPalApp
  */
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope) {
+app.controller('WorkersController', function($scope, WorkerService, $filter) {
 
-    WorkerService.all(function(data){ $scope.workers = data });
+    WorkerService.all(function(data){ $scope.workers = data; debugger; });
 
     $scope.Delete = function (index) {
       if ($scope.workers[index].wantsToParticipate) {
@@ -45,7 +45,7 @@ app.controller('WorkersController', function($scope) {
     };
 
     function buildWorker() {
-      return {fullName: $scope.newName, eMail: $scope.newMail, dateOfBirth: parseDate($scope.newDate),  wantsToParticipate: false}
+      return {fullName: $scope.newName, eMail: $scope.newMail, dateOfBirth: $scope.newDate,  wantsToParticipate: false}
     };
 
     function parseDate(date) {

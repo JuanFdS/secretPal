@@ -1,9 +1,6 @@
 package com.tenPines.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +21,7 @@ public class SecretPalEvent {
     @NotNull
     private LocalDate startingDate; */
     /* TODO Hacer la DB para los participantes @ManyToMany(cascade = {CascadeType.ALL}) */
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<FriendRelation> friendRelations = new ArrayList<>();
 
     public SecretPalEvent() {

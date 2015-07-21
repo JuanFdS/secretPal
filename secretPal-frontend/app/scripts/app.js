@@ -12,15 +12,13 @@ angular
   .module('secretPalApp', [
     'ngAnimate',
     'ngRoute',
-    'ngResource',
+    //'ngResource',
     'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
+        templateUrl: 'views/main.html'
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',
@@ -38,7 +36,7 @@ angular
     };
   }])
 
-  .config(['$resourceProvider', function($resourceProvider) {
+  /*.config(['$resourceProvider', function($resourceProvider) {
     $resourceProvider.defaults.stripTrailingSlashes = false;
-  }]);
+  }]);*/
 ;
