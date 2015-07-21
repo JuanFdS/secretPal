@@ -29,11 +29,11 @@ public class PersonBuilder {
         return this;
     }
 
-    public Worker build(){
+    public Worker build() throws Exception {
         return new Worker(fullName,email,birthdayDate);
     }
 
-    public Worker buildFromDate(int day, Month month) {
+    public Worker buildFromDate(int day, Month month) throws Exception {
         return new Worker(faker.name().fullName(),faker.internet().emailAddress(), LocalDate.of(1800, month.getValue(), day));
     }
 }

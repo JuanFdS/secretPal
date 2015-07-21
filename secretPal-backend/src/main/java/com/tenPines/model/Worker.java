@@ -38,7 +38,7 @@ public class Worker {
     public Worker() {
     }
 
-    public Worker(String fullName, String email, LocalDate dateOfBirth) {
+    public Worker(String fullName, String email, LocalDate dateOfBirth) throws Exception {
         checkIfIsValid(fullName, "Full name is invalid");
         checkIfValidEmail(email);
         this.fullName = fullName;
@@ -80,7 +80,7 @@ public class Worker {
         return eMail;
     }
 
-    public void seteMail(String eMail) {
+    public void seteMail(String eMail) throws Exception {
         checkIfValidEmail(eMail); //TODO Usar los validators de Hibernate
         this.eMail = eMail;
     }
@@ -93,16 +93,16 @@ public class Worker {
         this.dateOfBirth = birthdayDate;
     }
 
-    private void checkIfIsValid(String name, String message) {
+    private void checkIfIsValid(String name, String message) throws Exception {
         checkIfFieldIsValidUponCondition(StringUtils.isBlank(name) || !name.matches("[a-zA-Z ,.'-]+"), message);
     }
 
-    private void checkIfValidEmail(String email) {
+    private void checkIfValidEmail(String email) throws Exception {
         checkIfFieldIsValidUponCondition(!EmailValidator.getInstance().isValid(email), "Email is invalid");
     }
 
-    private void checkIfFieldIsValidUponCondition(Boolean condition, String message){
-        if(condition) throw new RuntimeException(message);
+    private void checkIfFieldIsValidUponCondition(Boolean condition, String message) throws Exception {
+        if (condition) throw new Exception(message);
     }
 
     public List<Wish> getWishList() {
