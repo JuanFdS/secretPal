@@ -2,6 +2,8 @@ package com.tenPines.persistence;
 
 import com.tenPines.builder.PersonBuilder;
 import com.tenPines.model.Wish;
+import com.tenPines.model.Worker;
+import org.hibernate.cfg.Environment;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,13 +11,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 
-public class InMemoryWishlistTest {
+public class DatabaseWishlistTest {
 
     AbstractRepository<Wish> wishlist;
 
     @Before
     public void setUp() {
-        wishlist = new InMemoryWishlist();
+        HibernateUtils.addConfiguration(Environment.URL, "jdbc:mysql://localhost/calendardbtest");
+        HibernateUtils.addConfiguration(Environment.HBM2DDL_AUTO, "create-drop");
+
+        wishlist = new DatabaseWishlist(HibernateUtils.createSessionFactory());
     }
 
     @Test
@@ -28,13 +33,17 @@ public class InMemoryWishlistTest {
         Wish aWish = new Wish(new PersonBuilder().build(), "Un pony");
 
         wishlist.save(aWish);
+        wishlist.refresh(aWish);
+
         assertThat(wishlist.retrieveAll(), hasSize(1));
-        assertThat(wishlist.retrieveAll(), hasItem(aWish));
+        assertThat(wishlist.retrieveAll(), hasItem(hasProperty("gift", is("Un pony"))));
     }
 
     @Test
     public void When_I_Remove_A_Wish_From_A_Wishlist_It_Should_Be_No_More() {
-        Wish aWish = new Wish(new PersonBuilder().build(), "Un pony");
+        Worker worker = new PersonBuilder().build();
+
+        Wish aWish = new Wish(worker, "Un pony");
 
         wishlist.save(aWish);
         wishlist.delete(aWish);
@@ -45,7 +54,8 @@ public class InMemoryWishlistTest {
 
     @Test
     public void When_I_Edit_A_Wish_From_A_Wishlist_It_Should_Be_Changed() {
-        Wish aWish = new Wish(new PersonBuilder().build(), "Un pony");
+        Worker worker = new PersonBuilder().build();
+        Wish aWish = new Wish(worker, "Un pony");
 
         wishlist.save(aWish);
 
@@ -54,7 +64,7 @@ public class InMemoryWishlistTest {
         wishlist.refresh(aWish);
 
         assertThat(wishlist.retrieveAll(), hasSize(1));
-        assertThat(aWish.getGift(), is("Dos ponys!"));
-        assertThat(wishlist.retrieveAll(), hasItem(aWish));
+        assertThat(worker.getWishList(), not(empty()));
+        assertThat(worker.getWishList(), contains(hasProperty("gift", is("Dos ponys!"))));
     }
 }

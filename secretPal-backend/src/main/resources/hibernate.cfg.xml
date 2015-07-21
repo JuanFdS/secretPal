@@ -22,6 +22,7 @@
         <property name="connection.pool_size">1</property>
         <property name="current_session_context_class">thread</property>
 
+        <mapping class="com.tenPines.model.Wish"/>
         <mapping class="com.tenPines.model.Worker"/>
         <mapping class="com.tenPines.model.SecretPalEvent"/>
         <mapping class="com.tenPines.model.FriendRelation"/>

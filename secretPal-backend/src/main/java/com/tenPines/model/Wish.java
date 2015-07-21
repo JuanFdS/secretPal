@@ -1,12 +1,34 @@
 package com.tenPines.model;
 
-public class Wish {
-    public Worker worker;
-    public String wish;
+import org.hibernate.validator.constraints.NotEmpty;
 
-    public Wish(Worker worker, String wish) {
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table
+public class Wish {
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "gift")
+    public Worker worker;
+    @NotEmpty
+    public String gift;
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    public Wish() {
+    }
+
+    public Wish(Worker worker, String gift) {
         this.worker = worker;
-        this.wish = wish;
+        this.gift = gift;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Worker getWorker() {
@@ -17,11 +39,11 @@ public class Wish {
         this.worker = worker;
     }
 
-    public String getWish() {
-        return wish;
+    public String getGift() {
+        return gift;
     }
 
-    public void setWish(String wish) {
-        this.wish = wish;
+    public void setGift(String gift) {
+        this.gift = gift;
     }
 }

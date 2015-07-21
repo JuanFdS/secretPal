@@ -15,7 +15,6 @@ public class DatabaseWorkerDAOTest {
 
     private AbstractRepository<Worker> personDao;
 
-
     @Before
     public void setUp() {
         HibernateUtils.addConfiguration(Environment.URL, "jdbc:mysql://localhost/calendardbtest");
@@ -27,7 +26,7 @@ public class DatabaseWorkerDAOTest {
     @Test
     public void When_I_Have_Zero_Persons_Persisted_When_I_Retrieve_Then_The_List_Is_Empty() {
         List<Worker> result = this.personDao.retrieveAll();
-        assertThat(result, hasSize(0));
+        assertThat(result, empty());
     }
 
     @Test

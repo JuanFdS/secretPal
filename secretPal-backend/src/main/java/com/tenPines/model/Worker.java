@@ -9,12 +9,10 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table
@@ -33,6 +31,10 @@ public class Worker {
     @NotNull
     private LocalDate dateOfBirth;
     private Boolean wantsToParticipate;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "worker")
+    //@ManyToOne(fetch = FetchType.LAZY)
+    private Set<Wish> wishList;
 
     public Worker() {
     }
@@ -61,14 +63,16 @@ public class Worker {
         return fullName;
     }
 
-   public void changeParticipationIntention() {
-        setWantsToParticipate(!wantsToParticipate);
-    }
-    public boolean getWantsToParticipate() { return this.wantsToParticipate;}
-
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
+   public void changeParticipationIntention() {
+        setWantsToParticipate(!wantsToParticipate);
+    }
+
+    public boolean getWantsToParticipate() { return this.wantsToParticipate;}
+
    public void setWantsToParticipate(Boolean wantsToParticipate) {
         this.wantsToParticipate = wantsToParticipate;
     }
@@ -100,6 +104,10 @@ public class Worker {
 
     private void checkIfFieldIsValidUponCondition(Boolean condition, String message){
         if(condition) throw new RuntimeException(message);
+    }
+
+    public Set<Wish> getWishList() {
+        return wishList;
     }
 
     @Override
