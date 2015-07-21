@@ -8,7 +8,7 @@
  * Controller of the secretPalApp
  */
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope, WorkerService, $filter) {
+app.controller('WorkersController', function($scope, $modal, WorkerService, $filter) {
 
     WorkerService.all(function(data){ $scope.workers = data; debugger; });
 

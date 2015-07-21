@@ -4,6 +4,7 @@ import com.tenPines.model.Worker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
     @Override
     public List save(Worker... people) {
         Function<Session, List> function = session -> {
-            ArrayList idList = new ArrayList();
+            ArrayList<java.io.Serializable> idList = new ArrayList<java.io.Serializable>();
             for (Worker person : people) {
                 idList.add(session.save(person));
             }
@@ -42,6 +43,7 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Worker> retrieveAll() {
         return transaction(session -> {
             return session.createCriteria(Worker.class).list();
@@ -73,6 +75,21 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
     @Override
     public void update(Worker element) {
         transaction(session -> { session.update(element); return element; } );
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Worker> retrieveParticipants() {
+        return transaction( session -> { return (List<Worker>) session.createCriteria(Worker.class)
+                .add(Restrictions.eq("wantsToParticipate", true))
+                .list();
+        });
+
+    }
+
+    @Override
+    public Worker retrieveAssignedFriendFor(Worker participant) {
+        return null;
     }
 
 }

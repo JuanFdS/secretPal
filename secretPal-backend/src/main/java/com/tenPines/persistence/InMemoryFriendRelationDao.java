@@ -1,5 +1,6 @@
 package com.tenPines.persistence;
 import com.tenPines.model.FriendRelation;
+import com.tenPines.model.Worker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +48,16 @@ public class InMemoryFriendRelationDao implements AbstractRepository<FriendRelat
     @Override
     public void update(FriendRelation element) {
 
+    }
+
+    @Override
+    public List<FriendRelation> retrieveParticipants() {
+        return null;
+    }
+
+    @Override
+    public Worker retrieveAssignedFriendFor(Worker participant) {
+        return null;
     }
 
 }

@@ -12,19 +12,19 @@ public class FriendRelation {
     private Long id;
 
     @OneToOne(cascade = {CascadeType.ALL})
-    private Worker participant;
+    private Worker giftGiver;
 
     @OneToOne(cascade = {CascadeType.ALL})
-    private Worker secretPal;
+    private Worker giftReceiver;
 
     public FriendRelation(){}
 
-    public FriendRelation(Worker participant, Worker secretPal)  {
+    public FriendRelation(Worker participant, Worker giftReceiver)  {
         checkIfWantToParticipate(participant);
-        checkIfWantToParticipate(secretPal);
-        checkIfNotTheSameParticipant(participant, secretPal);
-        this.participant = participant;
-        this.secretPal = secretPal;
+        checkIfWantToParticipate(giftReceiver);
+        checkIfNotTheSameParticipant(participant, giftReceiver);
+        this.giftGiver = participant;
+        this.giftReceiver = giftReceiver;
     }
 
     public Long getId() {
@@ -39,26 +39,26 @@ public class FriendRelation {
 
     private void checkIfNotTheSameParticipant(Worker participant, Worker secretPal) {
         if(participant.equals(secretPal))
-            throw new RuntimeException("You cant assign the participant to be his secretPal");
+            throw new RuntimeException("You cant assign the giftGiver to be his giftReceiver");
     }
     private void checkIfWantToParticipate(Worker worker) {
         if(!worker.getWantsToParticipate()) throw new RuntimeException(worker.getFullName()  + " does not want to participate");
     }
 
 
-    public void setParticipant(Worker participant) {
-        this.participant = participant;
+    public void setGiftGiver(Worker giftGiver) {
+        this.giftGiver = giftGiver;
     }
 
-    public void setSecretPal(Worker secretPal) {
-        this.secretPal = secretPal;
+    public void setGiftReceiver(Worker giftReceiver) {
+        this.giftReceiver = giftReceiver;
     }
 
-    public Worker getParticipant() {
-        return this.participant;
+    public Worker getGiftGiver() {
+        return this.giftGiver;
     }
 
-    public Worker getSecretPal() {
-        return this.secretPal;
+    public Worker getGiftReceiver() {
+        return this.giftReceiver;
     }
 }

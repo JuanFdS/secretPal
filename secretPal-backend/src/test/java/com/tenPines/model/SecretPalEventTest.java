@@ -63,7 +63,7 @@ public class SecretPalEventTest {
     public void When_I_add_two_times_the_same_secretPal_to_a_participant_an_exception_is_raised() throws Exception {
         Worker aWorker = new PersonBuilder().build();
         aWorker.changeParticipationIntention();
-        FriendRelation otherFriendRelation = new FriendRelation(aWorker, aFriendRelation.getSecretPal());
+        FriendRelation otherFriendRelation = new FriendRelation(aWorker, aFriendRelation.getGiftReceiver());
 
         try {
             aSecretPalEvent.registerParticipant(aFriendRelation);

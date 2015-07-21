@@ -1,5 +1,7 @@
 package com.tenPines.persistence;
 
+import com.tenPines.model.Worker;
+
 import java.util.List;
 
 public interface AbstractRepository<T> {
@@ -14,4 +16,8 @@ public interface AbstractRepository<T> {
     T findById(Long id);
 
     void update(T element);
+
+    List<T> retrieveParticipants();
+
+    Worker retrieveAssignedFriendFor(Worker participant);
 }

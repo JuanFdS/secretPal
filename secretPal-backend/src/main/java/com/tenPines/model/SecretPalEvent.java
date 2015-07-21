@@ -40,14 +40,14 @@ public class SecretPalEvent {
     }
 
     public void registerParticipant(FriendRelation aFriendRelation) {
-        List<Worker> participantsToCheck = friendRelations.stream().map(p -> p.getParticipant()).collect(Collectors.toList());
+        List<Worker> participantsToCheck = friendRelations.stream().map(p -> p.getGiftGiver()).collect(Collectors.toList());
 
-        if (participantsToCheck.contains(aFriendRelation.getParticipant()) ) {
+        if (participantsToCheck.contains(aFriendRelation.getGiftGiver()) ) {
             throw new RuntimeException("That user was already registered in the event");
         } else {
-            List<Worker> secretPalsToCheck = friendRelations.stream().map(p -> p.getSecretPal()).collect(Collectors.toList());
+            List<Worker> secretPalsToCheck = friendRelations.stream().map(p -> p.getGiftReceiver()).collect(Collectors.toList());
 
-            if (secretPalsToCheck.contains(aFriendRelation.getSecretPal())) {
+            if (secretPalsToCheck.contains(aFriendRelation.getGiftReceiver())) {
                 throw new RuntimeException("The secretPal was already assign to other participant");
             } else {
                 this.friendRelations.add(aFriendRelation);

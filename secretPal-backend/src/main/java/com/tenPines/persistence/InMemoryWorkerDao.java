@@ -41,4 +41,14 @@ public class InMemoryWorkerDao implements AbstractRepository<Worker> {
 
     }
 
+    @Override
+    public List<Worker> retrieveParticipants() {
+        return null;
+    }
+
+    @Override
+    public Worker retrieveAssignedFriendFor(Worker participant) {
+        return null;
+    }
+
 }
