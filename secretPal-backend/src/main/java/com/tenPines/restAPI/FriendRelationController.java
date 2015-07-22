@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.MediaType;
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -34,11 +34,12 @@ public class FriendRelationController {
 
     @RequestMapping(value = "/{from}/{to}", method = RequestMethod.POST)
     @ResponseBody
-    public void createRelation(@PathVariable Long from,@PathVariable Long to){
+    public void createRelation(@PathVariable Long from,@PathVariable Long to) throws IOException, MessagingException {
         Worker giftGiver = system.retrieveAPerson(from);
         Worker giftReceiver = system.retrieveAPerson(to);
         SecretPalEvent event = system.retrieveEvent();
         system.createRelationInEvent(event, giftGiver, giftReceiver);
+        system.notifySender(giftGiver,giftReceiver);
     }
 
     @RequestMapping(value = "/{from}/{to}", method = RequestMethod.DELETE)

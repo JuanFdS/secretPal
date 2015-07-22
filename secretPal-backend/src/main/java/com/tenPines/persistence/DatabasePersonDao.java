@@ -78,7 +78,6 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
         transaction(session -> { session.update(element); return element; } );
     }
 
-    @Override
     @SuppressWarnings("unchecked")
     public List<Worker> retrieveParticipants() {
         return transaction( session -> { return (List<Worker>) session.createCriteria(Worker.class)
@@ -86,17 +85,6 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
                 .list();
         });
 
-    }
-
-    @Override
-    public Worker retrieveAssignedFriendFor(Worker participant) {
-        return null;
-    }
-
-    @Override
-    public Worker createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
-
-        return giftGiver;
     }
 
 }

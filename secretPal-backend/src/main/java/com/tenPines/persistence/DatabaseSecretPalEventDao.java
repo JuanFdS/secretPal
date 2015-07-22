@@ -94,10 +94,7 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         transaction(session -> { session.update(element); return element; } );
     }
 
-    @Override
-    public List<SecretPalEvent> retrieveParticipants() { return null;  }
 
-    @Override
     public Worker retrieveAssignedFriendFor(Worker participant) {
         return transaction( session -> { return (Worker) session.createCriteria(FriendRelation.class).
                 add(Restrictions.eq("giftGiver.id", participant.getId())).
@@ -105,10 +102,11 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
                 uniqueResult(); });
     }
 
-    @Override
     public SecretPalEvent createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
         transaction(session -> {
-            event.registerParticipant(new FriendRelation(giftGiver, giftReceiver));
+                    FriendRelation relation = new FriendRelation(giftGiver, giftReceiver);
+            event.registerParticipant(relation);
+                    session.save(relation);
             session.update(event); return event; }
         );
             return event;
@@ -119,7 +117,7 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         transaction(session -> {
             //event.deleteRelation(friendRelation);
             //session.update(event);
-            session.delete(friendRelation);
+            //session.delete(friendRelation);
             return event;
         });
     }

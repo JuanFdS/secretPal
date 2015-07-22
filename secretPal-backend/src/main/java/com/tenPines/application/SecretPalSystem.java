@@ -1,17 +1,21 @@
 package com.tenPines.application;
 
+import com.tenPines.mailer.PostOffice;
+import com.tenPines.mailer.SMTPPostMan;
 import com.tenPines.model.FriendRelation;
 import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import com.tenPines.persistence.*;
 
+import javax.mail.MessagingException;
 import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.util.List;
 
 
 public class SecretPalSystem {
 
-    private AbstractRepository<Worker> personRepository = new DatabasePersonDao(HibernateUtils.createSessionFactory());
+    private DatabasePersonDao personRepository = new DatabasePersonDao(HibernateUtils.createSessionFactory());
     private DatabaseSecretPalEventDao secretPalEventRepository = new DatabaseSecretPalEventDao(HibernateUtils.createSessionFactory());
     //private AbstractRepository<SecretPalEvent> friendRelationRepository = new DatabaseDao(HibernateUtils.createSessionFactory());
 
@@ -64,5 +68,10 @@ public class SecretPalSystem {
 
     public void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation) {
         secretPalEventRepository.deleteRelationInEvent(event, friendRelation);
+    }
+
+    public void notifySender(Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
+        SMTPPostMan postMan = new PostOffice().callThePostMan();
+        postMan.notifyPersonWithSecretPalInformation(giftGiver, giftReceiver);
     }
 }
