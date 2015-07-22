@@ -33,10 +33,10 @@ public class WishlistController {
         system.saveWish(wish);
     }
 
-    @RequestMapping(value = "/person/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/person/{person_id}", method = RequestMethod.GET)
     @ResponseBody
-    public List<Wish> personalWish(@PathVariable Long id) {
-        Worker worker = system.retrieveAWorker(id);
+    public List<Wish> personalWish(@PathVariable Long person_id) {
+        Worker worker = system.retrieveAWorker(person_id);
         return system.retrievePersonalGiftsFor(worker);
     }
 
@@ -53,6 +53,13 @@ public class WishlistController {
         Wish wish = system.retrieveAWish(id);
         wish.setGift(gift);
         system.updateWish(wish);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateWish(@PathVariable Long id) {
+        Wish wish = system.retrieveAWish(id);
+        system.deleteAWish(wish);
     }
 
     @ExceptionHandler(Exception.class)

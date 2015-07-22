@@ -1,11 +1,8 @@
 'use strict';
 
 var app = angular.module('secretPalApp')
-    .controller('WishlistController', function ($scope, $modal, $log) {
-        $scope.wishlist = [
-            {worker: "Pepe", gift: "ahhhhh"},
-            {worker: "Jose", gift: "ahhhh2h"}
-        ];
+    .controller('WishlistController', function ($scope, $modal, WorkerService, $log) {
+        WorkerService.all(function(data){ $scope.workers = data; });
 
         $scope.Edit = function (wish) {
             var modalInstance = $modal.open({
