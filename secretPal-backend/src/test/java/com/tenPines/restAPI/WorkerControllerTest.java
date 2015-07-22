@@ -110,4 +110,5 @@ public class WorkerControllerTest {
         Worker deletedWorker = formObjectArgument.getValue();
         assertThat(deletedWorker, is(aWorker));
     }
+
 }

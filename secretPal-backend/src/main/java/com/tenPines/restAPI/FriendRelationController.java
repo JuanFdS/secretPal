@@ -1,16 +1,17 @@
 package com.tenPines.restAPI;
 
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.model.FriendRelation;
+import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.beans.Expression;
+import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,4 +31,24 @@ public class FriendRelationController {
                 .collect(Collectors.toList()));
             return relations;
     }
+
+    @RequestMapping(value = "/{from}/{to}", method = RequestMethod.POST)
+    @ResponseBody
+    public void createRelation(@PathVariable Long from,@PathVariable Long to){
+        Worker giftGiver = system.retrieveAPerson(from);
+        Worker giftReceiver = system.retrieveAPerson(to);
+        SecretPalEvent event = system.retrieveEvent();
+        system.createRelationInEvent(event, giftGiver, giftReceiver);
+    }
+
+    @RequestMapping(value = "/{from}/{to}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Long deleteRelation(@PathVariable Long from,@PathVariable Long to){
+        FriendRelation friendRelation = system.retrieveRelation(from, to);
+        SecretPalEvent event = system.retrieveEvent();
+        system.deleteRelationInEvent(event, friendRelation);
+        return friendRelation.getId();
+    }
+
+
 }

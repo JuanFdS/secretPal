@@ -5,13 +5,16 @@ import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import com.tenPines.persistence.*;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 
 public class SecretPalSystem {
 
     private AbstractRepository<Worker> personRepository = new DatabasePersonDao(HibernateUtils.createSessionFactory());
-    private AbstractRepository<SecretPalEvent> friendRelationRepository = new DatabaseSecretPalEventDao(HibernateUtils.createSessionFactory());
+    private DatabaseSecretPalEventDao secretPalEventRepository = new DatabaseSecretPalEventDao(HibernateUtils.createSessionFactory());
+    //private AbstractRepository<SecretPalEvent> friendRelationRepository = new DatabaseDao(HibernateUtils.createSessionFactory());
+
 
     public void savePerson(Worker newWorker) {
         this.personRepository.save(newWorker);
@@ -44,7 +47,22 @@ public class SecretPalSystem {
     }
 
     public Worker retrieveAssignedFriendFor(Worker participant) {
-        return friendRelationRepository.retrieveAssignedFriendFor(participant);
+        return secretPalEventRepository.retrieveAssignedFriendFor(participant);
     }
 
+    public void createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
+        secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
+    }
+
+    public SecretPalEvent retrieveEvent() {
+        return secretPalEventRepository.retrieveEvent();
+    }
+
+    public FriendRelation retrieveRelation(Long from, Long to) {
+        return secretPalEventRepository.retrieveRelation(from, to);
+    }
+
+    public void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation) {
+        secretPalEventRepository.deleteRelationInEvent(event, friendRelation);
+    }
 }

@@ -1,5 +1,6 @@
 package com.tenPines.persistence;
 import com.tenPines.model.FriendRelation;
+import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 
 import java.util.ArrayList;
@@ -57,6 +58,11 @@ public class InMemoryFriendRelationDao implements AbstractRepository<FriendRelat
 
     @Override
     public Worker retrieveAssignedFriendFor(Worker participant) {
+        return null;
+    }
+
+    @Override
+    public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
         return null;
     }
 

@@ -31,7 +31,6 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         T ret = function.apply(session);
 
         transaction.commit();
-
         return ret;
     }
 
@@ -43,6 +42,19 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
             }
             return idList;
         };
+        return transaction(function);
+    }
+
+    public SecretPalEvent retrieveEvent() {
+        Function<Session, SecretPalEvent> function = session -> {
+            SecretPalEvent event = (SecretPalEvent) session.createCriteria(SecretPalEvent.class).uniqueResult();
+            if (event == null) {
+                event = new SecretPalEvent();
+                session.save(event);
+            }
+            return event;
+        };
+
         return transaction(function);
     }
 
@@ -93,4 +105,31 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
                 uniqueResult(); });
     }
 
+    @Override
+    public SecretPalEvent createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
+        transaction(session -> {
+            event.registerParticipant(new FriendRelation(giftGiver, giftReceiver));
+            session.update(event); return event; }
+        );
+            return event;
+
+    }
+
+    public void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation) {
+        transaction(session -> {
+            //event.deleteRelation(friendRelation);
+            //session.update(event);
+            session.delete(friendRelation);
+            return event;
+        });
+    }
+
+    public FriendRelation retrieveRelation(Long from, Long to) {
+        return transaction(
+                session -> { return (FriendRelation) session.createCriteria(FriendRelation.class).
+                        add(Restrictions.eq("giftGiver.id", from)).
+                        add(Restrictions.eq("giftReceiver.id", to)).
+                        uniqueResult(); }
+        );
+    }
 }

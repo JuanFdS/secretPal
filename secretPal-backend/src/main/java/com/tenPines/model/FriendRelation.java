@@ -11,10 +11,10 @@ public class FriendRelation {
     @GeneratedValue
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private Worker giftGiver;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private Worker giftReceiver;
 
     public FriendRelation(){}

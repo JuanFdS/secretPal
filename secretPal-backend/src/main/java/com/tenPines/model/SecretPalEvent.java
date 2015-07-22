@@ -21,7 +21,7 @@ public class SecretPalEvent {
     @NotNull
     private LocalDate startingDate; */
     /* TODO Hacer la DB para los participantes @ManyToMany(cascade = {CascadeType.ALL}) */
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(fetch=FetchType.EAGER)
     private List<FriendRelation> friendRelations = new ArrayList<>();
 
     public SecretPalEvent() {
@@ -35,22 +35,26 @@ public class SecretPalEvent {
         this.id = id;
     }
 
+    public void setFriendRelations(List<FriendRelation> friendRelations) {
+        this.friendRelations = friendRelations;
+    }
+
     public List<FriendRelation> getFriendRelations() {
         return friendRelations;
     }
 
     public void registerParticipant(FriendRelation aFriendRelation) {
-        List<Worker> participantsToCheck = friendRelations.stream().map(p -> p.getGiftGiver()).collect(Collectors.toList());
+        List<Worker> participantsToCheck = this.getFriendRelations().stream().map(p -> p.getGiftGiver()).collect(Collectors.toList());
 
         if (participantsToCheck.contains(aFriendRelation.getGiftGiver()) ) {
             throw new RuntimeException("That user was already registered in the event");
         } else {
-            List<Worker> secretPalsToCheck = friendRelations.stream().map(p -> p.getGiftReceiver()).collect(Collectors.toList());
+            List<Worker> secretPalsToCheck = this.getFriendRelations().stream().map(p -> p.getGiftReceiver()).collect(Collectors.toList());
 
             if (secretPalsToCheck.contains(aFriendRelation.getGiftReceiver())) {
                 throw new RuntimeException("The secretPal was already assign to other participant");
             } else {
-                this.friendRelations.add(aFriendRelation);
+                this.getFriendRelations().add(aFriendRelation);
             }
         }
     }
@@ -61,5 +65,9 @@ public class SecretPalEvent {
 
     public int amountOfParticipant() {
         return friendRelations.size();
+    }
+
+    public void deleteRelation(FriendRelation friendRelation) {
+        this.getFriendRelations().remove(friendRelation);
     }
 }

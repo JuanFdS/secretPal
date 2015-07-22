@@ -1,5 +1,6 @@
 package com.tenPines.persistence;
 
+import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -90,6 +91,12 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
     @Override
     public Worker retrieveAssignedFriendFor(Worker participant) {
         return null;
+    }
+
+    @Override
+    public Worker createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
+
+        return giftGiver;
     }
 
 }
