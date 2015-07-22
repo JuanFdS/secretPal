@@ -66,5 +66,6 @@ public class DatabaseWishlistTest {
         assertThat(wishlist.retrieveAll(), hasSize(1));
         assertThat(worker.getWishList(), not(empty()));
         assertThat(worker.getWishList(), contains(hasProperty("gift", is("Dos ponys!"))));
+        assertThat(worker.getId(), not(nullValue()));
     }
 }

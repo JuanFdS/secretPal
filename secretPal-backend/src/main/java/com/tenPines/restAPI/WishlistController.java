@@ -26,7 +26,7 @@ public class WishlistController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseBody
+    @ResponseStatus(value = HttpStatus.OK)
     public void save(@RequestBody @Valid Wish wish, BindingResult result) throws Exception {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
@@ -40,11 +40,19 @@ public class WishlistController {
         return system.retrievePersonalGiftsFor(worker);
     }
 
-    @RequestMapping(value = "/person/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public void updateWish(@PathVariable Long id, @RequestBody String gift) {
-        Worker worker = system.retrieveAWorker(id);
+    @RequestMapping(value = "/person/{person_id}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void saveWish(@PathVariable Long person_id, @RequestBody String gift) {
+        Worker worker = system.retrieveAWorker(person_id);
         system.saveWish(new Wish(worker, gift));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateWish(@PathVariable Long id, @RequestBody String gift) {
+        Wish wish = system.retrieveAWish(id);
+        wish.setGift(gift);
+        system.updateWish(wish);
     }
 
     @ExceptionHandler(Exception.class)

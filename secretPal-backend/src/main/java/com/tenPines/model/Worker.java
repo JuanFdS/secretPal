@@ -1,5 +1,6 @@
 package com.tenPines.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tenPines.configuration.JsonDateDeserializer;
@@ -28,6 +29,7 @@ public class Worker {
     @JsonDeserialize(using = JsonDateDeserializer.class)
     @NotNull
     private LocalDate dateOfBirth;
+    @NotNull
     private Boolean wantsToParticipate;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "worker")
@@ -92,6 +94,7 @@ public class Worker {
         if (condition) throw new Exception(message);
     }
 
+    @JsonIgnore
     public List<Wish> getWishList() {
         return wishList;
     }
