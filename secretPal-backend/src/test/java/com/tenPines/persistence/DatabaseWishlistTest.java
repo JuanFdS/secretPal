@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,6 +20,7 @@ import static org.hamcrest.core.IsNot.not;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:*spring-test-dispatcher-servlet.xml")
 @WebAppConfiguration
+@Transactional
 public class DatabaseWishlistTest {
 
     AbstractRepository<Wish> wishlist;
