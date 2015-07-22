@@ -18,6 +18,9 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
         this.sessionFactory = sessionFactory;
     }
 
+    public DatabasePersonDao() {
+    }
+
     private <T> T transaction(Function<Session, T> function) {
         Session session = this.sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
@@ -30,7 +33,7 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
     }
 
     @Override
-    public List save(Worker... people) {
+    public void save(Worker... people) {
         Function<Session, List> function = session -> {
             ArrayList idList = new ArrayList();
             for (Worker person : people) {
@@ -38,7 +41,7 @@ public class DatabasePersonDao implements AbstractRepository<Worker> {
             }
             return idList;
         };
-        return transaction(function);
+        transaction(function);
     }
 
     @Override

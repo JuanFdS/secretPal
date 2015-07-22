@@ -1,8 +1,11 @@
 'use strict';
 
 var app = angular.module('secretPalApp')
-    .controller('WishlistController', function ($scope, $modal, WorkerService, $log) {
-        WorkerService.all(function(data){ $scope.workers = data; });
+    .controller('WishlistController', function ($scope, WorkerService, WishlistService, $modal, $log) {
+        WishlistService.all(function(data){ $scope.workers = data; debugger; });
+        WorkerService.all(function (data) {
+          $scope.posibleWorkers = data;
+        })
 
         $scope.Edit = function (wish) {
             var modalInstance = $modal.open({
@@ -38,4 +41,47 @@ var app = angular.module('secretPalApp')
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-    });
+    })
+.service('WishlistService', function($http) {
+
+  function buildRoute(path) {
+    var route = 'http://localhost:9090/wishlist';
+    return route + path;
+  }
+
+  this.all = function(callback) {
+    $http.get(buildRoute('/')).
+      success(function(data) {
+        callback(data);
+      }).
+      error(function() {
+        alert("Something went wrong, try again later.");
+      });
+  };
+
+  this.new = function(worker, successFunction) {
+    $http.post(buildRoute('/'), worker).
+      success(function() {
+        alert("The worker was created.");
+        successFunction();
+      }).
+      error(function() {
+        alert("Something went wrong, try again later.");
+      });
+  };
+
+  this.changeIntention = function(worker) {
+    $http.post(buildRoute('/intention'), worker).
+      success(function() {
+        alert('FIne');
+      });
+  };
+
+  this.delete = function(id, successFunction) {
+    $http.delete(buildRoute('/' + id)).
+      success(function() {
+        successFunction();
+      });
+  };
+
+});

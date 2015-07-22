@@ -1,78 +1,65 @@
 package com.tenPines.persistence;
 
 import com.tenPines.model.Wish;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
+@Repository
 public class DatabaseWishlist implements AbstractRepository<Wish> {
+
+    @Autowired
     private SessionFactory sessionFactory;
 
-    public DatabaseWishlist(SessionFactory sessionFactory) {
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    private <T> T transaction(Function<Session, T> function) {
-        Session session = this.sessionFactory.getCurrentSession();
-        Transaction transaction = session.beginTransaction();
 
-        T ret = function.apply(session);
-
-        transaction.commit();
-
-        return ret;
+    @Override
+    @Transactional
+    public void save(Wish... wishes) {
+        for (Wish wish : wishes) {
+            getSessionFactory().getCurrentSession().save(wish);
+        }
     }
 
     @Override
-    public List save(Wish... wishes) {
-        Function<Session, List> function = session -> {
-            ArrayList idList = new ArrayList();
-            for (Wish wish : wishes) {
-                idList.add(session.save(wish));
-            }
-            return idList;
-        };
-        return transaction(function);
-    }
-
-    @Override
+    @Transactional
     public List<Wish> retrieveAll() {
-        return transaction(session -> {
-            return session.createCriteria(Wish.class).list();
-        });
+        return getSessionFactory().getCurrentSession().createCriteria(Wish.class).list();
     }
 
     @Override
+    @Transactional
     public Wish refresh(Wish wish) {
-        return transaction(session -> {
-            session.refresh(wish);
-            return wish;
-        });
+        sessionFactory.getCurrentSession().refresh(wish);
+        return wish;
     }
 
     @Override
+    @Transactional
     public void delete(Wish wish) {
-        transaction(session -> {
-            session.delete(wish);
-            return wish;
-        });
+        getSessionFactory().getCurrentSession().delete(wish);
     }
 
     @Override
+    @Transactional
     public Wish findById(Long id) {
-        return transaction((Session session) -> (Wish) session.get(Wish.class, id));
+        return (Wish) getSessionFactory().getCurrentSession().get(Wish.class, id);
 
     }
 
     @Override
+    @Transactional
     public void update(Wish wish) {
-        transaction(session -> {
-            session.update(wish);
-            return wish;
-        });
+        getSessionFactory().getCurrentSession().update(wish);
     }
 }

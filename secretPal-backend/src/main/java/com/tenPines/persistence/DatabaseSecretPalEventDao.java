@@ -28,7 +28,7 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         getSessionFactory().close();
     }
 
-    public List save(SecretPalEvent... secretPalEvents) {
+    public void save(SecretPalEvent... secretPalEvents) {
         Session session = DatabaseSecretPalEventDao.getSessionFactory().openSession();
         session.beginTransaction();
 
@@ -38,7 +38,6 @@ public class DatabaseSecretPalEventDao implements AbstractRepository<SecretPalEv
         }
 
         session.getTransaction().commit();
-        return null;
     }
 
     @Override

@@ -6,10 +6,8 @@ import com.tenPines.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -18,6 +16,7 @@ public class WishlistController {
 
     @Autowired
     private SecretPalSystem system;
+    private Worker worker;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
@@ -27,20 +26,20 @@ public class WishlistController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void save(@RequestBody @Valid Wish wish, BindingResult result) throws Exception {
-        if (result.hasErrors())
-            throw new RestfulException(result.getAllErrors());
+    public void save(@RequestBody String gift, @RequestBody Long worker_id) {
+        worker = system.retrieveAWorker(worker_id);
+        Wish wish = new Wish(worker, gift);
         system.saveWish(wish);
     }
 
-    @RequestMapping(value = "/person/{person_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/worker/{worker_id}", method = RequestMethod.GET)
     @ResponseBody
     public List<Wish> personalWish(@PathVariable Long person_id) {
         Worker worker = system.retrieveAWorker(person_id);
         return system.retrievePersonalGiftsFor(worker);
     }
 
-    @RequestMapping(value = "/person/{person_id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/worker/{worker_id}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void saveWish(@PathVariable Long person_id, @RequestBody String gift) {
         Worker worker = system.retrieveAWorker(person_id);

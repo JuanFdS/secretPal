@@ -3,24 +3,31 @@ package com.tenPines.persistence;
 import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
-import org.hibernate.cfg.Environment;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath*:*spring-test-dispatcher-servlet.xml")
+@WebAppConfiguration
 public class DatabaseWishlistTest {
 
     AbstractRepository<Wish> wishlist;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @Before
     public void setUp() {
-        HibernateUtils.addConfiguration(Environment.URL, "jdbc:mysql://localhost/calendardbtest");
-        HibernateUtils.addConfiguration(Environment.HBM2DDL_AUTO, "create-drop");
-
-        wishlist = new DatabaseWishlist(HibernateUtils.createSessionFactory());
+        wishlist = (AbstractRepository<Wish>) webApplicationContext.getBean("databaseWishlist");
     }
 
     @Test

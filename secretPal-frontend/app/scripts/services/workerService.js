@@ -8,7 +8,6 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
   }
 
   this.all = function(callback) {
-    debugger;
     $http.get(buildRoute('/')).
       success(function(data) {
         callback(data);
