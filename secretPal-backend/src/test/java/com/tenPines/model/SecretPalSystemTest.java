@@ -1,54 +1,61 @@
 package com.tenPines.model;
 
 import com.tenPines.application.SecretPalSystem;
-import com.tenPines.builder.PersonBuilder;
-import com.tenPines.persistence.HibernateUtils;
-import org.hibernate.cfg.Environment;
+import com.tenPines.builder.WorkerBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath*:*spring-test-dispatcher-servlet.xml")
+@WebAppConfiguration
+@Transactional
 public class SecretPalSystemTest {
 
     private MockMvc mockMvc;
 
-    private SecretPalSystem secretPalSystem = new SecretPalSystem();
+    private SecretPalSystem secretPalSystem;
     private Worker aWorker;
 
-    @Before
-    public void setUp() {
-        aWorker = new PersonBuilder().build();
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-        HibernateUtils.addConfiguration(Environment.URL, "jdbc:mysql://localhost/calendardbtest");
-        HibernateUtils.addConfiguration(Environment.HBM2DDL_AUTO, "create-drop");
+    @Before
+    public void setUp() throws Exception {
+        aWorker = new WorkerBuilder().build();
+        secretPalSystem = (SecretPalSystem) webApplicationContext.getBean("secretPalSystem");
     }
 
     @Test
     public void When_I_Save_A_New_User_This_Should_Be_Stored() throws Exception {
-        secretPalSystem.savePerson(aWorker);
+        secretPalSystem.saveWorker(aWorker);
 
-        assertThat(secretPalSystem.retrieveAllPeople(), hasSize(1));
+        assertThat(secretPalSystem.retrieveAllWorkers(), hasSize(1));
     }
 
     @Test
     public void When_I_Ask_For_All_The_People_It_Should_Return_Them() throws Exception {
-        Worker aWorker = new PersonBuilder().build();
-        Worker anotherWorker = new PersonBuilder().build();
+        Worker aWorker = new WorkerBuilder().build();
+        Worker anotherWorker = new WorkerBuilder().build();
 
-        secretPalSystem.savePerson(aWorker);
-        secretPalSystem.savePerson(anotherWorker);
+        secretPalSystem.saveWorker(aWorker);
+        secretPalSystem.saveWorker(anotherWorker);
 
-        assertThat(secretPalSystem.retrieveAllPeople(),
+        assertThat(secretPalSystem.retrieveAllWorkers(),
                 hasItems(aWorker, anotherWorker));
 
     }
@@ -56,22 +63,22 @@ public class SecretPalSystemTest {
 
     @Test
     public void When_I_Delete_An_Existing_Person_It_Should_Be_No_More() throws Exception {
-        Worker aWorker = new PersonBuilder().build();
+        Worker aWorker = new WorkerBuilder().build();
 
-        secretPalSystem.savePerson(aWorker);
-        secretPalSystem.deletePerson(aWorker);
+        secretPalSystem.saveWorker(aWorker);
+        secretPalSystem.deleteAWorker(aWorker);
 
-        assertThat(secretPalSystem.retrieveAllPeople(), not(hasItem(aWorker)));
-        assertThat(secretPalSystem.retrieveAllPeople(), hasSize(0));
+        assertThat(secretPalSystem.retrieveAllWorkers(), not(hasItem(aWorker)));
+        assertThat(secretPalSystem.retrieveAllWorkers(), hasSize(0));
     }
 
     @Test
-    public void When_I_Add_A_User_With_No_Name_I_Should_Get_An_Error() {
-        Worker aWorker = new PersonBuilder().build();
+    public void When_I_Add_A_User_With_No_Name_I_Should_Get_An_Error() throws Exception {
+        Worker aWorker = new WorkerBuilder().build();
         aWorker.setFullName("");
 
         try {
-            secretPalSystem.savePerson(aWorker);
+            secretPalSystem.saveWorker(aWorker);
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations(), hasSize(1));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "fullName")));
@@ -79,16 +86,16 @@ public class SecretPalSystemTest {
     }
 
     @Test
-    public void add_TitleAndDescriptionAreTooLong_ShouldReturnValidationErrorsForTitleAndDescription() {
+    public void When_I_Add_A_Blank_Worker_I_Should_Get_A_Ton_of_Errors() {
         Worker aWorker = new Worker(); //completely blank
 
         try {
-            secretPalSystem.savePerson(aWorker);
+            secretPalSystem.saveWorker(aWorker);
         } catch (ConstraintViolationException e) {
-            assertThat(e.getConstraintViolations(), hasSize(3));
+            assertThat(e.getConstraintViolations(), hasSize(4));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "fullName")));
+            assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be null", "dateOfBirth")));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "eMail")));
-            assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be null", "birthdayDate")));
         }
 
     }
@@ -96,12 +103,11 @@ public class SecretPalSystemTest {
 
     @Test
     public void when_a_worker_wants_to_participate_then_his_intention_changes() {
-        secretPalSystem.savePerson(aWorker);
-        aWorker.changeParticipationIntention();
+        secretPalSystem.saveWorker(aWorker);
 
         secretPalSystem.changeIntention(aWorker);
 
-        assertTrue(secretPalSystem.getWorker(aWorker).getWantsToParticipate());
+        assertThat(secretPalSystem.getWorker(aWorker).getWantsToParticipate(), is(true));
     }
 
     @Test
@@ -111,10 +117,10 @@ public class SecretPalSystemTest {
             fail("An exception should raise!");
         }
         catch (RuntimeException e) {
-            assertEquals(e.getMessage(), "id to load is required for loading");
+            assertThat(e, hasProperty("message", is("id to load is required for loading")));
         }
 
-        assertFalse(aWorker.getWantsToParticipate());
+        assertThat(aWorker.getWantsToParticipate(), is(false));
     }
 
 }

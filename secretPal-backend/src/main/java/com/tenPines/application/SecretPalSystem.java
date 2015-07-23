@@ -1,38 +1,72 @@
 package com.tenPines.application;
 
+import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
-import com.tenPines.persistence.*;
+import com.tenPines.persistence.AbstractRepository;
 
 import java.util.List;
 
-
 public class SecretPalSystem {
 
-    private AbstractRepository<Worker> personRepository = new DatabasePersonDao(HibernateUtils.createSessionFactory());
+    private AbstractRepository<Worker> workerRepository;
 
-    public void savePerson(Worker newWorker) {
-        this.personRepository.save(newWorker);
+    private AbstractRepository<Wish> wishRepository;
+
+    public void setWishRepository(AbstractRepository<Wish> wishRepository) {
+        this.wishRepository = wishRepository;
     }
 
-    public List<Worker> retrieveAllPeople() {
-        return personRepository.retrieveAll();
+    public void setWorkerRepository(AbstractRepository<Worker> workerRepository) {
+        this.workerRepository = workerRepository;
     }
 
-    public Worker retrieveAPerson(Long id) {
-        return personRepository.findById(id);
+    public void saveWorker(Worker newWorker) {
+        this.workerRepository.save(newWorker);
     }
 
-    public void deletePerson(Worker aWorker) {
-        personRepository.delete(aWorker);
+    public List<Worker> retrieveAllWorkers() {
+        return workerRepository.retrieveAll();
+    }
+
+    public Worker retrieveAWorker(Long id) {
+        return workerRepository.findById(id);
+    }
+
+    public void deleteAWorker(Worker aWorker) {
+        workerRepository.delete(aWorker);
     }
 
     public void changeIntention(Worker aWorker) {
-        Worker worker = retrieveAPerson(aWorker.getId());
+        Worker worker = retrieveAWorker(aWorker.getId());
         worker.changeParticipationIntention();
-        personRepository.update(worker);
+        workerRepository.update(worker);
     }
 
     public Worker getWorker(Worker aWorker) {
-        return personRepository.refresh(aWorker);
+        return workerRepository.refresh(aWorker);
+    }
+
+    public List<Wish> retrieveAllWishes() {
+        return wishRepository.retrieveAll();
+    }
+
+    public void saveWish(Wish newWish) {
+        wishRepository.save(newWish);
+    }
+
+    public Wish retrieveAWish(Long id) {
+        return wishRepository.findById(id);
+    }
+
+    public void deleteAWish(Wish wish) {
+        wishRepository.delete(wish);
+    }
+
+    public List<Wish> retrievePersonalGiftsFor(Worker worker) {
+        return worker.getWishList();
+    }
+
+    public void updateWish(Wish wish) {
+        wishRepository.update(wish);
     }
 }

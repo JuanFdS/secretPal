@@ -1,9 +1,8 @@
 package com.tenPines.model;
 
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.mailer.DumbPostMan;
 import com.tenPines.utils.PropertyParser;
-import org.apache.commons.configuration.ConfigurationException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,16 +20,16 @@ public class PostManTest {
     private Worker aSecretPal;
 
     @Before
-    public void setUp() throws IOException, ConfigurationException {
+    public void setUp() throws Exception {
         Properties templateProperties = new PropertyParser();
         templateProperties.load(new FileInputStream("src/main/resources/mailTemplate.properties"));
         aPostMan = new DumbPostMan(templateProperties);
-        aSecretPal = new PersonBuilder().build();
+        aSecretPal = new WorkerBuilder().build();
     }
 
     @Test
-    public void When_I_try_to_send_a_mail_with_a_valid_address_the_operation_is_successful() throws MessagingException, IOException {
-        Worker aReceiver = new PersonBuilder().withEmail("roman.rizzi@10pines.com").build();
+    public void When_I_try_to_send_a_mail_with_a_valid_address_the_operation_is_successful() throws Exception {
+        Worker aReceiver = new WorkerBuilder().withEmail("roman.rizzi@10pines.com").build();
         aPostMan.notifyPersonWithSecretPalInformation(aReceiver, aSecretPal);
         validateThatAssignationMainArrivesProperly();
     }

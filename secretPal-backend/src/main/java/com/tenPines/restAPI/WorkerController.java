@@ -13,35 +13,35 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Controller
-@RequestMapping("/person")
-public class PersonController {
+@RequestMapping("/worker")
+public class WorkerController {
 
     @Autowired
     private SecretPalSystem system;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
-    public List<Worker> persons() {
-        return system.retrieveAllPeople();
+    public List<Worker> workers() {
+        return system.retrieveAllWorkers();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseBody
+    @ResponseStatus(value = HttpStatus.OK)
     public void save(@RequestBody @Valid Worker aWorker, BindingResult result) throws Exception {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
-        system.savePerson(aWorker);
+        system.saveWorker(aWorker);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseBody
+    @ResponseStatus(value = HttpStatus.OK)
     public void delete(@PathVariable Long id) {
-        Worker aWorker = system.retrieveAPerson(id);
-        system.deletePerson(aWorker);
+        Worker aWorker = system.retrieveAWorker(id);
+        system.deleteAWorker(aWorker);
     }
 
     @RequestMapping(value = "/intention", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
-    @ResponseBody
+    @ResponseStatus(value = HttpStatus.OK)
     public void changeIntention(@RequestBody Worker aWorker){
         system.changeIntention(aWorker);
     }

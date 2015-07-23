@@ -24,6 +24,10 @@ angular
         templateUrl: '../views/workers.html',
         controller: 'WorkersController'
       })
+        .when('/wishlist', {
+          templateUrl: '../views/wishlist.html',
+          controller: 'WishlistController'
+        })
       .otherwise({
         redirectTo: '/'
       });
