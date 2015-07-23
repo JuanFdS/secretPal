@@ -51,19 +51,4 @@ public class InMemoryFriendRelationDao implements AbstractRepository<FriendRelat
 
     }
 
-    @Override
-    public List<FriendRelation> retrieveParticipants() {
-        return null;
-    }
-
-    @Override
-    public Worker retrieveAssignedFriendFor(Worker participant) {
-        return null;
-    }
-
-    @Override
-    public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
-        return null;
-    }
-
 }

@@ -4,7 +4,7 @@ var app = angular.module('secretPalApp');
 app.controller('WorkersController', function($scope, $modal, WorkerService, FriendRelationService, $filter) {
 
     WorkerService.all(function(data){ $scope.workers = data;});
-    FriendRelationService.all( function(data) {$scope.participants = data;})
+    FriendRelationService.all( function(data) {$scope.participants = data; debugger;})
 
     $scope.delete = function (worker) {
       if (worker.wantsToParticipate) {
@@ -42,20 +42,20 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, Frie
     }
 
     $scope.changeIntention = function (worker) {
-      WorkerService.changeIntention(worker);
       /*if ($scope.workers[index].secretpal !== '') {
-        alert("This worker has a secretpal associated. Please remove it before stop participating");
-        $scope.workers[index].wantsToParticipate = true;
-        return;
-      }
+       alert("This worker has a secretpal associated. Please remove it before stop participating");
+       $scope.workers[index].wantsToParticipate = true;
+       return;
+       }
 
-      var total = $scope.workers.length;
-      for (var i=0; i<total; i++)
-        if ($scope.workers[i].secretpal === $scope.workers[index]) {
-          alert("This worker is a participant's secretpal. Please remove it before stop participating");
-          $scope.workers[index].wantsToParticipate = true;
-          return;
-        }*/
+       var total = $scope.workers.length;
+       for (var i=0; i<total; i++)
+       if ($scope.workers[i].secretpal === $scope.workers[index]) {
+       alert("This worker is a participant's secretpal. Please remove it before stop participating");
+       $scope.workers[index].wantsToParticipate = true;
+       return;
+       }*/
+      WorkerService.changeIntention(worker);
     };
 
     /*DATEPICKER FUNCTIONS*/
@@ -77,20 +77,26 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, Frie
           }
         }
       });
-      modalInstance.result.then( function (updatedParticipants) {
-        angular.forEach(updatedParticipants,
-          FriendRelationService.new(participant.giftGiver.id, participant.giftReceiver.id, function() { $scope.error = true }));
-        if (!$scope.error) {$scope.participants = updatedParticipants;}}
-      );
+      modalInstance.result.then(function (updatedParticipants) {
+        $scope.participants = updatedParticipants;}
+    );
   };
 });
 
-app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, participants) {
+app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, FriendRelationService, participants) {
 
   $scope.participants = participants;
 
   $scope.ok = function () {
-    $modalInstance.close($scope.participants);
+
+    angular.forEach($scope.participants, function(participant) {
+      if (participant.giftReceiver !== null) {
+        debugger;
+      FriendRelationService.new(participant.giftGiver.id, participant.giftReceiver.id, function() { $scope.error = true })}}
+    );
+
+    if ($scope.error) {$modalInstance.dismiss('cancel');}
+    else { $modalInstance.close($scope.participants); }
   };
 
   $scope.cancel = function () {
