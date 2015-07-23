@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans
-        xmlns:mvc="http://www.springframework.org/schema/mvc"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:tx="http://www.springframework.org/schema/tx"
-        xmlns="http://www.springframework.org/schema/beans"
-        xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-
-
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/tx
@@ -41,15 +42,20 @@
         <property name="packagesToScan" value="com.tenPines.model"/>
     </bean>
 
+    <!-- Testing beans to be accesed by the tests -->
+
+
     <bean id="databaseWishlist" class="com.tenPines.persistence.DatabaseWishlist"></bean>
+    <bean id="databaseWorkerDao" class="com.tenPines.persistence.DatabaseWorkerDao"></bean>
 
     <!-- Application beans -->
 
-    <bean id="secretPalSystem" name="secretPalSystem" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="com.tenPines.application.SecretPalSystem"/>
+    <bean id="secretPalSystem" class="com.tenPines.application.SecretPalSystem">
         <property name="wishRepository" ref="databaseWishlist"/>
+        <property name="workerRepository" ref="databaseWorkerDao"/>
     </bean>
 
+    <context:component-scan base-package="com.tenPines"/>
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <mvc:annotation-driven/>
 

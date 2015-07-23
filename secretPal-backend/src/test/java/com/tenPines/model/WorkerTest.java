@@ -22,7 +22,7 @@ public class WorkerTest {
             this.workerBuilder.withFullName(null).build();
             fail("The exception was not raised");
         } catch (Exception e) {
-            assertThat(e.getMessage(), is("Full name is invalid"));
+            assertThat(e.getMessage(), is("Full Name is invalid"));
         }
     }
 
@@ -32,7 +32,7 @@ public class WorkerTest {
             this.workerBuilder.withFullName("").build();
             fail("The exception was not raised");
         } catch (Exception e) {
-            assertThat(e.getMessage(), is("Full name is invalid"));
+            assertThat(e.getMessage(), is("Full Name is invalid"));
         }
     }
 
@@ -42,7 +42,7 @@ public class WorkerTest {
             this.workerBuilder.withFullName("123$_").build();
             fail("The exception was not raised");
         } catch (Exception e) {
-            assertThat(e.getMessage(), is("Full name is invalid"));
+            assertThat(e.getMessage(), is("Full Name is invalid"));
         }
     }
 

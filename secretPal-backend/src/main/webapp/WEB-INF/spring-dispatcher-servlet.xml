@@ -17,39 +17,47 @@
 
     <!-- beans de spring -->
 
-    <bean id="secretPalSystem" class="com.tenPines.application.SecretPalSystem"/>
-    <context:component-scan base-package="com.tenPines"/>
-
-    <bean id="wishList" class="com.tenPines.persistence.DatabaseWishlist"/>
-
-
-    <!-- beans de spring -->
-
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="annotatedClasses">
-            <list>
-                <value>com.tenPines.model.Wish</value>
-                <value>com.tenPines.persistence.DatabaseWishlist</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="connection.url">jdbc:mysql://localhost/calendardbtest-dasad</prop>
-                <prop key="hbm2ddl.auto">create-drop</prop>
-            </props>
-        </property>
-    </bean>
-
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+        <property name="url" value="jdbc:mysql://localhost/calendardbtest"/>
+        <property name="username" value="apprentice"/>
+        <property name="password" value="apprenticerulz"/>
+    </bean>
 
-    <tx:annotation-driven/>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+            </props>
+        </property>
+        <property name="packagesToScan" value="com.tenPines.model"/>
+    </bean>
+
+    <!-- Testing beans to be accesed by the tests -->
+
+
+    <bean id="databaseWishlist" class="com.tenPines.persistence.DatabaseWishlist"></bean>
+    <bean id="databaseWorkerDao" class="com.tenPines.persistence.DatabaseWorkerDao"></bean>
+
+    <!-- Application beans -->
+
+    <bean id="secretPalSystem" class="com.tenPines.application.SecretPalSystem">
+        <property name="wishRepository" ref="databaseWishlist"/>
+        <property name="workerRepository" ref="databaseWorkerDao"/>
+    </bean>
+
+    <context:component-scan base-package="com.tenPines"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     <mvc:annotation-driven/>
-</beans>
 
+</beans>
 

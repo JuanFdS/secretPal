@@ -2,11 +2,16 @@ package com.tenPines.model;
 
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.builder.WorkerBuilder;
-import com.tenPines.persistence.HibernateUtils;
-import org.hibernate.cfg.Environment;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
@@ -15,19 +20,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath*:*spring-test-dispatcher-servlet.xml")
+@WebAppConfiguration
+@Transactional
 public class SecretPalSystemTest {
 
     private MockMvc mockMvc;
 
-    private SecretPalSystem secretPalSystem = new SecretPalSystem();
+    private SecretPalSystem secretPalSystem;
     private Worker aWorker;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @Before
     public void setUp() throws Exception {
         aWorker = new WorkerBuilder().build();
-
-        HibernateUtils.addConfiguration(Environment.URL, "jdbc:mysql://localhost/calendardbtest");
-        HibernateUtils.addConfiguration(Environment.HBM2DDL_AUTO, "create-drop");
+        secretPalSystem = (SecretPalSystem) webApplicationContext.getBean("secretPalSystem");
     }
 
     @Test
@@ -82,7 +92,7 @@ public class SecretPalSystemTest {
         try {
             secretPalSystem.saveWorker(aWorker);
         } catch (ConstraintViolationException e) {
-            assertThat(e.getConstraintViolations(), hasSize(3));
+            assertThat(e.getConstraintViolations(), hasSize(4));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "fullName")));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be null", "dateOfBirth")));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "eMail")));
@@ -94,7 +104,6 @@ public class SecretPalSystemTest {
     @Test
     public void when_a_worker_wants_to_participate_then_his_intention_changes() {
         secretPalSystem.saveWorker(aWorker);
-        aWorker.changeParticipationIntention();
 
         secretPalSystem.changeIntention(aWorker);
 
