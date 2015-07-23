@@ -25,7 +25,13 @@ public class DatabaseWishlistTest {
 
     AbstractRepository<Wish> wishlist;
     @Autowired
+    AbstractRepository<Worker> databaseWorkerDao;
+    @Autowired
     private WebApplicationContext webApplicationContext;
+
+    public void setDatabaseWorkerDao(AbstractRepository<Worker> databaseWorkerDao) {
+        this.databaseWorkerDao = databaseWorkerDao;
+    }
 
     @Before
     public void setUp() {
@@ -39,7 +45,10 @@ public class DatabaseWishlistTest {
 
     @Test
     public void When_I_Add_A_Wish_To_A_Wishlist_It_Should_Get_Stored() throws Exception {
-        Wish aWish = new Wish(new WorkerBuilder().build(), "Un pony");
+        Worker worker = new WorkerBuilder().build();
+        databaseWorkerDao.save(worker);
+
+        Wish aWish = new Wish(worker, "Un pony");
 
         wishlist.save(aWish);
         wishlist.refresh(aWish);
@@ -51,6 +60,7 @@ public class DatabaseWishlistTest {
     @Test
     public void When_I_Remove_A_Wish_From_A_Wishlist_It_Should_Be_No_More() throws Exception {
         Worker worker = new WorkerBuilder().build();
+        databaseWorkerDao.save(worker);
 
         Wish aWish = new Wish(worker, "Un pony");
 
@@ -64,6 +74,8 @@ public class DatabaseWishlistTest {
     @Test
     public void When_I_Edit_A_Wish_From_A_Wishlist_It_Should_Be_Changed() throws Exception {
         Worker worker = new WorkerBuilder().build();
+        databaseWorkerDao.save(worker);
+
         Wish aWish = new Wish(worker, "Un pony");
 
         wishlist.save(aWish);

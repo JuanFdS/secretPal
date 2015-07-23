@@ -3,7 +3,6 @@ package com.tenPines.restAPI;
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
-import com.tenPines.utils.TestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,9 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/wishlist")
@@ -40,16 +37,9 @@ public class WishlistController {
 
     @RequestMapping(value = "/worker/{worker_id}", method = RequestMethod.GET)
     @ResponseBody
-    public List<Wish> personalWish(@PathVariable Long person_id) {
-        Worker worker = system.retrieveAWorker(person_id);
+    public List<Wish> personalWish(@PathVariable Long worker_id) {
+        Worker worker = system.retrieveAWorker(worker_id);
         return system.retrievePersonalGiftsFor(worker);
-    }
-
-    @RequestMapping(value = "/worker/{worker_id}", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.OK)
-    public void saveWish(@PathVariable Long person_id, @RequestBody String gift) {
-        Worker worker = system.retrieveAWorker(person_id);
-        system.saveWish(new Wish(worker, gift));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
