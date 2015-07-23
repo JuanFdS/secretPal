@@ -42,9 +42,11 @@ var app = angular.module('secretPalApp')
     };
 
     $scope.Delete = function (wish) {
-      $scope.wishlist.splice(
-        $scope.wishlist.indexOf(wish), 1
-      );
+      WishlistService.delete(wish, function () {
+        $scope.wishlist.splice(
+          $scope.wishlist.indexOf(wish), 1
+        );
+      })
     }
 
   })
@@ -88,8 +90,8 @@ var app = angular.module('secretPalApp')
       });
   };
 
-  this.delete = function(id, successFunction) {
-    $http.delete(buildRoute('/' + id)).
+    this.delete = function (wish, successFunction) {
+      $http.delete(buildRoute('/' + wish.id)).
       success(function() {
         successFunction();
       });
