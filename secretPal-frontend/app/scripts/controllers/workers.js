@@ -26,8 +26,6 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, Frie
       var newWorker = buildWorker();
       WorkerService.new(newWorker, function() {
         $scope.workers.push(newWorker);
-        $scope.Reset();
-        $("#add_worker").collapse('hide');
       });
       $scope.Reset();
       $("#add_worker").collapse('hide');
