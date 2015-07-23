@@ -1,10 +1,10 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope, $modal, WorkerService, FriendRelationService, $filter) {
+app.controller('WorkersController', function($scope, $modal, WorkerService, FriendRelationService, $filter, $location) {
 
     WorkerService.all(function(data){ $scope.workers = data;});
-    FriendRelationService.all( function(data) {$scope.participants = data; debugger;})
+    FriendRelationService.all( function(data) {$scope.participants = data;})
 
     $scope.delete = function (worker) {
       if (worker.wantsToParticipate) {
@@ -58,6 +58,10 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, Frie
       WorkerService.changeIntention(worker);
     };
 
+    $scope.assignation = function() {
+      $location.path('/friendRelations')
+    }
+
     /*DATEPICKER FUNCTIONS*/
     $scope.open = function($event) {
       $event.preventDefault();
@@ -66,42 +70,6 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, Frie
       $scope.opened = true;
     };
 
-    $scope.openModalForAssign = function() {
-      var modalInstance = $modal.open({
-        animation: false,
-        templateUrl: '../../views/pal_assignment_modal.html',
-        controller: 'pal_assignmentCtrl',
-        resolve: {
-          participants: function () {
-            return $scope.participants;
-          }
-        }
-      });
-      modalInstance.result.then(function (updatedParticipants) {
-        $scope.participants = updatedParticipants;}
-    );
-  };
-});
-
-app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, FriendRelationService, participants) {
-
-  $scope.participants = participants;
-
-  $scope.ok = function () {
-
-    angular.forEach($scope.participants, function(participant) {
-      if (participant.giftReceiver !== null) {
-        debugger;
-      FriendRelationService.new(participant.giftGiver.id, participant.giftReceiver.id, function() { $scope.error = true })}}
-    );
-
-    if ($scope.error) {$modalInstance.dismiss('cancel');}
-    else { $modalInstance.close($scope.participants); }
-  };
-
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
 });
 
 app.directive('unique', function() {

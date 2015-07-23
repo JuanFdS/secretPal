@@ -5,14 +5,14 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th>Name</th>
-      <th>Secret Pal</th>
+      <th>Gift Giver</th>
+      <th>Gift Receiver</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="p in participants">
-      <td>{{p.giftGiver.fullName}}</td>
-      <td><select ng-model="p.giftReceiver" ng-options="participant.giftGiver as participant.giftGiver.fullName for participant in participants"></select></td>
+    <tr ng-repeat="r in relations">
+      <td>{{r.giftGiver.fullName}}</td>
+      <td><select ng-model="r.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations"></select></td>
     </tr>
     </tbody>
   </table>

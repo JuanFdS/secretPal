@@ -13,18 +13,17 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
         callback(data);
       }).
       error(function() {
-        alert("Something went wrong, try again later.");
+        alert("Cannot request get relations");
       });
   };
 
   this.new = function(idGiver, idReceiver, unSuccessFunction) {
     $http.post(buildRoute('/' + idGiver + '/' + idReceiver)).
       success(function() {
-        debugger;
       }).
       error(function() {
         unSuccessFunction();
-        /*alert("Something went wrong, try again later.");*/
+        alert("Cannot request new relation");
       });
   };
 
@@ -32,6 +31,9 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
     $http.delete(buildRoute('/' + idGiver + '/' + idReceiver)).
       success(function() {
         successFunction();
+      }).
+      error(function() {
+        alert("Cannot request delete relation");
       });
   };
 

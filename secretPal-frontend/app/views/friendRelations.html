@@ -1,0 +1,27 @@
+<div class="list_data">
+
+  <div class="clearfix">
+    <h1>Friend Relations' List</h1>
+    <button id="addRelationButon" ng-click="openModalForAssign()" class="btn btn-primary btn-md inline pull-right">
+      <span class="glyphicon glyphicon-plus"></span>
+    </button>
+  </div>
+
+  <div class="panel panel-primary">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Gift Giver</th>
+        <th>Gift Receiver</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="fr in friendRelations | filter:{giftReceiver:'!null'}">
+        <td>{{fr.giftGiver.fullName}}</td>
+        <td>{{fr.giftReceiver.fullName}}</td>
+        <td><button class="btn btn-group-justified" ng-click="deleteRelation(fr)">Delete</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

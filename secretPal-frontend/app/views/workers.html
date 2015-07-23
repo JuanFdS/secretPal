@@ -17,14 +17,13 @@
           <td>{{worker.dateOfBirth | date}}</td>
           <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.fullName}}" ng-change="changeIntention(worker)" ng-model="worker.wantsToParticipate"></td>
           <td><button class="btn btn-group-justified" ng-click="delete(worker)">Delete</button></td>
-          <!--<td><button ng-show="worker.secretpal" class="btn btn-group-justified" ng-click="RemovePal($index)">Remove Secret Pal</button></td>-->
         </tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<button class="btn btn-primary" ng-click="openModalForAssign()">Asignar Amigos!</button>
+<button class="btn btn-primary" ng-click="assignation()">Asignar Amigos!</button>
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_worker" aria-expanded="false" aria-controls="add_worker" id="add_worker_button">
   Add a new Worker!
 </button>
