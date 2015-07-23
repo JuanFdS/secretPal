@@ -17,8 +17,8 @@
         <property name="format_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="com.tenPines.model.Wish"/>
         <mapping class="com.tenPines.model.Worker"/>
+        <mapping class="com.tenPines.model.Wish"/>
         <mapping class="com.tenPines.model.SecretPalEvent"/>
         <mapping class="com.tenPines.model.FriendRelation"/>
 

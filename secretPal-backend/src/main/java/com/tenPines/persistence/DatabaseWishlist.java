@@ -61,5 +61,6 @@ public class DatabaseWishlist implements AbstractRepository<Wish> {
     @Transactional
     public void update(Wish wish) {
         getSessionFactory().getCurrentSession().update(wish);
+        getSessionFactory().getCurrentSession().flush();
     }
 }
