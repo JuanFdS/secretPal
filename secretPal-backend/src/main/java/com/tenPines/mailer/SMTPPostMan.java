@@ -37,7 +37,7 @@ public class SMTPPostMan implements PostMan {
     }
 
 
-    private Message fillEMailFor(String sender, String receiver, String subject, String bodyText) throws MessagingException {
+    private Message fillEMailFor(String sender, String subject, String bodyText) throws MessagingException {
         Message message = createEmptyMessage();
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sender));
         message.setSubject(subject);
@@ -46,7 +46,13 @@ public class SMTPPostMan implements PostMan {
     }
 
     protected void sendMessage(Message message) throws MessagingException, IOException {
-            Transport.send(message);
+            new Thread(() -> {
+                try {
+                    Transport.send(message);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }).start();
     }
 
     private String assignationSubject(){
@@ -55,16 +61,15 @@ public class SMTPPostMan implements PostMan {
 
     private String assignationBodyText(Worker receiver) {
         templateProperties.setProperty("receiver.fullName",receiver.getFullName());
-        templateProperties.setProperty("receiver.dateOfBirth", receiver.getDateOfBirth().toString() );
+        templateProperties.setProperty("receiver.dateOfBirth", receiver.getDateOfBirth().toString());
         return templateProperties.getProperty("mail.bodyText");
     }
 
     @Override
     public void notifyPersonWithSecretPalInformation(Worker participant, Worker secretPal) throws MessagingException, IOException {
-        Message aMessage = fillEMailFor(participant.geteMail(), secretPal.geteMail(), assignationSubject(),assignationBodyText(secretPal));
+        Message aMessage = fillEMailFor(participant.geteMail(), assignationSubject(),assignationBodyText(secretPal));
         sendMessage(aMessage);
     }
-
 
 
 }
