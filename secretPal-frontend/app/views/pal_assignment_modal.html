@@ -10,9 +10,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="participant in participants | filter:{participating:true}">
-      <td>{{participant.name}}</td>
-      <td><select ng-model="participant.secretpal" ng-options="participant as participant.name for participant in participants | filter:{participating:true}"></select></td>
+    <tr ng-repeat="participant in participants">
+      <td>{{participant.giftGiver.fullName}}</td>
+      <td><select ng-model="participant.giftReceiver" ng-options="participant.giftGiver as participant.giftGiver.name for participant in participants"></select></td>
     </tr>
     </tbody>
   </table>

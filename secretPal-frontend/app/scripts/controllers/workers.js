@@ -1,16 +1,10 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name secretPalApp.controller:WorkersCtrl
- * @description
- * # AboutCtrl
- * Controller of the secretPalApp
- */
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope, $modal, WorkerService, $filter) {
+app.controller('WorkersController', function($scope, $modal, WorkerService, FriendRelationService, $filter) {
 
-    WorkerService.all(function(data){ $scope.workers = data; debugger; });
+    WorkerService.all(function(data){ $scope.workers = data;});
+    FriendRelationService.all( function(data) {$scope.participants = data;})
 
     $scope.delete = function (worker) {
       if (worker.wantsToParticipate) {
@@ -22,12 +16,7 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, $fil
       }
     };
 
-    $scope.RemovePal = function (index) {
-      $scope.workers[index].secretpal = '';
-    };
-
     $scope.Reset = function () {
-      $scope.form.$setPristine();
       $scope.newName = '';
       $scope.newMail = '';
       $scope.newDate = '';
@@ -36,7 +25,6 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, $fil
     $scope.Add = function () {
       var newWorker = buildWorker();
       WorkerService.new(newWorker, function() {
-        debugger;
         $scope.workers.push(newWorker);
         $scope.Reset();
         $("#add_worker").collapse('hide');
@@ -54,7 +42,7 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, $fil
     }
 
     $scope.changeIntention = function (worker) {
-        WorkerService.changeIntention(worker);
+      WorkerService.changeIntention(worker);
       /*if ($scope.workers[index].secretpal !== '') {
         alert("This worker has a secretpal associated. Please remove it before stop participating");
         $scope.workers[index].wantsToParticipate = true;
@@ -78,26 +66,28 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, $fil
       $scope.opened = true;
     };
 
-    $scope.Open = function() {
+    $scope.openModalForAssign = function() {
       var modalInstance = $modal.open({
         animation: false,
         templateUrl: '../../views/pal_assignment_modal.html',
         controller: 'pal_assignmentCtrl',
         resolve: {
-          workers: function () {
-            return $scope.workers;
+          participants: function () {
+            return $scope.participants;
           }
         }
       });
-      modalInstance.result.then(function (updatedWorkers) {
-        $scope.workers = updatedWorkers;
-      });
+      modalInstance.result.then( function (updatedParticipants) {
+        angular.forEach(updatedParticipants,
+          FriendRelationService.new(participant.giftGiver.id, participant.giftReceiver.id, function() { $scope.error = true }));
+        if (!$scope.error) {$scope.participants = updatedParticipants;}}
+      );
   };
 });
 
-app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, workers) {
+app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, participants) {
 
-  $scope.participants = workers;
+  $scope.participants = participants;
 
   $scope.ok = function () {
     $modalInstance.close($scope.participants);
