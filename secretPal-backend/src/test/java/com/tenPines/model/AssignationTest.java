@@ -1,13 +1,15 @@
 package com.tenPines.model;
 
-import static org.junit.Assert.*;
-
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.Month;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 
 public class AssignationTest {
@@ -15,7 +17,7 @@ public class AssignationTest {
 
     List<Worker> workerList = new ArrayList<>();
     Map<Worker, Worker> assignment = null;
-    PersonBuilder personBuilder = new PersonBuilder();
+    WorkerBuilder workerBuilder = new WorkerBuilder();
 
     @Test
     public void When_there_is_no_person_the_assignation_should_give_an_error(){
@@ -32,8 +34,8 @@ public class AssignationTest {
     }
 
     @Test
-    public void When_there_is_only_one_person_the_assignation_should_give_an_error(){
-        workerList.add( personBuilder.build() );
+    public void When_there_is_only_one_person_the_assignation_should_give_an_error() throws Exception {
+        workerList.add(workerBuilder.build());
         try {
             assignment = assign(workerList);
         } catch (Exception e) {
@@ -43,8 +45,8 @@ public class AssignationTest {
     }
     @Test
     public void When_there_are_two_people_the_assignation_should_give_each_other() throws Exception {
-        Worker ajani = personBuilder.buildFromDate(1, Month.JANUARY);
-        Worker chandra = personBuilder.buildFromDate(5, Month.JANUARY);
+        Worker ajani = workerBuilder.buildFromDate(1, Month.JANUARY);
+        Worker chandra = workerBuilder.buildFromDate(5, Month.JANUARY);
 
         workerList.add(ajani);
         workerList.add(chandra);
@@ -58,9 +60,9 @@ public class AssignationTest {
     }
     @Test
     public void When_there_are_three_people_the_assignation_should_not_give_each_other() throws Exception {
-        Worker ajani = personBuilder.buildFromDate(1, Month.JANUARY);
-        Worker chandra = personBuilder.buildFromDate(5, Month.JANUARY);
-        Worker dack = personBuilder.buildFromDate(10, Month.JANUARY);
+        Worker ajani = workerBuilder.buildFromDate(1, Month.JANUARY);
+        Worker chandra = workerBuilder.buildFromDate(5, Month.JANUARY);
+        Worker dack = workerBuilder.buildFromDate(10, Month.JANUARY);
 
         workerList.add(ajani);
         workerList.add(chandra);

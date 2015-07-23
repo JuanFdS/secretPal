@@ -12,6 +12,7 @@ angular
   .module('secretPalApp', [
     'ngAnimate',
     'ngRoute',
+    //'ngResource',
     'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
@@ -27,6 +28,10 @@ angular
         templateUrl: '../views/friendRelations.html',
         controller: 'FriendRelationController'
       })
+ 	  .when('/wishlist', {
+          templateUrl: '../views/wishlist.html',
+          controller: 'WishlistController'
+        })
       .otherwise({
         redirectTo: '/'
       });

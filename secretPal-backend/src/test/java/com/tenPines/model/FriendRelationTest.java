@@ -1,6 +1,6 @@
 package com.tenPines.model;
 
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,15 +9,15 @@ import static org.junit.Assert.fail;
 
 public class FriendRelationTest {
 
-    private PersonBuilder personBuilder;
+    private WorkerBuilder workerBuilder;
     private Worker aWorker;
     private Worker otherWorker;
     private FriendRelation friendRelation;
 
     @Before
-    public void setUp(){
-        this.aWorker = new PersonBuilder().withFullName("Victoria Cabrera").build();
-        this.otherWorker = new PersonBuilder().withFullName("Maria Cabrera").build();
+    public void setUp() throws Exception {
+        this.aWorker = new WorkerBuilder().withFullName("Victoria Cabrera").build();
+        this.otherWorker = new WorkerBuilder().withFullName("Maria Cabrera").build();
     }
 
     @Test
@@ -52,7 +52,7 @@ public class FriendRelationTest {
             friendRelation = new FriendRelation(aWorker, aWorker);
             fail("The exception was not raised");
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "You cant assign the participant to be his secretPal");
+            assertEquals(e.getMessage(), "You cant assign the giftGiver to be his giftReceiver");
         }
     }
 
