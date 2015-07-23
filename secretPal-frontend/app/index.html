@@ -36,6 +36,7 @@
             <ul class="nav navbar-nav" ng-controller="navCtrl">
               <li class="active" ng-class="navClass('home')"><a href="#/">Home</a></li>
               <li ng-class="navClass('workers')"><a ng-href="#/workers">Workers</a></li>
+              <li ng-class="navClass('wishlist')"><a ng-href="#/wishlist">Wishlist</a></li>
             </ul>
           </div>
         </div>
@@ -78,6 +79,7 @@
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/workers.js"></script>
+    <script src="scripts/controllers/wishlist.js"></script>
     <script src="scripts/services/workerService.js"></script>
     <script src="scripts/services/friendRelationService.js"></script>
     <!-- endbuild -->

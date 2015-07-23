@@ -1,6 +1,5 @@
 package com.tenPines.persistence;
 
-import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 
 import java.util.ArrayList;
@@ -17,9 +16,8 @@ public class InMemoryWorkerDao implements AbstractRepository<Worker> {
     }
 
     @Override
-    public List save(Worker... people) {
+    public void save(Worker... people) {
         Collections.addAll(workers, people);
-        return null;
     }
 
     @Override
@@ -40,6 +38,11 @@ public class InMemoryWorkerDao implements AbstractRepository<Worker> {
     @Override
     public void update(Worker element) {
 
+    }
+
+    @Override
+    public List<Worker> retrieveByCondition(String property, Object value) {
+        return null;
     }
 
 }

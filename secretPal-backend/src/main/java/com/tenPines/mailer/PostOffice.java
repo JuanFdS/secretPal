@@ -1,7 +1,7 @@
 package com.tenPines.mailer;
 
 
-import com.tenPines.builder.PersonBuilder;
+import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.Worker;
 import com.tenPines.utils.PropertyParser;
 
@@ -29,9 +29,9 @@ public class PostOffice {
 
 
 
-    public static void main(String[] args) throws IOException, MessagingException {
-        Worker xx = new PersonBuilder().withEmail("rizziromanalejandro@gmail.com").build();
-        Worker yy = new PersonBuilder().build();
+    public static void main(String[] args) throws Exception {
+        Worker xx = new WorkerBuilder().withEmail("rizziromanalejandro@gmail.com").build();
+        Worker yy = new WorkerBuilder().build();
         new PostOffice().callThePostMan().notifyPersonWithSecretPalInformation(xx, yy);
 
     }

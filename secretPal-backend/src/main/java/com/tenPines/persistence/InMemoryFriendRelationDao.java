@@ -1,7 +1,5 @@
 package com.tenPines.persistence;
 import com.tenPines.model.FriendRelation;
-import com.tenPines.model.SecretPalEvent;
-import com.tenPines.model.Worker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,9 +24,8 @@ public class InMemoryFriendRelationDao implements AbstractRepository<FriendRelat
     }
 
     @Override
-    public List save(FriendRelation... friendRelations) {
+    public void save(FriendRelation... friendRelations) {
         Collections.addAll(InMemoryFriendRelationDao.friendRelations, friendRelations);
-        return null;
     }
 
     @Override
@@ -49,6 +46,11 @@ public class InMemoryFriendRelationDao implements AbstractRepository<FriendRelat
     @Override
     public void update(FriendRelation element) {
 
+    }
+
+    @Override
+    public List<FriendRelation> retrieveByCondition(String property, Object value) {
+        return null;
     }
 
 }

@@ -3,7 +3,7 @@
 angular.module('secretPalApp').service('WorkerService', function($http) {
 
   function buildRoute(path) {
-    var route = 'http://localhost:9090/person';
+    var route = 'http://localhost:9090/worker';
     return route + path;
   }
 

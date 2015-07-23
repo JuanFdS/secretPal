@@ -35,8 +35,8 @@ public class FriendRelationController {
     @RequestMapping(value = "/{from}/{to}", method = RequestMethod.POST)
     @ResponseBody
     public void createRelation(@PathVariable Long from,@PathVariable Long to) throws IOException, MessagingException {
-        Worker giftGiver = system.retrieveAPerson(from);
-        Worker giftReceiver = system.retrieveAPerson(to);
+        Worker giftGiver = system.retrieveAWorker(from);
+        Worker giftReceiver = system.retrieveAWorker(to);
         SecretPalEvent event = system.retrieveEvent();
         system.createRelationInEvent(event, giftGiver, giftReceiver);
         system.notifySender(giftGiver,giftReceiver);
