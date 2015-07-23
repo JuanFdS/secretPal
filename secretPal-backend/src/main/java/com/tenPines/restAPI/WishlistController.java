@@ -3,12 +3,18 @@ package com.tenPines.restAPI;
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
+import com.tenPines.utils.TestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/wishlist")
@@ -24,11 +30,11 @@ public class WishlistController {
         return system.retrieveAllWishes();
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void save(@RequestBody String gift, @RequestBody Long worker_id) {
-        worker = system.retrieveAWorker(worker_id);
-        Wish wish = new Wish(worker, gift);
+    public void save(@RequestBody @Valid Wish wish, BindingResult result) throws RestfulException {
+        if (result.hasErrors())
+            throw new RestfulException(result.getAllErrors());
         system.saveWish(wish);
     }
 
