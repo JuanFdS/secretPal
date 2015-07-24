@@ -12,7 +12,7 @@
     <tbody>
     <tr ng-repeat="r in relations">
       <td>{{r.giftGiver.fullName}}</td>
-      <td><select ng-model="r.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations"></select></td>
+      <td><select ng-model="r.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:{giftGiver:{id:'!{{r.giftGiver.id}}'}}"></select></td>
     </tr>
     </tbody>
   </table>

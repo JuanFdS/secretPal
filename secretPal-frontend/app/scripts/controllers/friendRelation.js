@@ -12,8 +12,8 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   };
 
   $scope.notNull = function(relation){
-    return (relation.giftReceiver !== null)
-  }
+    return (relation.giftReceiver !== null);
+  };
 
   $scope.openModalForAssign = function() {
     var modalInstance = $modal.open({
@@ -39,6 +39,24 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, 
 
   $scope.friendRelations = relationsXXX;
   $scope.relations = $filter('filter')($scope.friendRelations, {giftReceiver:null});
+
+/*  function giftGiverOf(giftReceiver) {
+    return $filter('filter')($scope.friendRelations, {giftReceiver:{id:giftReceiver.id}})[0].giftGiver;
+  };
+
+  $scope.notUsed = function(relation){
+    var notUsed = true;
+    angular.forEach($scope.friendRelations, function(fr){
+      if (fr.giftReceiver !== null) {
+        if (fr.giftReceiver.id === relation.giftGiver.id) {
+          if (fr.giftGiver.fullName !== (giftGiverOf(relation.giftGiver).fullName)) {
+            notUsed = false;
+          }
+        }
+      }
+    });
+    return notUsed;
+  };*/
 
   $scope.ok = function () {
 
