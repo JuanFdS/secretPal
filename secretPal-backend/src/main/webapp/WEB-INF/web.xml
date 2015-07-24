@@ -7,8 +7,31 @@
     <!-- Allow CORs so I can run both in localhost -->
     <filter>
         <filter-name>cors</filter-name>
-        <filter-class>com.tenPines.configuration.SimpleCORSFilter</filter-class>
+        <filter-class>
+            org.eclipse.jetty.servlets.CrossOriginFilter
+        </filter-class>
+
+        <init-param>
+            <param-name>allowedOrigins</param-name>
+            <param-value>*</param-value>
+        </init-param>
+        <init-param>
+            <param-name>allowedMethods</param-name>
+            <param-value>GET,POST,DELETE,PUT,HEAD</param-value>
+        </init-param>
+        <init-param>
+            <param-name>allowedHeaders</param-name>
+            <param-value>
+                origin, content-type, accept, authorization,
+                x-requested-with
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>supportsCredentials</param-name>
+            <param-value>true</param-value>
+        </init-param>
     </filter>
+
 
     <filter-mapping>
         <filter-name>cors</filter-name>

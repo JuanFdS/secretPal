@@ -5,9 +5,12 @@ import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -24,26 +27,19 @@ public class WishlistController {
         return system.retrieveAllWishes();
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void save(@RequestBody String gift, @RequestBody Long worker_id) {
-        worker = system.retrieveAWorker(worker_id);
-        Wish wish = new Wish(worker, gift);
+    public void save(@RequestBody @Valid Wish wish, BindingResult result) throws RestfulException {
+        if (result.hasErrors())
+            throw new RestfulException(result.getAllErrors());
         system.saveWish(wish);
     }
 
     @RequestMapping(value = "/worker/{worker_id}", method = RequestMethod.GET)
     @ResponseBody
-    public List<Wish> personalWish(@PathVariable Long person_id) {
-        Worker worker = system.retrieveAWorker(person_id);
+    public List<Wish> personalWish(@PathVariable Long worker_id) {
+        Worker worker = system.retrieveAWorker(worker_id);
         return system.retrievePersonalGiftsFor(worker);
-    }
-
-    @RequestMapping(value = "/worker/{worker_id}", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.OK)
-    public void saveWish(@PathVariable Long person_id, @RequestBody String gift) {
-        Worker worker = system.retrieveAWorker(person_id);
-        system.saveWish(new Wish(worker, gift));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)

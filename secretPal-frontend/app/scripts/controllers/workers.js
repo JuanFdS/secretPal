@@ -26,8 +26,6 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, Frie
       var newWorker = buildWorker();
       WorkerService.new(newWorker, function(persistedWorker) {
         $scope.workers.push(persistedWorker);
-        $scope.Reset();
-        $("#add_worker").collapse('hide');
       });
       $scope.Reset();
       $("#add_worker").collapse('hide');
@@ -42,20 +40,26 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, Frie
     }
 
     $scope.changeIntention = function (worker) {
-      /*if ($scope.workers[index].secretpal !== '') {
-       alert("This worker has a secretpal associated. Please remove it before stop participating");
-       $scope.workers[index].wantsToParticipate = true;
-       return;
-       }
+      var keepGoing = true;
 
-       var total = $scope.workers.length;
-       for (var i=0; i<total; i++)
-       if ($scope.workers[i].secretpal === $scope.workers[index]) {
-       alert("This worker is a participant's secretpal. Please remove it before stop participating");
-       $scope.workers[index].wantsToParticipate = true;
-       return;
-       }*/
-      WorkerService.changeIntention(worker);
+      angular.forEach($scope.participants, function(participant) {
+          if (keepGoing){
+            if (worker.id === participant.giftGiver.id && participant.giftReceiver !== null ) {
+              alert("This worker has a secretpal associated. Please remove it before stop participating");
+              worker.wantsToParticipate = true;
+              keepGoing = false;
+            }
+            if (worker.id === participant.giftReceiver.id) {
+              alert("This worker is a participant's secretpal. Please remove it before stop participating");
+              worker.wantsToParticipate = true;
+              keepGoing = false;
+            }
+          }
+        }
+      );
+
+      if(keepGoing) {WorkerService.changeIntention(worker);}
+
     };
 
     $scope.assignation = function() {
