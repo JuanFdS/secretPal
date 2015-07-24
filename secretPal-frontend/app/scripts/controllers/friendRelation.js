@@ -11,9 +11,9 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       });
   };
 
-/*  $scope.notNull = function(relation){
-    return !(relation.giftReceiver !== null)
-  }*/
+  $scope.notNull = function(relation){
+    return (relation.giftReceiver !== null)
+  }
 
   $scope.openModalForAssign = function() {
     var modalInstance = $modal.open({
