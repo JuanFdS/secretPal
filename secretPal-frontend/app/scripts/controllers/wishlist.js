@@ -81,7 +81,6 @@ var app = angular.module('secretPalApp')
       $http.post(buildRoute('/'), wish).
         success(function(data) {
           successFunction(data);
-          alert("The wish was created.");
         }).
         error(function() {
           alert("Something went wrong, try again later.");

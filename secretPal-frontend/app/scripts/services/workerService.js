@@ -21,7 +21,6 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
     $http.post(buildRoute('/'), worker).
       success(function(data) {
         successFunction(data);
-        alert("The worker was created.");
       }).
       error(function() {
         alert("Something went wrong, try again later.");
@@ -31,7 +30,6 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
   this.changeIntention = function(worker) {
     $http.post(buildRoute('/intention'), worker).
         success(function() {
-          alert('FIne');
         });
   };
 

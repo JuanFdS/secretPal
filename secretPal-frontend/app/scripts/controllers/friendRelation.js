@@ -26,8 +26,9 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
         }
       }
     });
-    modalInstance.result.then(function () {
-      FriendRelationService.all( function(data) { $scope.friendRelations = data;})
+    modalInstance.result.then(function (newFriendRelations) {
+      $scope.friendRelations = newFriendRelations;
+      /*FriendRelationService.all( function(data) { $scope.friendRelations = data;})*/
       debugger;
     });
   };
@@ -47,7 +48,7 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, 
     );
 
     if ($scope.error) {return;}
-    else { $modalInstance.close(); }
+    else { $modalInstance.close($scope.friendRelations); }
   };
 
   $scope.cancel = function () {
