@@ -35,13 +35,8 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, Frie
       return {fullName: $scope.newName, eMail: $scope.newMail, dateOfBirth: $scope.newDate,  wantsToParticipate: false}
     };
 
-    function parseDate(date) {
-      $filter('date')(date, 'yyyy-MM-dd')
-    }
-
     $scope.changeIntention = function (worker) {
       var keepGoing = true;
-
       angular.forEach($scope.participants, function(participant) {
           if (keepGoing){
             if (worker.id === participant.giftGiver.id && participant.giftReceiver !== null ) {
@@ -49,7 +44,7 @@ app.controller('WorkersController', function($scope, $modal, WorkerService, Frie
               worker.wantsToParticipate = true;
               keepGoing = false;
             }
-            if (worker.id === participant.giftReceiver.id) {
+            if (participant.giftReceiver !== null && worker.id === participant.giftReceiver.id) {
               alert("This worker is a participant's secretpal. Please remove it before stop participating");
               worker.wantsToParticipate = true;
               keepGoing = false;
