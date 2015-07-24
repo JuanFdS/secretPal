@@ -26,11 +26,11 @@ public class WorkerController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.OK)
-    public void save(@RequestBody @Valid Worker aWorker, BindingResult result) throws Exception {
+    @ResponseBody
+    public Worker save(@RequestBody @Valid Worker aWorker, BindingResult result) throws Exception {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
-        system.saveWorker(aWorker);
+        return system.saveWorker(aWorker);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

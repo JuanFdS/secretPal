@@ -24,8 +24,9 @@ public class InMemoryFriendRelationDao implements AbstractRepository<FriendRelat
     }
 
     @Override
-    public void save(FriendRelation... friendRelations) {
-        Collections.addAll(InMemoryFriendRelationDao.friendRelations, friendRelations);
+    public FriendRelation save(FriendRelation friendRelations) {
+        InMemoryFriendRelationDao.friendRelations.add(friendRelations);
+        return friendRelations;
     }
 
     @Override

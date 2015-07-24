@@ -19,9 +19,9 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
 
   this.new = function(worker, successFunction) {
     $http.post(buildRoute('/'), worker).
-      success(function() {
+      success(function(data) {
+        successFunction(data);
         alert("The worker was created.");
-        successFunction();
       }).
       error(function() {
         alert("Something went wrong, try again later.");

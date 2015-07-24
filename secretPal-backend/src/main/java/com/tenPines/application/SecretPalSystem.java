@@ -34,8 +34,8 @@ public class SecretPalSystem {
         this.secretPalEventRepository = eventRepository;
     }
 
-    public void saveWorker(Worker newWorker) {
-        this.workerRepository.save(newWorker);
+    public Worker saveWorker(Worker newWorker) {
+        return this.workerRepository.save(newWorker);
     }
 
     public List<Worker> retrieveAllWorkers() {

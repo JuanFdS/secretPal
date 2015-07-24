@@ -16,8 +16,9 @@ public class InMemoryWishlist implements AbstractRepository<Wish> {
     }
 
     @Override
-    public void save(Wish... wishes) {
-        Collections.addAll(wishList, wishes);
+    public Wish save(Wish wish) {
+        wishList.add(wish);
+        return wish;
     }
 
     @Override

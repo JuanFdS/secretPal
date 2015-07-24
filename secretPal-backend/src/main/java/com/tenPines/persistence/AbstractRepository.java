@@ -9,7 +9,7 @@ import java.util.List;
 public interface AbstractRepository<T> {
     List<T> retrieveAll();
 
-    void save(T... elements);
+    T save(T elements);
 
     T refresh(T element);
 

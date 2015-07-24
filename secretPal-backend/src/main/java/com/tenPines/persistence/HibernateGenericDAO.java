@@ -46,12 +46,11 @@ public abstract class HibernateGenericDAO<T> implements AbstractRepository<T>, S
     }
 
     @Override
-    public void save(T... entities) {
+    public T save(T entity) {
         Session session = getSessionFactory().getCurrentSession();
-        for (T entity : entities) {
-            getSessionFactory().getCurrentSession().save(entity);
-        }
+        Long persistedID = (Long) getSessionFactory().getCurrentSession().save(entity);
         session.flush();
+        return findById(persistedID);
     }
 
     @Override

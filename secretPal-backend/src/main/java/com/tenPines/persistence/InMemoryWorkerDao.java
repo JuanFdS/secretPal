@@ -16,8 +16,9 @@ public class InMemoryWorkerDao implements AbstractRepository<Worker> {
     }
 
     @Override
-    public void save(Worker... people) {
-        Collections.addAll(workers, people);
+    public Worker save(Worker worker) {
+        workers.add(worker);
+        return worker;
     }
 
     @Override
