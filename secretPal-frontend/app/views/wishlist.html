@@ -38,7 +38,7 @@
   <form class="navbar-form" name="form" ng-submit="Add()">
     <div class="field">
       <label class="control-label col-md-4">Worker: </label>
-      <select ng-options="worker as worker.fullName for worker in posibleWorkers" ng-model="wish.worker"></select>
+      <select required ng-options="worker as worker.fullName for worker in posibleWorkers" ng-model="wish.worker"><option></option></select>
 
     </div>
     <div class="field">

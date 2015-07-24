@@ -28,19 +28,13 @@ public class WishlistController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public void save(@RequestBody @Valid Wish wish, BindingResult result) throws RestfulException {
+    @ResponseBody
+    public Wish save(@RequestBody @Valid Wish wish, BindingResult result) throws RestfulException {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
-        system.saveWish(wish);
+        return system.saveWish(wish);
     }
 
-    @RequestMapping(value = "/worker/{worker_id}", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Wish> personalWish(@PathVariable Long worker_id) {
-        Worker worker = system.retrieveAWorker(worker_id);
-        return system.retrievePersonalGiftsFor(worker);
-    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)

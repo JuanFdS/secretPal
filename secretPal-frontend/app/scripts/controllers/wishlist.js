@@ -12,9 +12,7 @@ var app = angular.module('secretPalApp')
     });
 
     $scope.Add = function () {
-      WishlistService.new($scope.wish);
-      $scope.wishlist.push($scope.wish);
-      $scope.Reset
+      WishlistService.new($scope.wish, function(persistedWish) { $scope.wishlist.push(persistedWish); $scope.Reset();});
     };
 
     $scope.Reset = function () {
@@ -79,16 +77,16 @@ var app = angular.module('secretPalApp')
       });
   };
 
-    this.new = function (wish, successFunction) {
+    this.new = function(wish, successFunction) {
       $http.post(buildRoute('/'), wish).
-      success(function() {
+        success(function(data) {
+          successFunction(data);
           alert("The wish was created.");
-        successFunction();
-      }).
-      error(function() {
-        alert("Something went wrong, try again later.");
-      });
-  };
+        }).
+        error(function() {
+          alert("Something went wrong, try again later.");
+        });
+    };
 
     this.delete = function (wish, successFunction) {
       $http.delete(buildRoute('/' + wish.id)).

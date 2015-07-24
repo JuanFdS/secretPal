@@ -32,9 +32,6 @@ public class Worker {
     @NotNull
     private Boolean wantsToParticipate;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "worker")
-    private List<Wish> wishList;
-
     public Worker() {
     }
 
@@ -92,11 +89,6 @@ public class Worker {
 
     private void checkIfFieldIsValidUponCondition(Boolean condition, String message) throws Exception {
         if (condition) throw new Exception(message);
-    }
-
-    @JsonIgnore
-    public List<Wish> getWishList() {
-        return wishList;
     }
 
     @Override
