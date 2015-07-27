@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-@Transactional
+
 public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEvent> implements SecretPalEventMethods {
 
 
@@ -26,23 +26,28 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
         return SecretPalEvent.class;
     }
 
+    @Transactional
     public SecretPalEvent retrieveEvent() {
         Session session = getSessionFactory().getCurrentSession();
-        SecretPalEvent event = (SecretPalEvent) session.createCriteria(SecretPalEvent.class).uniqueResult();
-        if (event == null) {
-            event = new SecretPalEvent();
-            session.save(event);
+        List<SecretPalEvent> event = session.createCriteria(SecretPalEvent.class).list();
+        if (event.isEmpty()) {
+            SecretPalEvent newEvent = new SecretPalEvent();
+            session.save(newEvent);
+            return newEvent;
+        } else {
+            return event.get(0);
         }
-        return event;
     }
 
-
+    @Transactional
     public Worker retrieveAssignedFriendFor(Worker participant) {
         return (Worker) getSessionFactory().getCurrentSession().createCriteria(FriendRelation.class).
                 add(Restrictions.eq("giftGiver.id", participant.getId())).
                 setProjection(Projections.property("giftReceiver")).
                 uniqueResult();
     }
+
+    @Transactional
     public SecretPalEvent createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
         Session session = getSessionFactory().getCurrentSession();
         FriendRelation relation = new FriendRelation(giftGiver, giftReceiver);
@@ -51,12 +56,16 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
         session.update(event);
         return event;
     }
+
+    @Transactional
     public void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation) {
         Session session = getSessionFactory().getCurrentSession();
             event.deleteRelation(friendRelation);
             session.update(event);
             session.delete(friendRelation);
     }
+
+    @Transactional
     public FriendRelation retrieveRelation(Long from, Long to) {
         return (FriendRelation) getSessionFactory().getCurrentSession().createCriteria(FriendRelation.class).
                         add(Restrictions.eq("giftGiver.id", from)).

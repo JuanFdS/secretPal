@@ -23,7 +23,6 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
       }).
       error(function() {
         unSuccessFunction();
-        alert("Cannot request new relation");
       });
   };
 

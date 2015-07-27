@@ -21,13 +21,14 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       templateUrl: '../../views/addFriendRelationModal.html',
       controller: 'pal_assignmentCtrl',
       resolve: {
-        friendRelationsCopy: function () {
+        relationsXXX: function () {
           return angular.copy($scope.friendRelations);
         }
       }
     });
-    modalInstance.result.then(function (newFriendRelations) {
-      $scope.friendRelations = newFriendRelations;
+    modalInstance.result.then(function () {
+      location.reload();
+      /*$scope.friendRelations = newFriendRelations;*/
       /*FriendRelationService.all( function(data) { $scope.friendRelations = data;})*/
       debugger;
     });
@@ -35,17 +36,10 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
 
 });
 
-app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, FriendRelationService, friendRelationsCopy) {
+app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, FriendRelationService, relationsXXX) {
 
-  $scope.friendRelations = friendRelationsCopy;
+  $scope.friendRelations = relationsXXX;
   $scope.relations = $filter('filter')($scope.friendRelations, {giftReceiver:null});
-
-/*  function giftGiverOf(giftReceiver) {
-/!*    $scope.la = $filter('filter')($scope.friendRelations, {giftReceiver:{id:giftReceiver.id}})[0].giftGiver;
-    debugger;*!/
-    return $filter('filter')($scope.friendRelationsCopy, {giftReceiver:{id:giftReceiver.id}})[0].giftGiver;
-
-  };*/
 
   $scope.notUsed = function(giftGiverSelected){
     return function (relation){
@@ -53,15 +47,13 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, 
       angular.forEach($scope.friendRelations, function(fr){
         if (fr.giftReceiver !== null) {
           if (fr.giftReceiver.id === relation.giftGiver.id) {
-            if (fr.giftGiver.id !== giftGiverSelected) {
-              notUsed = false;
-            }
+            if (fr.giftGiver.id !== giftGiverSelected) {notUsed = false;}
           }
         }
       });
       return notUsed;
     }
-  }
+  };
 
   $scope.ok = function () {
 
@@ -70,8 +62,11 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, 
           FriendRelationService.new(relation.giftGiver.id, relation.giftReceiver.id, function() { $scope.error = true })}}
     );
 
-    if ($scope.error) {return;}
-    else { $modalInstance.close($scope.friendRelations); }
+    if (!$scope.error) {
+      $modalInstance.close();
+    } else {
+      return;
+    }
   };
 
   $scope.cancel = function () {
