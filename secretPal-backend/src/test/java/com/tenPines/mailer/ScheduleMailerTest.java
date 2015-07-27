@@ -78,4 +78,15 @@ public class ScheduleMailerTest {
 
         assertThat(dumbPostMan.containsMessageTo(friendWorker.geteMail()), is(true));
     }
+
+    @Test
+    public void When_A_Worker_Has_A_Friends_Birthday_After_Today_No_Mail_Should_be_Sent() throws Exception {
+        setUp(LocalDate.of(2000, Month.APRIL, 9), LocalDate.of(1900, Month.JANUARY, 10));
+
+        secretPalSystem.setReminderDayPeriod(1L);
+
+        secretPalSystem.sendReminders();
+
+        assertThat(dumbPostMan.containsMessageTo(friendWorker.geteMail()), is(false));
+    }
 }

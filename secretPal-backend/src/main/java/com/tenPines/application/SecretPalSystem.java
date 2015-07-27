@@ -5,6 +5,7 @@ import com.tenPines.mailer.PostOffice;
 import com.tenPines.model.*;
 import com.tenPines.persistence.AbstractRepository;
 import com.tenPines.persistence.SecretPalEventMethods;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -126,6 +127,7 @@ public class SecretPalSystem {
         this.reminderDayPeriod = reminderDayPeriod;
     }
 
+    @Scheduled(fixedDelay = 86400000) //1 dia
     public void sendReminders() throws IOException, MessagingException {
         for (FriendRelation friendRelation : secretPalEventRepository.retrieveAllRelations()) {
 
