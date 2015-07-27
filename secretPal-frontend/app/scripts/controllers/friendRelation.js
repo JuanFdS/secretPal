@@ -23,9 +23,6 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       resolve: {
         friendRelationsCopy: function () {
           return angular.copy($scope.friendRelations);
-        },
-        friendRelations: function () {
-          return angular.copy($scope.friendRelations);
         }
       }
     });
@@ -38,25 +35,33 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
 
 });
 
-app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, FriendRelationService, friendRelationsCopy, friendRelations) {
+app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, FriendRelationService, friendRelationsCopy) {
 
-  $scope.friendRelationsCopy = friendRelationsCopy;
-  $scope.friendRelations = friendRelations;
+  $scope.friendRelations = friendRelationsCopy;
   $scope.relations = $filter('filter')($scope.friendRelations, {giftReceiver:null});
 
-  function giftGiverOf(giftReceiver) {
-    return $filter('filter')($scope.friendRelations, {giftReceiver:{id:giftReceiver.id}})[0].giftGiver;
-  };
+/*  function giftGiverOf(giftReceiver) {
+/!*    $scope.la = $filter('filter')($scope.friendRelations, {giftReceiver:{id:giftReceiver.id}})[0].giftGiver;
+    debugger;*!/
+    return $filter('filter')($scope.friendRelationsCopy, {giftReceiver:{id:giftReceiver.id}})[0].giftGiver;
 
-  $scope.notUsed = function(relation){
-    var notUsed = true;
-    angular.forEach($scope.friendRelationsCopy, function(fr){
-      if (fr.giftReceiver !== null) {
-        if (fr.giftReceiver.id === relation.giftGiver.id) {notUsed = false;}
-      }
-    });
-    return notUsed;
-  };
+  };*/
+
+  $scope.notUsed = function(giftGiverSelected){
+    return function (relation){
+      var notUsed = true;
+      angular.forEach($scope.friendRelations, function(fr){
+        if (fr.giftReceiver !== null) {
+          if (fr.giftReceiver.id === relation.giftGiver.id) {
+            if (fr.giftGiver.id !== giftGiverSelected) {
+              notUsed = false;
+            }
+          }
+        }
+      });
+      return notUsed;
+    }
+  }
 
   $scope.ok = function () {
 
