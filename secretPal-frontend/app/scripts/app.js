@@ -13,12 +13,14 @@ angular
     'ngAnimate',
     'ngRoute',
     //'ngResource',
+    'satellizer',
     'ui.bootstrap'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $authProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html'
+        templateUrl: 'views/main.html',
+        controller: 'LoginController'
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',
@@ -35,6 +37,21 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+
+      $authProvider.google({
+      clientId: '136089227578-tq2gjl89s5b27dk2sdpacbb2a7m6gha9.apps.googleusercontent.com',
+      url: '/auth/google',
+      authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
+      redirectUri: window.location.origin || window.location.protocol + '//' + window.location.host,
+      scope: ['profile', 'email'],
+      scopePrefix: 'openid',
+      scopeDelimiter: ' ',
+      requiredUrlParams: ['scope'],
+      optionalUrlParams: ['display'],
+      display: 'popup',
+      type: '2.0'
+      //popupOptions: { width: 580, height: 400 }
+    });
   })
 
   .controller('navCtrl', ['$scope', '$location', function ($scope, $location) {
