@@ -21,7 +21,10 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       templateUrl: '../../views/addFriendRelationModal.html',
       controller: 'pal_assignmentCtrl',
       resolve: {
-        relationsXXX: function () {
+        friendRelationsCopy: function () {
+          return angular.copy($scope.friendRelations);
+        },
+        friendRelations: function () {
           return angular.copy($scope.friendRelations);
         }
       }
@@ -35,28 +38,25 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
 
 });
 
-app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, FriendRelationService, relationsXXX) {
+app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, FriendRelationService, friendRelationsCopy, friendRelations) {
 
-  $scope.friendRelations = relationsXXX;
+  $scope.friendRelationsCopy = friendRelationsCopy;
+  $scope.friendRelations = friendRelations;
   $scope.relations = $filter('filter')($scope.friendRelations, {giftReceiver:null});
 
-/*  function giftGiverOf(giftReceiver) {
+  function giftGiverOf(giftReceiver) {
     return $filter('filter')($scope.friendRelations, {giftReceiver:{id:giftReceiver.id}})[0].giftGiver;
   };
 
   $scope.notUsed = function(relation){
     var notUsed = true;
-    angular.forEach($scope.friendRelations, function(fr){
+    angular.forEach($scope.friendRelationsCopy, function(fr){
       if (fr.giftReceiver !== null) {
-        if (fr.giftReceiver.id === relation.giftGiver.id) {
-          if (fr.giftGiver.fullName !== (giftGiverOf(relation.giftGiver).fullName)) {
-            notUsed = false;
-          }
-        }
+        if (fr.giftReceiver.id === relation.giftGiver.id) {notUsed = false;}
       }
     });
     return notUsed;
-  };*/
+  };
 
   $scope.ok = function () {
 
