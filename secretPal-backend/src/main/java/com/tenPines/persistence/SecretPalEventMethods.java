@@ -5,6 +5,8 @@ import com.tenPines.model.FriendRelation;
 import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 
+import java.util.List;
+
 
 public interface SecretPalEventMethods {
 
@@ -17,4 +19,6 @@ public interface SecretPalEventMethods {
     void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation);
 
     FriendRelation retrieveRelation(Long from, Long to);
+
+    List<FriendRelation> retrieveAllRelations();
 }

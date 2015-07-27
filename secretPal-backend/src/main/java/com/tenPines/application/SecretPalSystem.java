@@ -1,26 +1,35 @@
 package com.tenPines.application;
 
+import com.tenPines.mailer.PostMan;
 import com.tenPines.mailer.PostOffice;
-import com.tenPines.mailer.SMTPPostMan;
-import com.tenPines.model.FriendRelation;
-import com.tenPines.model.SecretPalEvent;
-import com.tenPines.model.Wish;
-import com.tenPines.model.Worker;
-import com.tenPines.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tenPines.model.*;
+import com.tenPines.persistence.AbstractRepository;
+import com.tenPines.persistence.SecretPalEventMethods;
 
 import javax.mail.MessagingException;
-import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.MonthDay;
 import java.util.List;
 
 public class SecretPalSystem {
 
 
+    Long reminderDayPeriod;
     private AbstractRepository<Worker> workerRepository;
     private SecretPalEventMethods secretPalEventRepository;
     private AbstractRepository<Wish> wishRepository;
+    private PostMan postMan;
+    private Clock clock;
 
+    public SecretPalSystem() throws IOException {
+        postMan = new PostOffice().callThePostMan(); //TODO Hacer esto un bean y pasarlo por Spring
+        setReminderDayPeriod(7L);
+    }
+
+    public void setClock(Clock clock) {
+        this.clock = clock;
+    }
 
     public void setWishRepository(AbstractRepository<Wish> wishRepository) {
         this.wishRepository = wishRepository;
@@ -106,7 +115,40 @@ public class SecretPalSystem {
     }
 
     public void notifySender(Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
-        SMTPPostMan postMan = new PostOffice().callThePostMan();
         postMan.notifyPersonWithSecretPalInformation(giftGiver, giftReceiver);
     }
+
+    public Long getReminderDayPeriod() {
+        return reminderDayPeriod;
+    }
+
+    public void setReminderDayPeriod(Long reminderDayPeriod) {
+        this.reminderDayPeriod = reminderDayPeriod;
+    }
+
+    public void sendReminders() throws IOException, MessagingException {
+        for (FriendRelation friendRelation : secretPalEventRepository.retrieveAllRelations()) {
+
+            LocalDate today = clock.now();
+
+            MonthDay birthday = MonthDay.from(friendRelation.getGiftReceiver().getDateOfBirth());
+            MonthDay todaysDate = MonthDay.from(today.plusDays(getReminderDayPeriod()));
+
+            if (birthday.equals(todaysDate)) {
+                postMan.notifyPersonWithSecretPalInformation(
+                        friendRelation.getGiftGiver(),
+                        friendRelation.getGiftReceiver());
+            }
+        }
+    }
+
+    public PostMan getPostMan() {
+        return postMan;
+    }
+
+    public void setPostMan(PostMan postMan) {
+        this.postMan = postMan;
+    }
+
+
 }

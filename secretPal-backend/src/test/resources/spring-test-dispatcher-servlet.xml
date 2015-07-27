@@ -44,14 +44,15 @@
 
     <!-- Testing beans to be accesed by the tests -->
 
-
     <bean id="databaseWishlist" class="com.tenPines.persistence.DatabaseWishlist"></bean>
     <bean id="databaseWorkerDao" class="com.tenPines.persistence.DatabaseWorkerDao"></bean>
+    <bean id="secretPalDatabase" class="com.tenPines.persistence.DatabaseSecretPalEventDao"></bean>
 
     <!-- Application beans -->
 
     <bean id="secretPalSystem" class="com.tenPines.application.SecretPalSystem">
         <property name="wishRepository" ref="databaseWishlist"/>
+        <property name="secretPalEventRepository" ref="secretPalDatabase"/>
         <property name="workerRepository" ref="databaseWorkerDao"/>
     </bean>
 
