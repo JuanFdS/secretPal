@@ -124,7 +124,7 @@ public class SecretPalSystem {
         this.reminderDayPeriod = reminderDayPeriod;
     }
 
-    @Scheduled(fixedDelay = 86400000) //1 dia
+    @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
     public void sendReminders() throws IOException, MessagingException {
         for (FriendRelation friendRelation : secretPalEventRepository.retrieveAllRelations()) {
 
