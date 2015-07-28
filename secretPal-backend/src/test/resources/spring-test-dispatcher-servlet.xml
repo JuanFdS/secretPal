@@ -61,7 +61,7 @@
         <property name="wishRepository" ref="databaseWishlist"/>
         <property name="secretPalEventRepository" ref="secretPalDatabase"/>
         <property name="workerRepository" ref="databaseWorkerDao"/>
-        <property name="postMan" ref="failProofPostMan"/>
+        <property name="safePostMan" ref="failProofPostMan"/>
     </bean>
 
     <context:component-scan base-package="com.tenPines"/>

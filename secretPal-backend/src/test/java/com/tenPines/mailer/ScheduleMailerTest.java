@@ -39,7 +39,7 @@ public class ScheduleMailerTest {
         secretPalSystem.setClock(new FakeClock(today));
 
         dumbPostMan = new DumbPostMan();
-        secretPalSystem.setPostMan(dumbPostMan);
+        secretPalSystem.setSafePostMan(dumbPostMan);
 
 
         friendWorker = secretPalSystem.saveWorker(new WorkerBuilder().build());

@@ -1,7 +1,7 @@
 package com.tenPines.application;
 
 import com.tenPines.builder.FriendRelationMessageBuilder;
-import com.tenPines.mailer.PostMan;
+import com.tenPines.mailer.SafePostMan;
 import com.tenPines.model.*;
 import com.tenPines.persistence.AbstractRepository;
 import com.tenPines.persistence.SecretPalEventMethods;
@@ -9,9 +9,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.MonthDay;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SecretPalSystem {
 
@@ -20,7 +20,7 @@ public class SecretPalSystem {
     private AbstractRepository<Worker> workerRepository;
     private SecretPalEventMethods secretPalEventRepository;
     private AbstractRepository<Wish> wishRepository;
-    private PostMan postMan;
+    private SafePostMan safePostMan;
     private Clock clock;
 
     public SecretPalSystem() {
@@ -100,7 +100,7 @@ public class SecretPalSystem {
     public void createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
         FriendRelation friendRelation = secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
         Message message = friendRelation.createMessage();
-        postMan.sendMessage(message);
+        safePostMan.sendMessage(message);
     }
 
     public SecretPalEvent retrieveEvent() {
@@ -126,27 +126,22 @@ public class SecretPalSystem {
 
     @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
     public void sendReminders() throws IOException, MessagingException {
-        for (FriendRelation friendRelation : secretPalEventRepository.retrieveAllRelations()) {
-
-            LocalDate today = clock.now();
-
-            MonthDay birthday = MonthDay.from(friendRelation.getGiftReceiver().getDateOfBirth());
-            MonthDay reminderDate = MonthDay.from(today.plusDays(getReminderDayPeriod()));
-
-            if (birthday.equals(reminderDate)) {
-                postMan.sendMessage(
-                        new FriendRelationMessageBuilder().buildMessage(friendRelation)
-                );
-            }
-        }
+        Stream<FriendRelation> friendRelationStream = secretPalEventRepository.retrieveAllRelations().stream();
+        friendRelationStream.filter(friendRelation ->
+                        MonthDay.from(friendRelation.getGiftReceiver().getDateOfBirth())
+                                .equals(
+                                        MonthDay.from(clock.now().plusDays(getReminderDayPeriod())))
+        ).forEach(friendRelation -> safePostMan.sendMessage(
+                new FriendRelationMessageBuilder().buildMessage(friendRelation)
+        ));
     }
 
-    public PostMan getPostMan() {
-        return postMan;
+    public SafePostMan getSafePostMan() {
+        return safePostMan;
     }
 
-    public void setPostMan(PostMan postMan) {
-        this.postMan = postMan;
+    public void setSafePostMan(SafePostMan safePostMan) {
+        this.safePostMan = safePostMan;
     }
 
 

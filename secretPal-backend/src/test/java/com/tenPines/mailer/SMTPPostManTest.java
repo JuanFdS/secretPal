@@ -38,7 +38,7 @@ public class SMTPPostManTest {
     private Worker friendWorker;
     private Worker birthdayWorker;
 
-    private PostMan failingPostMan;
+    private UnsafePostMan failingPostMan;
     private FailProofPostMan failProofPostMan;
 
     @Before

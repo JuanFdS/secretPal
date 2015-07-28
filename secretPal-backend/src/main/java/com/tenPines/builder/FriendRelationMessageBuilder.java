@@ -4,7 +4,6 @@ import com.tenPines.model.FriendRelation;
 import com.tenPines.model.Message;
 import com.tenPines.model.Worker;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -12,8 +11,13 @@ public class FriendRelationMessageBuilder {
 
     private Properties templateProperties;
 
-    public FriendRelationMessageBuilder() throws IOException {
-        templateProperties = PropertyBuilder.buildPropertyFrom("src/main/resources/mailTemplate.properties");
+    public FriendRelationMessageBuilder() {
+        try {
+            templateProperties = PropertyBuilder.buildPropertyFrom("src/main/resources/mailTemplate.properties");
+        } catch (IOException e) {
+            templateProperties.setProperty("mail.subject", "[SecretPal] A secret pal was assigned to you!");
+            templateProperties.setProperty("mail.bodyText", "You're the secret pal of ${receiver.fullName}. His/Her birthday is on: ${receiver.dateOfBirth}");
+        }
     }
 
     private String assignationSubject() {
@@ -27,7 +31,7 @@ public class FriendRelationMessageBuilder {
     }
 
 
-    public Message buildMessage(FriendRelation friendRelation) throws MessagingException {
+    public Message buildMessage(FriendRelation friendRelation) {
         Message message = new Message();
         message.setRecipient(friendRelation.getGiftGiver().geteMail());
         message.setSubject(assignationSubject());

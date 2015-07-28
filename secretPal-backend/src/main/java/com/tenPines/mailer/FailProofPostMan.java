@@ -5,11 +5,11 @@ import com.tenPines.persistence.AbstractRepository;
 
 import javax.mail.MessagingException;
 
-public class FailProofPostMan implements PostMan {
-    private PostMan postMan;
+public class FailProofPostMan implements SafePostMan {
+    private UnsafePostMan postMan;
     private AbstractRepository<Message> failedMails;
 
-    public PostMan setPostMan(PostMan postMan) {
+    public SafePostMan setPostMan(UnsafePostMan postMan) {
         this.postMan = postMan;
         return this;
     }

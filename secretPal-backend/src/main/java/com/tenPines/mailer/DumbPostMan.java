@@ -5,7 +5,7 @@ import com.tenPines.model.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DumbPostMan implements PostMan {
+public class DumbPostMan implements SafePostMan {
 
     public static List<Message> messages = new ArrayList<>();
 
