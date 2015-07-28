@@ -17,9 +17,8 @@ public class DumbPostMan extends SMTPPostMan {
         super(mock(Properties.class), templateProperties);
     }
 
-
     @Override
-    protected void sendMessage(Message message) throws MessagingException, IOException {
+    public void sendMessage(Message message) {
         messages.add(message);
     }
 

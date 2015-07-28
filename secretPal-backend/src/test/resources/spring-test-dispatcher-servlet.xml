@@ -47,6 +47,7 @@
     <bean id="databaseWishlist" class="com.tenPines.persistence.DatabaseWishlist"></bean>
     <bean id="databaseWorkerDao" class="com.tenPines.persistence.DatabaseWorkerDao"></bean>
     <bean id="secretPalDatabase" class="com.tenPines.persistence.DatabaseSecretPalEventDao"></bean>
+    <bean id="failedMails" class="com.tenPines.persistence.DatabaseFailedMails"></bean>
 
     <!-- Application beans -->
 

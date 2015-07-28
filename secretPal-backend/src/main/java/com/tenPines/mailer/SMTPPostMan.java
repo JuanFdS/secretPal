@@ -1,6 +1,8 @@
 package com.tenPines.mailer;
 
 import com.tenPines.model.Worker;
+import com.tenPines.persistence.DatabaseFailedMails;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -10,26 +12,30 @@ import java.util.Properties;
 
 public class SMTPPostMan implements PostMan {
 
-
     private Properties authProperties;
     private Properties templateProperties;
+
+    @Autowired
+    private DatabaseFailedMails failedMails;
 
     public SMTPPostMan(Properties authProperties, Properties templateProperties){
         this.authProperties = authProperties;
         this.templateProperties = templateProperties;
     }
 
+    public void setFailedMails(DatabaseFailedMails failedMails) {
+        this.failedMails = failedMails;
+    }
 
     private Session getAuthenticatedSession() {
         String user = authProperties.getProperty("auth.user");
         String password = authProperties.getProperty("auth.password");
-        Session session = Session.getInstance(authProperties,
-            new javax.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(user, password);
-                }
-            });
-        return session;
+        return Session.getInstance(authProperties,
+                new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user, password);
+                    }
+                });
     }
 
     private Message createEmptyMessage() {
@@ -45,14 +51,18 @@ public class SMTPPostMan implements PostMan {
         return message;
     }
 
-    protected void sendMessage(Message message) throws MessagingException, IOException {
-            new Thread(() -> {
-                try {
-                    Transport.send(message);
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
-            }).start();
+    protected void safeSendMessage(Message message) {
+        new Thread(() -> {
+            try {
+                sendMessage(message);
+            } catch (MessagingException e) {
+                failedMails.save(message);
+            }
+        });
+    }
+
+    public void sendMessage(Message message) throws MessagingException {
+        Transport.send(message);
     }
 
     private String assignationSubject(){
@@ -68,7 +78,7 @@ public class SMTPPostMan implements PostMan {
     @Override
     public void notifyPersonWithSecretPalInformation(Worker participant, Worker secretPal) throws MessagingException, IOException {
         Message aMessage = fillEMailFor(participant.geteMail(), assignationSubject(),assignationBodyText(secretPal));
-        sendMessage(aMessage);
+        safeSendMessage(aMessage);
     }
 
 

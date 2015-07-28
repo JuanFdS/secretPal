@@ -8,7 +8,9 @@ import java.io.IOException;
 
 public interface PostMan {
 
+    //TODO Un postman sabe mucho más del domio de lo que me siento comodo
     void notifyPersonWithSecretPalInformation(Worker participant, Worker secretPal) throws MessagingException, IOException;
 
+    void sendMessage(Message message) throws MessagingException;
 
 }
