@@ -5,6 +5,7 @@ import com.tenPines.mailer.SafePostMan;
 import com.tenPines.model.*;
 import com.tenPines.persistence.AbstractRepository;
 import com.tenPines.persistence.SecretPalEventMethods;
+import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.mail.MessagingException;
@@ -15,6 +16,7 @@ import java.util.stream.Stream;
 
 public class SecretPalSystem {
 
+    protected static Logger logger = Logger.getLogger("service");
 
     Long reminderDayPeriod;
     private AbstractRepository<Worker> workerRepository;
@@ -126,6 +128,8 @@ public class SecretPalSystem {
 
     @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
     public void sendReminders() throws IOException, MessagingException {
+        logger.info("Send mails for forgetful gifters.");
+
         Stream<FriendRelation> friendRelationStream = secretPalEventRepository.retrieveAllRelations().stream();
         friendRelationStream.filter(friendRelation ->
                         MonthDay.from(friendRelation.getGiftReceiver().getDateOfBirth())
