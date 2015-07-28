@@ -131,9 +131,9 @@ public class SecretPalSystem {
             LocalDate today = clock.now();
 
             MonthDay birthday = MonthDay.from(friendRelation.getGiftReceiver().getDateOfBirth());
-            MonthDay todaysDate = MonthDay.from(today.plusDays(getReminderDayPeriod()));
+            MonthDay reminderDate = MonthDay.from(today.plusDays(getReminderDayPeriod()));
 
-            if (birthday.equals(todaysDate)) {
+            if (birthday.equals(reminderDate)) {
                 postMan.sendMessage(
                         new FriendRelationMessageBuilder().buildMessage(friendRelation)
                 );

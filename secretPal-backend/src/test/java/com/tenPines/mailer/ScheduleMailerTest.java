@@ -51,6 +51,7 @@ public class ScheduleMailerTest {
         SecretPalEvent event = secretPalSystem.retrieveEvent();
 
         secretPalSystem.createRelationInEvent(event, friendWorker, birthdayWorker);
+        dumbPostMan.flushSentMails(); //Ya crea un mail al crear la relacion.
     }
 
     @Test

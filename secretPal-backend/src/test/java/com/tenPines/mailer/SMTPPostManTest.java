@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:*spring-test-dispatcher-servlet.xml")
@@ -71,6 +71,7 @@ public class SMTPPostManTest {
         secretPalSystem.createRelationInEvent(event, friendWorker, birthdayWorker);
 
         assertThat(failedMails.retrieveAll(), hasSize(1));
+        assertThat(failedMails.retrieveAll(), contains(hasProperty("recipient", is(friendWorker.geteMail()))));
     }
 
 }

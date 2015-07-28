@@ -7,7 +7,11 @@ import java.util.List;
 
 public class DumbPostMan implements PostMan {
 
-    private static List<Message> messages = new ArrayList<>();
+    public static List<Message> messages = new ArrayList<>();
+
+    public void flushSentMails() {
+        messages.clear();
+    }
 
     @Override
     public void sendMessage(Message message) {
@@ -17,7 +21,7 @@ public class DumbPostMan implements PostMan {
     public boolean containsMessageWith(String subject, String bodyText) throws java.io.IOException, javax.mail.MessagingException {
         return messages.stream().anyMatch(message ->
                 message.getSubject().contains(subject) &&
-                        message.getContent().toString().contains(bodyText));
+                        message.getContent().contains(bodyText));
     }
 
     public boolean containsMessageTo(String to) {
