@@ -1,7 +1,7 @@
 package com.tenPines.application;
 
+import com.tenPines.builder.FriendRelationMessageBuilder;
 import com.tenPines.mailer.PostMan;
-import com.tenPines.mailer.PostOffice;
 import com.tenPines.model.*;
 import com.tenPines.persistence.AbstractRepository;
 import com.tenPines.persistence.SecretPalEventMethods;
@@ -23,8 +23,7 @@ public class SecretPalSystem {
     private PostMan postMan;
     private Clock clock;
 
-    public SecretPalSystem() throws IOException {
-        postMan = new PostOffice().callThePostMan(); //TODO Hacer esto un bean y pasarlo por Spring
+    public SecretPalSystem() {
         setReminderDayPeriod(7L);
     }
 
@@ -98,8 +97,10 @@ public class SecretPalSystem {
         return secretPalEventRepository.retrieveAssignedFriendFor(participant);
     }
 
-    public void createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
-        secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
+    public void createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
+        FriendRelation friendRelation = secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
+        Message message = friendRelation.createMessage();
+        postMan.sendMessage(message);
     }
 
     public SecretPalEvent retrieveEvent() {
@@ -112,11 +113,7 @@ public class SecretPalSystem {
     }
 
     public void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation) {
-     secretPalEventRepository.deleteRelationInEvent(event, friendRelation);
-    }
-
-    public void notifySender(Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
-        postMan.notifyPersonWithSecretPalInformation(giftGiver, giftReceiver);
+        secretPalEventRepository.deleteRelationInEvent(event, friendRelation);
     }
 
     public Long getReminderDayPeriod() {
@@ -137,9 +134,9 @@ public class SecretPalSystem {
             MonthDay todaysDate = MonthDay.from(today.plusDays(getReminderDayPeriod()));
 
             if (birthday.equals(todaysDate)) {
-                postMan.notifyPersonWithSecretPalInformation(
-                        friendRelation.getGiftGiver(),
-                        friendRelation.getGiftReceiver());
+                postMan.sendMessage(
+                        new FriendRelationMessageBuilder().buildMessage(friendRelation)
+                );
             }
         }
     }

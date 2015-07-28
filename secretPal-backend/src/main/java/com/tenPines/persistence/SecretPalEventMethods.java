@@ -14,7 +14,7 @@ public interface SecretPalEventMethods {
 
     Worker retrieveAssignedFriendFor(Worker participant);
 
-    SecretPalEvent createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver);
+    FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver);
 
     void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation);
 

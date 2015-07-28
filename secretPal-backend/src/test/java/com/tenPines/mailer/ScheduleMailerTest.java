@@ -6,7 +6,6 @@ import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.FakeClock;
 import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
-import com.tenPines.utils.PropertyParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Properties;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -41,10 +38,7 @@ public class ScheduleMailerTest {
 
         secretPalSystem.setClock(new FakeClock(today));
 
-        //TODO: No hay forma de verificar esto desde el systema, porque el PostMan no se puede testear; entonces si o si necesito un dumb
-        Properties templateProperties = new PropertyParser();
-        templateProperties.load(new FileInputStream("src/main/resources/mailTemplate.properties"));
-        dumbPostMan = new DumbPostMan(templateProperties);
+        dumbPostMan = new DumbPostMan();
         secretPalSystem.setPostMan(dumbPostMan);
 
 

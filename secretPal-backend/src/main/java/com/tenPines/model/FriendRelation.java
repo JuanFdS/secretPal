@@ -1,7 +1,10 @@
 package com.tenPines.model;
 
+import com.tenPines.builder.FriendRelationMessageBuilder;
 
+import javax.mail.MessagingException;
 import javax.persistence.*;
+import java.io.IOException;
 
 @Entity
 @Table
@@ -45,20 +48,23 @@ public class FriendRelation {
         if(!worker.getWantsToParticipate()) throw new RuntimeException(worker.getFullName()  + " does not want to participate");
     }
 
+    public Worker getGiftGiver() {
+        return this.giftGiver;
+    }
 
     public void setGiftGiver(Worker giftGiver) {
         this.giftGiver = giftGiver;
+    }
+
+    public Worker getGiftReceiver() {
+        return this.giftReceiver;
     }
 
     public void setGiftReceiver(Worker giftReceiver) {
         this.giftReceiver = giftReceiver;
     }
 
-    public Worker getGiftGiver() {
-        return this.giftGiver;
-    }
-
-    public Worker getGiftReceiver() {
-        return this.giftReceiver;
+    public Message createMessage() throws IOException, MessagingException {
+        return new FriendRelationMessageBuilder().buildMessage(this);
     }
 }

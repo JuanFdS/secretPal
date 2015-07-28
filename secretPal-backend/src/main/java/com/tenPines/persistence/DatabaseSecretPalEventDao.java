@@ -42,13 +42,13 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
     }
 
     @Transactional
-    public SecretPalEvent createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
+    public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
         Session session = getSessionFactory().getCurrentSession();
         FriendRelation relation = new FriendRelation(giftGiver, giftReceiver);
         event.registerParticipant(relation);
         session.save(relation);
         session.update(event);
-        return event;
+        return relation;
     }
 
     @Transactional
