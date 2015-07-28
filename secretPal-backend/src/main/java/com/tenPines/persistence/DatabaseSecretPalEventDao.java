@@ -70,7 +70,6 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
     @Override
     @Transactional
     public List<FriendRelation> retrieveAllRelations() {
-        //TODO: Es medio tonto tener que implementar esto. y surge por no tener un servicio de relaciones.
         return getSessionFactory().getCurrentSession().createCriteria(FriendRelation.class).list();
     }
 
