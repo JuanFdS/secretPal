@@ -17,6 +17,16 @@
 
     <dependencies>
         <!--Utils-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20141113</version>
+        </dependency>
 
         <dependency>
             <groupId>org.hamcrest</groupId>

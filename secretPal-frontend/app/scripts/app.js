@@ -40,7 +40,7 @@ angular
 
       $authProvider.google({
       clientId: '136089227578-tq2gjl89s5b27dk2sdpacbb2a7m6gha9.apps.googleusercontent.com',
-      url: '/auth/google',
+      url: 'http://localhost:9090/auth/google',
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
       redirectUri: window.location.origin || window.location.protocol + '//' + window.location.host,
       scope: ['profile', 'email'],
