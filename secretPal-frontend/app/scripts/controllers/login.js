@@ -5,14 +5,13 @@ angular.module('secretPalApp')
 
         $scope.authenticate = function(provider) {
 
-          $auth.authenticate(provider);
-/*              .then(function(response) {
-                // Signed In.
-
-                console.log(response);
-                //$auth.getToken();
-
-              });*/
+          $auth.authenticate(provider)
+           .then(function(response) {
+                  console.log(response)
+              }).
+          catch(function() {
+                  console.log("ERROR");
+              });
 
         };
     });
