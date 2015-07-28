@@ -1,26 +1,16 @@
 'use strict';
 
-/**
- * @ngdoc overview
- * @name secretPalApp
- * @description
- * # secretPalApp
- *
- * Main module of the application.
- */
 angular
   .module('secretPalApp', [
     'ngAnimate',
     'ngRoute',
-    //'ngResource',
     'satellizer',
     'ui.bootstrap'
   ])
   .config(function ($routeProvider, $authProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'LoginController'
+        templateUrl: 'views/main.html'
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',
@@ -30,10 +20,14 @@ angular
         templateUrl: '../views/friendRelations.html',
         controller: 'FriendRelationController'
       })
- 	  .when('/wishlist', {
-          templateUrl: '../views/wishlist.html',
-          controller: 'WishlistController'
-        })
+      .when('/wishlist', {
+            templateUrl: '../views/wishlist.html',
+            controller: 'WishlistController'
+          })
+      .when('/login', {
+        templateUrl: '../views/login.html',
+        controller: 'LoginController'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -50,18 +44,13 @@ angular
       optionalUrlParams: ['display'],
       display: 'popup',
       type: '2.0'
-      //popupOptions: { width: 580, height: 400 }
     });
   })
 
-  .controller('navCtrl', ['$scope', '$location', function ($scope, $location) {
+  .controller('navCtrl', ['$scope', '$location', function ($scope, $location, $auth) {
     $scope.navClass = function (page) {
       var currentRoute = $location.path().substring(1) || 'home';
       return page === currentRoute ? 'active' : '';
     };
-  }])
 
-  /*.config(['$resourceProvider', function($resourceProvider) {
-    $resourceProvider.defaults.stripTrailingSlashes = false;
-  }]);*/
-;
+  }])
