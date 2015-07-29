@@ -37,11 +37,12 @@ angular
       url: 'http://localhost:9090/auth/google',
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
       redirectUri: window.location.origin || window.location.protocol + '//' + window.location.host,
+      hd: '10pines.com',
       scope: ['profile', 'email'],
       scopePrefix: 'openid',
       scopeDelimiter: ' ',
       requiredUrlParams: ['scope'],
-      optionalUrlParams: ['display'],
+      optionalUrlParams: ['display', 'hd'],
       display: 'popup',
       type: '2.0'
     });
