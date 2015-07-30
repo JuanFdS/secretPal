@@ -1,7 +1,13 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope, $modal, WorkerService, FriendRelationService, $filter, $location) {
+app.controller('WorkersController', function($scope, $modal, WorkerService, FriendRelationService, $filter, $location, user) {
+
+  debugger;
+
+  if( !user.admin ){
+    $location.path("/");
+  }
 
     WorkerService.all(function(data){ $scope.workers = data;});
     FriendRelationService.all( function(data) {$scope.participants = data;})

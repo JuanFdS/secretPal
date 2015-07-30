@@ -5,5 +5,6 @@ angular.module('secretPalApp')
     return {
       getProfile: function() {
         return $http.get('http://localhost:9090/auth/me');
-      }};
+      }
+    };
   });

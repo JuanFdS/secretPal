@@ -10,22 +10,32 @@ angular
     'mgcrea.ngStrap'
   ])
   .config(function ($routeProvider, $authProvider) {
+    var authenticated = function (Account, $location, $auth) {
+      if (!$auth.isAuthenticated()) {
+        $location.path('/login');
+      }
+      return Account.getProfile(); //TODO Creo que no entiendo como funciona esta promesa.
+    };
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html'
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',
-        controller: 'WorkersController'
+        controller: 'WorkersController',
+        resolve: { user : authenticated }
       })
       .when('/friendRelations', {
         templateUrl: '../views/friendRelations.html',
-        controller: 'FriendRelationController'
+        controller: 'FriendRelationController',
+        resolve: { user : authenticated }
       })
       .when('/wishlist', {
-            templateUrl: '../views/wishlist.html',
-            controller: 'WishlistController'
-          })
+        templateUrl: '../views/wishlist.html',
+        controller: 'WishlistController',
+        resolve: { user : authenticated }
+      })
       .when('/login', {
         templateUrl: '../views/login.html',
         controller: 'LoginController'
@@ -37,21 +47,7 @@ angular
       .when('/profile', {
         templateUrl: '../views/profile.html',
         controller: 'ProfileController',
-        resolve: {
-          authenticated: function($q, $location, $auth) {
-            var deferred = $q.defer();
-
-            if (!$auth.isAuthenticated()) {
-              $location.path('/login');
-            } else {
-              deferred.resolve();
-            }
-            return deferred.promise;
-          }
-        }
-      })
-      .otherwise({
-        redirectTo: '/'
+        resolve: { user : authenticated }
       });
 
     $authProvider.google({

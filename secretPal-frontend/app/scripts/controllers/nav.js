@@ -1,17 +1,13 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .controller('navCtrl', function($scope, $rootScope, $auth, Account) {
-
-    Account.getProfile().success(function(data){
-      $rootScope.loggedWorker = data
-    });
+  .controller('navCtrl', function($scope, $rootScope, $auth) {
 
   $scope.isAuthenticated = function() {
     return $auth.isAuthenticated();
   };
 
   $scope.isAdmin = function(){
-    return $rootScope.loggedWorker.admin;
+    return false;
   }
 });
