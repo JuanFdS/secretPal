@@ -9,10 +9,12 @@ import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.mail.MessagingException;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.time.MonthDay;
 import java.util.List;
 import java.util.stream.Stream;
+import java.util.Optional;
 
 public class SecretPalSystem {
 
@@ -118,6 +120,13 @@ public class SecretPalSystem {
         secretPalEventRepository.deleteRelationInEvent(event, friendRelation);
     }
 
+    public void notifySender(Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
+        SMTPPostMan postMan = new PostOffice().callThePostMan();
+        postMan.notifyPersonWithSecretPalInformation(giftGiver, giftReceiver);
+    }
+
+    public Optional<Worker> retrieveWorkerByEmail(String workerEmail) {
+        return  workerRepository.retrieveByCondition("eMail", workerEmail).stream().findFirst();
     public Long getReminderDayPeriod() {
         return reminderDayPeriod;
     }
