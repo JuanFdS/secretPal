@@ -36,6 +36,11 @@ public class FailProofPostMan implements SafePostMan {
     @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
     public void resendFailedMessages() {
         logger.info("Resending failed mails");
-        failedMails.retrieveAll().stream().forEach(this::sendMessage);
+        failedMails.retrieveAll().stream().forEach(
+                (message) -> {
+                    failedMails.delete(message);
+                    sendMessage(message);
+                }
+        );
     }
 }

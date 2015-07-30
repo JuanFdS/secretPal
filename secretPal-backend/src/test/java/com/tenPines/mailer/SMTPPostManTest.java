@@ -9,6 +9,7 @@ import com.tenPines.persistence.AbstractRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -57,21 +58,36 @@ public class SMTPPostManTest {
 
         secretPalSystem.changeIntention(friendWorker);
         secretPalSystem.changeIntention(birthdayWorker);
+
+        failingPostMan = message -> {
+            throw new MessagingException("From the test, with love <3");
+        };
+        failProofPostMan.setPostMan(failingPostMan);
     }
 
 
     @Test
     public void When_A_Mail_Fails_It_Should_Be_Stored_For_Future_resend() throws IOException, MessagingException {
-        failingPostMan = message -> {
-            throw new MessagingException("From the test, with love <3");
-        };
-        failProofPostMan.setPostMan(failingPostMan);
 
         SecretPalEvent event = secretPalSystem.retrieveEvent();
         secretPalSystem.createRelationInEvent(event, friendWorker, birthdayWorker);
 
         assertThat(failedMails.retrieveAll(), hasSize(1));
         assertThat(failedMails.retrieveAll(), contains(hasProperty("recipient", is(friendWorker.geteMail()))));
+    }
+
+    @Test
+    public void If_there_are_mails_to_be_sent_then_send_The() throws IOException, MessagingException {
+        SecretPalEvent event = secretPalSystem.retrieveEvent();
+        secretPalSystem.createRelationInEvent(event, friendWorker, birthdayWorker);
+
+        //The message has failed.
+
+        failProofPostMan.setPostMan(Mockito.mock(UnsafePostMan.class));
+
+        failProofPostMan.resendFailedMessages();
+
+        assertThat(failedMails.retrieveAll(), hasSize(0));
     }
 
 }
