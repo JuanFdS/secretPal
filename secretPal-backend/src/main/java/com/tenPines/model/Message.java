@@ -76,7 +76,7 @@ public class Message {
     }
 
     private Session authenticatedSession() {
-        Properties authProperties = null;
+        Properties authProperties = new Properties();
         try {
             authProperties = PropertyBuilder.buildPropertyFrom("src/main/resources/gmail.properties");
         } catch (IOException e) {
