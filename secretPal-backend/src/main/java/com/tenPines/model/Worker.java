@@ -11,12 +11,15 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
 public class Worker {
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "worker")
+    @JsonIgnore
+    public Set<Wish> wish;
     @Id
     @GeneratedValue
     private Long id;
@@ -40,6 +43,14 @@ public class Worker {
         this.eMail = email;
         this.dateOfBirth = dateOfBirth;
         this.wantsToParticipate = false;
+    }
+
+    public Set<Wish> getWish() {
+        return wish;
+    }
+
+    public void setWish(Set<Wish> wish) {
+        this.wish = wish;
     }
 
     public Long getId() {

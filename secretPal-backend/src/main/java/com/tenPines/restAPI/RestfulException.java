@@ -4,7 +4,7 @@ import org.springframework.validation.ObjectError;
 
 import java.util.List;
 
-public class RestfulException extends Exception {
+public class RestfulException extends RuntimeException {
     public List<ObjectError> errors;
 
     public RestfulException(List<ObjectError> errors) {
