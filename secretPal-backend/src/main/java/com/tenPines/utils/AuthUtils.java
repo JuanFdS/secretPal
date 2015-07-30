@@ -5,31 +5,42 @@ import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.tenPines.restAPI.AuthController;
-
-import java.time.LocalDate;
+import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
+
 
 
 public class AuthUtils {
 
-    public static AuthController.Token createToken(String host, long sub) throws JOSEException {
-        Calendar calendar = Calendar.getInstance(); // starts with today's date and time
-        calendar.add(Calendar.DAY_OF_YEAR, 2);  // advances day by 2
+    public static final String TOKEN_SECRET = "aliceinwonderlandisthishorriblehash";
 
+    public static AuthController.Token createToken(String host, String subject) throws JOSEException {
         JWTClaimsSet claim = new JWTClaimsSet();
-        claim.setSubject(Long.toString(sub));
+        claim.setSubject(subject);
         claim.setIssuer(host);
-        claim.setIssueTime(new Date());
+
+        Calendar calendar = Calendar.getInstance(); // starts with today's date and time
+        claim.setIssueTime(calendar.getTime());
+        calendar.add(Calendar.DAY_OF_YEAR, 2);  // advances day by 2
         claim.setExpirationTime(calendar.getTime());
 
-        JWSSigner signer = new MACSigner("aliceinwonderlandisthishorriblehash");
+        JWSSigner signer = new MACSigner(TOKEN_SECRET);
         SignedJWT jwt = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claim);
         jwt.sign(signer);
 
         return new AuthController.Token(jwt.serialize());
+    }
+
+    public static String tokenSubject(AuthController.Token token) throws ParseException, JOSEException {
+        SignedJWT signedJWT = SignedJWT.parse(token.getToken());
+        if (signedJWT.verify(new MACVerifier(TOKEN_SECRET))) {
+            return signedJWT.getJWTClaimsSet().getSubject();
+        } else {
+            throw new JOSEException("Signature verification failed");
+        }
     }
 }

@@ -27,7 +27,7 @@ public class GoogleAuth {
     }
 
     public String authUserWithPayload(Payload payload) throws IOException {
-        HttpPost post = new HttpPost("oauthAPI");
+        HttpPost post = new HttpPost(gmailAPIInformation.getProperty("oauthAPI"));
         post.setEntity(new UrlEncodedFormEntity(buildOAuthRequest(payload)));
         JSONObject jsonResponse = makeRequest(post);
         return (String) jsonResponse.get("access_token");

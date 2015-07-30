@@ -33,7 +33,7 @@ public class AuthController {
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Token> loginGoogle(@RequestBody Payload payload, @Context final HttpServletRequest request) throws IOException, JOSEException {
-        Properties googleAuthProperties = new PropertyParser("src/main/resources/gmailAPIAuthproperties");
+        Properties googleAuthProperties = new PropertyParser("src/main/resources/gmailAPIAuth.properties");
         GoogleAuth googleAuth = new GoogleAuth(googleAuthProperties, new DefaultHttpClient());
         String access_token = googleAuth.authUserWithPayload(payload);
 
@@ -43,7 +43,7 @@ public class AuthController {
     private ResponseEntity<Token> validateWorker(HttpServletRequest request, String workerEmail) throws JOSEException {
         Optional<Worker> anUser = system.retrieveWorkerByEmail(workerEmail);
         if (anUser.isPresent()) {
-            Token token = AuthUtils.createToken(request.getRemoteHost(), anUser.get().getId());
+            Token token = AuthUtils.createToken(request.getRemoteHost(), anUser.get().geteMail());
             return new ResponseEntity<Token>(token, HttpStatus.OK);
         } else {
             return new ResponseEntity<Token>(HttpStatus.NOT_ACCEPTABLE);
