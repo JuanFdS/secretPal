@@ -39,9 +39,9 @@
               <li class="dropdown" ng-show="isAuthenticated()">
                 <a href="#/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a ng-href="#/profile">Profile</a></li>
+                  <li><a ng-href="#/profile" >Profile</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a ng-href="#/workers">Workers</a></li>           <!--MOSTRAR SOLO SI ADMINISTRADOR-->
+                  <li><a ng-href="#/workers" ng-show="available">Workers</a></li>           <!--MOSTRAR SOLO SI ADMINISTRADOR-->
                   <li><a ng-href="#/wishlist">Wishlist</a></li>         <!--MOSTRAR SIEMPRE-->
                   <li role="separator" class="divider"></li>
                   <li><a ng-href="#/logout">Logout</a></li>             <!--MOSTRAR SIEMPRE-->
@@ -102,6 +102,7 @@
     <script src="scripts/controllers/profile.js"></script>
 	  <script src="scripts/controllers/friendRelation.js"></script>
     <script src="scripts/services/workerService.js"></script>
+    <script src="scripts/services/roleService.js"></script>
     <script src="scripts/services/friendRelationService.js"></script>
     <script src="scripts/services/account.js"></script>
     <!-- endbuild -->

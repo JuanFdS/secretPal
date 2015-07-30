@@ -36,19 +36,7 @@ angular
       })
       .when('/profile', {
         templateUrl: '../views/profile.html',
-        controller: 'ProfileController',
-        resolve: {
-          authenticated: function($q, $location, $auth) {
-            var deferred = $q.defer();
-
-            if (!$auth.isAuthenticated()) {
-              $location.path('/login');
-            } else {
-              deferred.resolve();
-            }
-            return deferred.promise;
-          }
-        }
+        controller: 'ProfileController'
       })
       .otherwise({
         redirectTo: '/'
@@ -68,9 +56,12 @@ angular
       display: 'popup',
       type: '2.0'
     });
+
+
+
   })
 
-  .controller('navCtrl', function($scope, $auth) {
+  .controller('navCtrl', function($scope, $auth, RoleService) {
 /*    $scope.navClass = function (page) {
       var currentRoute = $location.path().substring(1) || 'home';
       return page === currentRoute ? 'active' : '';
@@ -78,5 +69,11 @@ angular
 
     $scope.isAuthenticated = function() {
       return $auth.isAuthenticated();
+    };
+
+
+
+    $scope.havePrivileges = function() {
+      $scope.available = RoleService.checkForAdmPrivileges();
     };
   });
