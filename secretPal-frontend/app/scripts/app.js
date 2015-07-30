@@ -34,7 +34,7 @@ angular
 
       $authProvider.google({
       clientId: '136089227578-tq2gjl89s5b27dk2sdpacbb2a7m6gha9.apps.googleusercontent.com',
-      url: 'http://localhost:9090/auth/google',
+      url: 'http://localhost:9090/friendRelation/fake',
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
       redirectUri: window.location.origin || window.location.protocol + '//' + window.location.host,
       hd: '10pines.com',
@@ -48,7 +48,7 @@ angular
     });
   })
 
-  .controller('navCtrl', ['$scope', '$location', function ($scope, $location, $auth) {
+  .controller('navCtrl', ['$scope', '$location', function ($scope, $location) {
     $scope.navClass = function (page) {
       var currentRoute = $location.path().substring(1) || 'home';
       return page === currentRoute ? 'active' : '';

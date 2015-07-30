@@ -5,13 +5,22 @@ angular.module('secretPalApp')
 
         $scope.authenticate = function(provider) {
 
+          //--------
+
           $auth.authenticate(provider)
            .then(function(response) {
-                  console.log(response)
+              console.log(response);
+              debugger;
               }).
-          catch(function() {
-                  console.log("ERROR");
-              });
+            catch(function() {
 
+              console.log("ERROR");
+              });
         };
+
+        $scope.isAuthenticated = function() {
+          return $auth.isAuthenticated();
+        };
+
+
     });
