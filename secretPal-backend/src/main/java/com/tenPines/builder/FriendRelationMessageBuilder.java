@@ -3,6 +3,7 @@ package com.tenPines.builder;
 import com.tenPines.model.FriendRelation;
 import com.tenPines.model.Message;
 import com.tenPines.model.Worker;
+import com.tenPines.utils.PropertyParser;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -13,7 +14,7 @@ public class FriendRelationMessageBuilder {
 
     public FriendRelationMessageBuilder() {
         try {
-            templateProperties = PropertyBuilder.buildPropertyFrom("src/main/resources/mailTemplate.properties");
+            templateProperties = new PropertyParser("src/main/resources/mailTemplate.properties");
         } catch (IOException e) {
             templateProperties.setProperty("mail.subject", "[SecretPal] A secret pal was assigned to you!");
             templateProperties.setProperty("mail.bodyText", "You're the secret pal of ${receiver.fullName}. His/Her birthday is on: ${receiver.dateOfBirth}");

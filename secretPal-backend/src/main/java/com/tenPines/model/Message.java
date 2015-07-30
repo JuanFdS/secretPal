@@ -1,6 +1,6 @@
 package com.tenPines.model;
 
-import com.tenPines.builder.PropertyBuilder;
+import com.tenPines.utils.PropertyParser;
 
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
@@ -78,7 +78,7 @@ public class Message {
     private Session authenticatedSession() {
         Properties authProperties = new Properties();
         try {
-            authProperties = PropertyBuilder.buildPropertyFrom("src/main/resources/gmail.properties");
+            authProperties = new PropertyParser("src/main/resources/gmail.properties");
         } catch (IOException e) {
             authProperties.setProperty("auth.user", "default");
             authProperties.setProperty("auth.password", "default");
