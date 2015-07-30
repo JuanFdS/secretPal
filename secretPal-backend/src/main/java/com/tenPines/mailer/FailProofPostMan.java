@@ -28,6 +28,7 @@ public class FailProofPostMan implements SafePostMan {
         try {
             postMan.sendMessage(message);
         } catch (MessagingException e) {
+            message.setError(e);
             failedMails.save(message);
         }
     }

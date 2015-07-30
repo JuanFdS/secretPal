@@ -26,6 +26,7 @@ public class Message {
     private String body;
     private String subject;
     private String content;
+    private String error;
 
     public Message() {
     }
@@ -91,5 +92,13 @@ public class Message {
                         return new PasswordAuthentication(user, password);
                     }
                 });
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(MessagingException error) {
+        this.error = error.toString();
     }
 }
