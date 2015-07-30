@@ -2,10 +2,12 @@
 
 angular
   .module('secretPalApp', [
+    'ui.bootstrap',
     'ngAnimate',
+    'ngMessages',
     'ngRoute',
     'satellizer',
-    'ui.bootstrap'
+    'mgcrea.ngStrap'
   ])
   .config(function ($routeProvider, $authProvider) {
     $routeProvider
@@ -28,11 +30,31 @@ angular
         templateUrl: '../views/login.html',
         controller: 'LoginController'
       })
+      .when('/logout', {
+        templateUrl: '../views/main.html',
+        controller: 'LogoutController'
+      })
+      .when('/profile', {
+        templateUrl: '../views/profile.html',
+        controller: 'ProfileController',
+        resolve: {
+          authenticated: function($q, $location, $auth) {
+            var deferred = $q.defer();
+
+            if (!$auth.isAuthenticated()) {
+              $location.path('/login');
+            } else {
+              deferred.resolve();
+            }
+            return deferred.promise;
+          }
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });
 
-      $authProvider.google({
+    $authProvider.google({
       clientId: '136089227578-tq2gjl89s5b27dk2sdpacbb2a7m6gha9.apps.googleusercontent.com',
       url: 'http://localhost:9090/auth/google',
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
@@ -48,10 +70,13 @@ angular
     });
   })
 
-  .controller('navCtrl', ['$scope', '$location', function ($scope, $location) {
-    $scope.navClass = function (page) {
+  .controller('navCtrl', function($scope, $auth) {
+/*    $scope.navClass = function (page) {
       var currentRoute = $location.path().substring(1) || 'home';
       return page === currentRoute ? 'active' : '';
-    };
+    };*/
 
-  }])
+    $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+    };
+  });
