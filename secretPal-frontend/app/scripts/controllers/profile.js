@@ -3,7 +3,7 @@
 angular.module('secretPalApp')
   .controller('ProfileController', function($scope, $auth, Account) {
 
-/*    $scope.getProfile = function () {
+    $scope.getProfile = function () {
       Account.getProfile()
         .success(function (data) {
           $scope.user = data;
@@ -16,5 +16,5 @@ angular.module('secretPalApp')
             duration: 3
           });
         });
-    };*/
+    };
   });
