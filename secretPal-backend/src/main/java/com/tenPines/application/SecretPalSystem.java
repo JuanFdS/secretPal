@@ -1,26 +1,37 @@
 package com.tenPines.application;
 
-import com.tenPines.mailer.PostOffice;
-import com.tenPines.mailer.SMTPPostMan;
-import com.tenPines.model.FriendRelation;
-import com.tenPines.model.SecretPalEvent;
-import com.tenPines.model.Wish;
-import com.tenPines.model.Worker;
-import com.tenPines.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tenPines.builder.FriendRelationMessageBuilder;
+import com.tenPines.mailer.SafePostMan;
+import com.tenPines.model.*;
+import com.tenPines.persistence.AbstractRepository;
+import com.tenPines.persistence.SecretPalEventMethods;
+import org.apache.log4j.Logger;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.mail.MessagingException;
-import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.time.MonthDay;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SecretPalSystem {
 
+    protected static Logger logger = Logger.getLogger("service");
 
+    Long reminderDayPeriod;
     private AbstractRepository<Worker> workerRepository;
     private SecretPalEventMethods secretPalEventRepository;
     private AbstractRepository<Wish> wishRepository;
+    private SafePostMan safePostMan;
+    private Clock clock;
 
+    public SecretPalSystem() {
+        setReminderDayPeriod(7L);
+    }
+
+    public void setClock(Clock clock) {
+        this.clock = clock;
+    }
 
     public void setWishRepository(AbstractRepository<Wish> wishRepository) {
         this.wishRepository = wishRepository;
@@ -88,8 +99,10 @@ public class SecretPalSystem {
         return secretPalEventRepository.retrieveAssignedFriendFor(participant);
     }
 
-    public void createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
-        secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
+    public void createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
+        FriendRelation friendRelation = secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
+        Message message = friendRelation.createMessage();
+        safePostMan.sendMessage(message);
     }
 
     public SecretPalEvent retrieveEvent() {
@@ -102,11 +115,38 @@ public class SecretPalSystem {
     }
 
     public void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation) {
-     secretPalEventRepository.deleteRelationInEvent(event, friendRelation);
+        secretPalEventRepository.deleteRelationInEvent(event, friendRelation);
     }
 
-    public void notifySender(Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
-        SMTPPostMan postMan = new PostOffice().callThePostMan();
-        postMan.notifyPersonWithSecretPalInformation(giftGiver, giftReceiver);
+    public Long getReminderDayPeriod() {
+        return reminderDayPeriod;
     }
+
+    public void setReminderDayPeriod(Long reminderDayPeriod) {
+        this.reminderDayPeriod = reminderDayPeriod;
+    }
+
+    @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
+    public void sendReminders() throws IOException, MessagingException {
+        logger.info("Send mails for forgetful gifters.");
+
+        Stream<FriendRelation> friendRelationStream = secretPalEventRepository.retrieveAllRelations().stream();
+        friendRelationStream.filter(friendRelation ->
+                        MonthDay.from(friendRelation.getGiftReceiver().getDateOfBirth())
+                                .equals(
+                                        MonthDay.from(clock.now().plusDays(getReminderDayPeriod())))
+        ).forEach(friendRelation -> safePostMan.sendMessage(
+                new FriendRelationMessageBuilder().buildMessage(friendRelation)
+        ));
+    }
+
+    public SafePostMan getSafePostMan() {
+        return safePostMan;
+    }
+
+    public void setSafePostMan(SafePostMan safePostMan) {
+        this.safePostMan = safePostMan;
+    }
+
+
 }

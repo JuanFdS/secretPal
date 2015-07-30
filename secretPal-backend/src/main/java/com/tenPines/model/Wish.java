@@ -11,7 +11,6 @@ public class Wish {
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
-    //TODO: El retireveAll de los workers repite el mism oworker (qunque no esté en la DB) cuando lo plancha a Json
     public Worker worker;
     @NotEmpty
     public String gift;

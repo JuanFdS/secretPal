@@ -13,14 +13,6 @@ public class SecretPalEvent {
     @GeneratedValue
     private Long id;
 
-
-
-    /* TODO Estaria bueno diferenciarlos. No se si asi
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @NotNull
-    private LocalDate startingDate; */
-    /* TODO Hacer la DB para los participantes @ManyToMany(cascade = {CascadeType.ALL}) */
     @OneToMany(fetch=FetchType.EAGER)
     private List<FriendRelation> friendRelations = new ArrayList<>();
 
@@ -35,21 +27,21 @@ public class SecretPalEvent {
         this.id = id;
     }
 
-    public void setFriendRelations(List<FriendRelation> friendRelations) {
-        this.friendRelations = friendRelations;
-    }
-
     public List<FriendRelation> getFriendRelations() {
         return friendRelations;
     }
 
+    public void setFriendRelations(List<FriendRelation> friendRelations) {
+        this.friendRelations = friendRelations;
+    }
+
     public void registerParticipant(FriendRelation aFriendRelation) {
-        List<Worker> participantsToCheck = this.getFriendRelations().stream().map(p -> p.getGiftGiver()).collect(Collectors.toList());
+        List<Worker> participantsToCheck = this.getFriendRelations().stream().map(FriendRelation::getGiftGiver).collect(Collectors.toList());
 
         if (participantsToCheck.contains(aFriendRelation.getGiftGiver()) ) {
             throw new RuntimeException("That user was already registered in the event");
         } else {
-            List<Worker> secretPalsToCheck = this.getFriendRelations().stream().map(p -> p.getGiftReceiver()).collect(Collectors.toList());
+            List<Worker> secretPalsToCheck = this.getFriendRelations().stream().map(FriendRelation::getGiftReceiver).collect(Collectors.toList());
 
             if (secretPalsToCheck.contains(aFriendRelation.getGiftReceiver())) {
                 throw new RuntimeException("The secretPal was already assign to other participant");
