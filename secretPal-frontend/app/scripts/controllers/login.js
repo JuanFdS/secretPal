@@ -26,10 +26,4 @@ angular.module('secretPalApp')
 
            });
         };
-
-        $scope.isAuthenticated = function() {
-          return $auth.isAuthenticated();
-        };
-
-
     });

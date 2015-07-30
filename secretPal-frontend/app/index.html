@@ -41,7 +41,7 @@
                 <ul class="dropdown-menu">
                   <li><a ng-href="#/profile">Profile</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a ng-href="#/workers">Workers</a></li>           <!--MOSTRAR SOLO SI ADMINISTRADOR-->
+                  <li><a ng-show="isAdmin()" ng-href="#/workers">Workers</a></li>           <!--MOSTRAR SOLO SI ADMINISTRADOR-->
                   <li><a ng-href="#/wishlist">Wishlist</a></li>         <!--MOSTRAR SIEMPRE-->
                   <li role="separator" class="divider"></li>
                   <li><a ng-href="#/logout">Logout</a></li>             <!--MOSTRAR SIEMPRE-->

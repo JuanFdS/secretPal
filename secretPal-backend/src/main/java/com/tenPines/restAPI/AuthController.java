@@ -51,10 +51,10 @@ public class AuthController {
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     @ResponseBody
-    public Worker retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
-        return system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)).orElseThrow(
+    public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
+        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)).orElseThrow(
                 () -> new RuntimeException("The user does not exist")
-        );
+        ));
     }
 
     public static class Token {
@@ -64,6 +64,23 @@ public class AuthController {
         }
         public String getToken() {
             return token;
+        }
+    }
+
+    private class User {
+        public Worker worker;
+
+        public User(Worker worker) {
+            this.worker = worker;
+        }
+
+        public Worker getWorker() {
+            return worker;
+        }
+
+        public boolean isAdmin() throws IOException {
+            PropertyParser adminProperty = new PropertyParser("src/main/resources/mailTemplate.properties");
+            return worker.geteMail().equals(adminProperty.getProperty("whois.admin"));
         }
     }
 }
