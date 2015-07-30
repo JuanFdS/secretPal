@@ -44,15 +44,24 @@
 
     <!-- Testing beans to be accesed by the tests -->
 
-
     <bean id="databaseWishlist" class="com.tenPines.persistence.DatabaseWishlist"></bean>
     <bean id="databaseWorkerDao" class="com.tenPines.persistence.DatabaseWorkerDao"></bean>
+    <bean id="secretPalDatabase" class="com.tenPines.persistence.DatabaseSecretPalEventDao"></bean>
+    <bean id="failedMails" class="com.tenPines.persistence.DatabaseFailedMails"></bean>
+
+    <bean id="smtpPostMan" class="com.tenPines.mailer.SMTPPostMan"></bean>
+    <bean id="failProofPostMan" class="com.tenPines.mailer.FailProofPostMan">
+        <property name="failedMails" ref="databaseFailedMails"/>
+        <property name="postMan" ref="smtpPostMan"/>
+    </bean>
 
     <!-- Application beans -->
 
     <bean id="secretPalSystem" class="com.tenPines.application.SecretPalSystem">
         <property name="wishRepository" ref="databaseWishlist"/>
+        <property name="secretPalEventRepository" ref="secretPalDatabase"/>
         <property name="workerRepository" ref="databaseWorkerDao"/>
+        <property name="safePostMan" ref="failProofPostMan"/>
     </bean>
 
     <context:component-scan base-package="com.tenPines"/>

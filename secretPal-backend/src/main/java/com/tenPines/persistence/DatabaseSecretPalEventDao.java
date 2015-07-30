@@ -4,17 +4,11 @@ import com.tenPines.model.FriendRelation;
 import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 
 public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEvent> implements SecretPalEventMethods {
@@ -48,13 +42,13 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
     }
 
     @Transactional
-    public SecretPalEvent createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
+    public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
         Session session = getSessionFactory().getCurrentSession();
         FriendRelation relation = new FriendRelation(giftGiver, giftReceiver);
         event.registerParticipant(relation);
         session.save(relation);
         session.update(event);
-        return event;
+        return relation;
     }
 
     @Transactional
@@ -71,6 +65,12 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
                         add(Restrictions.eq("giftGiver.id", from)).
                         add(Restrictions.eq("giftReceiver.id", to)).
                         uniqueResult();
+    }
+
+    @Override
+    @Transactional
+    public List<FriendRelation> retrieveAllRelations() {
+        return getSessionFactory().getCurrentSession().createCriteria(FriendRelation.class).list();
     }
 
 

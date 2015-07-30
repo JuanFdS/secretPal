@@ -1,40 +1,31 @@
 package com.tenPines.mailer;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import java.io.IOException;
+import com.tenPines.model.Message;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import static org.mockito.Mockito.mock;
+public class DumbPostMan implements SafePostMan {
 
-public class DumbPostMan extends SMTPPostMan {
+    public static List<Message> messages = new ArrayList<>();
 
-    private static List<Message> messages = new ArrayList<>();
-
-    public DumbPostMan(Properties templateProperties) {
-        super(mock(Properties.class), templateProperties);
+    public void flushSentMails() {
+        messages.clear();
     }
 
-
     @Override
-    protected void sendMessage(Message message) throws MessagingException, IOException {
+    public void sendMessage(Message message) {
         messages.add(message);
     }
 
     public boolean containsMessageWith(String subject, String bodyText) throws java.io.IOException, javax.mail.MessagingException {
-        return messages.stream().anyMatch(message -> messageContainsInformation(message, subject, bodyText));
+        return messages.stream().anyMatch(message ->
+                message.getSubject().contains(subject) &&
+                        message.getContent().contains(bodyText));
     }
 
-    private boolean messageContainsInformation(Message message, String subject, String body) {
-        boolean ret = false;
-        try {
-            ret |= message.getSubject().equals(subject) && message.getContent().equals(body);
-        } catch (MessagingException | IOException e) {
-            e.printStackTrace();
-        }
-        return ret;
+    public boolean containsMessageTo(String to) {
+        return messages.stream().anyMatch(message -> message.getRecipient().contains(to));
     }
 
 }

@@ -4,6 +4,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
@@ -13,7 +14,9 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
     <!-- beans de spring -->
 
@@ -48,6 +51,16 @@
     <bean id="databaseWishlist" class="com.tenPines.persistence.DatabaseWishlist"></bean>
     <bean id="databaseWorkerDao" class="com.tenPines.persistence.DatabaseWorkerDao"></bean>
     <bean id="secretPalDatabase" class="com.tenPines.persistence.DatabaseSecretPalEventDao"></bean>
+    <bean id="failedMails" class="com.tenPines.persistence.DatabaseFailedMails"></bean>
+
+    <bean id="realClock" class="com.tenPines.model.RealClock"></bean>
+
+    <bean id="smtpPostMan" class="com.tenPines.mailer.SMTPPostMan"></bean>
+    <bean id="failProofPostMan" class="com.tenPines.mailer.FailProofPostMan">
+        <property name="failedMails" ref="databaseFailedMails"/>
+        <property name="postMan" ref="smtpPostMan"/>
+    </bean>
+
 
     <!-- Application beans -->
 
@@ -55,10 +68,14 @@
         <property name="workerRepository" ref="databaseWorkerDao"/>
         <property name="secretPalEventRepository" ref="secretPalDatabase"/>
         <property name="wishRepository" ref="databaseWishlist"/>
+        <property name="clock" ref="realClock"/>
+        <property name="safePostMan" ref="failProofPostMan"/>
     </bean>
 
     <context:component-scan base-package="com.tenPines"/>
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
+    <task:annotation-driven/>
     <mvc:annotation-driven/>
 
 </beans>

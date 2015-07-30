@@ -6,7 +6,10 @@ import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -39,7 +42,6 @@ public class FriendRelationController {
         Worker giftReceiver = system.retrieveAWorker(to);
         SecretPalEvent event = system.retrieveEvent();
         system.createRelationInEvent(event, giftGiver, giftReceiver);
-        system.notifySender(giftGiver,giftReceiver);
     }
 
     @RequestMapping(value = "/{from}/{to}", method = RequestMethod.DELETE)

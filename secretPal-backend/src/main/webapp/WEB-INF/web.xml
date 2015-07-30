@@ -51,7 +51,7 @@
         <param-value>/WEB-INF/spring-dispatcher-servlet.xml</param-value>
     </context-param>
 
-    <!-- Todo lo que venga a web se lo mandamos a spring -->
+    <!-- T0do lo que venga a web se lo mandamos a spring -->
     <servlet-mapping>
         <servlet-name>spring-dispatcher</servlet-name>
         <url-pattern>/*</url-pattern>
