@@ -154,5 +154,7 @@ public class SecretPalSystem {
         this.safePostMan = safePostMan;
     }
 
-
+    public List<Wish> retrievallWishesForWorker(Worker worker) {
+        return wishRepository.retrieveByCondition("worker", worker);
+    }
 }
