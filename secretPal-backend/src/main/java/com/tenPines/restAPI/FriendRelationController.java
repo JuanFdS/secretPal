@@ -6,14 +6,12 @@ import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,6 +50,14 @@ public class FriendRelationController {
         SecretPalEvent event = system.retrieveEvent();
         system.deleteRelationInEvent(event, friendRelation);
         return friendRelation.getId();
+    }
+
+    @RequestMapping(value = "/friend", method = RequestMethod.GET)
+    @ResponseBody
+    public Worker retrieveGiftee(@RequestBody @Valid Worker loggedWorker, BindingResult result) {
+        if (result.hasErrors())
+            throw new RestfulException(result.getAllErrors());
+        return system.retrieveAssignedFriendFor(loggedWorker);
     }
 
 

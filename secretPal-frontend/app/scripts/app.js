@@ -68,15 +68,4 @@ angular
       display: 'popup',
       type: '2.0'
     });
-  })
-
-  .controller('navCtrl', function($scope, $auth) {
-/*    $scope.navClass = function (page) {
-      var currentRoute = $location.path().substring(1) || 'home';
-      return page === currentRoute ? 'active' : '';
-    };*/
-
-    $scope.isAuthenticated = function() {
-      return $auth.isAuthenticated();
-    };
   });
