@@ -7,6 +7,7 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.tenPines.restAPI.AuthController;
 import java.text.ParseException;
@@ -35,12 +36,20 @@ public class AuthUtils {
         return new AuthController.Token(jwt.serialize());
     }
 
-    public static String tokenSubject(AuthController.Token token) throws ParseException, JOSEException {
-        SignedJWT signedJWT = SignedJWT.parse(token.getToken());
+    public static String tokenSubject(String authHeader) throws ParseException, JOSEException {
+        return decodeToken(authHeader).getSubject();
+    }
+
+    public static ReadOnlyJWTClaimsSet decodeToken(String authHeader) throws ParseException, JOSEException {
+        SignedJWT signedJWT = SignedJWT.parse(getSerializedToken(authHeader));
         if (signedJWT.verify(new MACVerifier(TOKEN_SECRET))) {
-            return signedJWT.getJWTClaimsSet().getSubject();
+            return signedJWT.getJWTClaimsSet();
         } else {
             throw new JOSEException("Signature verification failed");
         }
+    }
+
+    public static String getSerializedToken(String authHeader) {
+        return authHeader.split(" ")[1];
     }
 }

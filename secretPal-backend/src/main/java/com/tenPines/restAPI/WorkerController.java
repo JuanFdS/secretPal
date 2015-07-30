@@ -2,6 +2,7 @@ package com.tenPines.restAPI;
 
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.model.Worker;
+import com.tenPines.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,8 @@ public class WorkerController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
-    public Worker save(@RequestBody @Valid Worker aWorker, BindingResult result) throws Exception {
-        if (result.hasErrors())
+    public Worker save(@RequestHeader(value="Authorization") String header, @RequestBody @Valid Worker aWorker, BindingResult result) throws Exception {
+        if (result.hasErrors() || AuthUtils.tokenSubject(header).equals("roman.rizzi@10pines.com"))
             throw new RestfulException(result.getAllErrors());
         return system.saveWorker(aWorker);
     }
