@@ -14,25 +14,9 @@ import java.util.Properties;
 public class PostOffice {
 
     public SMTPPostMan callThePostMan() throws IOException {
-        Properties gmailProp = buildPropertyFrom("src/main/resources/gmail.properties");
-        Properties mailProp = buildPropertyFrom("src/main/resources/mailTemplate.properties");
+        Properties gmailProp = new PropertyParser("src/main/resources/gmail.properties");
+        Properties mailProp = new PropertyParser("src/main/resources/mailTemplate.properties");
         return new SMTPPostMan(gmailProp, mailProp);
     }
 
-
-
-    private Properties buildPropertyFrom(String route) throws IOException {
-        Properties prop = new PropertyParser();
-        prop.load(new FileInputStream(route));
-        return prop;
-    }
-
-
-
-    public static void main(String[] args) throws Exception {
-        Worker xx = new WorkerBuilder().withEmail("rizziromanalejandro@gmail.com").build();
-        Worker yy = new WorkerBuilder().build();
-        new PostOffice().callThePostMan().notifyPersonWithSecretPalInformation(xx, yy);
-
-    }
 }

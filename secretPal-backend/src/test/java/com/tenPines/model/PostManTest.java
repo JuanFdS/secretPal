@@ -21,8 +21,7 @@ public class PostManTest {
 
     @Before
     public void setUp() throws Exception {
-        Properties templateProperties = new PropertyParser();
-        templateProperties.load(new FileInputStream("src/main/resources/mailTemplate.properties"));
+        Properties templateProperties = new PropertyParser("src/main/resources/mailTemplate.properties");
         aPostMan = new DumbPostMan(templateProperties);
         aSecretPal = new WorkerBuilder().build();
     }

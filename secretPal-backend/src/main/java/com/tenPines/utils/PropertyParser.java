@@ -1,8 +1,14 @@
 package com.tenPines.utils;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class PropertyParser extends Properties {
+
+    public PropertyParser(String route) throws IOException {
+        this.load(new FileInputStream(route));
+    }
 
     private static final long serialVersionUID = 1L;
 
