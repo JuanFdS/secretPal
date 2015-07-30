@@ -8,6 +8,7 @@ angular.module('secretPalApp')
     }
     $auth.logout()
       .then(function() {
+
         $alert({
           content: 'You have been logged out',
           animation: 'fadeZoomFadeDown',

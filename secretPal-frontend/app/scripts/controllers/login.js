@@ -1,31 +1,29 @@
 'use strict';
 
 angular.module('secretPalApp')
-    .controller('LoginController', function($scope, $auth, $alert) {
+    .controller('LoginController', function($scope, $auth, $alert, $location) {
 
         $scope.authenticate = function(provider) {
 
           $auth.authenticate(provider)
            .then(function() {
               var myAlert = $alert({
-                title: 'Hi!',
-                content:'You have successfully logged in',
+                content: 'You have successfully logged in',
                 placement: 'top',
-                type: 'info',
+                type: 'material',
                 show: true,
                 duration: 3
               });
-
+              $location.path('/profile');
             }).
            catch(function(response) {
               $alert({
-                title: 'Something went wrong',
                 content: response.data ? response.data.message : response,
                 animation: 'fadeZoomFadeDown',
-                type: 'info',
-                show: true,
+                type: 'material',
                 duration: 3
               });
+
            });
         };
 
