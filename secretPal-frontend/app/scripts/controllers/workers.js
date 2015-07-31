@@ -44,6 +44,7 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
     $scope.changeIntention = function (worker) {
       var keepGoing = true;
       angular.forEach($scope.participants, function(participant) {
+            debugger;
           if (keepGoing){
             if (worker.id === participant.giftGiver.id && participant.giftReceiver !== null ) {
               alert("This worker has a secretpal associated. Please remove it before stop participating");

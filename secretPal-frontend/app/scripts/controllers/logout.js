@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .controller('LogoutController', function($auth, $alert) {
+  .controller('LogoutController', function($auth) {
 
     if (!$auth.isAuthenticated()) {
       return;
@@ -9,11 +9,11 @@ angular.module('secretPalApp')
     $auth.logout()
       .then(function() {
 
-        $alert({
+        /*$alert({
           content: 'You have been logged out',
           animation: 'fadeZoomFadeDown',
           type: 'material',
           duration: 3
-        });
+        });*/
       });
   });

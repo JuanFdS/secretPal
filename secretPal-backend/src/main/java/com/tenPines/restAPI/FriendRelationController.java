@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,8 +27,9 @@ public class FriendRelationController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public List<WorkerWithRelation> workersWithFriends() {
+        List<WorkerWithRelation> relations = new ArrayList<>();
         List<Worker> participants = system.retrieveParticipants();
-        List relations = Arrays.asList(participants.stream().map(
+        relations.addAll(participants.stream().map(
                 participant -> new WorkerWithRelation(participant, system.retrieveAssignedFriendFor(participant)))
                 .collect(Collectors.toList()));
         return relations;
