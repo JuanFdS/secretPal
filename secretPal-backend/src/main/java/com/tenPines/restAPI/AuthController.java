@@ -79,7 +79,7 @@ public class AuthController {
         }
 
         public boolean isAdmin() throws IOException {
-            PropertyParser adminProperty = new PropertyParser("src/main/resources/mailTemplate.properties");
+            PropertyParser adminProperty = new PropertyParser("src/main/resources/admin.properties");
             return worker.geteMail().equals(adminProperty.getProperty("whois.admin"));
         }
     }

@@ -1,16 +1,16 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope, $modal, WorkerService, FriendRelationService, $filter, $location, user) {
+app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerService, FriendRelationService, $filter, $location, user) {
 
-  debugger;
 
-  if( !user.admin ){
+  if( !user.data.admin ){
     $location.path("/");
   }
 
+
     WorkerService.all(function(data){ $scope.workers = data;});
-    FriendRelationService.all( function(data) {$scope.participants = data;})
+    FriendRelationService.all( function(data) {$scope.participants = data;});
 
     $scope.delete = function (worker) {
       if (worker.wantsToParticipate) {
