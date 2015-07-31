@@ -1,5 +1,6 @@
 package com.tenPines.persistence;
 
+import com.tenPines.application.SecretPalSystem;
 import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
@@ -29,6 +30,8 @@ public class DatabaseWishlistTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    private SecretPalSystem secretPalSystem;
+
     public void setDatabaseWorkerDao(AbstractRepository<Worker> databaseWorkerDao) {
         this.databaseWorkerDao = databaseWorkerDao;
     }
@@ -36,6 +39,7 @@ public class DatabaseWishlistTest {
     @Before
     public void setUp() {
         wishlist = (AbstractRepository<Wish>) webApplicationContext.getBean("databaseWishlist");
+        secretPalSystem = (SecretPalSystem) webApplicationContext.getBean("secretPalSystem");
     }
 
     @Test
@@ -85,7 +89,29 @@ public class DatabaseWishlistTest {
         wishlist.refresh(aWish);
 
         assertThat(wishlist.retrieveAll(), hasSize(1));
-        assertThat(wishlist.retrieveAll(), contains(hasProperty("gift", is("Dos ponys!"))));
+        assertThat(wishlist.retrieveAll(), hasItem(hasProperty("gift", is("Dos ponys!"))));
         assertThat(worker.getId(), not(nullValue()));
+    }
+
+    @Test
+    public void When_I_Ask_For_Wishes_Of_A_Worker_I_Should_get_Them() throws Exception {
+        Worker ajani = new WorkerBuilder().build();
+        secretPalSystem.saveWorker(ajani);
+
+        Worker brand = new WorkerBuilder().build();
+        secretPalSystem.saveWorker(brand);
+
+        Wish aWishForAjani = new Wish(ajani, "Un pony");
+        Wish anotherWishforAjani = new Wish(ajani, "Otro pony");
+        Wish aWishForBrand = new Wish(brand, "Un auto");
+
+        secretPalSystem.saveWish(aWishForAjani);
+        secretPalSystem.saveWish(anotherWishforAjani);
+        secretPalSystem.saveWish(aWishForBrand);
+
+
+        assertThat(secretPalSystem.retrievallWishesForWorker(ajani), hasSize(2));
+        assertThat(secretPalSystem.retrievallWishesForWorker(ajani), hasItem(hasProperty("gift", is("Un pony"))));
+        assertThat(secretPalSystem.retrievallWishesForWorker(ajani), hasItem(hasProperty("gift", is("Otro pony"))));
     }
 }

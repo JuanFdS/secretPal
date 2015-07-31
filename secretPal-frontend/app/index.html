@@ -37,11 +37,11 @@
             <ul class="nav navbar-nav">
               <li><a href="#/">Home</a></li>
               <li class="dropdown" ng-show="isAuthenticated()">
-                <a href="#/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings<span class="caret"></span></a>
+                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a ng-href="#/profile" >Profile</a></li>
+                  <li><a ng-href="#/profile">Your friend</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a ng-href="#/workers" ng-show="available">Workers</a></li>           <!--MOSTRAR SOLO SI ADMINISTRADOR-->
+                  <li><a ng-show="isAdmin()" ng-href="#/workers">Workers</a></li>           <!--MOSTRAR SOLO SI ADMINISTRADOR-->
                   <li><a ng-href="#/wishlist">Wishlist</a></li>         <!--MOSTRAR SIEMPRE-->
                   <li role="separator" class="divider"></li>
                   <li><a ng-href="#/logout">Logout</a></li>             <!--MOSTRAR SIEMPRE-->
@@ -82,14 +82,14 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/satellizer/satellizer.js"></script>
     <script src="bower_components/angular-strap/dist/angular-strap.js"></script>
     <script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -101,8 +101,8 @@
     <script src="scripts/controllers/logout.js"></script>
     <script src="scripts/controllers/profile.js"></script>
 	  <script src="scripts/controllers/friendRelation.js"></script>
+	  <script src="scripts/controllers/nav.js"></script>
     <script src="scripts/services/workerService.js"></script>
-    <script src="scripts/services/roleService.js"></script>
     <script src="scripts/services/friendRelationService.js"></script>
     <script src="scripts/services/account.js"></script>
     <!-- endbuild -->

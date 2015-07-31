@@ -6,26 +6,36 @@ angular
     'ngAnimate',
     'ngMessages',
     'ngRoute',
-    'satellizer',
-    'mgcrea.ngStrap'
+    'satellizer'
+    //'mgcrea.ngStrap'
   ])
   .config(function ($routeProvider, $authProvider) {
+    var authenticated = function (Account, $location, $auth) {
+      if (!$auth.isAuthenticated()) {
+        $location.path('/login');
+      }
+      return Account.getProfile(); //TODO Creo que no entiendo como funciona esta promesa.
+    };
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html'
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',
-        controller: 'WorkersController'
+        controller: 'WorkersController',
+        resolve: { user : authenticated }
       })
       .when('/friendRelations', {
         templateUrl: '../views/friendRelations.html',
-        controller: 'FriendRelationController'
+        controller: 'FriendRelationController',
+        resolve: { user : authenticated }
       })
       .when('/wishlist', {
-            templateUrl: '../views/wishlist.html',
-            controller: 'WishlistController'
-          })
+        templateUrl: '../views/wishlist.html',
+        controller: 'WishlistController',
+        resolve: { user : authenticated }
+      })
       .when('/login', {
         templateUrl: '../views/login.html',
         controller: 'LoginController'
@@ -36,10 +46,8 @@ angular
       })
       .when('/profile', {
         templateUrl: '../views/profile.html',
-        controller: 'ProfileController'
-      })
-      .otherwise({
-        redirectTo: '/'
+        controller: 'ProfileController',
+        resolve: { user : authenticated }
       });
 
     $authProvider.google({
@@ -56,24 +64,4 @@ angular
       display: 'popup',
       type: '2.0'
     });
-
-
-
-  })
-
-  .controller('navCtrl', function($scope, $auth, RoleService) {
-/*    $scope.navClass = function (page) {
-      var currentRoute = $location.path().substring(1) || 'home';
-      return page === currentRoute ? 'active' : '';
-    };*/
-
-    $scope.isAuthenticated = function() {
-      return $auth.isAuthenticated();
-    };
-
-
-
-    $scope.havePrivileges = function() {
-      $scope.available = RoleService.checkForAdmPrivileges();
-    };
   });

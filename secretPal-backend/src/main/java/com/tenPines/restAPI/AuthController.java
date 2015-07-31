@@ -13,15 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import java.io.IOException;
-import java.util.*;
+import java.text.ParseException;
+import java.util.Optional;
+import java.util.Properties;
 
 @Controller
 @RequestMapping("/auth")
@@ -44,10 +43,18 @@ public class AuthController {
         Optional<Worker> anUser = system.retrieveWorkerByEmail(workerEmail);
         if (anUser.isPresent()) {
             Token token = AuthUtils.createToken(request.getRemoteHost(), anUser.get().geteMail());
-            return new ResponseEntity<Token>(token, HttpStatus.OK);
+            return new ResponseEntity<>(token, HttpStatus.OK);
         } else {
-            return new ResponseEntity<Token>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+
+    @RequestMapping(value = "/me", method = RequestMethod.GET)
+    @ResponseBody
+    public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
+        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)).orElseThrow(
+                () -> new RuntimeException("The user does not exist")
+        ));
     }
 
     public static class Token {
@@ -57,6 +64,23 @@ public class AuthController {
         }
         public String getToken() {
             return token;
+        }
+    }
+
+    private class User {
+        public Worker worker;
+
+        public User(Worker worker) {
+            this.worker = worker;
+        }
+
+        public Worker getWorker() {
+            return worker;
+        }
+
+        public boolean isAdmin() throws IOException {
+            PropertyParser adminProperty = new PropertyParser("src/main/resources/admin.properties");
+            return worker.geteMail().equals(adminProperty.getProperty("whois.admin"));
         }
     }
 }

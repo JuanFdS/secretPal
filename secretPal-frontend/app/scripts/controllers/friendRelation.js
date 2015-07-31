@@ -3,7 +3,7 @@
 var app = angular.module('secretPalApp');
 app.controller('FriendRelationController', function($scope, $modal, $filter, FriendRelationService) {
 
-  FriendRelationService.all( function(data) {$scope.friendRelations = data;})
+  FriendRelationService.all( function(data) {$scope.friendRelations = data;});
 
   $scope.deleteRelation = function (relation) {
     FriendRelationService.delete(relation.giftGiver.id, relation.giftReceiver.id, function() {

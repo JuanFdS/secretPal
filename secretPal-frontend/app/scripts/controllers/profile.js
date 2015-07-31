@@ -1,20 +1,18 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .controller('ProfileController', function($scope, $auth, Account) {
+  .controller('ProfileController', function($scope, user, $location, FriendRelationService, WishlistService) {
 
-    $scope.getProfile = function () {
-      Account.getProfile()
-        .success(function (data) {
-          $scope.user = data;
-        })
-        .error(function (error) {
-          $alert({
-            content: error.message,
-            animation: 'fadeZoomFadeDown',
-            type: 'material',
-            duration: 3
+    FriendRelationService.getFriend(user.data.worker, function(friend){
+        $scope.friend = friend;
+
+        if(friend.data == ""){
+          $location.path('/');
+          alert("No estas participando, avisale al administrador");
+        }
+
+          WishlistService.getAllWishesFor($scope.friend.data, function(wishlist){
+              $scope.wishlist = wishlist;
           });
-        });
-    };
+    });
   });

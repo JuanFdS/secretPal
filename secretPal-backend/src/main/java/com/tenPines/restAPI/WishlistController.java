@@ -27,6 +27,13 @@ public class WishlistController {
         return system.retrieveAllWishes();
     }
 
+    @RequestMapping(value = "/worker/{workerID}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Wish> getWorkersWishes(@PathVariable Long workerID) {
+        Worker worker = system.retrieveAWorker(workerID);
+        return system.retrievallWishesForWorker(worker);
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Wish save(@RequestBody @Valid Wish wish, BindingResult result) throws RestfulException {
