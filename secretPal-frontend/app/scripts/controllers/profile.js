@@ -5,26 +5,8 @@ angular.module('secretPalApp')
 
     FriendRelationService.getFriend(user.data.worker, function(friend){
         $scope.friend = friend;
-          WishlistService.getAllWishesFor($scope.worker, function(wishlist){
+          WishlistService.getAllWishesFor($scope.friend.data, function(wishlist){
               $scope.wishlist = wishlist;
           });
     });
-    debugger;
-
-
-
-    $scope.getProfile = function () {
-      Account.getProfile()
-        .success(function (data) {
-          $scope.user = data;
-        })
-        .error(function (error) {
-          $alert({
-            content: error.message,
-            animation: 'fadeZoomFadeDown',
-            type: 'material',
-            duration: 3
-          });
-        });
-    };
   });

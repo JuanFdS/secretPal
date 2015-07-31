@@ -38,10 +38,10 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
 
   this.getFriend = function(worker, callback) {
     return $http.post(buildRoute('/friend'), worker).
-        success(function(data) {
+        then(function(data) {
           callback(data);
-        }).
-        error(function() {
+        },
+        function() {
           alert("Something went wrong, try again later.");
         });
   }

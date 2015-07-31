@@ -100,7 +100,7 @@ var app = angular.module('secretPalApp')
 
       this.getAllWishesFor = function(worker, callback) {
         $http.get(buildRoute('/worker/' + worker.id)).
-            success(function(data) {
+            then(function(data) {
               callback(data);
             });
       };
