@@ -52,7 +52,7 @@ public class FriendRelationController {
         return friendRelation.getId();
     }
 
-    @RequestMapping(value = "/friend", method = RequestMethod.GET)
+    @RequestMapping(value = "/friend", method = RequestMethod.POST)
     @ResponseBody
     public Worker retrieveGiftee(@RequestBody @Valid Worker loggedWorker, BindingResult result) {
         if (result.hasErrors())

@@ -36,4 +36,14 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
       });
   };
 
+  this.getFriend = function(worker, callback) {
+    return $http.post(buildRoute('/friend'), worker).
+        success(function(data) {
+          callback(data);
+        }).
+        error(function() {
+          alert("Something went wrong, try again later.");
+        });
+  }
+
 });

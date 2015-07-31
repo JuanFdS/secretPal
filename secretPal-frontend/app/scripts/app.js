@@ -6,8 +6,8 @@ angular
     'ngAnimate',
     'ngMessages',
     'ngRoute',
-    'satellizer',
-    'mgcrea.ngStrap'
+    'satellizer'
+    //'mgcrea.ngStrap'
   ])
   .config(function ($routeProvider, $authProvider) {
     var authenticated = function (Account, $location, $auth) {

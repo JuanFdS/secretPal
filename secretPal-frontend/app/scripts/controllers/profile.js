@@ -1,7 +1,17 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .controller('ProfileController', function($scope, $auth, Account) {
+  .controller('ProfileController', function($scope, user, FriendRelationService, WishlistService) {
+
+    FriendRelationService.getFriend(user.data.worker, function(friend){
+        $scope.friend = friend;
+          WishlistService.getAllWishesFor($scope.worker, function(wishlist){
+              $scope.wishlist = wishlist;
+          });
+    });
+    debugger;
+
+
 
     $scope.getProfile = function () {
       Account.getProfile()
