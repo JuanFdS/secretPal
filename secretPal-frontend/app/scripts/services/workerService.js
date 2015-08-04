@@ -1,11 +1,20 @@
 'use strict';
 
-angular.module('secretPalApp').service('WorkerService', function($http) {
+angular.module('secretPalApp').service('WorkerService', function($http, SweetAlert) {
 
   function buildRoute(path) {
     var route = 'http://localhost:9090/worker';
     return route + path;
   }
+
+  function successMsg(msg) {
+    SweetAlert.swal("", msg, "success");
+  }
+
+  function errorMsg(msg) {
+    SweetAlert.swal("Algo salio mal",msg, "error");
+  }
+
 
   this.all = function(callback) {
     $http.get(buildRoute('/')).
@@ -13,7 +22,7 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
         callback(data);
       }).
       error(function() {
-        alert("Something went wrong, try again later.");
+        errorMsg("Intentelo denuevo mas tarde")
       });
   };
 
@@ -21,9 +30,10 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
     $http.post(buildRoute('/'), worker).
       success(function(data) {
         successFunction(data);
+        successMsg("Este pino fue creado exitosamente")
       }).
       error(function() {
-        alert("Something went wrong, try again later.");
+        errorMsg("No se pudo crear este pino.")
       });
   };
 
@@ -36,6 +46,7 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
   this.delete = function(id, successFunction) {
     $http.delete(buildRoute('/' + id)).
         success(function() {
+          successMsg("Pino eliminado exitosamente")
           successFunction();
         });
   };

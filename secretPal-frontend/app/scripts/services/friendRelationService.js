@@ -1,10 +1,18 @@
 'use strict';
 
-angular.module('secretPalApp').service('FriendRelationService', function($http) {
+angular.module('secretPalApp').service('FriendRelationService', function($http, SweetAlert) {
 
   function buildRoute(path) {
     var route = 'http://localhost:9090/friendRelation';
     return route + path;
+  }
+
+  function successMsg(msg) {
+    SweetAlert.swal("", msg, "success");
+  }
+
+  function errorMsg(msg) {
+    SweetAlert.swal("Algo salio mal",msg, "error");
   }
 
   this.all = function(callback) {
@@ -13,13 +21,14 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
         callback(data);
       }).
       error(function() {
-        alert("Cannot request get relations");
+        errorMsg("No se pudo procesar el pedido")
       });
   };
 
   this.new = function(idGiver, idReceiver, unSuccessFunction) {
     $http.post(buildRoute('/' + idGiver + '/' + idReceiver)).
       success(function() {
+        successMsg("La asignacion fue exitosa")
       }).
       error(function() {
         unSuccessFunction();
@@ -32,7 +41,7 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
         successFunction();
       }).
       error(function() {
-        alert("Cannot request delete relation");
+        errorMsg("No se pudo borrar esta relacion")
       });
   };
 
@@ -42,7 +51,7 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
           callback(data);
         },
         function() {
-          alert("Something went wrong, try again later.");
+          errorMsg("Intente nuevamente")
         });
   }
 

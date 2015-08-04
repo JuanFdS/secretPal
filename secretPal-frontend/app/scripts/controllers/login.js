@@ -1,29 +1,18 @@
 'use strict';
 
 angular.module('secretPalApp')
-    .controller('LoginController', function($scope, $auth, $location) {
+    .controller('LoginController', function($scope, $auth, $location, SweetAlert) {
 
         $scope.authenticate = function(provider) {
 
           $auth.authenticate(provider)
            .then(function() {
-              /*var myAlert = $alert({
-                content: 'You have successfully logged in',
-                placement: 'top',
-                type: 'material',
-                show: true,
-                duration: 3
-              });*/
+              SweetAlert.swal("¡Bienvenido!", "Ingresaste correctamente", "success");
               $location.path('/profile');
             }).
            catch(function(response) {
-              /*$alert({
-                content: response.data ? response.data.message : response,
-                animation: 'fadeZoomFadeDown',
-                type: 'material',
-                duration: 3
-              });*/
-
+             $auth.logout();
+             SweetAlert.swal("No estas registrado", "Pongase en contacto con el administrador", "error");
            });
         };
     });
