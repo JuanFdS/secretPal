@@ -12,5 +12,5 @@ angular.module('secretPalApp')
 
   $scope.isAdmin = function(){
     return Account.getCurrentProfile().admin;
-  }
+  };
 });

@@ -22,7 +22,7 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
         callback(data);
       }).
       error(function() {
-        errorMsg("Intentelo denuevo mas tarde")
+        errorMsg("Intentelo denuevo mas tarde");
       });
   };
 
@@ -30,10 +30,11 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
     $http.post(buildRoute('/'), worker).
       success(function(data) {
         successFunction(data);
-        successMsg("Este pino fue creado exitosamente")
+        successMsg("Este pino fue creado exitosamente");
       }).
       error(function() {
-        errorMsg("No se pudo crear este pino.")});
+        errorMsg("No se pudo crear este pino.");
+      });
   };
 
   this.changeIntention = function(worker) {
@@ -45,7 +46,7 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
   this.delete = function(id, successFunction) {
     $http.delete(buildRoute('/' + id)).
         success(function() {
-          successMsg("Pino eliminado exitosamente")
+          successMsg("Pino eliminado exitosamente");
           successFunction();
         });
   };

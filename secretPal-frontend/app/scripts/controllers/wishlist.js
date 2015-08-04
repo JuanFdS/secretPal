@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('secretPalApp')
+angular.module('secretPalApp')
   .controller('WishlistController', function ($scope, WorkerService, WishlistService, $modal, $log) {
 
     WishlistService.all(function (data) {
@@ -44,8 +44,8 @@ var app = angular.module('secretPalApp')
         $scope.wishlist.splice(
           $scope.wishlist.indexOf(wish), 1
         );
-      })
-    }
+      });
+    };
 
   })
 
@@ -61,10 +61,14 @@ var app = angular.module('secretPalApp')
     };
   })
 
-  .service('WishlistService', function ($http) {
+  .service('WishlistService', function ($http, SweetAlert) {
   function buildRoute(path) {
     var route = 'http://localhost:9090/wishlist';
     return route + path;
+  }
+
+  function errorMsg(msg) {
+    SweetAlert.swal("Algo salio mal",msg, "error");
   }
 
   this.all = function(callback) {
@@ -73,7 +77,7 @@ var app = angular.module('secretPalApp')
         callback(data);
       }).
       error(function() {
-        alert("Ha ocurrido un error. No se pudo procesar la solicitud al servidor. Intentelo de nuevo mas tarde");
+        errorMsg("No se pudo procesar la solicitud al servidor");
       });
   };
 
@@ -83,7 +87,7 @@ var app = angular.module('secretPalApp')
           successFunction(data);
         }).
         error(function() {
-          alert("Ha ocurrido un error. No se pudo procesar la solicitud al servidor. Intentelo de nuevo mas tarde");
+          errorMsg("No se pudo procesar la solicitud al servidor");
         });
     };
 

@@ -21,14 +21,14 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
         callback(data);
       }).
       error(function() {
-        errorMsg("No se pudo procesar el pedido")
+        errorMsg("No se pudo procesar el pedido");
       });
   };
 
   this.new = function(idGiver, idReceiver, unSuccessFunction) {
     $http.post(buildRoute('/' + idGiver + '/' + idReceiver)).
       success(function() {
-        successMsg("La asignacion fue exitosa")
+        successMsg("La asignacion fue exitosa");
       }).
       error(function() {
         unSuccessFunction();
@@ -41,7 +41,7 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
         successFunction();
       }).
       error(function() {
-        errorMsg("No se pudo borrar esta relacion")
+        errorMsg("No se pudo borrar esta relacion");
       });
   };
 
@@ -51,8 +51,8 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
           callback(data);
         },
         function() {
-          errorMsg("Intente nuevamente")
+          errorMsg("Intente nuevamente");
         });
-  }
+  };
 
 });

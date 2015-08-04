@@ -10,7 +10,7 @@ angular.module('secretPalApp')
               SweetAlert.swal("¡Bienvenido!", "Ingresaste correctamente", "success");
               $location.path('/profile');
             }).
-           catch(function(response) {
+           catch(function() {
              $auth.logout();
              SweetAlert.swal("No estas registrado", "Pongase en contacto con el administrador", "error");
            });

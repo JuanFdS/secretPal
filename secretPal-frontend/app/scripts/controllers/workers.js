@@ -1,7 +1,15 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerService, FriendRelationService, $filter, $location, user) {
+app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerService, FriendRelationService, $filter, $location, user, SweetAlert) {
+
+  function warningMsg(msg){
+    SweetAlert.swal({
+     title: "",
+     text: msg,
+     type: "warning"
+    });
+  }
 
 
     if( !user.data.admin ){
@@ -14,10 +22,10 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
 
     $scope.delete = function (worker) {
       if (worker.wantsToParticipate) {
-        alert("Este trabajador esta participando. No se puede borrar.");
+        warningMsg("Este trabajador esta participando. No se puede borrar.");
       } else {
           WorkerService.delete(worker.id, function() {
-              $scope.workers = $filter('filter')($scope.workers, {id: '!' + worker.id})
+              $scope.workers = $filter('filter')($scope.workers, {id: '!' + worker.id});
           });
       }
     };
@@ -34,24 +42,23 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
         $scope.workers.push(persistedWorker);
       });
       $scope.Reset();
-      $("#add_worker").collapse('hide');
     };
 
     function buildWorker() {
-      return {fullName: $scope.newName, eMail: $scope.newMail, dateOfBirth: $scope.newDate,  wantsToParticipate: false}
-    };
+      return {fullName: $scope.newName, eMail: $scope.newMail, dateOfBirth: $scope.newDate,  wantsToParticipate: false};
+    }
 
     $scope.changeIntention = function (worker) {
       var keepGoing = true;
       angular.forEach($scope.participants, function(participant) {
           if (keepGoing){
             if (worker.id === participant.giftGiver.id && participant.giftReceiver !== null ) {
-              alert("Este trabajador es el amigo invisible de otro participante. Se debe borrar esa relacion antes de que deje de participar.");
+              warningMsg("Este trabajador es el amigo invisible de otro participante. Se debe borrar esa relacion antes de que deje de participar.");
               worker.wantsToParticipate = true;
               keepGoing = false;
             }
             if (participant.giftReceiver !== null && worker.id === participant.giftReceiver.id) {
-              alert("Hay un participante que es amigo invisible de este trabajador.  Se debe borrar esa relacion antes de que deje de participar.");
+              warningMsg("Hay un participante que es amigo invisible de este trabajador.Se debe borrar esa relacion antes de que deje de participar.");
               worker.wantsToParticipate = true;
               keepGoing = false;
             }
@@ -64,8 +71,8 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
     };
 
     $scope.assignation = function() {
-      $location.path('/friendRelations')
-    }
+      $location.path('/friendRelations');
+    };
 
     /*DATEPICKER FUNCTIONS*/
     $scope.open = function($event) {
@@ -98,12 +105,3 @@ app.directive('unique', function() {
     }
   };
 });
-
-
-
-
-
-
-
-
-
