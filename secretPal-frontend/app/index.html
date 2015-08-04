@@ -38,14 +38,14 @@
             <ul class="nav navbar-nav">
               <li><a href="#/">Home</a></li>
               <li class="dropdown" ng-show="isAuthenticated()">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings<span class="caret"></span></a>
+                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ajustes<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a ng-href="#/profile">Your friend</a></li>
+                  <li><a ng-href="#/profile">Tu amigo</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a ng-show="isAdmin()" ng-href="#/workers">Workers</a></li>           <!--MOSTRAR SOLO SI ADMINISTRADOR-->
-                  <li><a ng-href="#/wishlist">Wishlist</a></li>         <!--MOSTRAR SIEMPRE-->
+                  <li><a ng-show="isAdmin()" ng-href="#/workers">Pinos</a></li>
+                  <li><a ng-href="#/wishlist">Lista de Deseos</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a ng-href="#/logout">Logout</a></li>             <!--MOSTRAR SIEMPRE-->
+                  <li><a ng-href="#/logout">Salir</a></li>
                 </ul>
               </li>
             </ul>

@@ -1,13 +1,13 @@
 <script type="text/ng-template" id="editModalWish.html">
     <div class="modal-header">
-      <h3 class="modal-title">Editing {{wish.worker.fullName}}'s wish</h3>
+      <h3 class="modal-title">Editando los deseos de {{wish.worker.fullName}}</h3>
     </div>
     <div class="modal-body">
         <input type="text" ng-model="wish.gift">
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()" ng-enter="ok();">OK</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
     </div>
 </script>
 
@@ -17,10 +17,10 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th class="col-md-3">Who</th>
-            <th class="col-md-3">Wish</th>
-            <th class="col-md-1">Edit</th>
-            <th class="col-md-1">Delete</th>
+            <th class="col-md-3">Quien</th>
+            <th class="col-md-3">Deseo</th>
+            <th class="col-md-1">Editar</th>
+            <th class="col-md-1">Borrar</th>
         </tr>
         </thead>
         <tbody>
@@ -37,17 +37,17 @@
 <div class="well">
   <form class="navbar-form" name="form" ng-submit="Add()">
     <div class="field">
-      <label class="control-label col-md-4">Worker: </label>
+      <label class="control-label col-md-4">Pino: </label>
       <select required ng-options="worker as worker.fullName for worker in posibleWorkers" ng-model="wish.worker"><option></option></select>
 
     </div>
     <div class="field">
-      <label class="control-label col-md-4" for="mail">Gift: </label>
+      <label class="control-label col-md-4" for="mail">Regalo: </label>
       <input id="mail" required placeholder="Gift" class="form-control" ng-model="wish.gift">
     </div>
     <div class="action">
-      <button type="submit" class="btn btn-default">Add</button>
+      <button type="submit" class="btn btn-default">Agregar</button>
     </div>
   </form>
-  <button class="btn btn-default" ng-click="Reset()">Reset</button>
+  <button class="btn btn-default" ng-click="Reset()">Resetear</button>
 </div>

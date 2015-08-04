@@ -33,8 +33,7 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
         successMsg("Este pino fue creado exitosamente")
       }).
       error(function() {
-        errorMsg("No se pudo crear este pino.")
-      });
+        errorMsg("No se pudo crear este pino.")});
   };
 
   this.changeIntention = function(worker) {

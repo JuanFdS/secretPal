@@ -73,7 +73,7 @@ var app = angular.module('secretPalApp')
         callback(data);
       }).
       error(function() {
-        alert("Something went wrong, try again later.");
+        alert("Ha ocurrido un error. No se pudo procesar la solicitud al servidor. Intentelo de nuevo mas tarde");
       });
   };
 
@@ -83,7 +83,7 @@ var app = angular.module('secretPalApp')
           successFunction(data);
         }).
         error(function() {
-          alert("Something went wrong, try again later.");
+          alert("Ha ocurrido un error. No se pudo procesar la solicitud al servidor. Intentelo de nuevo mas tarde");
         });
     };
 
