@@ -13,7 +13,7 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
         callback(data);
       }).
       error(function() {
-        alert("Cannot request get relations");
+        alert("Ha ocurrido un error. No se pudo procesar la solicitud al servidor. Intentelo de nuevo mas tarde");
       });
   };
 
@@ -32,7 +32,7 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
         successFunction();
       }).
       error(function() {
-        alert("Cannot request delete relation");
+        alert("Ha ocurrido un error. No se pudo procesar la solicitud al servidor. Intentelo de nuevo mas tarde");
       });
   };
 
@@ -42,7 +42,7 @@ angular.module('secretPalApp').service('FriendRelationService', function($http) 
           callback(data);
         },
         function() {
-          alert("Something went wrong, try again later.");
+          alert("Ha ocurrido un error. No se pudo procesar la solicitud al servidor. Intentelo de nuevo mas tarde");
         });
   }
 

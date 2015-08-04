@@ -1,13 +1,13 @@
 <div class="list_data">
-  <h1>Workers' List</h1>
+  <h1>Lista de Pinos</h1>
   <div class="panel panel-primary">
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Name</th>
+          <th>Nombre</th>
           <th>Email</th>
-          <th>Birthday Date</th>
-          <th>Participating?</th>
+          <th>Fecha de cumpleaños</th>
+          <th>Quiere participar?</th>
         </tr>
       </thead>
       <tbody>
@@ -16,7 +16,7 @@
           <td>{{worker.eMail}}</td>
           <td>{{worker.dateOfBirth | date}}</td>
           <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.fullName}}" ng-change="changeIntention(worker)" ng-model="worker.wantsToParticipate"></td>
-          <td><button class="btn btn-group-justified" ng-click="delete(worker)">Delete</button></td>
+          <td><button class="btn btn-group-justified" ng-click="delete(worker)">Borrar</button></td>
         </tr>
       </tbody>
     </table>
@@ -24,22 +24,22 @@
 </div>
 <button class="btn btn-primary" ng-click="assignation()">Asignar Amigos!</button>
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_worker" aria-expanded="false" aria-controls="add_worker" id="add_worker_button">
-  Add a new Worker!
+  Agrega un nuevo Pino!
 </button>
 <div class="collapse" id="add_worker">
   <div class="well">
       <form class="navbar-form" name="form" ng-submit="Add()">
         <div class="field">
-          <label class="control-label col-md-4" for="name">Name: </label>
+          <label class="control-label col-md-4" for="name">Nombre: </label>
           <input type="text" id="name" placeholder="Name" class="form-control" ng-pattern="/[a-zA-Z]/" ng-model="newName" required ng-model-options="{ debounce: 500 }">
-          <span ng-show="form.newName.$error.unique">This worker is already in!</span>
+          <span ng-show="form.newName.$error.unique">Este pino ya existe!</span>
         </div>
         <div class="field">
           <label class="control-label col-md-4" for="mail">Email: </label>
           <input id="mail" required type="email" placeholder="Email" class="form-control" ng-model="newMail">
         </div>
         <div class="field">
-          <label class="control-label col-md-4" for="date">Date of Birthday: </label>
+          <label class="control-label col-md-4" for="date">Fecha de cumpleaños: </label>
           <p class="input-group">
             <input id="date" required type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="newDate" is-open="opened" />
               <span class="input-group-btn">
@@ -48,10 +48,10 @@
           </p>
         </div>
         <div class="action">
-          <button type="submit" class="btn btn-default">Add</button>
+          <button type="submit" class="btn btn-default">Agregar</button>
         </div>
       </form>
-      <button class="btn btn-default" ng-click="Reset()">Reset</button>
+      <button class="btn btn-default" ng-click="Reset()">Resetear</button>
   </div>
 </div>
 

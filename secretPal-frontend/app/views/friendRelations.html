@@ -1,9 +1,9 @@
 <div class="list_data">
 
   <div class="clearfix">
-    <h1>Friend Relations' List</h1>
+    <h1>Relaciones entre pinos</h1>
     <button id="addRelationButon" ng-click="openModalForAssign()" class="btn btn-primary btn-md inline pull-right">
-      <span class="glyphicon glyphicon-plus"> Add</span>
+      <span class="glyphicon glyphicon-plus"> Agregar</span>
     </button>
   </div>
 
@@ -11,15 +11,15 @@
     <table class="table table-striped">
       <thead>
       <tr>
-        <th>Gift Giver</th>
-        <th>Gift Receiver</th>
+        <th>Participante</th>
+        <th>Pino cumpleañero</th>
       </tr>
       </thead>
       <tbody>
       <tr ng-repeat="fr in friendRelations | filter:notNull">
         <td>{{fr.giftGiver.fullName}}</td>
         <td>{{fr.giftReceiver.fullName}}</td>
-        <!--<td><button class="btn btn-group-justified" ng-click="deleteRelation(fr)">Remove relation</button></td>-->
+        <!--<td><button class="btn btn-group-justified" ng-click="deleteRelation(fr)">Borrar relacion</button></td>-->
       </tr>
       </tbody>
     </table>

@@ -4,9 +4,9 @@ var app = angular.module('secretPalApp');
 app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerService, FriendRelationService, $filter, $location, user) {
 
 
-  if( !user.data.admin ){
-    $location.path("/");
-  }
+    if( !user.data.admin ){
+      $location.path("/");
+    }
 
 
     WorkerService.all(function(data){ $scope.workers = data;});
@@ -14,7 +14,7 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
 
     $scope.delete = function (worker) {
       if (worker.wantsToParticipate) {
-        alert("This worker is participating. You cant delete it");
+        alert("Este trabajador esta participando. No se puede borrar.");
       } else {
           WorkerService.delete(worker.id, function() {
               $scope.workers = $filter('filter')($scope.workers, {id: '!' + worker.id})
@@ -46,12 +46,12 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
       angular.forEach($scope.participants, function(participant) {
           if (keepGoing){
             if (worker.id === participant.giftGiver.id && participant.giftReceiver !== null ) {
-              alert("This worker has a secretpal associated. Please remove it before stop participating");
+              alert("Este trabajador es el amigo invisible de otro participante. Se debe borrar esa relacion antes de que deje de participar.");
               worker.wantsToParticipate = true;
               keepGoing = false;
             }
             if (participant.giftReceiver !== null && worker.id === participant.giftReceiver.id) {
-              alert("This worker is a participant's secretpal. Please remove it before stop participating");
+              alert("Hay un participante que es amigo invisible de este trabajador.  Se debe borrar esa relacion antes de que deje de participar.");
               worker.wantsToParticipate = true;
               keepGoing = false;
             }

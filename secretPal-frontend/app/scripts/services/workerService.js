@@ -13,7 +13,7 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
         callback(data);
       }).
       error(function() {
-        alert("Something went wrong, try again later.");
+        alert("Ha ocurrido un error. No se pudo procesar la solicitud al servidor. Intentelo de nuevo mas tarde");
       });
   };
 
@@ -23,7 +23,7 @@ angular.module('secretPalApp').service('WorkerService', function($http) {
         successFunction(data);
       }).
       error(function() {
-        alert("Something went wrong, try again later.");
+        alert("Ha ocurrido un error. No se pudo procesar la solicitud al servidor. Intentelo de nuevo mas tarde");
       });
   };
 
