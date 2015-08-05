@@ -4,6 +4,7 @@ import com.tenPines.builder.FriendRelationMessageBuilder;
 
 import javax.mail.MessagingException;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 @Entity
@@ -19,6 +20,9 @@ public class FriendRelation {
 
     @OneToOne
     private Worker giftReceiver;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
+    public SecretPalEvent event;
 
     public FriendRelation(){}
 
@@ -38,7 +42,13 @@ public class FriendRelation {
         this.id = id;
     }
 
+    public SecretPalEvent getEvent() {
+        return event;
+    }
 
+    public void setEvent(SecretPalEvent event) {
+        this.event = event;
+    }
 
     private void checkIfNotTheSameParticipant(Worker participant, Worker secretPal) {
         if(participant.equals(secretPal))

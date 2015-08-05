@@ -49,6 +49,9 @@ public class SecretPalSystem {
     public Worker saveWorker(Worker newWorker) {
         return this.workerRepository.save(newWorker);
     }
+    public SecretPalEvent saveEvent(SecretPalEvent newEvent) {
+        return this.secretPalEventRepository.save(newEvent);
+    }
 
     public List<Worker> retrieveAllWorkers() {
         return workerRepository.retrieveAll();
@@ -100,25 +103,25 @@ public class SecretPalSystem {
         return secretPalEventRepository.retrieveAssignedFriendFor(participant);
     }
 
-    public void createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
+    public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
         FriendRelation friendRelation = secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
         Message message = friendRelation.createMessage();
         safePostMan.sendMessage(message);
+        return friendRelation;
     }
 
-    public SecretPalEvent retrieveEvent() {
-        return secretPalEventRepository.retrieveEvent();
+    public void deleteRelationInEvent(FriendRelation friendRelation) {
+        secretPalEventRepository.deleteRelationInEvent(friendRelation);
+    }
+
+    public SecretPalEvent retrieveEvent(SecretPalEvent event) {
+        return secretPalEventRepository.refresh(event);
     }
 
     public FriendRelation retrieveRelation(Long from, Long to) {
       return secretPalEventRepository.retrieveRelation(from, to);
 
     }
-
-    public void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation) {
-        secretPalEventRepository.deleteRelationInEvent(event, friendRelation);
-    }
-
 
     public Optional<Worker> retrieveWorkerByEmail(String workerEmail) {
         return workerRepository.retrieveByCondition("eMail", workerEmail).stream().findFirst();
@@ -156,5 +159,9 @@ public class SecretPalSystem {
 
     public List<Wish> retrievallWishesForWorker(Worker worker) {
         return wishRepository.retrieveByCondition("worker", worker);
+    }
+
+    public SecretPalEvent retrieveCurrentEvent() {
+        return secretPalEventRepository.retrieveEvent();
     }
 }

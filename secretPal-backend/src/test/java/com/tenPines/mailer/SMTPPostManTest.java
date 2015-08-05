@@ -69,7 +69,7 @@ public class SMTPPostManTest {
     @Test
     public void When_A_Mail_Fails_It_Should_Be_Stored_For_Future_resend() throws IOException, MessagingException {
 
-        SecretPalEvent event = secretPalSystem.retrieveEvent();
+        SecretPalEvent event = secretPalSystem.retrieveCurrentEvent();
         secretPalSystem.createRelationInEvent(event, friendWorker, birthdayWorker);
 
         assertThat(failedMails.retrieveAll(), hasSize(1));
@@ -78,7 +78,7 @@ public class SMTPPostManTest {
 
     @Test
     public void If_there_are_mails_to_be_sent_then_send_The() throws IOException, MessagingException {
-        SecretPalEvent event = secretPalSystem.retrieveEvent();
+        SecretPalEvent event = secretPalSystem.retrieveCurrentEvent();
         secretPalSystem.createRelationInEvent(event, friendWorker, birthdayWorker);
 
         //The message has failed.

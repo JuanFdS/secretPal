@@ -19,8 +19,10 @@
       <tr ng-repeat="fr in friendRelations | filter:notNull">
         <td>{{fr.giftGiver.fullName}}</td>
         <td>{{fr.giftReceiver.fullName}}</td>
-        <!--<td><button class="btn btn-group-justified" ng-click="deleteRelation(fr)">Borrar relacion</button></td>-->
+        <!--<td><button class="btn btn-group-justified" ng-click="deleteRelation(fr)">Borrar relacion</button></td>     TODO tiene que andar-->
       </tr>
+      <td><button class="btn btn-info" ng-click="deleteRelations()">Borrar todas las relaciones</button></td>
+      <td><button class="btn btn-info" ng-click="autoAssignment()">Asignacion automatica</button></td>
       </tbody>
     </table>
   </div>

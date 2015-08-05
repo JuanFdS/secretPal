@@ -5,6 +5,7 @@ import com.tenPines.model.FriendRelation;
 import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,6 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,17 +41,16 @@ public class FriendRelationController {
     public void createRelation(@PathVariable Long from,@PathVariable Long to) throws IOException, MessagingException {
         Worker giftGiver = system.retrieveAWorker(from);
         Worker giftReceiver = system.retrieveAWorker(to);
-        SecretPalEvent event = system.retrieveEvent();
+        SecretPalEvent event = system.retrieveCurrentEvent();
         system.createRelationInEvent(event, giftGiver, giftReceiver);
     }
 
     @RequestMapping(value = "/{from}/{to}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public Long deleteRelation(@PathVariable Long from,@PathVariable Long to){
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteRelation(@PathVariable Long from,@PathVariable Long to){
         FriendRelation friendRelation = system.retrieveRelation(from, to);
-        SecretPalEvent event = system.retrieveEvent();
-        system.deleteRelationInEvent(event, friendRelation);
-        return friendRelation.getId();
+        SecretPalEvent event = system.retrieveCurrentEvent();
+        system.deleteRelationInEvent(friendRelation);
     }
 
     @RequestMapping(value = "/friend", method = RequestMethod.POST)

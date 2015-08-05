@@ -41,6 +41,7 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
         successFunction();
       }).
       error(function() {
+        debugger;
         errorMsg("No se pudo borrar esta relacion");
       });
   };
