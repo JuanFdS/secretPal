@@ -73,6 +73,6 @@ public class DatabaseFriendRelationTest {
         assertThat(secretPalSystem.retrieveEvent(event).getFriendRelations(), hasSize(0));
         assertThat(event.getFriendRelations(), not(hasItem(hasProperty("giftGiver", is(worker)))));
         assertThat(event.getFriendRelations(), not(hasItem(hasProperty("giftReceiver", is(otherWorker)))));
-
     }
+
 }
