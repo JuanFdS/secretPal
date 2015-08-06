@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('secretPalApp').service('FriendRelationService', function($http, SweetAlert) {
+angular.module('secretPalApp').service('FriendRelationService', function($http, SweetAlert, backendURL) {
 
   function buildRoute(path) {
-    var route = 'http://localhost:9090/friendRelation';
+    var route = backendURL('friendRelation');
     return route + path;
   }
 

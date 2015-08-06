@@ -64,4 +64,7 @@ angular
       display: 'popup',
       type: '2.0'
     });
+  })
+  .factory('backendURL',function(path) {
+    return "https://secret-inlet-3742.herokuapp.com/" + path;
   });

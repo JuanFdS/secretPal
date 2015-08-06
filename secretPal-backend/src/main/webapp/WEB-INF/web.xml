@@ -54,7 +54,7 @@
     <!-- T0do lo que venga a web se lo mandamos a spring -->
     <servlet-mapping>
         <servlet-name>spring-dispatcher</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <listener>

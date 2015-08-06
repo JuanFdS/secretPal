@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('secretPalApp').service('WorkerService', function($http, SweetAlert) {
+angular.module('secretPalApp').service('WorkerService', function($http, SweetAlert, backendURL) {
 
   function buildRoute(path) {
-    var route = 'http://localhost:9090/worker';
+    var route = backendURL('worker');
     return route + path;
   }
 

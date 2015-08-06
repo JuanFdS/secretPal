@@ -2,8 +2,8 @@
 
 <beans xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:task="http://www.springframework.org/schema/task"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="
@@ -28,9 +28,9 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost/calendardbtest"/>
-        <property name="username" value="apprentice"/>
-        <property name="password" value="apprenticerulz"/>
+        <property name="url" value="jdbc:postgresql://ec2-54-204-0-120.compute-1.amazonaws.com:5432/d73tgocaa7svd"/>
+        <property name="username" value="yjgmszexkhjdhd"/>
+        <property name="password" value="opHbHv0GIClRTznF7Vn-bVyKyV"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -77,6 +77,7 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <task:annotation-driven/>
     <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
 
 </beans>
 
