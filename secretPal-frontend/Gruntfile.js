@@ -24,6 +24,8 @@ module.exports = function (grunt) {
   };
 
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-angular-templates');
+  grunt.loadNpmTasks('grunt-google-cdn');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -54,6 +56,12 @@ module.exports = function (grunt) {
       },
       gruntfile: {
         files: ['Gruntfile.js']
+      },
+      uglify: {
+        options: {
+         report: 'min',
+         mangle: false
+       }
       },
       livereload: {
         options: {
@@ -360,6 +368,7 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
+            'views/*.html',
             '*.html',
             'images/{,*/}*.{webp}',
             'styles/fonts/{,*/}*.*'
@@ -416,10 +425,6 @@ module.exports = function (grunt) {
 
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
-    if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
-    }
-
     grunt.task.run([
       'clean:server',
       'wiredep',
@@ -467,5 +472,12 @@ module.exports = function (grunt) {
     'newer:jshint',
     'test',
     'build'
+  ]);
+
+  grunt.registerTask('heroku', [
+     'build'
+  ]);
+  grunt.registerTask('heroku:production', [
+    'heroku'
   ]);
 };

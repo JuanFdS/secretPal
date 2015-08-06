@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('secretPalApp').service('WorkerService', function($http, SweetAlert, backendURL) {
+angular.module('secretPalApp').service('WorkerService', function($http, SweetAlert) {
 
   function buildRoute(path) {
-    var route = backendURL('worker');
+    var route = 'https://secret-inlet-3742.herokuapp.com/worker';
     return route + path;
   }
 

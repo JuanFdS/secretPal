@@ -12,13 +12,14 @@
     <tbody>
     <tr ng-repeat="r in relations">
       <td>{{r.giftGiver.fullName}}</td>
-      <td><select ng-model="r.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{r.giftGiver.id}}) | filter:{giftGiver:{id:'!{{r.giftGiver.id}}'}}"></select></td>
+      <td><select class="input-medium" ng-model="r.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{r.giftGiver.id}}) | filter:{giftGiver:{id:'!{{r.giftGiver.id}}'}}"></select></td>
     </tr>
     </tbody>
   </table>
 </div>
 
 <div class="modal-footer">
+  <button class="btn btn-success" ng-click="auto()">Asignar auto<i>magica</i>mente</button>
   <button class="btn btn-primary" ng-click="ok()">OK</button>
   <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
 </div>

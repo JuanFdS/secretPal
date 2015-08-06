@@ -29,7 +29,7 @@ public class WorkerController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public Worker save(@RequestHeader(value="Authorization") String header, @RequestBody @Valid Worker aWorker, BindingResult result) throws Exception {
-        if (result.hasErrors() || AuthUtils.tokenSubject(header).equals("roman.rizzi@10pines.com"))
+        if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
         return system.saveWorker(aWorker);
     }

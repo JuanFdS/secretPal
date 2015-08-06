@@ -11,10 +11,10 @@ angular
   ])
   .config(function ($routeProvider, $authProvider) {
     var authenticated = function (Account, $location, $auth) {
-      if (!$auth.isAuthenticated()) {
+      /*if (!$auth.isAuthenticated()) {
         $location.path('/login');
       }
-      return Account.getProfile(); //TODO Creo que no entiendo como funciona esta promesa.
+      return Account.getProfile(); //TODO Creo que no entiendo como funciona esta promesa. */
     };
 
     $routeProvider
@@ -52,7 +52,7 @@ angular
 
     $authProvider.google({
       clientId: '136089227578-tq2gjl89s5b27dk2sdpacbb2a7m6gha9.apps.googleusercontent.com',
-      url: 'http://localhost:9090/auth/google',
+      url: 'https://secret-inlet-3742.herokuapp.com/auth/google', //TODO: Arreglar que esto se llame co nel factorry correspondiente
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
       redirectUri: window.location.origin || window.location.protocol + '//' + window.location.host,
       hd: '10pines.com',
@@ -64,7 +64,4 @@ angular
       display: 'popup',
       type: '2.0'
     });
-  })
-  .factory('backendURL',function(path) {
-    return "https://secret-inlet-3742.herokuapp.com/" + path;
   });

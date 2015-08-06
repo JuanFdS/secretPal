@@ -53,7 +53,6 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, 
   };
 
   $scope.ok = function () {
-
     angular.forEach($scope.relations, function(relation) {
         if (relation.giftReceiver !== null) {
           FriendRelationService.new(relation.giftGiver.id, relation.giftReceiver.id, function() { $scope.error = true; });}}
@@ -61,9 +60,13 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, 
 
     if (!$scope.error) {
       $modalInstance.close();
-    } else {
-      return;
     }
+  };
+
+  $scope.auto = function(){
+    angular.forEach($scope.relations, function(relation) {
+      relation.giftReciever = $scope.friendRelations[Math.floor(Math.random() * $scope.relations.length)].giftGiver
+    })
   };
 
   $scope.cancel = function () {
