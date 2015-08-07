@@ -63,7 +63,7 @@ angular.module('secretPalApp')
 
   .service('WishlistService', function ($http, SweetAlert) {
   function buildRoute(path) {
-    var route = 'http://localhost:9090/wishlist';
+    var route = 'https://secret-inlet-3742.herokuapp.com/wishlist';
     return route + path;
   }
 

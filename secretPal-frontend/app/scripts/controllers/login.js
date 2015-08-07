@@ -5,6 +5,8 @@ angular.module('secretPalApp')
 
         $scope.authenticate = function(provider) {
 
+          SweetAlert.swal("Logeandose", "Entrando en la matrix");
+
           $auth.authenticate(provider)
            .then(function() {
               SweetAlert.swal("¡Bienvenido!", "Ingresaste correctamente", "success");

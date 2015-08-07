@@ -65,7 +65,10 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, 
 
   $scope.auto = function(){
     angular.forEach($scope.relations, function(relation) {
-      relation.giftReciever = $scope.friendRelations[Math.floor(Math.random() * $scope.relations.length)].giftGiver
+      var arr = $filter('filter')($scope.friendRelations, $scope.notUsed(relation.giftGiver.id) );
+      arr = $filter('filter')(arr, function(who){return who.giftGiver !== relation.giftGiver;} );
+
+      relation.giftReceiver = arr[Math.floor(Math.random() * arr.length)].giftGiver
     })
   };
 
