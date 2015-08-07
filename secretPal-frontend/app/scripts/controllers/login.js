@@ -5,7 +5,11 @@ angular.module('secretPalApp')
 
         $scope.authenticate = function(provider) {
 
-          SweetAlert.swal("Logeandose", "Entrando en la matrix");
+          SweetAlert.swal({
+            title: "Logeandose",
+            text: "Entrando en la Matrix...",
+            showConfirmButton: false
+          });
 
           $auth.authenticate(provider)
            .then(function() {
