@@ -49,9 +49,14 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
     }
   };
 
-  $scope.cancel = function () {
-    /*$scope.reset();
-    descollapsed*/
+  $scope.auto = function(){
+    angular.forEach($scope.relations, function(relation) {
+      relation.giftReciever = $scope.friendRelations[Math.floor(Math.random() * $scope.relations.length)].giftGiver
+    })
+  };
+
+  $scope.reset = function () {
+    //
   };
 
   /*$scope.openModalForAssign = function() {
@@ -72,7 +77,7 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
 
 });
 
-app.controller('addRelationsController', function ($scope, $modalInstance, $filter, FriendRelationService, relationsXXX) {
+/*app.controller('addRelationsController', function ($scope, $modalInstance, $filter, FriendRelationService, relationsXXX) {
 
   $scope.friendRelations = relationsXXX;
   $scope.relations = $filter('filter')($scope.friendRelations, {giftReceiver:null});
@@ -100,12 +105,10 @@ app.controller('addRelationsController', function ($scope, $modalInstance, $filt
 
     if (!$scope.error) {
       $modalInstance.close();
-    } else {
-      return;
     }
   };
 
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
-});
+});*/
