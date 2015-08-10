@@ -57,12 +57,6 @@ module.exports = function (grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
-      uglify: {
-        options: {
-         report: 'min',
-         mangle: false
-       }
-      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'

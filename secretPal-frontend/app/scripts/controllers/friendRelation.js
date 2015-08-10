@@ -101,7 +101,17 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
 
   $scope.auto = function(){
     angular.forEach($scope.relations, function(relation) {
-      relation.giftReciever = $scope.friendRelations[Math.floor(Math.random() * $scope.relations.length)].giftGiver
+      if(relation.giftReceiver === null) {
+
+        var arr = $filter('filter')($scope.friendRelations, $scope.notUsed(relation.giftGiver.id));
+        arr = $filter('filter')(arr, function (who) {
+          return who.giftGiver !== relation.giftGiver;
+        });
+
+        var whatYouWant = arr[Math.floor(Math.random() * arr.length)].giftGiver;
+
+        relation.giftReceiver = whatYouWant;
+      }
     })
   };
 

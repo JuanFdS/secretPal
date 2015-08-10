@@ -12,6 +12,7 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
     }
 
     /*TODO: Sacar antes de pushesr
+
     if( !user.data.admin ){
       $location.path("/");
     }*/

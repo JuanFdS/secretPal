@@ -9,6 +9,13 @@ body {
   padding: 0;
 }
 
+.splash {
+  background-color: #428bca;
+  width: 100%;
+  text-align: center;
+  color: white;
+  display: block !important;
+}
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,

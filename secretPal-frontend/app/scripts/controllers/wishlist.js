@@ -50,22 +50,26 @@ angular.module('secretPalApp')
     };
   })
   .service('WishlistService', function ($http, SweetAlert) {
-    function buildRoute(path) {
-      var route = 'http://localhost:9090/wishlist';
-      return route + path;
-    }
-    function errorMsg(msg) {
-      SweetAlert.swal("Algo salio mal",msg, "error");
-    }
-    this.all = function(callback) {
-      $http.get(buildRoute('/')).
-        success(function(data) {
-          callback(data);
-        }).
-        error(function() {
-          errorMsg("No se pudo procesar la solicitud al servidor");
-        });
-    };
+
+  function buildRoute(path) {
+    var route = 'https://secret-inlet-3742.herokuapp.com/wishlist';
+    return route + path;
+  }
+
+  function errorMsg(msg) {
+    SweetAlert.swal("Algo salio mal",msg, "error");
+  }
+
+  this.all = function(callback) {
+    $http.get(buildRoute('/')).
+      success(function(data) {
+        callback(data);
+      }).
+      error(function() {
+        errorMsg("No se pudo procesar la solicitud al servidor");
+      });
+  };
+
     this.new = function(wish, successFunction) {
       $http.post(buildRoute('/'), wish).
         success(function(data) {
