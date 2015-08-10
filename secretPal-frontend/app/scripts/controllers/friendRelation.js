@@ -1,18 +1,10 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('FriendRelationController', function($scope, $modal, $filter, FriendRelationService, SweetAlert) {
+app.controller('FriendRelationController', function($scope, $modal, $filter, FriendRelationService) {
 
   FriendRelationService.all( function(data) {$scope.friendRelations = data;});
   $scope.relations = $filter('filter')($scope.friendRelations, {giftReceiver:null});
-
-  function warningMsg(msg){
-    SweetAlert.swal({
-      title: "",
-      text: msg,
-      type: "warning"
-    });
-  }
 
   $scope.deleteRelation = function (relation) {
     FriendRelationService.delete(relation.giftGiver.id, relation.giftReceiver.id, function() {
@@ -51,12 +43,12 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
 
   $scope.auto = function(){
     angular.forEach($scope.relations, function(relation) {
-      relation.giftReciever = $scope.friendRelations[Math.floor(Math.random() * $scope.relations.length)].giftGiver
-    })
+      relation.giftReciever = $scope.friendRelations[Math.floor(Math.random() * $scope.relations.length)].giftGiver;
+    });
   };
 
   $scope.reset = function () {
-    //
+
   };
 
   /*$scope.openModalForAssign = function() {
