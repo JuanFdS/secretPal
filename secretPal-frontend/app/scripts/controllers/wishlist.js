@@ -1,25 +1,19 @@
 'use strict';
-
 angular.module('secretPalApp')
   .controller('WishlistController', function ($scope, WorkerService, WishlistService, $modal, $log) {
-
     WishlistService.all(function (data) {
       $scope.wishlist = data;
     });
-
     WorkerService.all(function (data) {
       $scope.posibleWorkers = data;
     });
-
     $scope.Add = function () {
       WishlistService.new($scope.wish, function(persistedWish) { $scope.wishlist.push(persistedWish); $scope.Reset();});
     };
-
     $scope.Reset = function () {
       $scope.wish.worker = null;
       $scope.wish.gift = '';
     };
-
     $scope.Edit = function (wish) {
       var modalInstance = $modal.open({
         animation: false,
@@ -38,7 +32,6 @@ angular.module('secretPalApp')
         $log.info('Modal dismissed at: ' + new Date());
       });
     };
-
     $scope.Delete = function (wish) {
       WishlistService.delete(wish, function () {
         $scope.wishlist.splice(
@@ -46,22 +39,18 @@ angular.module('secretPalApp')
         );
       });
     };
-
   })
-
   .controller('ModalInstanceCtrl', function ($scope, $modalInstance, wish) {
     $scope.wish = wish;
-
     $scope.ok = function () {
       $modalInstance.close($scope.wish);
     };
-
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
   })
-
   .service('WishlistService', function ($http, SweetAlert) {
+<<<<<<< HEAD
   function buildRoute(path) {
     var route = 'https://secret-inlet-3742.herokuapp.com/wishlist';
     return route + path;
@@ -81,6 +70,24 @@ angular.module('secretPalApp')
       });
   };
 
+=======
+    function buildRoute(path) {
+      var route = 'http://localhost:9090/wishlist';
+      return route + path;
+    }
+    function errorMsg(msg) {
+      SweetAlert.swal("Algo salio mal",msg, "error");
+    }
+    this.all = function(callback) {
+      $http.get(buildRoute('/')).
+        success(function(data) {
+          callback(data);
+        }).
+        error(function() {
+          errorMsg("No se pudo procesar la solicitud al servidor");
+        });
+    };
+>>>>>>> c766d50f4074251bf93d76833a752d80f66f183a
     this.new = function(wish, successFunction) {
       $http.post(buildRoute('/'), wish).
         success(function(data) {
@@ -90,23 +97,19 @@ angular.module('secretPalApp')
           errorMsg("No se pudo procesar la solicitud al servidor");
         });
     };
-
     this.delete = function (wish, successFunction) {
       $http.delete(buildRoute('/' + wish.id)).
-      success(function() {
-        successFunction();
-      });
-  };
-
+        success(function() {
+          successFunction();
+        });
+    };
     this.update = function (wish) {
       $http.post(buildRoute('/') + wish.id, wish.gift);
     };
-
-      this.getAllWishesFor = function(worker, callback) {
-        $http.get(buildRoute('/worker/' + worker.id)).
-            then(function(data) {
-              callback(data);
-            });
-      };
-
-});
+    this.getAllWishesFor = function(worker, callback) {
+      $http.get(buildRoute('/worker/' + worker.id)).
+        then(function(data) {
+          callback(data);
+        });
+    };
+  });

@@ -72,7 +72,9 @@ app.controller('pal_assignmentCtrl', function ($scope, $modalInstance, $filter, 
           return who.giftGiver !== relation.giftGiver;
         });
 
-        relation.giftReceiver = arr[Math.floor(Math.random() * arr.length)].giftGiver
+        var whatYouWant = arr[Math.floor(Math.random() * arr.length)].giftGiver;
+
+        relation.giftReceiver = whatYouWant;
       }
     })
   };
