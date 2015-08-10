@@ -31,6 +31,7 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
         successMsg("La asignacion fue exitosa");
       }).
       error(function() {
+        errorMsg("No se pudo procesar el pedido");
         unSuccessFunction();
       });
   };

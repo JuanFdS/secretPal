@@ -1,5 +1,7 @@
 package com.tenPines.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,8 @@ public class SecretPalEvent {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event")
+    @JsonIgnore
     private List<FriendRelation> friendRelations = new ArrayList<>();
 
     public SecretPalEvent() {
@@ -47,6 +50,7 @@ public class SecretPalEvent {
                 throw new RuntimeException("The secretPal was already assign to other participant");
             } else {
                 this.getFriendRelations().add(aFriendRelation);
+                aFriendRelation.setEvent(this);
             }
         }
     }
@@ -59,7 +63,4 @@ public class SecretPalEvent {
         return friendRelations.size();
     }
 
-    public void deleteRelation(FriendRelation friendRelation) {
-        this.getFriendRelations().remove(friendRelation);
-    }
 }

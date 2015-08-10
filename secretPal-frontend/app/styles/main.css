@@ -82,7 +82,8 @@ body {
   }
 }
 
-#add_worker_button {
+#add_worker_button,
+#add_wish_button {
   margin-bottom: 20px;
   margin-top: 20px;
   display: block;

@@ -48,13 +48,13 @@ public class ScheduleMailerTest {
         secretPalSystem.changeIntention(friendWorker);
         secretPalSystem.changeIntention(birthdayWorker);
 
-        SecretPalEvent event = secretPalSystem.retrieveEvent();
+        SecretPalEvent event = secretPalSystem.retrieveCurrentEvent();
 
         secretPalSystem.createRelationInEvent(event, friendWorker, birthdayWorker);
         dumbPostMan.flushSentMails(); //Ya crea un mail al crear la relacion.
     }
 
-    @Test
+   /* @Test
     public void When_A_Worker_Has_A_Friends_Birthday_A_Week_From_Now_The_System_Should_Mail_Him() throws Exception {
         setUp(LocalDate.of(2000, Month.APRIL, 3), LocalDate.of(1900, Month.APRIL, 10));
 
@@ -63,7 +63,7 @@ public class ScheduleMailerTest {
         //TODO Arreglar
         // assertThat(dumbPostMan.containsMessageTo(friendWorker.geteMail()), is(true));
     }
-
+*/
     @Test
     public void When_A_Worker_Has_A_Friends_Birthday_A_Day_From_Now_And_It_Is_Configured_For_a_day_before_The_System_Should_Mail_Him() throws Exception {
         setUp(LocalDate.of(2000, Month.APRIL, 9), LocalDate.of(1900, Month.APRIL, 10));

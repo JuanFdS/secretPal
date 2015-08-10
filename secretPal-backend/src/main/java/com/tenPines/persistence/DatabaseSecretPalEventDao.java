@@ -13,8 +13,6 @@ import java.util.List;
 
 public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEvent> implements SecretPalEventMethods {
 
-
-
     @Override
     protected Class<SecretPalEvent> getDomainClass() {
         return SecretPalEvent.class;
@@ -52,11 +50,9 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
     }
 
     @Transactional
-    public void deleteRelationInEvent(SecretPalEvent event, FriendRelation friendRelation) {
+    public void deleteRelationInEvent(FriendRelation friendRelation) {
         Session session = getSessionFactory().getCurrentSession();
-            event.deleteRelation(friendRelation);
-            session.update(event);
-            session.delete(friendRelation);
+        session.delete(friendRelation);
     }
 
     @Transactional
