@@ -7,7 +7,8 @@ angular
     'ngMessages',
     'ngRoute',
     'satellizer',
-    'oitozero.ngSweetAlert'
+    'oitozero.ngSweetAlert',
+    'toggle-switch'
   ])
   .config(function ($routeProvider, $authProvider) {
     var authenticated = function (Account, $location, $auth) {
@@ -21,6 +22,10 @@ angular
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainController'
+      })
+      .when('/mail', {
+        templateUrl: 'views/mail.html',
+        controller: 'MailController'
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',

@@ -37,11 +37,13 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
           confirmButtonText: "Si, borrar!",
           closeOnConfirm: false
         },
-        function () {
-          WorkerService.delete(worker.id, function() {
-            $scope.workers = $filter('filter')($scope.workers, {id: '!' + worker.id});
-          });
-          SweetAlert.swal("Se ha borrado exitosamente");
+        function (isConfirm) {
+          if (isConfirm) {
+            WorkerService.delete(worker.id, function() {
+              $scope.workers = $filter('filter')($scope.workers, {id: '!' + worker.id});
+            });
+            SweetAlert.swal("Se ha borrado exitosamente");
+          }
         });
     }
 

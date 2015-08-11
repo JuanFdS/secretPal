@@ -29,9 +29,11 @@ angular.module('secretPalApp')
           confirmButtonText: "Si!",
           closeOnConfirm: false
         },
-        function () {
-          WorkerService.changeIntention(user.data.worker);
-          SweetAlert.swal("Ahora estas participando!");
+        function (isConfirm) {
+          if (isConfirm) {
+            WorkerService.changeIntention(user.data.worker);
+            SweetAlert.swal("Ahora estas participando!");
+          }
         });
     }
 
