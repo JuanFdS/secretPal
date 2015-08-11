@@ -12,6 +12,10 @@ public class Wish {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
     public Worker worker;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
+    public Worker createdBy;
+
     @NotEmpty
     public String gift;
     @Id
@@ -24,6 +28,14 @@ public class Wish {
     public Wish(Worker worker, String gift) {
         this.worker = worker;
         this.gift = gift;
+    }
+
+    public Worker getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Worker createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Long getId() {

@@ -50,7 +50,7 @@ public class DatabaseFriendRelationTest {
 
         FriendRelation relation = secretPalSystem.createRelationInEvent(event, worker, otherWorker);
 
-        assertThat(secretPalSystem.retrieveEvent(event).getFriendRelations(), hasSize(1));
+        assertThat(event.getFriendRelations(), hasSize(1));
         assertThat(event.getFriendRelations(), hasItem(hasProperty("giftGiver", is(worker))));
         assertThat(event.getFriendRelations(), hasItem(hasProperty("giftReceiver", is(otherWorker))));
     }

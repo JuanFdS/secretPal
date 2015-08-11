@@ -1,8 +1,10 @@
 package com.tenPines.restAPI;
 
+import com.nimbusds.jose.JOSEException;
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
+import com.tenPines.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -36,9 +39,15 @@ public class WishlistController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Wish save(@RequestBody @Valid Wish wish, BindingResult result) throws RestfulException {
+    public Wish save(@RequestBody @Valid Wish wish, BindingResult result,
+                     @RequestHeader(value = "Authorization") String header) throws RestfulException, ParseException, JOSEException {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
+        wish.setCreatedBy(
+                system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)).orElseThrow(
+                        () -> new RuntimeException("The user does not exist")
+                )
+        );
         return system.saveWish(wish);
     }
 
@@ -53,7 +62,7 @@ public class WishlistController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void updateWish(@PathVariable Long id) {
+    public void deleteWish(@PathVariable Long id) {
         Wish wish = system.retrieveAWish(id);
         system.deleteAWish(wish);
     }

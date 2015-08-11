@@ -1,33 +1,62 @@
 package com.tenPines.application;
 
 import com.tenPines.builder.FriendRelationMessageBuilder;
+import com.tenPines.mailer.DumbPostMan;
 import com.tenPines.mailer.SafePostMan;
 import com.tenPines.model.*;
 import com.tenPines.persistence.AbstractRepository;
 import com.tenPines.persistence.SecretPalEventMethods;
+import com.tenPines.utils.PropertyParser;
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.mail.MessagingException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.MonthDay;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Stream;
 
 public class SecretPalSystem {
 
     protected static Logger logger = Logger.getLogger("service");
+    public String mailTemplateProperties = "src/main/resources/mailTemplate.properties";
 
     Long reminderDayPeriod;
     private AbstractRepository<Worker> workerRepository;
     private SecretPalEventMethods secretPalEventRepository;
     private AbstractRepository<Wish> wishRepository;
+
+    private  SafePostMan smtpPostMan;
+    private SafePostMan dumbPostman = new DumbPostMan();
+
     private SafePostMan safePostMan;
+
+    private AbstractRepository<Message> failedMails;
     private Clock clock;
 
+    public AbstractRepository<Message> getFailedMails() {
+        return failedMails;
+    }
+
+    public SafePostMan getSmtpPostMan() {
+        return smtpPostMan;
+    }
+
+    public void setSmtpPostMan(SafePostMan smtpPostMan) {
+        this.smtpPostMan = smtpPostMan;
+    }
+
+    public void setFailedMails(AbstractRepository<Message> failedMails) {
+        this.failedMails = failedMails;
+    }
     public SecretPalSystem() {
         setReminderDayPeriod(7L);
+        setSafePostMan( smtpPostMan );
     }
 
     public void setClock(Clock clock) {
@@ -120,7 +149,6 @@ public class SecretPalSystem {
 
     public FriendRelation retrieveRelation(Long from, Long to) {
       return secretPalEventRepository.retrieveRelation(from, to);
-
     }
 
     public Optional<Worker> retrieveWorkerByEmail(String workerEmail) {
@@ -172,5 +200,24 @@ public class SecretPalSystem {
         for (int i = 0; i < participants.size(); i++) {
             secretPalEventRepository.createRelationInEvent(event, participants.get(i), participants.get((i +1)% participants.size()));
         }
+    }
+
+    /*
+        Dentro del template, existen: ${receiver.fullName} y ${receiver.dateOfBirth} que se  bindean
+     */
+    public void setEMailTemplate(Properties template) throws IOException {
+        if( template.getProperty("active").equals("true") ){
+            setSafePostMan( smtpPostMan );
+        } else {
+            setSafePostMan( dumbPostman );
+        }
+
+        File f = new File(mailTemplateProperties);
+        OutputStream out = new FileOutputStream( f );
+        template.store(out, "E-Mail template");
+    }
+
+    public Properties getEMailTemplate() throws IOException {
+        return new PropertyParser(mailTemplateProperties);
     }
 }
