@@ -218,8 +218,6 @@ public class SecretPalSystem {
     }
 
     public Properties getEMailTemplate() throws IOException {
-        Properties eMailTemplate = new PropertyParser(mailTemplateProperties);
-        eMailTemplate.setProperty("active", getSafePostMan().equals(smtpPostMan) ? "true" : "false" );
-        return eMailTemplate;
+        return new PropertyParser(mailTemplateProperties);
     }
 }
