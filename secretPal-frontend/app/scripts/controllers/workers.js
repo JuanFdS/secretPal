@@ -10,7 +10,7 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
        type: "warning"
       });
     }
-  
+
     /*TODO: Sacar antes de pushesr
     if( !user.data.admin ){
       $location.path("/");

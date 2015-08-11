@@ -38,14 +38,11 @@ public class WorkerController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) throws IOException {
         Worker aWorker = system.retrieveAWorker(id);
-        try {
-            if (isAdmin(aWorker)) { return; }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!isAdmin(aWorker)) {
+            system.deleteAWorker(aWorker);
         }
-        system.deleteAWorker(aWorker);
     }
 
     @RequestMapping(value = "/intention", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
