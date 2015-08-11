@@ -3,6 +3,7 @@ package com.tenPines.restAPI;
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.model.Worker;
 import com.tenPines.utils.AuthUtils;
+import com.tenPines.utils.PropertyParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -38,6 +40,11 @@ public class WorkerController {
     @ResponseStatus(value = HttpStatus.OK)
     public void delete(@PathVariable Long id) {
         Worker aWorker = system.retrieveAWorker(id);
+        try {
+            if (isAdmin(aWorker)) { return; }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         system.deleteAWorker(aWorker);
     }
 
@@ -54,4 +61,8 @@ public class WorkerController {
         return e;
     }
 
+    private boolean isAdmin(Worker aWorker) throws IOException {
+        PropertyParser adminProperty = new PropertyParser("src/main/resources/admin.properties");
+        return aWorker.geteMail().equals(adminProperty.getProperty("whois.admin"));
+    }
 }
