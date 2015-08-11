@@ -10,9 +10,8 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
        type: "warning"
       });
     }
-
+  
     /*TODO: Sacar antes de pushesr
-
     if( !user.data.admin ){
       $location.path("/");
     }*/
@@ -24,16 +23,32 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
       if (worker.wantsToParticipate) {
         warningMsg("Este trabajador esta participando. No se puede borrar.");
       } else {
-          WorkerService.delete(worker.id, function() {
-              $scope.workers = $filter('filter')($scope.workers, {id: '!' + worker.id});
-          });
+        deleteWithConfirmationMSg();
       }
     };
 
+    function deleteWithConfirmationMSg() {
+      SweetAlert.swal({
+          title: "Estas seguro?",
+          text: "No vas a poder recuperar este pino!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Si, borrar!",
+          closeOnConfirm: false
+        },
+        function () {
+          WorkerService.delete(worker.id, function() {
+            $scope.workers = $filter('filter')($scope.workers, {id: '!' + worker.id});
+          });
+          SweetAlert.swal("Se ha borrado exitosamente");
+        });
+    };
+
     $scope.Reset = function () {
-      $scope.newName = '';
-      $scope.newMail = '';
-      $scope.newDate = '';
+        $scope.newName = '';
+        $scope.newMail = '';
+        $scope.newDate = '';
     };
 
     $scope.Add = function () {
