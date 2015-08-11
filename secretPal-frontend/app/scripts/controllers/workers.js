@@ -80,7 +80,6 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
           }
         }
       );
-
       if(keepGoing) {WorkerService.changeIntention(worker);}
 
     };
