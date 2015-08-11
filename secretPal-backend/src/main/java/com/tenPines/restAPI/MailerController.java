@@ -32,14 +32,7 @@ public class MailerController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public void setMail(@RequestHeader(value = "Authorization") String header,
-                              @RequestBody String subject, @RequestBody String body) throws IOException {
-        system.setEMailTemplate(subject, body);
-    }
-
-    @RequestMapping(value = "/changeMailSending", method = RequestMethod.POST)
-    @ResponseBody
-    public void changeSendingMail(@RequestHeader(value = "Authorization") String header,
-                                     @RequestBody Boolean sendMail) throws IOException {
-        system.changeMailSendingFunctions(sendMail);
+                              @RequestBody Properties properties) throws IOException {
+        system.setEMailTemplate(properties);
     }
 }

@@ -205,26 +205,21 @@ public class SecretPalSystem {
     /*
         Dentro del template, existen: ${receiver.fullName} y ${receiver.dateOfBirth} que se  bindean
      */
-    public void setEMailTemplate(String subject, String body) throws IOException {
-        Properties EMailtemplate = new PropertyParser(mailTemplateProperties);
-
-        EMailtemplate.setProperty("mail.subject", subject);
-        EMailtemplate.setProperty("mail.bodyText", body);
-
-        File f = new File(mailTemplateProperties);
-        OutputStream out = new FileOutputStream( f );
-        EMailtemplate.store(out, "E-Mail template");
-    }
-
-    public Properties getEMailTemplate() throws IOException {
-        return new PropertyParser(mailTemplateProperties);
-    }
-
-    public void changeMailSendingFunctions(Boolean sendMail) {
-        if(sendMail){
+    public void setEMailTemplate(Properties template) throws IOException {
+        if( template.getProperty("active").equals("true") ){
             setSafePostMan( smtpPostMan );
         } else {
             setSafePostMan( dumbPostman );
         }
+
+        File f = new File(mailTemplateProperties);
+        OutputStream out = new FileOutputStream( f );
+        template.store(out, "E-Mail template");
+    }
+
+    public Properties getEMailTemplate() throws IOException {
+        Properties eMailTemplate = new PropertyParser(mailTemplateProperties);
+        eMailTemplate.setProperty("active", getSafePostMan().equals(smtpPostMan) ? "true" : "false" );
+        return eMailTemplate;
     }
 }
