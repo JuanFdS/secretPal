@@ -51,6 +51,13 @@ public class WorkerController {
         system.changeIntention(aWorker);
     }
 
+    @RequestMapping(value = "/adminMail", method = RequestMethod.GET)
+    @ResponseBody
+    public String adminMail() throws IOException {
+        PropertyParser adminProperty = new PropertyParser("src/main/resources/admin.properties");
+        return adminProperty.getProperty("whois.admin");
+    }
+
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CONFLICT)
