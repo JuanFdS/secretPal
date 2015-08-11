@@ -48,7 +48,7 @@ public class AutoAssignationTest {
             fail("The exception was not raised");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Can't assign with less than 2 people");
-            assertThat(secretPalSystem.retrieveEvent(event).getFriendRelations(), hasSize(0));
+            assertThat(event.getFriendRelations(), hasSize(0));
         }
     }
 
@@ -67,10 +67,9 @@ public class AutoAssignationTest {
         List<Worker> participants = secretPalSystem.retrieveParticipants();
         secretPalSystem.autoAssignRelationsFor(event, participants);
 
-        assertThat(secretPalSystem.retrieveEvent(event).getFriendRelations(), hasSize(2));
+        assertThat(event.getFriendRelations(), hasSize(2));
         assertThat(event.getFriendRelations(), hasItem(hasProperty("giftGiver", is(worker))));  //se debe asertar que este mismo item tiene la property "giftReceiver", is(otherWorker)
         assertThat(event.getFriendRelations(), hasItem(hasProperty("giftGiver", is(otherWorker))));
-
     }
 
 }

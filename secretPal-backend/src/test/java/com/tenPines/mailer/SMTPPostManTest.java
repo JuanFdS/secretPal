@@ -63,6 +63,7 @@ public class SMTPPostManTest {
             throw new MessagingException("From the test, with love <3");
         };
         failProofPostMan.setPostMan(failingPostMan);
+        secretPalSystem.setSafePostMan( failProofPostMan );
     }
 
 

@@ -27,7 +27,7 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
       }
     };
 
-    function deleteWithConfirmationMSg(worker) {
+    $scope.deleteWithConfirmationMSg = function(worker) {
       SweetAlert.swal({
           title: "Estas seguro?",
           text: "No vas a poder recuperar este pino!",
@@ -43,7 +43,7 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
           });
           SweetAlert.swal("Se ha borrado exitosamente");
         });
-    }
+    };
 
     $scope.Reset = function () {
         $scope.newName = '';

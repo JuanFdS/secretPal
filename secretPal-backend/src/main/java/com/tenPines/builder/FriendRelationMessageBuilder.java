@@ -16,8 +16,8 @@ public class FriendRelationMessageBuilder {
         try {
             templateProperties = new PropertyParser("src/main/resources/mailTemplate.properties");
         } catch (IOException e) {
-            templateProperties.setProperty("mail.subject", "[SecretPal] A secret pal was assigned to you!");
-            templateProperties.setProperty("mail.bodyText", "You're the secret pal of ${receiver.fullName}. His/Her birthday is on: ${receiver.dateOfBirth}");
+            templateProperties.setProperty("mail.subject", "[SecretPal] Se te asigno un amigo invisible!");
+            templateProperties.setProperty("mail.bodyText", "Vas a ser el amigo invisible de ${receiver.fullName}.\\nCumple el: ${receiver.dateOfBirth}.");
         }
     }
 

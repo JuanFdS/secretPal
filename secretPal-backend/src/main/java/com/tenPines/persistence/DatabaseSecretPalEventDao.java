@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
+@Transactional
 public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEvent> implements SecretPalEventMethods {
 
     @Override
@@ -18,7 +19,6 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
         return SecretPalEvent.class;
     }
 
-    @Transactional
     public SecretPalEvent retrieveEvent() {
         Session session = getSessionFactory().getCurrentSession();
         List<SecretPalEvent> event = session.createCriteria(SecretPalEvent.class).list();
@@ -31,7 +31,6 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
         }
     }
 
-    @Transactional
     public Worker retrieveAssignedFriendFor(Worker participant) {
         return (Worker) getSessionFactory().getCurrentSession().createCriteria(FriendRelation.class).
                 add(Restrictions.eq("giftGiver.id", participant.getId())).
@@ -39,23 +38,20 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
                 uniqueResult();
     }
 
-    @Transactional
     public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) {
         Session session = getSessionFactory().getCurrentSession();
         FriendRelation relation = new FriendRelation(giftGiver, giftReceiver);
         event.registerParticipant(relation);
         session.save(relation);
-        session.update(event);
+        session.saveOrUpdate(event);
         return relation;
     }
 
-    @Transactional
     public void deleteRelationInEvent(FriendRelation friendRelation) {
         Session session = getSessionFactory().getCurrentSession();
         session.delete(friendRelation);
     }
 
-    @Transactional
     public FriendRelation retrieveRelation(Long from, Long to) {
         return (FriendRelation) getSessionFactory().getCurrentSession().createCriteria(FriendRelation.class).
                         add(Restrictions.eq("giftGiver.id", from)).
@@ -64,10 +60,10 @@ public class DatabaseSecretPalEventDao extends HibernateGenericDAO<SecretPalEven
     }
 
     @Override
-    @Transactional
     public List<FriendRelation> retrieveAllRelations() {
         return getSessionFactory().getCurrentSession().createCriteria(FriendRelation.class).list();
     }
+
 
 
 }
