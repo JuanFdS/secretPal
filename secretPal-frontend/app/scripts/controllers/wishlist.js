@@ -54,7 +54,7 @@ angular.module('secretPalApp')
         });
     };
     $scope.canDelete = function(wish){
-      return !(user.data.worker === wish.createdBy || user.data.worker === wish.worker);
+      return user.data.worker.id == wish.createdBy.id || user.data.worker.id == wish.worker.id;
     };
   })
   .controller('ModalInstanceCtrl', function ($scope, $modalInstance, wish) {

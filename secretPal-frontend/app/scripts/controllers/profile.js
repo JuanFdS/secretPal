@@ -3,19 +3,19 @@
 angular.module('secretPalApp')
 .controller('ProfileController', function($scope, user, $location, FriendRelationService, WishlistService, SweetAlert, WorkerService) {
 
-    noFriendAlert = function(){
+    $scope.noFriendAlert = function(){
       $location.path('/');
       SweetAlert.swal("No tienes ningun amigo asignado", "avisale al administrador", "error");
     };
 
     if (!user.data.worker.wantsToParticipate) {
-      wantToParticipateMsg();
+      $scope.wantToParticipateMsg();
     } else {
       FriendRelationService.getFriend(user.data.worker, function (friend) {
         $scope.friend = friend;
 
         if (friend.data === "") {
-          noFriendAlert();
+          $scope.noFriendAlert();
         }
 
         WishlistService.getAllWishesFor($scope.friend.data, function (wishlist) {
@@ -24,7 +24,7 @@ angular.module('secretPalApp')
       });
     }
 
-    function wantToParticipateMsg() {
+    $scope.wantToParticipateMsg = function() {
       SweetAlert.swal({
           title: "No estas participando",
           text: "Queres participar?",
@@ -38,7 +38,7 @@ angular.module('secretPalApp')
           if (isConfirm) {
             WorkerService.changeIntention(user.data.worker);
             SweetAlert.swal("Ahora estas participando!");
-            noFriendAlert();
+            $scope.noFriendAlert();
           }
         });
     }
