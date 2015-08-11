@@ -51,8 +51,11 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
         });
   };
 
-  this.adminMail = function() {
-    $http.get(buildRoute('/adminMail'));
+  this.adminMail = function(callback) {
+    $http.get(buildRoute('/adminMail')).
+      success(function(data) {
+        callback(data);
+      })
   };
 
 });
