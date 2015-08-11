@@ -418,13 +418,14 @@ module.exports = function (grunt) {
   });
 
 
-  grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
+  grunt.registerTask('serve', 'Compile then start a connect web server', function () {
     grunt.task.run([
       'clean:server',
       'wiredep',
       'concurrent:server',
       'autoprefixer:server',
       'connect:livereload',
+      'jshint:all',     
       'watch'
     ]);
   });

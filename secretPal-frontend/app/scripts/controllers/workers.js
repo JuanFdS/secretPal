@@ -23,11 +23,11 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
       if (worker.wantsToParticipate) {
         warningMsg("Este trabajador esta participando. No se puede borrar.");
       } else {
-        deleteWithConfirmationMSg();
+        deleteWithConfirmationMSg(worker);
       }
     };
 
-    function deleteWithConfirmationMSg() {
+    function deleteWithConfirmationMSg(worker) {
       SweetAlert.swal({
           title: "Estas seguro?",
           text: "No vas a poder recuperar este pino!",
@@ -43,7 +43,7 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
           });
           SweetAlert.swal("Se ha borrado exitosamente");
         });
-    };
+    }
 
     $scope.Reset = function () {
         $scope.newName = '';
