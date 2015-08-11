@@ -19,14 +19,6 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
     WorkerService.all(function(data){ $scope.workers = data;});
     FriendRelationService.all( function(data) {$scope.participants = data;});
 
-    $scope.delete = function (worker) {
-      if (worker.wantsToParticipate) {
-        warningMsg("Este trabajador esta participando. No se puede borrar.");
-      } else {
-        deleteWithConfirmationMSg(worker);
-      }
-    };
-
     $scope.deleteWithConfirmationMSg = function(worker) {
       SweetAlert.swal({
           title: "Estas seguro?",
@@ -41,10 +33,18 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
           if (isConfirm) {
             WorkerService.delete(worker.id, function() {
               $scope.workers = $filter('filter')($scope.workers, {id: '!' + worker.id});
+              SweetAlert.swal("Se ha borrado exitosamente");
             });
-            SweetAlert.swal("Se ha borrado exitosamente");
           }
         });
+    };
+
+    $scope.delete = function (worker) {
+      if (worker.wantsToParticipate) {
+        warningMsg("Este trabajador esta participando. No se puede borrar.");
+      } else {
+        $scope.deleteWithConfirmationMSg(worker);
+      }
     };
 
     $scope.Reset = function () {

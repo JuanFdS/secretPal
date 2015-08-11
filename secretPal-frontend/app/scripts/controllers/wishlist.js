@@ -1,6 +1,6 @@
 'use strict';
 angular.module('secretPalApp')
-  .controller('WishlistController', function ($scope, WorkerService, WishlistService, $modal, $log) {
+  .controller('WishlistController', function ($scope, user, WorkerService, WishlistService, $modal, $log, SweetAlert) {
     WishlistService.all(function (data) {
       $scope.wishlist = data;
     });
@@ -33,11 +33,28 @@ angular.module('secretPalApp')
       });
     };
     $scope.Delete = function (wish) {
-      WishlistService.delete(wish, function () {
-        $scope.wishlist.splice(
-          $scope.wishlist.indexOf(wish), 1
-        );
-      });
+      SweetAlert.swal({
+          title: "Estas seguro?",
+          text: "No vas a poder recuperar este deseo!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Si, borrar!",
+          closeOnConfirm: false
+        },
+        function (isConfirm) {
+          if (isConfirm) {
+            WishlistService.delete(wish, function () {
+              $scope.wishlist.splice(
+                $scope.wishlist.indexOf(wish), 1
+              );
+              SweetAlert.swal("Se ha borrado exitosamente");
+            });
+          }
+        });
+    };
+    $scope.canDelete = function(wish){
+      return !(user.data.worker === wish.createdBy || user.data.worker === wish.worker);
     };
   })
   .controller('ModalInstanceCtrl', function ($scope, $modalInstance, wish) {
