@@ -39,7 +39,7 @@ public class SecretPalEvent {
     }
 
     public void registerParticipant(FriendRelation aFriendRelation) {
-        List<Worker> participantsToCheck = this.getFriendRelations().stream().map(FriendRelation::getGiftGiver).collect(Collectors.toList());
+        /*List<Worker> participantsToCheck = this.getFriendRelations().stream().map(FriendRelation::getGiftGiver).collect(Collectors.toList());
 
         if (participantsToCheck.contains(aFriendRelation.getGiftGiver()) ) {
             throw new RuntimeException("That user was already registered in the event");
@@ -52,7 +52,8 @@ public class SecretPalEvent {
                 this.getFriendRelations().add(aFriendRelation);
                 aFriendRelation.setEvent(this);
             }
-        }
+        }*/
+        aFriendRelation.setEvent(this);
     }
 
     public boolean hasAnyParticipant() {

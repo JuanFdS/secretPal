@@ -49,20 +49,26 @@
     <bean id="secretPalDatabase" class="com.tenPines.persistence.DatabaseSecretPalEventDao"></bean>
     <bean id="failedMails" class="com.tenPines.persistence.DatabaseFailedMails"></bean>
 
+
     <bean id="smtpPostMan" class="com.tenPines.mailer.SMTPPostMan"></bean>
     <bean id="failProofPostMan" class="com.tenPines.mailer.FailProofPostMan">
         <property name="failedMails" ref="databaseFailedMails"/>
         <property name="postMan" ref="smtpPostMan"/>
     </bean>
+    <bean id="dumbPostMan" class="com.tenPines.mailer.DumbPostMan"></bean>
+
 
     <!-- Application beans -->
 
     <bean id="secretPalSystem" class="com.tenPines.application.SecretPalSystem">
-        <property name="wishRepository" ref="databaseWishlist"/>
-        <property name="secretPalEventRepository" ref="secretPalDatabase"/>
         <property name="workerRepository" ref="databaseWorkerDao"/>
-        <property name="smtpPostMan" ref="failProofPostMan"/>
+        <property name="secretPalEventRepository" ref="secretPalDatabase"/>
+        <property name="wishRepository" ref="databaseWishlist"/>
         <property name="failedMails" ref="failedMails" />
+
+        <property name="safePostMan" ref="failProofPostMan"/>
+        <property name="activePostMan" ref="failProofPostMan"/>
+        <property name="inactivePostMan" ref="dumbPostMan"/>
     </bean>
 
     <context:component-scan base-package="com.tenPines"/>

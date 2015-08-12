@@ -2,6 +2,8 @@ package com.tenPines.application;
 
 import com.tenPines.builder.FriendRelationMessageBuilder;
 import com.tenPines.mailer.DumbPostMan;
+import com.tenPines.mailer.FailProofPostMan;
+import com.tenPines.mailer.SMTPPostMan;
 import com.tenPines.mailer.SafePostMan;
 import com.tenPines.model.*;
 import com.tenPines.persistence.AbstractRepository;
@@ -31,10 +33,17 @@ public class SecretPalSystem {
     private SecretPalEventMethods secretPalEventRepository;
     private AbstractRepository<Wish> wishRepository;
 
-    private  SafePostMan smtpPostMan;
-    private SafePostMan dumbPostman = new DumbPostMan();
-
     private SafePostMan safePostMan;
+    private SafePostMan activePostMan;
+    private SafePostMan inactivePostMan;
+
+    public void setActivePostMan(SafePostMan activePostMan) {
+        this.activePostMan = activePostMan;
+    }
+
+    public void setInactivePostMan(SafePostMan inactivePostMan) {
+        this.inactivePostMan = inactivePostMan;
+    }
 
     private AbstractRepository<Message> failedMails;
     private Clock clock;
@@ -43,20 +52,11 @@ public class SecretPalSystem {
         return failedMails;
     }
 
-    public SafePostMan getSmtpPostMan() {
-        return smtpPostMan;
-    }
-
-    public void setSmtpPostMan(SafePostMan smtpPostMan) {
-        this.smtpPostMan = smtpPostMan;
-    }
-
     public void setFailedMails(AbstractRepository<Message> failedMails) {
         this.failedMails = failedMails;
     }
     public SecretPalSystem() {
         setReminderDayPeriod(7L);
-        setSafePostMan( smtpPostMan );
     }
 
     public void setClock(Clock clock) {
@@ -209,9 +209,9 @@ public class SecretPalSystem {
      */
     public void setEMailTemplate(Properties template) throws IOException {
         if( template.getProperty("active").equals("true") ){
-            setSafePostMan( smtpPostMan );
+            setSafePostMan( activePostMan );
         } else {
-            setSafePostMan( dumbPostman );
+            setSafePostMan( inactivePostMan );
         }
 
         File f = new File(mailTemplateProperties);
