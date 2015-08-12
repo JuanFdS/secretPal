@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nimbusds.jose.JOSEException;
 import com.tenPines.application.SecretPalSystem;
 import com.tenPines.auth.GoogleAuth;
+import com.tenPines.configuration.AdminProperties;
+import com.tenPines.model.User;
 import com.tenPines.model.Worker;
 import com.tenPines.utils.AuthUtils;
 import com.tenPines.utils.Payload;
@@ -43,21 +45,40 @@ public class AuthController {
     }
 
     private ResponseEntity<Token> validateWorker(HttpServletRequest request, String workerEmail) throws JOSEException {
-        Optional<Worker> anUser = system.retrieveWorkerByEmail(workerEmail);
-        if (anUser.isPresent()) {
-            Token token = AuthUtils.createToken(request.getRemoteHost(), anUser.get().geteMail());
+        try{
+            Worker aUser = system.retrieveWorkerByEmail(workerEmail);
+            Token token = AuthUtils.createToken(request.getRemoteHost(), aUser.geteMail());
             return new ResponseEntity<>(token, HttpStatus.OK);
-        } else {
+        } catch (RuntimeException e){
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    @ResponseBody
+    public Worker getAdmin() throws IOException {
+        return system.retrieveWorkerByEmail(AdminProperties.getAdminEmail());
+    }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.POST)
+    @ResponseBody
+    public void setAdmin(@RequestHeader(value = "Authorization") String header,
+                         @RequestBody Worker newAdmin) throws ParseException, JOSEException, IOException {
+        User user = new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
+
+        if( user.isAdmin() ){
+            AdminProperties.setAdmin(newAdmin);
+        } else {
+            throw new RuntimeException("This user is not an admin");
         }
     }
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     @ResponseBody
     public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
-        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)).orElseThrow(
-                () -> new RuntimeException("The user does not exist")
-        ));
+        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
     }
 
     public static class Token {
@@ -67,23 +88,6 @@ public class AuthController {
         }
         public String getToken() {
             return token;
-        }
-    }
-
-    private class User {
-        public Worker worker;
-
-        public User(Worker worker) {
-            this.worker = worker;
-        }
-
-        public Worker getWorker() {
-            return worker;
-        }
-
-        public boolean isAdmin() throws IOException {
-            PropertyParser adminProperty = new PropertyParser("src/main/resources/admin.properties");
-            return worker.geteMail().equals(adminProperty.getProperty("whois.admin"));
         }
     }
 }

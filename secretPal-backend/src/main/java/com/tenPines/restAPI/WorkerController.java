@@ -2,6 +2,7 @@ package com.tenPines.restAPI;
 
 import com.nimbusds.jose.JOSEException;
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.model.User;
 import com.tenPines.model.Worker;
 import com.tenPines.utils.AuthUtils;
 import com.tenPines.utils.PropertyParser;
@@ -25,8 +26,6 @@ import java.util.Properties;
 @RequestMapping("/worker")
 public class WorkerController {
 
-    private String adminPropertyRoute = "src/main/resources/admin.properties";
-
     @Autowired
     private SecretPalSystem system;
 
@@ -47,9 +46,9 @@ public class WorkerController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void delete(@PathVariable Long id) throws IOException {
-        Worker aWorker = system.retrieveAWorker(id);
-        if (!isAdmin(aWorker)) {
-            system.deleteAWorker(aWorker);
+        User user = new User(system.retrieveAWorker(id));
+        if ( !user.isAdmin() ) {
+            system.deleteAWorker(user.getWorker());
         }
     }
 
@@ -64,40 +63,5 @@ public class WorkerController {
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public RestfulException handleException(RestfulException e) {
         return e;
-    }
-
-    @RequestMapping(value = "/adminMail", method = RequestMethod.GET)
-    @ResponseBody
-    public String adminMail() throws IOException {
-        PropertyParser adminProperty = new PropertyParser(adminPropertyRoute);
-        return adminProperty.getProperty("whois.admin");
-    }
-
-
-    @RequestMapping(value = "/changeAdmin", method = RequestMethod.POST)
-    @ResponseBody
-    public void changeAdmin(@RequestHeader(value = "Authorization") String header,
-                            @RequestBody Worker newAdmin) throws ParseException, JOSEException, IOException {
-        Worker user = system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)).orElseThrow(
-                () -> new RuntimeException("The user does not exist")
-        );
-
-        Properties adminProperty = new PropertyParser(adminPropertyRoute);
-
-        if( isAdmin(user) ){
-            adminProperty.setProperty("whois.admin", newAdmin.geteMail());
-
-            File f = new File(adminPropertyRoute );
-            OutputStream out = new FileOutputStream( f );
-            adminProperty.store(out, "Changed by: " + user.geteMail());
-        } else {
-            throw new RuntimeException("This user is not an admin");
-        }
-    }
-
-
-    private boolean isAdmin(Worker aWorker) throws IOException {
-        PropertyParser adminProperty = new PropertyParser(adminPropertyRoute);
-        return aWorker.geteMail().equals(adminProperty.getProperty("whois.admin"));
     }
 }

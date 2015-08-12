@@ -151,8 +151,10 @@ public class SecretPalSystem {
       return secretPalEventRepository.retrieveRelation(from, to);
     }
 
-    public Optional<Worker> retrieveWorkerByEmail(String workerEmail) {
-        return workerRepository.retrieveByCondition("eMail", workerEmail).stream().findFirst();
+    public Worker retrieveWorkerByEmail(String workerEmail) {
+        return workerRepository.retrieveByCondition("eMail", workerEmail).stream().findFirst().orElseThrow(
+                () -> new RuntimeException("The user does not exist")
+        );
     }
 
     public Long getReminderDayPeriod() {

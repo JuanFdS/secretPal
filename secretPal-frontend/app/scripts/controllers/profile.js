@@ -8,22 +8,6 @@ angular.module('secretPalApp')
       SweetAlert.swal("No tienes ningun amigo asignado", "avisale al administrador", "error");
     };
 
-    if (!user.data.worker.wantsToParticipate) {
-      $scope.wantToParticipateMsg();
-    } else {
-      FriendRelationService.getFriend(user.data.worker, function (friend) {
-        $scope.friend = friend;
-
-        if (friend.data === "") {
-          $scope.noFriendAlert();
-        }
-
-        WishlistService.getAllWishesFor($scope.friend.data, function (wishlist) {
-          $scope.wishlist = wishlist;
-        });
-      });
-    }
-
     $scope.wantToParticipateMsg = function() {
       SweetAlert.swal({
           title: "No estas participando",
@@ -41,5 +25,22 @@ angular.module('secretPalApp')
             $scope.noFriendAlert();
           }
         });
+    };
+
+    if (!user.data.worker.wantsToParticipate) {
+      $scope.wantToParticipateMsg();
+    } else {
+      FriendRelationService.getFriend(user.data.worker, function (friend) {
+        $scope.friend = friend;
+
+        if (friend.data === "") {
+          $scope.noFriendAlert();
+        }
+
+        WishlistService.getAllWishesFor($scope.friend.data, function (wishlist) {
+          $scope.wishlist = wishlist;
+        });
+      });
     }
+
   });
