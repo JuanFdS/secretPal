@@ -16,8 +16,11 @@ public class AdminProperties {
 
     public static void setAdmin(Worker newAdmin) throws IOException {
         File f = new File(adminPropertyRoute );
-        OutputStream out = new FileOutputStream( f );
         PropertyParser adminProperty = new PropertyParser(adminPropertyRoute);
+
+        adminProperty.setProperty("whois", newAdmin.geteMail());
+
+        OutputStream out = new FileOutputStream( f );
         adminProperty.store(out, "Changed via the system");
     }
 }

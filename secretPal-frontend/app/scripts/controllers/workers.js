@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerService, FriendRelationService, $filter, $location, user, SweetAlert) {
+app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerService, FriendRelationService, $filter, $location, user, SweetAlert, Account) {
 
     function warningMsg(msg){
       SweetAlert.swal({
@@ -84,6 +84,25 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
       );
       if(keepGoing) {WorkerService.changeIntention(worker);}
 
+    };
+
+    $scope.makeAdmin = function(worker){
+      SweetAlert.swal({
+          title: "Estas seguro?",
+          text: "Al no ser más Admin, ya no vas a tener acceso a esta página para cambiarlo",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Si, cambiarme!",
+          closeOnConfirm: false
+        },
+        function (isConfirm) {
+          if (isConfirm) {
+            Account.setCurrentAdmin(worker);
+            SweetAlert.swal("Baiii");
+            $location.path("/");
+          }
+        });
     };
 
     $scope.assignation = function() {

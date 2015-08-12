@@ -27,7 +27,7 @@
         <tr ng-repeat="wish in wishlist">
           <td>{{wish.worker.fullName}}</td>
             <td>{{wish.gift}}</td>
-            <td><a ng-click="Edit(wish)"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            <td><a ng-click="Edit(wish)" ng-show="canDelete(wish)"><span class="glyphicon glyphicon-pencil"></span></a></td>
             <td><a ng-click="Delete(wish)" ng-show="canDelete(wish)"><span class="glyphicon glyphicon glyphicon-remove"></span></a></td>
         </tr>
         </tbody>

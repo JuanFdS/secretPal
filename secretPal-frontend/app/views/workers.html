@@ -1,4 +1,5 @@
 <div class="list_data">
+  <button class="btn btn-primary pull-right" ng-click="assignation()">Asignar Amigos!</button>
   <h1>Lista de Pinos</h1>
   <div class="panel panel-primary">
     <table class="table table-striped">
@@ -8,6 +9,8 @@
           <th>Email</th>
           <th>Fecha de cumpleaños</th>
           <th>Quiere participar?</th>
+          <th>Borrarlo</th>
+          <th>Hacer Admin!!</th>
         </tr>
       </thead>
       <tbody>
@@ -16,13 +19,14 @@
           <td>{{worker.eMail}}</td>
           <td>{{worker.dateOfBirth | date}}</td>
           <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.fullName}}" ng-change="changeIntention(worker)" ng-model="worker.wantsToParticipate"></td>
-          <td><button class="btn btn-group-justified" ng-click="delete(worker)">Borrar</button></td>
+          <td><a ng-click="delete(worker)"><span class="glyphicon glyphicon glyphicon-remove"></span></a></td>
+          <td><a ng-click="makeAdmin(worker)"><span class="glyphicon glyphicon glyphicon-education"></span></a></td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
-<button class="btn btn-primary" ng-click="assignation()">Asignar Amigos!</button>
+
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_worker" aria-expanded="false" aria-controls="add_worker" id="add_worker_button">
   Agrega un nuevo Pino!
 </button>

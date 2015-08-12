@@ -12,11 +12,12 @@ angular.module('secretPalApp')
       getProfile: function() {
         return $http.get(buildRoute('/me'))
                     .then(function(data){
-                        this.loggedUser = data; return data;
+                        loggedUser = data;
+                        return data;
                     });
       },
       getCurrentProfile: function() {
-        return this.loggedUser.data;
+        return loggedUser.data;
       },
       getCurrentAdmin: function(){
         return $http.get(buildRoute('/admin'))
