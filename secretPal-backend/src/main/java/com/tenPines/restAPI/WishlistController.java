@@ -44,9 +44,7 @@ public class WishlistController {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
         wish.setCreatedBy(
-                system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)).orElseThrow(
-                        () -> new RuntimeException("The user does not exist")
-                )
+                system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header))
         );
         return system.saveWish(wish);
     }

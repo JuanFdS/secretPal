@@ -54,8 +54,6 @@ public class AuthController {
         }
     }
 
-
-
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     @ResponseBody
     public Worker getAdmin() throws IOException {
