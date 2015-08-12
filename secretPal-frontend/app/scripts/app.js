@@ -30,12 +30,12 @@ angular
       .when('/workers', {
         templateUrl: '../views/workers.html',
         controller: 'WorkersController',
-        resolve: { user : authenticated }
+        //TODO: Sacar este comentario resolve: { user : authenticated }
       })
       .when('/friendRelations', {
         templateUrl: '../views/friendRelations.html',
-        controller: 'FriendRelationController',
-        resolve: { user : authenticated }
+        controller: 'FriendRelationController'
+        //TODO: Sacar este comentario resolve: { user : authenticated }
       })
       .when('/wishlist', {
         templateUrl: '../views/wishlist.html',
@@ -48,7 +48,8 @@ angular
       })
       .when('/logout', {
         templateUrl: '../views/main.html',
-        controller: 'LogoutController'
+        controller: 'LogoutController',
+        resolve: { user : authenticated }
       })
       .when('/profile', {
         templateUrl: '../views/profile.html',

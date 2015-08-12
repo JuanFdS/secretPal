@@ -59,6 +59,7 @@
     <bean id="failProofPostMan" class="com.tenPines.mailer.FailProofPostMan">
         <property name="failedMails" ref="databaseFailedMails"/>
         <property name="postMan" ref="smtpPostMan"/>
+        <property name="safePostMan" ref="smtpPostMan"/>
     </bean>
 
 

@@ -222,4 +222,11 @@ public class SecretPalSystem {
     public Properties getEMailTemplate() throws IOException {
         return new PropertyParser(mailTemplateProperties);
     }
+
+    public void deleteAllRelationsInEvent(SecretPalEvent event) {
+        List<FriendRelation> friendRelations = secretPalEventRepository.retrieveAllRelations();
+        for( FriendRelation friendRelation : friendRelations) {
+            secretPalEventRepository.deleteRelationInEvent(friendRelation);
+        }
+    }
 }

@@ -3,8 +3,12 @@
 var app = angular.module('secretPalApp');
 app.controller('FriendRelationController', function($scope, $modal, $filter, FriendRelationService) {
 
-  FriendRelationService.all( function(data) {$scope.friendRelations = data;});
-  $scope.relations = $filter('filter')($scope.friendRelations, {giftReceiver:null});
+  FriendRelationService.all( function(data) {
+    $scope.friendRelations = data;
+    $scope.posibilities = $scope.friendRelations.map( function(relation){ return relation.giftGiver; });
+
+    $scope.relations = $filter('filter')($scope.friendRelations, {giftReceiver:null});
+  });
 
   $scope.deleteRelation = function (relation) {
     FriendRelationService.delete(relation.giftGiver.id, relation.giftReceiver.id, function() {
@@ -31,14 +35,7 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   };
 
   $scope.ok = function () {
-    angular.forEach($scope.relations, function(relation) {
-        if (relation.giftReceiver !== null) {
-          FriendRelationService.new(relation.giftGiver.id, relation.giftReceiver.id, function() { $scope.error = true; });}}
-    );
-
-    if (!$scope.error) {
-      $scope.cancel();
-    }
+    FriendRelationService.new($scope.friendRelations);
   };
 
   $scope.auto = function(){
@@ -47,25 +44,9 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
     });
   };
 
-  $scope.reset = function () {
-
+  $scope.clean = function (relation) {
+    relation.giftReceiver = null;
   };
-
-  /*$scope.openModalForAssign = function() {
-    var modalInstance = $modal.open({
-      animation: false,
-      templateUrl: '../../views/addFriendRelationModal.html',
-      controller: 'addRelationsController',
-      resolve: {
-        relationsXXX: function () {
-          return angular.copy($scope.friendRelations);
-        }
-      }
-    });
-    modalInstance.result.then(function () {
-      location.reload();
-    });
-  };*/
 
 });
 

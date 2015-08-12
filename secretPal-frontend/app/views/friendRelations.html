@@ -5,49 +5,28 @@
   </div>
 
   <div class="panel panel-primary">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th>Participante</th>
-        <th>Pino cumpleañero</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="fr in friendRelations | filter:notNull">
-        <td>{{fr.giftGiver.fullName}}</td>
-        <td>{{fr.giftReceiver.fullName}}</td>
-        <!--<td><button class="btn btn-group-justified" ng-click="deleteRelation(fr)">Borrar relacion</button></td>-->
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_worker" aria-expanded="false" aria-controls="add_worker" id="add_worker_button">
-  Agrega Relaciones!
-</button>
-<div class="collapse" id="add_worker">
-  <div class="well">
-
+    <form class="navbar-form" name="form" ng-submit="ok()">
       <table class="table table-striped">
         <thead>
         <tr>
           <th>Participante</th>
-          <th>Pino cumpleañero</th>
+          <th colspan="2">Pino cumpleañero</th>
+          <th>Limpiar</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="fr in friendRelations">
           <td>{{fr.giftGiver.fullName}}</td>
-          <td><select ng-model="fr.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{fr.giftGiver.id}}) | filter:{giftGiver:{id:'!{{fr.giftGiver.id}}'}}"></select></td>
+          <td>{{fr.giftReceiver.fullName}}</td>
+          <td><select required ng-model="fr.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{fr.giftGiver.id}}) | filter:{giftGiver:{id:'!{{fr.giftGiver.id}}'}}"></select></td>
+          <td><a ng-click="clean(fr)"><span class="glyphicon glyphicon-remove"></span></a></td>
         </tr>
         </tbody>
       </table>
 
       <button class="btn btn-primary" ng-click="auto()">Asignar auto<i>magica</i>mente</button>
-      <button class="btn btn-default" ng-click="ok()">Agregar</button>
-      <button class="btn btn-default" ng-click="reset()">Resetear</button>
-
+      <button type="submit" class="btn btn-default">Agregar</button>
+      </form>
   </div>
 </div>
 

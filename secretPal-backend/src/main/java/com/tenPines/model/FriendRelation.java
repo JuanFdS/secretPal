@@ -21,7 +21,7 @@ public class FriendRelation {
     @OneToOne
     private Worker giftReceiver;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
     public SecretPalEvent event;
 
     public FriendRelation(){}

@@ -25,14 +25,13 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
       });
   };
 
-  this.new = function(idGiver, idReceiver, unSuccessFunction) {
-    $http.post(buildRoute('/' + idGiver + '/' + idReceiver)).
+  this.new = function(relations) {
+    $http.post(buildRoute('/'), relations).
       success(function() {
         successMsg("La asignacion fue exitosa");
       }).
       error(function() {
         errorMsg("No se pudo procesar el pedido");
-        unSuccessFunction();
       });
   };
 

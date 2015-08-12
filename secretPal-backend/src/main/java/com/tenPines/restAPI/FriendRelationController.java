@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +37,17 @@ public class FriendRelationController {
 
     }
 
-    @RequestMapping(value = "/{from}/{to}", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void createRelation(@PathVariable Long from,@PathVariable Long to) throws IOException, MessagingException {
-        Worker giftGiver = system.retrieveAWorker(from);
-        Worker giftReceiver = system.retrieveAWorker(to);
+    public void createRelation(@RequestBody @Valid List<FriendRelation> friendRelations, BindingResult result) throws IOException, MessagingException {
+        if (result.hasErrors())
+            throw new RestfulException(result.getAllErrors());
         SecretPalEvent event = system.retrieveCurrentEvent();
-        system.createRelationInEvent(event, giftGiver, giftReceiver);
+
+        system.deleteAllRelationsInEvent(event);
+        for (FriendRelation friendRelation : friendRelations) {
+            system.createRelationInEvent(event, friendRelation.getGiftGiver(), friendRelation.getGiftReceiver());
+        }
     }
 
     @RequestMapping(value = "/{from}/{to}", method = RequestMethod.DELETE)
