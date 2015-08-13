@@ -30,12 +30,12 @@ angular
       .when('/workers', {
         templateUrl: '../views/workers.html',
         controller: 'WorkersController',
-        //TODO: Sacar este comentario resolve: { user : authenticated }
+        resolve: { user : authenticated }
       })
       .when('/friendRelations', {
         templateUrl: '../views/friendRelations.html',
-        controller: 'FriendRelationController'
-        //TODO: Sacar este comentario resolve: { user : authenticated }
+        controller: 'FriendRelationController',
+        resolve: { user : authenticated }
       })
       .when('/wishlist', {
         templateUrl: '../views/wishlist.html',

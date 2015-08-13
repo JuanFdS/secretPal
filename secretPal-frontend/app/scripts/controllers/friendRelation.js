@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('FriendRelationController', function($scope, $modal, $filter, FriendRelationService) {
+app.controller('FriendRelationController', function($scope, $modal, $filter, FriendRelationService, SweetAlert) {
 
   FriendRelationService.all( function(data) {
     $scope.friendRelations = data;
@@ -35,12 +35,22 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   };
 
   $scope.ok = function () {
+    SweetAlert.swal({
+      title: "Actualizando",
+      text: "Esto puede tardar un rato...\n muchos algotimos",
+      showConfirmButton: false
+    });
     FriendRelationService.new($scope.friendRelations);
   };
 
   $scope.auto = function(){
-    angular.forEach($scope.relations, function(relation) {
-      relation.giftReciever = $scope.friendRelations[Math.floor(Math.random() * $scope.relations.length)].giftGiver;
+    shuffleArray($scope.posibilities);
+    console.log($scope.posibilities.map(function(worker){ return worker.fullName; }));
+
+    $scope.posibilities.forEach(function(worker, index) {
+      $scope.friendRelations.find(function(relation){
+        return relation.giftGiver == worker;
+      }).giftReceiver = $scope.posibilities[(index+1) % $scope.posibilities.length ];
     });
   };
 
@@ -49,6 +59,23 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   };
 
 });
+
+var shuffleArray = function(array) {
+  var m = array.length, t, i;
+
+  // While there remain elements to shuffle
+  while (m) {
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+}
 
 /*app.controller('addRelationsController', function ($scope, $modalInstance, $filter, FriendRelationService, relationsXXX) {
 

@@ -23,6 +23,8 @@ angular.module('secretPalApp')
             WorkerService.changeIntention(user.data.worker);
             SweetAlert.swal("Ahora estas participando!");
             $scope.noFriendAlert();
+          } else {
+            $location.path('/');
           }
         });
     };
