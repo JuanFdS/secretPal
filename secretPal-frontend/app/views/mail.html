@@ -3,20 +3,23 @@
 
 <div class="well">
   <form class="navbar-form" name="form" ng-submit="change()">
-    <div class="field">
-      <label class="control-label col-md-5" for="subject">Asunto: </label>
+    <div class="row">
+      <label class="control-label col-md-5" for="subject">Asunto:</label>
       <input id="subject" class="form-control" ng-model="mail.subject">
     </div>
-    <div class="field">
-      <label class="control-label col-md-5" for="body">Cuerpo: </label>
-      <textarea id="body" class="form-control" ng-model="mail.bodyText"></textarea>
+    <div class="row">
+      <label class="control-label col-md-5" for="body">Cuerpo:
+        <span id="helpBlock" class="help-block">Dentro del mail, existen dos variables: <code>${receiver.fullName}</code> y <code>${receiver.dateOfBirth}</code></span>
+      </label>
+      <textarea id="body" style="max-width: 100%;" class="form-control col-md-5" ng-model="mail.bodyText"></textarea>
     </div>
-    <div class="field">
-      <label for="active" class="control-label col-md-5" for="body">Envio de mails automaticos</label>
+    <div class="row">
+      <label for="active" class="control-label col-md-5" for="body">Envio de mails automaticos
+        <span id="helpBlock" class="help-block">Los mails se mandan al asignar el amigo, y una semana antes del cumpleaños, a modo de recordatorio</code></span>
+      </label>
       <toggle-switch id="active" ng-model="mail.active" on-label="Sí" off-label="No"><toggle-switch>
-
     </div>
-    <div class="action">
+    <div class="row">
       <button type="submit" class="btn btn-default">Aceptar</button>
     </div>
   </form>

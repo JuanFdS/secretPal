@@ -10,14 +10,15 @@
       <table class="table table-striped">
         <thead>
         <tr>
-          <th>Participante</th>
-          <th colspan="2">Pino cumpleañero</th>
-          <th>Limpiar</th>
+          <th colspan="2">Participante</th>
+          <th colspan="2">Agasajado</th>
+          <th>Borrar</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="fr in friendRelations" >
           <td>{{fr.giftGiver.fullName}}</td>
+          <td><small>le regala a</small></td>
           <td>{{fr.giftReceiver.fullName}}</td>
           <td><select  ng-disabled="hasBirthdayInAMonth(fr.giftReceiver)" required ng-model="fr.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{fr.giftGiver.id}}) | filter:{giftGiver:{id:'!{{fr.giftGiver.id}}'}}"></select></td>
           <td><a ng-show="!hasBirthdayInAMonth(fr.giftReceiver)" ng-click="clean(fr)"><span class="glyphicon glyphicon-remove"></span></a></td>
@@ -25,8 +26,8 @@
         </tbody>
       </table>
 
-      <button type="button" class="btn btn-primary" ng-click="auto()">Asignar auto<i>magica</i>mente</button>
-      <button type="submit" class="btn btn-default">Agregar</button>
+        <button type="submit" class="btn btn-default">Agregar</button>
+        <button type="button" class="btn btn-primary pull-right" ng-click="auto()">Asignar auto<i>magica</i>mente</button>
       </form>
   </div>
 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('MailController', function($scope, MailService, SweetAlert) {
+app.controller('MailController', function($scope, $route, MailService, SweetAlert) {
 
   MailService.get( function(mail){ $scope.mail = mail;});
 
