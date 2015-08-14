@@ -3,11 +3,25 @@
 var app = angular.module('secretPalApp');
 app.controller('FriendRelationController', function($scope, $modal, $filter, FriendRelationService, SweetAlert) {
 
-  $scope.thisMonth = new Date().getMonth();
+  $scope.today = new Date();
 
   $scope.hasBirthdayInAMonth = function(worker){
       return new Date(worker.dateOfBirth).getMonth() <= $scope.thisMonth;
   };
+
+  $scope.dayDifference = function(date){
+    var unDia = 24*60*60*1000; // hora*minuto*segundo*milli
+    var birthday = new Date(date);
+    birthday.setYear($scope.today.getFullYear());
+
+    var diff = Math.round((birthday.getTime() - $scope.today.getTime())/unDia);
+    if( diff < 0){
+      return "El cumpleaños ya paso";
+    } else {
+      return "Faltan " + diff + " dias";
+    }
+  };
+
 
   FriendRelationService.all( function(data) {
     $scope.friendRelations = data;

@@ -4,7 +4,6 @@
     <h1>Relaciones entre pinos</h1>
   </div>
 
-  <i>Algunos amigos no pueden ser editados porque falta menos de un mes para su cumpleaños.</i>
   <div class="panel panel-primary">
     <form class="navbar-form" name="form" ng-submit="ok()">
       <table class="table table-striped">
@@ -19,9 +18,9 @@
         <tr ng-repeat="fr in friendRelations" >
           <td>{{fr.giftGiver.fullName}}</td>
           <td><small>le regala a</small></td>
-          <td>{{fr.giftReceiver.fullName}}</td>
-          <td><select  ng-disabled="hasBirthdayInAMonth(fr.giftReceiver)" required ng-model="fr.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{fr.giftGiver.id}}) | filter:{giftGiver:{id:'!{{fr.giftGiver.id}}'}}"></select></td>
-          <td><a ng-show="!hasBirthdayInAMonth(fr.giftReceiver)" ng-click="clean(fr)"><span class="glyphicon glyphicon-remove"></span></a></td>
+          <td>{{fr.giftReceiver.fullName}} <span ng-show="fr.giftReceiver" tooltip="{{dayDifference(fr.giftReceiver.dateOfBirth)}}" class="glyphicon glyphicon-info-sign"></span></td>
+          <td><select  required ng-model="fr.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{fr.giftGiver.id}}) | filter:{giftGiver:{id:'!{{fr.giftGiver.id}}'}}"></select></td>
+          <td><a ng-click="clean(fr)"><span class="glyphicon glyphicon-remove"></span></a></td>
         </tr>
         </tbody>
       </table>
