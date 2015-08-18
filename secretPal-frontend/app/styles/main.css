@@ -116,6 +116,10 @@ body {
   background-color: #cb3927;
 }
 
+.icon-warning {
+  color: #DF0101;
+}
+
 .alert-material {
   position: fixed;
   right: 12px;

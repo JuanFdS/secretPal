@@ -18,7 +18,9 @@
         <tr ng-repeat="fr in friendRelations | filter:birthdayHasNotPassed" >
           <td>{{fr.giftGiver.fullName}}</td>
           <td><small>le regala a</small></td>
-          <td>{{fr.giftReceiver.fullName}} <span ng-show="fr.giftReceiver" tooltip="{{dayDifference(fr.giftReceiver.dateOfBirth)}}" class="glyphicon glyphicon-info-sign"></span></td>
+          <td>{{fr.giftReceiver.fullName}}
+            <span ng-show="birthdayPassOnAMonth(fr)" tooltip="{{dayDifference(fr.giftReceiver.dateOfBirth)}}" class="glyphicon glyphicon-exclamation-sign icon-warning pull-right"></span>
+          </td>
           <td><select  required ng-model="fr.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{fr.giftGiver.id}}) | filter:{giftGiver:{id:'!{{fr.giftGiver.id}}'}}"></select></td>
           <td><a ng-click="clean(fr)"><span class="glyphicon glyphicon-remove"></span></a></td>
         </tr>
@@ -41,14 +43,13 @@
         <tr>
           <th colspan="2">Participante</th>
           <th colspan="2">Agasajado</th>
-          <th>Borrar</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="fr in friendRelations | filter:hasBirthdayPassed" >
           <td>{{fr.giftGiver.fullName}}</td>
           <td><small>ya le regalo a</small></td>
-          <td>{{fr.giftReceiver.fullName}} <span ng-show="fr.giftReceiver" tooltip="{{dayDifference(fr.giftReceiver.dateOfBirth)}}" class="glyphicon glyphicon-info-sign"></span></td>
+          <td>{{fr.giftReceiver.fullName}}</td>
         </tr>
         </tbody>
       </table>

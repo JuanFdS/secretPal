@@ -21,23 +21,27 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
     var date = relation.giftReceiver.dateOfBirth;
     var diff = $scope.diff(date);
 
-    return ( diff < 0);
+    return (diff < 0);
   };
 
   $scope.birthdayHasNotPassed = function(relation){
     var date = relation.giftReceiver.dateOfBirth;
     var diff = $scope.diff(date);
 
-    return ( diff > 0);
+    return (diff > 0);
+  };
+
+  $scope.birthdayPassOnAMonth = function(relation){
+    var date = relation.giftReceiver.dateOfBirth;
+    var diff = $scope.diff(date);
+
+    return (diff < 30);
   };
 
   $scope.dayDifference = function(date){
     var diff = $scope.diff(date);
-
-    if( diff < 0){
-      return "El cumpleaños ya paso";
-    } else {
-      return "Faltan " + diff + " dias";
+    if( diff > 0){
+      return "Faltan solo " + diff + " dias";
     }
   };
 
@@ -83,13 +87,14 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   $scope.ok = function () {
     SweetAlert.swal({
       title: "Actualizando",
-      text: "Esto puede tardar un rato...\n muchos algotimos",
+      text: "Esto puede tardar un rato...\n muchos algoritmos",
       showConfirmButton: false
     });
     FriendRelationService.new($scope.friendRelations);
   };
 
   $scope.auto = function(){
+    //TODO estas posibilities no deberian tomar la de los cumpleaños que ya pasaron.
     shuffleArray($scope.posibilities);
     console.log($scope.posibilities.map(function(worker){ return worker.fullName; }));
 
