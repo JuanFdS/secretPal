@@ -15,7 +15,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="fr in friendRelations" >
+        <tr ng-repeat="fr in friendRelations | filter:birthdayHasNotPassed" >
           <td>{{fr.giftGiver.fullName}}</td>
           <td><small>le regala a</small></td>
           <td>{{fr.giftReceiver.fullName}} <span ng-show="fr.giftReceiver" tooltip="{{dayDifference(fr.giftReceiver.dateOfBirth)}}" class="glyphicon glyphicon-info-sign"></span></td>
@@ -29,5 +29,31 @@
         <button type="button" class="btn btn-primary pull-right" ng-click="auto()">Asignar auto<i>magica</i>mente</button>
       </form>
   </div>
+
+  <div class="clearfix">
+    <h1>Relaciones vencidas</h1>
+    <p>No pueden cambiarse porque ya pasaron los cumpleaños</p>
+  </div>
+  <div class="panel panel-primary">
+    <form class="navbar-form" name="form" ng-submit="ok()">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th colspan="2">Participante</th>
+          <th colspan="2">Agasajado</th>
+          <th>Borrar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="fr in friendRelations | filter:hasBirthdayPassed" >
+          <td>{{fr.giftGiver.fullName}}</td>
+          <td><small>ya le regalo a</small></td>
+          <td>{{fr.giftReceiver.fullName}} <span ng-show="fr.giftReceiver" tooltip="{{dayDifference(fr.giftReceiver.dateOfBirth)}}" class="glyphicon glyphicon-info-sign"></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+
 </div>
 

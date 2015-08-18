@@ -17,6 +17,20 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
     return Math.round((birthday.getTime() - $scope.today.getTime())/unDia);
   };
 
+  $scope.hasBirthdayPassed = function(relation){
+    var date = relation.giftReceiver.dateOfBirth;
+    var diff = $scope.diff(date);
+
+    return ( diff < 0);
+  };
+
+  $scope.birthdayHasNotPassed = function(relation){
+    var date = relation.giftReceiver.dateOfBirth;
+    var diff = $scope.diff(date);
+
+    return ( diff > 0);
+  };
+
   $scope.dayDifference = function(date){
     var diff = $scope.diff(date);
 
@@ -26,7 +40,6 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       return "Faltan " + diff + " dias";
     }
   };
-
 
   FriendRelationService.all( function(data) {
     $scope.friendRelations = data;
