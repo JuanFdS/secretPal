@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class FriendRelationMessageBuilder {
 
-    private Properties templateProperties;
+    private PropertyParser templateProperties;
 
     public FriendRelationMessageBuilder() {
         try {

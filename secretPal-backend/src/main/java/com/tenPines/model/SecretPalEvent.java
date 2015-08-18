@@ -53,6 +53,7 @@ public class SecretPalEvent {
                 aFriendRelation.setEvent(this);
             }
         }*/
+        friendRelations.add(aFriendRelation);
         aFriendRelation.setEvent(this);
     }
 
