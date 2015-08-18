@@ -135,7 +135,7 @@ public class SecretPalSystem {
     public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
         FriendRelation friendRelation = secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
         Message message = friendRelation.createMessage();
-        safePostMan.sendMessage(message);
+        //safePostMan.sendMessage(message);
         return friendRelation;
     }
 
@@ -208,6 +208,7 @@ public class SecretPalSystem {
         Dentro del template, existen: ${receiver.fullName} y ${receiver.dateOfBirth} que se  bindean
      */
     public void setEMailTemplate(Properties template) throws IOException {
+        logger.warn(template.getProperty("active"));
         if( template.getProperty("active").equals("true") ){
             setSafePostMan( activePostMan );
         } else {
