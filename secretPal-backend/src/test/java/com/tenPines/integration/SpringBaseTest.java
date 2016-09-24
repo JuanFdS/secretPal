@@ -2,6 +2,7 @@ package com.tenPines.integration;
 
 import com.tenPines.mailer.InMemoryPostMan;
 import com.tenPines.persistence.FriendRelationRepository;
+import com.tenPines.persistence.WorkerRepository;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,12 @@ public abstract class SpringBaseTest {
     private FriendRelationRepository friendRelationRepository;
     @Autowired
     private InMemoryPostMan postMan;
+    @Autowired
+    private WorkerRepository workerRepository;
 
     public void resetDB(){
         friendRelationRepository.deleteAll();
+        workerRepository.deleteAll();
         postMan.messages.clear();
     }
 

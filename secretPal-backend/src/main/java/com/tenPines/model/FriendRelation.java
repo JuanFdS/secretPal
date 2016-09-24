@@ -26,9 +26,6 @@ public class FriendRelation {
     public FriendRelation(){}
 
     public FriendRelation(Worker participant, Worker giftReceiver)  {
-        checkIfWantToParticipate(participant);
-        checkIfWantToParticipate(giftReceiver);
-        checkIfNotTheSameParticipant(participant, giftReceiver);
         this.giftGiver = participant;
         this.giftReceiver = giftReceiver;
     }
@@ -47,14 +44,6 @@ public class FriendRelation {
 
     public void setEvent(SecretPalEvent event) {
         this.event = event;
-    }
-
-    private void checkIfNotTheSameParticipant(Worker participant, Worker secretPal) {
-        if(participant.equals(secretPal))
-            throw new RuntimeException("You cant assign the giftGiver to be his giftReceiver");
-    }
-    private void checkIfWantToParticipate(Worker worker) {
-        if(!worker.getWantsToParticipate()) throw new RuntimeException(worker.getFullName()  + " does not want to participate");
     }
 
     public Worker getGiftGiver() {

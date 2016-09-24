@@ -1,50 +1,48 @@
 package com.tenPines.model;
 
 import com.tenPines.builder.WorkerBuilder;
+import com.tenPines.model.process.AssignmentException;
+import com.tenPines.model.process.AssignmentFunction;
 import org.junit.Test;
 
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
+import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.*;
 
 
 public class AssignationTest {
 
 
-    List<Worker> workerList = new ArrayList<>();
-    Map<Worker, Worker> assignment = null;
-    WorkerBuilder workerBuilder = new WorkerBuilder();
+    private List<Worker> workerList = new ArrayList<>();
+    private WorkerBuilder workerBuilder = new WorkerBuilder();
+    private List<FriendRelation> assignment = new ArrayList<>();
 
     @Test
     public void When_there_is_no_person_the_assignation_should_give_an_error(){
         try {
-            assignment = assign(workerList);
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), "Can't assign with less than 2 people");
+            assign(workerList);
+        } catch (AssignmentException e) {
+            assertEquals(e.getReason(), AssignmentException.Reason.NOT_ENOUGH_QUORUM);
         }
         assertEmptyAssignment();
     }
 
-    private void assertEmptyAssignment() {
-        assertEquals(assignment, null);
-    }
-
     @Test
-    public void When_there_is_only_one_person_the_assignation_should_give_an_error() throws Exception {
+    public void When_there_is_only_one_person_the_assignation_should_give_an_error() {
         workerList.add(workerBuilder.build());
         try {
             assignment = assign(workerList);
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), "Can't assign with less than 2 people");
+        } catch (AssignmentException e) {
+            assertEquals(e.getReason(), AssignmentException.Reason.NOT_ENOUGH_QUORUM);
         }
         assertEmptyAssignment();
     }
+
     @Test
-    public void When_there_are_two_people_the_assignation_should_give_each_other() throws Exception {
+    public void When_there_are_two_people_the_assignation_should_give_each_other() {
         Worker ajani = workerBuilder.buildFromDate(1, Month.JANUARY);
         Worker chandra = workerBuilder.buildFromDate(5, Month.JANUARY);
 
@@ -59,7 +57,7 @@ public class AssignationTest {
         assertGift(chandra, ajani);
     }
     @Test
-    public void When_there_are_three_people_the_assignation_should_not_give_each_other() throws Exception {
+    public void When_there_are_three_people_the_assignation_should_not_give_each_other() {
         Worker ajani = workerBuilder.buildFromDate(1, Month.JANUARY);
         Worker chandra = workerBuilder.buildFromDate(5, Month.JANUARY);
         Worker dack = workerBuilder.buildFromDate(10, Month.JANUARY);
@@ -74,12 +72,15 @@ public class AssignationTest {
         assertNoSelfGift();
         assertNoDualGift();
     }
+    private void assertEmptyAssignment() {
+        assertThat(assignment, empty());
+    }
 
     private void assertNoDualGift() {
-        for( Worker p : workerList){
+        workerList.stream().forEach(p -> {
             // Que el que tiene asignado P no le regale a P
-            assertNotGift(assignment.get(p), p);
-        }
+            assertNotGift(getGiftReceiverFor(p), p);
+        });
     }
 
     private void assertNoSelfGift() {
@@ -89,29 +90,28 @@ public class AssignationTest {
     }
 
     private void assertGift(Worker gifter, Worker gifted) {
-        assertEquals(assignment.get(gifter), gifted);
+        assertEquals( getGiftReceiverFor(gifter), gifted);
+    }
+
+    private Worker getGiftReceiverFor(Worker gifter) {
+        return assignment.stream()
+                .filter(friendRelation -> friendRelation.getGiftGiver().equals(gifter))
+                .findFirst()
+                .orElseThrow(() ->
+                        new RuntimeException("Gifter not found")
+                ).getGiftReceiver();
     }
 
     private void assertNotGift(Worker gifter, Worker gifted) {
-        assertNotEquals(assignment.get(gifter), gifted);
+        assertNotEquals( getGiftReceiverFor(gifter), gifted);
     }
 
     private void assertNotEmptyAssignment() {
         assertTrue(assignment.size() > 0);
     }
 
-    private Map<Worker, Worker> assign(List<Worker> workerList) throws Exception {
-        LinkedHashMap<Worker, Worker> assignment = new LinkedHashMap<>();
-
-        if(workerList.size() < 2) {
-            throw new Exception("Can't assign with less than 2 people");
-        }
-
-        for (int i = 0; i < workerList.size(); i++) {
-            assignment.put(workerList.get(i), workerList.get((i +1)% workerList.size()));
-        }
-
-        return assignment;
+    private List<FriendRelation> assign(List<Worker> workerList) throws AssignmentException{
+        return new AssignmentFunction(workerList).execute();
     }
 
 }

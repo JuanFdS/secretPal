@@ -158,14 +158,6 @@ public class SecretPalSystem {
         return secretPalEventRepository.retrieveEvent();
     }
 
-    public void autoAssignRelationsFor(SecretPalEvent event, List<Worker> participants) throws Exception {
-        if(participants.size() < 2) {
-            throw new Exception("Can't assign with less than 2 people");
-        }
-        for (int i = 0; i < participants.size(); i++) {
-            secretPalEventRepository.createRelationInEvent(event, participants.get(i), participants.get((i +1)% participants.size()));
-        }
-    }
 
     public Properties getEMailTemplate() throws IOException {
         return new PropertyParser(mailTemplateProperties);

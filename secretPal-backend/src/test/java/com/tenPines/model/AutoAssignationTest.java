@@ -1,75 +1,50 @@
 package com.tenPines.model;
 
-import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.service.FriendRelationService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.WorkerBuilder;
-import org.junit.Before;
+import com.tenPines.integration.SpringBaseTest;
+import com.tenPines.model.process.AssignmentException;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:*spring-test-dispatcher-servlet.xml")
-@WebAppConfiguration
-@Transactional
-public class AutoAssignationTest {
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
+public class AutoAssignationTest extends SpringBaseTest {
 
     @Autowired
     private WorkerService workerService;
-
-    private SecretPalSystem secretPalSystem;
-
-    @Before
-    public void setUp() {
-        secretPalSystem = (SecretPalSystem) webApplicationContext.getBean("secretPalSystem");
-    }
+    @Autowired
+    private FriendRelationService friendRelationService;
 
     @Test
     public void When_there_is_no_participants_then_it_should_raise_an_exception(){
-        SecretPalEvent event = secretPalSystem.retrieveCurrentEvent();
-        List<Worker> participants = secretPalSystem.retrieveParticipants();
+        workerService.save(new WorkerBuilder().build());
         try {
-            secretPalSystem.autoAssignRelationsFor(event, participants);
+            friendRelationService.autoAssignRelations();
             fail("The exception was not raised");
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), "Can't assign with less than 2 people");
-            assertThat(event.getFriendRelations(), hasSize(0));
+        } catch (AssignmentException e) {
+            assertEquals(e.getReason(), AssignmentException.Reason.NOT_ENOUGH_QUORUM);
+            assertThat(friendRelationService.getAllRelations(), hasSize(0));
         }
     }
 
     @Test
     public void When_there_is_2_participants_then_when_assign_each_participant_is_the_other_one_secret_pal() throws Exception {
-        SecretPalEvent event = secretPalSystem.retrieveCurrentEvent();
-
         Worker worker = new WorkerBuilder().build();
-        worker.changeParticipationIntention();
         workerService.save(worker);
 
         Worker otherWorker = new WorkerBuilder().build();
-        otherWorker.changeParticipationIntention();
         workerService.save(otherWorker);
 
-        List<Worker> participants = secretPalSystem.retrieveParticipants();
-        secretPalSystem.autoAssignRelationsFor(event, participants);
+        friendRelationService.autoAssignRelations();
 
-        assertThat(event.getFriendRelations(), hasSize(2));
-        assertThat(event.getFriendRelations(), hasItem(hasProperty("giftGiver", is(worker))));  //se debe asertar que este mismo item tiene la property "giftReceiver", is(otherWorker)
-        assertThat(event.getFriendRelations(), hasItem(hasProperty("giftGiver", is(otherWorker))));
+        assertThat(friendRelationService.getAllRelations(), hasSize(2));
+        assertThat(friendRelationService.getAllRelations(), hasItem(hasProperty("giftGiver", is(worker))));
+        assertThat(friendRelationService.getAllRelations(), hasItem(hasProperty("giftGiver", is(otherWorker))));
     }
 
 }
