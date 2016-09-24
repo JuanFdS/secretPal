@@ -8,31 +8,24 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.IOException;
 import java.util.Properties;
 
-@Entity
-@Table
 public class Message {
-    @Id
-    @GeneratedValue
-    private Long id;
 
     private String recipient;
     private String body;
     private String subject;
-    private String content;
-    private String error;
 
     public Message() {
     }
 
-    public Long getId() {
-        return id;
+    public static Message create(String recipient, String subject, String body) {
+        Message instance = new Message();
+        instance.recipient = recipient;
+        instance.body = body;
+        instance.subject = subject;
+        return instance;
     }
 
     public String getRecipient() {
@@ -41,14 +34,6 @@ public class Message {
 
     public void setRecipient(String recipient) {
         this.recipient = recipient;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public String getSubject() {
@@ -92,13 +77,5 @@ public class Message {
                         return new PasswordAuthentication(user, password);
                     }
                 });
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(MessagingException error) {
-        this.error = error.toString();
     }
 }

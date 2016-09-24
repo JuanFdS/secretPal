@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class InMemoryWorkerDAOTest {
 
-    private AbstractRepository<Worker> personDao;
+    private Repo<Worker> personDao;
 
     @Before
     public void setUp() {

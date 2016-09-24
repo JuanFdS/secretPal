@@ -1,4 +1,4 @@
-package com.tenPines.model;
+package com.tenPines.application.clock;
 
 import java.time.LocalDate;
 

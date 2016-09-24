@@ -3,10 +3,9 @@ package com.tenPines.persistence;
 import com.tenPines.model.Worker;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class InMemoryWorkerDao implements AbstractRepository<Worker> {
+public class InMemoryWorkerDao implements Repo<Worker> {
 
     protected static List<Worker> workers = new ArrayList<>();
 

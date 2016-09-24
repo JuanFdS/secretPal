@@ -1,12 +1,9 @@
 package com.tenPines.persistence;
 
 
-import com.tenPines.model.SecretPalEvent;
-import com.tenPines.model.Worker;
-
 import java.util.List;
 
-public interface AbstractRepository<T> {
+public interface Repo<T> {
     List<T> retrieveAll();
 
     T save(T elements);

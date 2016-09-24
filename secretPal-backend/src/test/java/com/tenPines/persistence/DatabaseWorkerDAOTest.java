@@ -23,13 +23,13 @@ import static org.junit.Assert.assertThat;
 @Transactional
 public class DatabaseWorkerDAOTest {
 
-    private AbstractRepository<Worker> workerDao;
+    private Repo<Worker> workerDao;
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Before
     public void setUp() {
-        workerDao = (AbstractRepository<Worker>) webApplicationContext.getBean("databaseWorkerDao");
+        workerDao = (Repo<Worker>) webApplicationContext.getBean("databaseWorkerDao");
     }
 
     @Test

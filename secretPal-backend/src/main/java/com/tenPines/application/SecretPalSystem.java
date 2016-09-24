@@ -1,60 +1,50 @@
 package com.tenPines.application;
 
+import com.tenPines.application.clock.Clock;
 import com.tenPines.builder.FriendRelationMessageBuilder;
-import com.tenPines.mailer.DumbPostMan;
-import com.tenPines.mailer.FailProofPostMan;
-import com.tenPines.mailer.SMTPPostMan;
-import com.tenPines.mailer.SafePostMan;
+import com.tenPines.mailer.PostOffice;
 import com.tenPines.model.*;
-import com.tenPines.persistence.AbstractRepository;
+import com.tenPines.persistence.Repo;
 import com.tenPines.persistence.SecretPalEventMethods;
 import com.tenPines.utils.PropertyParser;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.mail.MessagingException;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.time.MonthDay;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Stream;
 
+@Configuration
 public class SecretPalSystem {
 
-    protected static Logger logger = Logger.getLogger("service");
-    public String mailTemplateProperties = "src/main/resources/mailTemplate.properties";
+    private static Logger logger = Logger.getLogger("service");
+    private String mailTemplateProperties = "src/main/resources/mailTemplate.properties";
 
-    Long reminderDayPeriod;
-    private AbstractRepository<Worker> workerRepository;
+    private Long reminderDayPeriod;
+    private Repo<Worker> workerRepository;
     private SecretPalEventMethods secretPalEventRepository;
-    private AbstractRepository<Wish> wishRepository;
+    private Repo<Wish> wishRepository;
 
-    private SafePostMan safePostMan;
-    private SafePostMan activePostMan;
-    private SafePostMan inactivePostMan;
+    private Repo<Message> failedMails;
 
-    public void setActivePostMan(SafePostMan activePostMan) {
-        this.activePostMan = activePostMan;
-    }
-
-    public void setInactivePostMan(SafePostMan inactivePostMan) {
-        this.inactivePostMan = inactivePostMan;
-    }
-
-    private AbstractRepository<Message> failedMails;
     private Clock clock;
 
-    public AbstractRepository<Message> getFailedMails() {
+    @Autowired
+    private PostOffice postOffice;
+
+    public Repo<Message> getFailedMails() {
         return failedMails;
     }
 
-    public void setFailedMails(AbstractRepository<Message> failedMails) {
+    public void setFailedMails(Repo<Message> failedMails) {
         this.failedMails = failedMails;
     }
+
     public SecretPalSystem() {
         setReminderDayPeriod(7L);
     }
@@ -63,11 +53,15 @@ public class SecretPalSystem {
         this.clock = clock;
     }
 
-    public void setWishRepository(AbstractRepository<Wish> wishRepository) {
+    public Clock getClock() {
+        return clock;
+    }
+
+    public void setWishRepository(Repo<Wish> wishRepository) {
         this.wishRepository = wishRepository;
     }
 
-    public void setWorkerRepository(AbstractRepository<Worker> workerRepository) {
+    public void setWorkerRepository(Repo<Worker> workerRepository) {
         this.workerRepository = workerRepository;
     }
 
@@ -135,7 +129,7 @@ public class SecretPalSystem {
     public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
         FriendRelation friendRelation = secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
         Message message = friendRelation.createMessage();
-        //safePostMan.sendMessage(message);
+        //postMan.sendMessage(unSentMessage);
         return friendRelation;
     }
 
@@ -174,17 +168,9 @@ public class SecretPalSystem {
                         MonthDay.from(friendRelation.getGiftReceiver().getDateOfBirth())
                                 .equals(
                                         MonthDay.from(clock.now().plusDays(getReminderDayPeriod())))
-        ).forEach(friendRelation -> safePostMan.sendMessage(
+        ).forEach(friendRelation -> postOffice.sendMessage(
                 new FriendRelationMessageBuilder().buildMessage(friendRelation)
         ));
-    }
-
-    public SafePostMan getSafePostMan() {
-        return safePostMan;
-    }
-
-    public void setSafePostMan(SafePostMan safePostMan) {
-        this.safePostMan = safePostMan;
     }
 
     public List<Wish> retrievallWishesForWorker(Worker worker) {
@@ -202,22 +188,6 @@ public class SecretPalSystem {
         for (int i = 0; i < participants.size(); i++) {
             secretPalEventRepository.createRelationInEvent(event, participants.get(i), participants.get((i +1)% participants.size()));
         }
-    }
-
-    /*
-        Dentro del template, existen: ${receiver.fullName} y ${receiver.dateOfBirth} que se  bindean
-     */
-    public void setEMailTemplate(Properties template) throws IOException {
-        logger.warn(template.getProperty("active"));
-        if( template.getProperty("active").equals("true") ){
-            setSafePostMan( activePostMan );
-        } else {
-            setSafePostMan( inactivePostMan );
-        }
-
-        File f = new File(mailTemplateProperties);
-        OutputStream out = new FileOutputStream( f );
-        template.store(out, "E-Mail template");
     }
 
     public Properties getEMailTemplate() throws IOException {

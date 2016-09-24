@@ -4,7 +4,9 @@ import com.tenPines.application.SecretPalSystem;
 import com.tenPines.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,12 +29,5 @@ public class MailerController {
     @ResponseBody
     public List<Message> getFailedMail(){
         return system.getFailedMails().retrieveAll();
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseBody
-    public void setMail(@RequestHeader(value = "Authorization") String header,
-                              @RequestBody Properties properties) throws IOException {
-        system.setEMailTemplate(properties);
     }
 }

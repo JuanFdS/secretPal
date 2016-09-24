@@ -3,10 +3,9 @@ package com.tenPines.persistence;
 import com.tenPines.model.Wish;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class InMemoryWishlist implements AbstractRepository<Wish> {
+public class InMemoryWishlist implements Repo<Wish> {
 
     List<Wish> wishList = new ArrayList<>();
 

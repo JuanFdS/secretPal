@@ -24,21 +24,21 @@ import static org.hamcrest.core.IsNot.not;
 @Transactional
 public class DatabaseWishlistTest {
 
-    AbstractRepository<Wish> wishlist;
+    Repo<Wish> wishlist;
     @Autowired
-    AbstractRepository<Worker> databaseWorkerDao;
+    Repo<Worker> databaseWorkerDao;
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     private SecretPalSystem secretPalSystem;
 
-    public void setDatabaseWorkerDao(AbstractRepository<Worker> databaseWorkerDao) {
+    public void setDatabaseWorkerDao(Repo<Worker> databaseWorkerDao) {
         this.databaseWorkerDao = databaseWorkerDao;
     }
 
     @Before
     public void setUp() {
-        wishlist = (AbstractRepository<Wish>) webApplicationContext.getBean("databaseWishlist");
+        wishlist = (Repo<Wish>) webApplicationContext.getBean("databaseWishlist");
         secretPalSystem = (SecretPalSystem) webApplicationContext.getBean("secretPalSystem");
     }
 

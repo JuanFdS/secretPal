@@ -2,17 +2,12 @@ package com.tenPines.mailer;
 
 
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.clock.FakeClock;
 import com.tenPines.builder.WorkerBuilder;
-import com.tenPines.model.FakeClock;
 import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
@@ -21,14 +16,10 @@ import java.time.Month;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:*spring-test-dispatcher-servlet.xml")
-@WebAppConfiguration
-@Transactional
 public class ScheduleMailerTest {
     Worker friendWorker;
     Worker birthdayWorker;
-    DumbPostMan dumbPostMan;
+    InMemoryPostMan inMemoryPostMan;
     private SecretPalSystem secretPalSystem;
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -38,8 +29,7 @@ public class ScheduleMailerTest {
 
         secretPalSystem.setClock(new FakeClock(today));
 
-        dumbPostMan = new DumbPostMan();
-        secretPalSystem.setSafePostMan(dumbPostMan);
+        inMemoryPostMan = new InMemoryPostMan();
 
 
         friendWorker = secretPalSystem.saveWorker(new WorkerBuilder().build());
@@ -51,7 +41,7 @@ public class ScheduleMailerTest {
         SecretPalEvent event = secretPalSystem.retrieveCurrentEvent();
 
         secretPalSystem.createRelationInEvent(event, friendWorker, birthdayWorker);
-        dumbPostMan.flushSentMails(); //Ya crea un mail al crear la relacion.
+        inMemoryPostMan.flushSentMails(); //Ya crea un mail al crear la relacion.
     }
 
    /* @Test
@@ -61,7 +51,7 @@ public class ScheduleMailerTest {
         secretPalSystem.sendReminders();
 
         //TODO Arreglar
-        // assertThat(dumbPostMan.containsMessageTo(friendWorker.geteMail()), is(true));
+        // assertThat(inMemoryPostMan.containsMessageTo(friendWorker.geteMail()), is(true));
     }
 */
     @Test
@@ -72,7 +62,7 @@ public class ScheduleMailerTest {
 
         secretPalSystem.sendReminders();
 
-        assertThat(dumbPostMan.containsMessageTo(friendWorker.geteMail()), is(true));
+        assertThat(inMemoryPostMan.containsMessageTo(friendWorker.geteMail()), is(true));
     }
 
     @Test
@@ -83,6 +73,6 @@ public class ScheduleMailerTest {
 
         secretPalSystem.sendReminders();
 
-        assertThat(dumbPostMan.containsMessageTo(friendWorker.geteMail()), is(false));
+        assertThat(inMemoryPostMan.containsMessageTo(friendWorker.geteMail()), is(false));
     }
 }

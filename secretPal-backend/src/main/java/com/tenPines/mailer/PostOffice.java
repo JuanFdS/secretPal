@@ -1,12 +1,13 @@
 package com.tenPines.mailer;
 
+import com.tenPines.model.Message;
 
-import java.io.IOException;
+import java.util.List;
 
-public class PostOffice {
+public interface PostOffice {
+    void sendMessage(Message message);
 
-    public SMTPPostMan callThePostMan() throws IOException {
-        return new SMTPPostMan();
-    }
+    void changePostMan(PostMan postMan);
 
+    List<UnsentMessage> getFailedMessages();
 }

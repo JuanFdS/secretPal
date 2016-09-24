@@ -11,7 +11,7 @@ import static org.hamcrest.core.IsNot.not;
 
 public class InMemoryWishlistTest {
 
-    AbstractRepository<Wish> wishlist;
+    Repo<Wish> wishlist;
 
     @Before
     public void setUp() {
