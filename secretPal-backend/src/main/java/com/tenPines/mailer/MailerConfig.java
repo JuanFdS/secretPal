@@ -7,16 +7,14 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class MailerConfig {
     @Bean
-    @Profile("real-mail")
+    @Profile("!test")
     public PostMan aSMTPPostMan() {
         return new SMTPPostMan();
     }
 
     @Bean
-    @Profile("!real-mail")
+    @Profile("test")
     public PostMan aSillyPostMan() {
-        return message -> {
-            // Do nothing
-        };
+        return new InMemoryPostMan();
     }
 }

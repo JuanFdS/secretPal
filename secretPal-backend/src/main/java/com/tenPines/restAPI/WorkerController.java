@@ -1,6 +1,7 @@
 package com.tenPines.restAPI;
 
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.service.WorkerService;
 import com.tenPines.model.User;
 import com.tenPines.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class WorkerController {
 
     @Autowired
     private SecretPalSystem system;
+    @Autowired
+    private WorkerService workerService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
@@ -32,7 +35,7 @@ public class WorkerController {
     public Worker save(@RequestHeader(value="Authorization") String header, @RequestBody @Valid Worker aWorker, BindingResult result) throws Exception {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
-        return system.saveWorker(aWorker);
+        return workerService.save(aWorker);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -1,6 +1,7 @@
 package com.tenPines.model;
 
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.WorkerBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +34,8 @@ public class SecretPalSystemTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WorkerService workerService;
 
     @Before
     public void setUp() throws Exception {
@@ -42,7 +45,7 @@ public class SecretPalSystemTest {
 
     @Test
     public void When_I_Save_A_New_User_This_Should_Be_Stored() throws Exception {
-        secretPalSystem.saveWorker(aWorker);
+        workerService.save(aWorker);
 
         assertThat(secretPalSystem.retrieveAllWorkers(), hasSize(1));
     }
@@ -52,8 +55,8 @@ public class SecretPalSystemTest {
         Worker aWorker = new WorkerBuilder().build();
         Worker anotherWorker = new WorkerBuilder().build();
 
-        secretPalSystem.saveWorker(aWorker);
-        secretPalSystem.saveWorker(anotherWorker);
+        workerService.save(aWorker);
+        workerService.save(anotherWorker);
 
         assertThat(secretPalSystem.retrieveAllWorkers(),
                 hasItems(aWorker, anotherWorker));
@@ -65,7 +68,7 @@ public class SecretPalSystemTest {
     public void When_I_Delete_An_Existing_Person_It_Should_Be_No_More() throws Exception {
         Worker aWorker = new WorkerBuilder().build();
 
-        secretPalSystem.saveWorker(aWorker);
+        workerService.save(aWorker);
         secretPalSystem.deleteAWorker(aWorker);
 
         assertThat(secretPalSystem.retrieveAllWorkers(), not(hasItem(aWorker)));
@@ -78,7 +81,7 @@ public class SecretPalSystemTest {
         aWorker.setFullName("");
 
         try {
-            secretPalSystem.saveWorker(aWorker);
+            workerService.save(aWorker);
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations(), hasSize(1));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "fullName")));
@@ -90,7 +93,7 @@ public class SecretPalSystemTest {
         Worker aWorker = new Worker(); //completely blank
 
         try {
-            secretPalSystem.saveWorker(aWorker);
+            workerService.save(aWorker);
         } catch (ConstraintViolationException e) {
             assertThat(e.getConstraintViolations(), hasSize(4));
             assertThat(e.getMessage(), stringContainsInOrder(Arrays.asList("Validation failed", "Worker", "may not be empty", "fullName")));
@@ -103,7 +106,7 @@ public class SecretPalSystemTest {
 
     @Test
     public void when_a_worker_wants_to_participate_then_his_intention_changes() {
-        secretPalSystem.saveWorker(aWorker);
+        workerService.save(aWorker);
 
         secretPalSystem.changeIntention(aWorker);
 

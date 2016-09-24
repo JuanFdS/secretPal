@@ -1,10 +1,8 @@
 package com.tenPines.model;
 
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.WorkerBuilder;
-import com.tenPines.model.FriendRelation;
-import com.tenPines.model.SecretPalEvent;
-import com.tenPines.model.Worker;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +17,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -31,6 +28,9 @@ public class AutoAssignationTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
+
+    @Autowired
+    private WorkerService workerService;
 
     private SecretPalSystem secretPalSystem;
 
@@ -58,11 +58,11 @@ public class AutoAssignationTest {
 
         Worker worker = new WorkerBuilder().build();
         worker.changeParticipationIntention();
-        secretPalSystem.saveWorker(worker);
+        workerService.save(worker);
 
         Worker otherWorker = new WorkerBuilder().build();
         otherWorker.changeParticipationIntention();
-        secretPalSystem.saveWorker(otherWorker);
+        workerService.save(otherWorker);
 
         List<Worker> participants = secretPalSystem.retrieveParticipants();
         secretPalSystem.autoAssignRelationsFor(event, participants);

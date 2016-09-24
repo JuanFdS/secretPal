@@ -38,11 +38,11 @@ public class Worker {
     public Worker() {
     }
 
-    public Worker(String fullName, String email, LocalDate dateOfBirth) {
+    public Worker(String fullName, String email, LocalDate dateOfBirth, Boolean wantsToParticipate) {
         this.fullName = fullName;
         this.eMail = email;
         this.dateOfBirth = dateOfBirth;
-        this.wantsToParticipate = false;
+        this.wantsToParticipate = wantsToParticipate;
     }
 
     public Set<Wish> getWish() {

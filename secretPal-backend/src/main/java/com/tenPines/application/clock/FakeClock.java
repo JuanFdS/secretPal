@@ -13,4 +13,8 @@ public class FakeClock implements Clock {
     public LocalDate now() {
         return lies;
     }
+
+    public void setTime(LocalDate lies) {
+        this.lies = lies;
+    }
 }

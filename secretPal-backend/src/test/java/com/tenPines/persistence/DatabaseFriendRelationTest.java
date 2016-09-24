@@ -1,6 +1,7 @@
 package com.tenPines.persistence;
 
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.FriendRelation;
 import com.tenPines.model.SecretPalEvent;
@@ -9,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,6 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:*spring-test-dispatcher-servlet.xml")
 @WebAppConfiguration
 @Transactional
 public class DatabaseFriendRelationTest {
@@ -29,6 +28,7 @@ public class DatabaseFriendRelationTest {
     private WebApplicationContext webApplicationContext;
 
     private SecretPalSystem secretPalSystem;
+    private WorkerService workerService;
 
     @Before
     public void setUp() {
@@ -42,11 +42,11 @@ public class DatabaseFriendRelationTest {
 
         Worker worker = new WorkerBuilder().build();
         worker.changeParticipationIntention();
-        secretPalSystem.saveWorker(worker);
+        workerService.save(worker);
 
         Worker otherWorker = new WorkerBuilder().build();
         otherWorker.changeParticipationIntention();
-        secretPalSystem.saveWorker(otherWorker);
+        workerService.save(otherWorker);
 
         FriendRelation relation = secretPalSystem.createRelationInEvent(event, worker, otherWorker);
 
@@ -61,11 +61,11 @@ public class DatabaseFriendRelationTest {
 
         Worker worker = new WorkerBuilder().build();
         worker.changeParticipationIntention();
-        secretPalSystem.saveWorker(worker);
+        workerService.save(worker);
 
         Worker otherWorker = new WorkerBuilder().build();
         otherWorker.changeParticipationIntention();
-        secretPalSystem.saveWorker(otherWorker);
+        workerService.save(otherWorker);
 
         FriendRelation relation = secretPalSystem.createRelationInEvent(event, worker, otherWorker);
         secretPalSystem.deleteRelationInEvent(relation);

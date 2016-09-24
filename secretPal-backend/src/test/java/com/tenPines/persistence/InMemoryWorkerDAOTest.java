@@ -28,7 +28,7 @@ public class InMemoryWorkerDAOTest {
 
     @Test
     public void When_I_Save_A_New_Person_Then_I_Have_One_More_Person_Persisted() {
-        Worker aWorker = new Worker("Grillo Pepe", "pepegrillo@example.com", LocalDate.of(1993, Month.APRIL, 12));
+        Worker aWorker = new Worker("Grillo Pepe", "pepegrillo@example.com", LocalDate.of(1993, Month.APRIL, 12), true);
         this.personDao.save(aWorker);
         List<Worker> result = this.personDao.retrieveAll();
         assertEquals("The list should Have One More Worker", result.size(), 1);

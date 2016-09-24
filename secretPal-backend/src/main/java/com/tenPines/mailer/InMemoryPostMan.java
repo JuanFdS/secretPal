@@ -4,10 +4,11 @@ import com.tenPines.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InMemoryPostMan implements PostMan {
 
-    private static List<Message> messages = new ArrayList<>();
+    public static List<Message> messages = new ArrayList<>();
 
     void flushSentMails() {
         messages.clear();
@@ -18,8 +19,8 @@ public class InMemoryPostMan implements PostMan {
         messages.add(message);
     }
 
-    boolean containsMessageTo(String to) {
-        return messages.stream().anyMatch(message -> message.getRecipient().contains(to));
+    List<Message> messagesTo(String to) {
+        return messages.stream().filter(message -> message.getRecipient().contains(to)).collect(Collectors.toList());
     }
 
 }

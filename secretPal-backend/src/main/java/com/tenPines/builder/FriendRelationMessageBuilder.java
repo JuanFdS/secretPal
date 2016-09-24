@@ -6,7 +6,6 @@ import com.tenPines.model.Worker;
 import com.tenPines.utils.PropertyParser;
 
 import java.io.IOException;
-import java.util.Properties;
 
 public class FriendRelationMessageBuilder {
 
@@ -17,7 +16,7 @@ public class FriendRelationMessageBuilder {
             templateProperties = new PropertyParser("src/main/resources/mailTemplate.properties");
         } catch (IOException e) {
             templateProperties.setProperty("subject", "[SecretPal] Se te asigno un amigo invisible!");
-            templateProperties.setProperty("bodyText", "Vas a ser el amigo invisible de ${receiver.fullName}.\\nCumple el: ${receiver.dateOfBirth}.");
+            templateProperties.setProperty("bodyText", "Vas a ser el amigo invisible de ${fullName}.\\nCumple el: ${dateOfBirth}.");
         }
     }
 

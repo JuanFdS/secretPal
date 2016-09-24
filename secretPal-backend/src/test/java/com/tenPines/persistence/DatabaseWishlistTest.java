@@ -1,6 +1,7 @@
 package com.tenPines.persistence;
 
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
@@ -31,6 +32,7 @@ public class DatabaseWishlistTest {
     private WebApplicationContext webApplicationContext;
 
     private SecretPalSystem secretPalSystem;
+    private WorkerService workerService;
 
     public void setDatabaseWorkerDao(Repo<Worker> databaseWorkerDao) {
         this.databaseWorkerDao = databaseWorkerDao;
@@ -96,10 +98,10 @@ public class DatabaseWishlistTest {
     @Test
     public void When_I_Ask_For_Wishes_Of_A_Worker_I_Should_get_Them() throws Exception {
         Worker ajani = new WorkerBuilder().build();
-        secretPalSystem.saveWorker(ajani);
+        workerService.save(ajani);
 
         Worker brand = new WorkerBuilder().build();
-        secretPalSystem.saveWorker(brand);
+        workerService.save(brand);
 
         Wish aWishForAjani = new Wish(ajani, "Un pony");
         Wish anotherWishforAjani = new Wish(ajani, "Otro pony");

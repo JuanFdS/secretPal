@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
-@Table
 public class SecretPalEvent {
 
     @Id
@@ -39,7 +37,8 @@ public class SecretPalEvent {
     }
 
     public void registerParticipant(FriendRelation aFriendRelation) {
-        /*List<Worker> participantsToCheck = this.getFriendRelations().stream().map(FriendRelation::getGiftGiver).collect(Collectors.toList());
+        /*TODO: Por qué está comentado esto?
+        List<Worker> participantsToCheck = this.getFriendRelations().stream().map(FriendRelation::getGiftGiver).collect(Collectors.toList());
 
         if (participantsToCheck.contains(aFriendRelation.getGiftGiver()) ) {
             throw new RuntimeException("That user was already registered in the event");
@@ -65,4 +64,9 @@ public class SecretPalEvent {
         return friendRelations.size();
     }
 
+    public static SecretPalEvent create(Long id) {
+        SecretPalEvent event = new SecretPalEvent();
+        event.setId(id);
+        return event;
+    }
 }

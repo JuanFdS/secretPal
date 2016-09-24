@@ -4,7 +4,6 @@ import com.tenPines.builder.FriendRelationMessageBuilder;
 
 import javax.mail.MessagingException;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 @Entity
