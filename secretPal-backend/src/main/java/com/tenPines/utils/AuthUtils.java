@@ -10,10 +10,9 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.tenPines.restAPI.AuthController;
+
 import java.text.ParseException;
 import java.util.Calendar;
-
-
 
 public class AuthUtils {
 

@@ -10,7 +10,7 @@ import com.tenPines.model.Worker;
 import com.tenPines.utils.AuthUtils;
 import com.tenPines.utils.Payload;
 import com.tenPines.utils.PropertyParser;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.ParseException;
-import java.util.Optional;
 import java.util.Properties;
 
 @Controller
@@ -36,9 +31,9 @@ public class AuthController {
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Token> loginGoogle(@RequestBody Payload payload, @Context final HttpServletRequest request) throws IOException, JOSEException {
+    public ResponseEntity<Token> loginGoogle(@RequestBody Payload payload, final HttpServletRequest request) throws IOException, JOSEException {
         Properties googleAuthProperties = new PropertyParser("src/main/resources/gmailAPIAuth.properties");
-        GoogleAuth googleAuth = new GoogleAuth(googleAuthProperties, new DefaultHttpClient());
+        GoogleAuth googleAuth = new GoogleAuth(googleAuthProperties, HttpClientBuilder.create().build());
         String access_token = googleAuth.authUserWithPayload(payload);
 
         return validateWorker(request, googleAuth.getAuthUserEmail(access_token));
@@ -63,7 +58,7 @@ public class AuthController {
     @RequestMapping(value = "/admin", method = RequestMethod.POST)
     @ResponseBody
     public void setAdmin(@RequestHeader(value = "Authorization") String header,
-                         @RequestBody Worker newAdmin) throws ParseException, JOSEException, IOException {
+                         @RequestBody Worker newAdmin) throws ParseException, IOException, JOSEException {
         User user = new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
 
         if( user.isAdmin() ){
