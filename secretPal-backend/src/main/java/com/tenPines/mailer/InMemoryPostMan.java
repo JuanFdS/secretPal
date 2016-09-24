@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class InMemoryPostMan implements PostMan {
 
-    public static List<Message> messages = new ArrayList<>();
+    public List<Message> messages = new ArrayList<>();
 
     void flushSentMails() {
         messages.clear();
