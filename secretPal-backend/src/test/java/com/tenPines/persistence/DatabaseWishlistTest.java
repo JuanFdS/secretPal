@@ -1,119 +1,87 @@
 package com.tenPines.persistence;
 
-import com.tenPines.application.SecretPalSystem;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.WorkerBuilder;
+import com.tenPines.integration.SpringBaseTest;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:*spring-test-dispatcher-servlet.xml")
-@WebAppConfiguration
-@Transactional
-public class DatabaseWishlistTest {
+public class DatabaseWishlistTest extends SpringBaseTest {
 
-    Repo<Wish> wishlist;
     @Autowired
-    Repo<Worker> databaseWorkerDao;
+    private WishlistRepository wishlistRepository;
     @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    private SecretPalSystem secretPalSystem;
     private WorkerService workerService;
 
-    public void setDatabaseWorkerDao(Repo<Worker> databaseWorkerDao) {
-        this.databaseWorkerDao = databaseWorkerDao;
-    }
+    private Worker worker;
+    private Worker creator;
 
     @Before
-    public void setUp() {
-        wishlist = (Repo<Wish>) webApplicationContext.getBean("databaseWishlist");
-        secretPalSystem = (SecretPalSystem) webApplicationContext.getBean("secretPalSystem");
+    public void setUP() {
+        worker = new WorkerBuilder().build();
+        creator = new WorkerBuilder().build();
+        workerService.save(worker);
+        workerService.save(creator);
     }
 
     @Test
     public void When_A_Wishlist_is_created_it_should_be_empty() {
-        assertThat(wishlist.retrieveAll(), empty());
+        assertThat(wishlistRepository.findAll(), empty());
     }
 
     @Test
     public void When_I_Add_A_Wish_To_A_Wishlist_It_Should_Get_Stored() throws Exception {
-        Worker worker = new WorkerBuilder().build();
-        databaseWorkerDao.save(worker);
+        Wish aWish = Wish.create(creator, worker, "Un pony");
 
-        Wish aWish = new Wish(worker, "Un pony");
+        wishlistRepository.save(aWish);
 
-        wishlist.save(aWish);
-        wishlist.refresh(aWish);
-
-        assertThat(wishlist.retrieveAll(), hasSize(1));
-        assertThat(wishlist.retrieveAll(), hasItem(hasProperty("gift", is("Un pony"))));
+        assertThat(wishlistRepository.findAll(), hasSize(1));
+        assertThat(wishlistRepository.findAll(), hasItem(hasProperty("gift", is("Un pony"))));
     }
 
     @Test
     public void When_I_Remove_A_Wish_From_A_Wishlist_It_Should_Be_No_More() throws Exception {
-        Worker worker = new WorkerBuilder().build();
-        databaseWorkerDao.save(worker);
+        Wish aWish = Wish.create(creator, worker, "Un pony");
 
-        Wish aWish = new Wish(worker, "Un pony");
+        wishlistRepository.save(aWish);
+        wishlistRepository.delete(aWish);
 
-        wishlist.save(aWish);
-        wishlist.delete(aWish);
-
-        assertThat(wishlist.retrieveAll(), hasSize(0));
-        assertThat(wishlist.retrieveAll(), not(hasItem(aWish)));
+        assertThat(wishlistRepository.findAll(), hasSize(0));
+        assertThat(wishlistRepository.findAll(), not(hasItem(aWish)));
     }
 
     @Test
     public void When_I_Edit_A_Wish_From_A_Wishlist_It_Should_Be_Changed() throws Exception {
-        Worker worker = new WorkerBuilder().build();
-        databaseWorkerDao.save(worker);
-
-        Wish aWish = new Wish(worker, "Un pony");
-
-        wishlist.save(aWish);
+        Wish aWish = Wish.create(creator, worker, "Un pony");
+        wishlistRepository.save(aWish);
 
         aWish.setGift("Dos ponys!");
-        wishlist.update(aWish);
-        wishlist.refresh(aWish);
+        wishlistRepository.save(aWish);
 
-        assertThat(wishlist.retrieveAll(), hasSize(1));
-        assertThat(wishlist.retrieveAll(), hasItem(hasProperty("gift", is("Dos ponys!"))));
+        assertThat(wishlistRepository.findAll(), hasSize(1));
+        assertThat(wishlistRepository.findAll(), hasItem(hasProperty("gift", is("Dos ponys!"))));
         assertThat(worker.getId(), not(nullValue()));
     }
 
     @Test
-    public void When_I_Ask_For_Wishes_Of_A_Worker_I_Should_get_Them() throws Exception {
-        Worker ajani = new WorkerBuilder().build();
-        workerService.save(ajani);
+    public void One_creator_can_have_multiple_wishes_for_himself() throws Exception {
+        Wish aWish = Wish.create(creator, creator, "Un pony");
+        wishlistRepository.save(aWish);
 
-        Worker brand = new WorkerBuilder().build();
-        workerService.save(brand);
+        Wish otherWish = Wish.create(creator, creator, "Otro pony");
+        wishlistRepository.save(otherWish);
 
-        Wish aWishForAjani = new Wish(ajani, "Un pony");
-        Wish anotherWishforAjani = new Wish(ajani, "Otro pony");
-        Wish aWishForBrand = new Wish(brand, "Un auto");
-
-        secretPalSystem.saveWish(aWishForAjani);
-        secretPalSystem.saveWish(anotherWishforAjani);
-        secretPalSystem.saveWish(aWishForBrand);
-
-
-        assertThat(secretPalSystem.retrievallWishesForWorker(ajani), hasSize(2));
-        assertThat(secretPalSystem.retrievallWishesForWorker(ajani), hasItem(hasProperty("gift", is("Un pony"))));
-        assertThat(secretPalSystem.retrievallWishesForWorker(ajani), hasItem(hasProperty("gift", is("Otro pony"))));
+        assertThat(wishlistRepository.findAll(), hasSize(2));
+        assertThat(wishlistRepository.findAll(), hasItems(
+                hasProperty("gift", is("Un pony")),
+                hasProperty("gift", is("Otro pony"))
+            ));
     }
 }

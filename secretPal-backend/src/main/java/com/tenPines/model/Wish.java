@@ -8,26 +8,30 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table
 public class Wish {
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
-    public Worker worker;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
-    public Worker createdBy;
-
-    @NotEmpty
-    public String gift;
     @Id
     @GeneratedValue
     private Long id;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Worker worker;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Worker createdBy;
+
+    @NotEmpty
+    public String gift;
+
     public Wish() {
     }
 
-    public Wish(Worker worker, String gift) {
-        this.worker = worker;
-        this.gift = gift;
+    public static Wish create (Worker createdBy, Worker worker, String gift) {
+        Wish instance = new Wish();
+        instance.createdBy = createdBy;
+        instance.worker = worker;
+        instance.gift = gift;
+        return instance;
     }
 
     public Worker getCreatedBy() {

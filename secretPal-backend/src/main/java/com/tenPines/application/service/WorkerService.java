@@ -22,4 +22,9 @@ public class WorkerService {
         example.setWantsToParticipate(true);
         return workerRepository.findAll(Example.of(example));
     }
+
+    public void remove(Worker aWorker) {
+        //TODO: y debería sacar las relaciones asociadas; y arreglarlas de alguna manera
+        workerRepository.delete(aWorker);
+    }
 }
