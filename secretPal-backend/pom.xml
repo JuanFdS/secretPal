@@ -28,6 +28,13 @@
     </properties>
 
     <dependencies>
+        <!-- El frontend -->
+        <dependency>
+            <groupId>com.tenpines</groupId>
+            <artifactId>secretPal-frontend</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
