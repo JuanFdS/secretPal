@@ -6,7 +6,7 @@
   <groupId>com.tenpines</groupId>
   <artifactId>secretPal-frontend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>war</packaging>
 
   <name>SecretPal-frontend</name>
 
@@ -43,7 +43,7 @@
           </descriptors>
           <finalName>${project.artifactId}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
-          <outputDirectory>../secretPal-backend/src/main/resources/WEB-INF</outputDirectory>
+          <outputDirectory>target</outputDirectory>
         </configuration>
       </plugin>
 

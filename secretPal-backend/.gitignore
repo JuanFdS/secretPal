@@ -5,4 +5,4 @@
 .project
 SecretPal.iml
 /db/
-/src/main/resources/WEB-INF/
+/webapp/WEB-INF/
