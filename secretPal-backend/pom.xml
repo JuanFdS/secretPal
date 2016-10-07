@@ -2,8 +2,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>TenPines</groupId>
-    <artifactId>SecretPal</artifactId>
+    <groupId>com.tenpines</groupId>
+    <artifactId>secretPal-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <parent>
@@ -12,7 +12,14 @@
         <version>1.4.0.RELEASE</version>
     </parent>
 
-    <name>SecretPal</name>
+    <name>SecretPal-backend</name>
+
+    <scm>
+        <connection>scm:git:ssh://github.com/10PinesLabs/secretPal.git</connection>
+        <url>scm:git:ssh://github.com/10PinesLabs/secretPal.git</url>
+        <developerConnection>scm:git:ssh://github.com/10PinesLabs/secretPal.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
