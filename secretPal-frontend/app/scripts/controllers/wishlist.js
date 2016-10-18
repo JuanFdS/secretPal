@@ -69,7 +69,7 @@ angular.module('secretPalApp')
   .service('WishlistService', function ($http, SweetAlert) {
 
   function buildRoute(path) {
-    var route = 'https://secret-inlet-3742.herokuapp.com/wishlist';
+    var route = '/api/wishlist';
     return route + path;
   }
 

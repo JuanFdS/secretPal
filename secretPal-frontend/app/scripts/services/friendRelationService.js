@@ -3,7 +3,7 @@
 angular.module('secretPalApp').service('FriendRelationService', function($http, SweetAlert) {
 
   function buildRoute(path) {
-    var route = 'https://secret-inlet-3742.herokuapp.com/friendRelation';
+    var route = '/api/friendRelation';
     return route + path;
   }
 

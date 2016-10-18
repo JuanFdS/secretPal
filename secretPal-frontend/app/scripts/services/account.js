@@ -3,7 +3,7 @@
 angular.module('secretPalApp')
   .factory('Account', function($http, $rootScope, SweetAlert) {
     function buildRoute(path) {
-      var route = 'https://secret-inlet-3742.herokuapp.com/auth';
+      var route = '/api/auth';
       return route + path;
     }
     var loggedUser;

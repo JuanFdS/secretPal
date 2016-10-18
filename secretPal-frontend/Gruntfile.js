@@ -26,6 +26,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-angular-templates');
   grunt.loadNpmTasks('grunt-google-cdn');
+  grunt.loadNpmTasks('grunt-connect-proxy');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -77,11 +78,22 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [{
+        context: '/api',
+        host: 'localhost',
+        port: 8080,
+        rewrite: {
+          // the key '^/api' is a regex for the path to be rewritten
+          // the value is the context of the data service
+          '^/api': ''
+        }
+      }],
       livereload: {
         options: {
           open: true,
           middleware: function (connect) {
             return [
+              require('grunt-connect-proxy/lib/utils').proxyRequest,
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -430,6 +442,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer:server',
+      'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);

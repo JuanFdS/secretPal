@@ -59,7 +59,7 @@ angular
 
     $authProvider.google({
       clientId: '136089227578-tq2gjl89s5b27dk2sdpacbb2a7m6gha9.apps.googleusercontent.com',
-      url: 'https://secret-inlet-3742.herokuapp.com/auth/google',
+      url: '/api/auth/google',
       authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
       redirectUri: window.location.origin || window.location.protocol + '//' + window.location.host,
       hd: '10pines.com',
