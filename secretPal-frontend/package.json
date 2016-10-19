@@ -29,7 +29,8 @@
     "jit-grunt": "^0.9.1",
     "jshint-stylish": "^1.0.0",
     "karma": "~0.12.37",
-    "karma-jasmine": "~0.3.6"
+    "karma-jasmine": "~0.3.6",
+    "time-grunt": "^1.4.0"
   },
   "engines": {
     "node": ">=0.10.0"
