@@ -4,7 +4,7 @@ angular.module('secretPalApp')
   .controller('navCtrl', function($scope, $rootScope, $auth, Account) {
 
   $scope.isAuthenticated = function() {
-    return $auth.isAuthenticated();
+    return !$auth.isAuthenticated();
   };
 
   $scope.isAdmin = function(){

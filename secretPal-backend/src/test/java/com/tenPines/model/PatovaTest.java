@@ -1,7 +1,6 @@
 package com.tenPines.model;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,9 +12,8 @@ public class PatovaTest {
     private Patova patova = new Patova();  //TODO AUTOWIREAR
 
     @Test
-    public void ZZZZZZ(){
+    public void when_i_authentic_with_any_credential_must_return_true(){
        Credential credential = new Credential();
-       assertThat(patova.canEntry(credential)).isTrue();
+       assertThat(patova.canEnter(credential)).isTrue();
     }
-
 }

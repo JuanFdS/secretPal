@@ -7,7 +7,7 @@ package com.tenPines.model;
 
 public class Patova {
 
-    public Boolean canEntry(Credential aCredential){
+    public Boolean canEnter(Credential aCredential){
         return true;
     }
 
