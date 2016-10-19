@@ -3,6 +3,7 @@ package com.tenPines.restAPI;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nimbusds.jose.JOSEException;
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.service.WorkerService;
 import com.tenPines.auth.GoogleAuth;
 import com.tenPines.configuration.AdminProperties;
 import com.tenPines.model.User;
@@ -28,6 +29,8 @@ public class AuthController {
 
     @Autowired
     private SecretPalSystem system;
+    @Autowired
+    private WorkerService workerService;
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
@@ -52,7 +55,7 @@ public class AuthController {
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     @ResponseBody
     public Worker getAdmin() throws IOException {
-        return system.retrieveWorkerByEmail(AdminProperties.getAdminEmail());
+        return workerService.retrieveWorkerByEmail(AdminProperties.getAdminEmail());
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.POST)

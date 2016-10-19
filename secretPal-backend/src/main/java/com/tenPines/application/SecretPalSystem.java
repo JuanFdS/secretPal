@@ -7,14 +7,16 @@ import com.tenPines.persistence.Repo;
 import com.tenPines.persistence.SecretPalEventMethods;
 import com.tenPines.utils.PropertyParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-@Configuration
+@Service
 public class SecretPalSystem {
 
     private String mailTemplateProperties = "src/main/resources/mailTemplate.properties";

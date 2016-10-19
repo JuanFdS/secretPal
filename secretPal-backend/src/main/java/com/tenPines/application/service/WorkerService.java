@@ -27,4 +27,14 @@ public class WorkerService {
         //TODO: y debería sacar las relaciones asociadas; y arreglarlas de alguna manera
         workerRepository.delete(aWorker);
     }
+
+    public void removeAll() {
+        workerRepository.deleteAll();
+    }
+
+    public Worker retrieveWorkerByEmail(String email) {
+        return workerRepository.findByeMail(email).stream().findFirst().orElseThrow(
+                () -> new RuntimeException("The user does not exist")
+        );
+    }
 }
