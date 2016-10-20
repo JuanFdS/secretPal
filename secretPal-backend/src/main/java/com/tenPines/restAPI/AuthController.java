@@ -6,6 +6,8 @@ import com.tenPines.application.SecretPalSystem;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.auth.GoogleAuth;
 import com.tenPines.configuration.AdminProperties;
+import com.tenPines.model.Credential;
+import com.tenPines.model.Patova;
 import com.tenPines.model.User;
 import com.tenPines.model.Worker;
 import com.tenPines.utils.AuthUtils;
@@ -14,6 +16,7 @@ import com.tenPines.utils.PropertyParser;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Properties;
 
 @Controller
@@ -31,6 +35,8 @@ public class AuthController {
     private SecretPalSystem system;
     @Autowired
     private WorkerService workerService;
+
+    private Patova patova = new Patova();
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
@@ -75,6 +81,7 @@ public class AuthController {
     @ResponseBody
     public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
         return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
+
     }
 
     public static class Token {
@@ -86,4 +93,11 @@ public class AuthController {
             return token;
         }
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Boolean loginWithInternalCredential(@RequestBody Credential credential) throws ParseException, JOSEException {
+        return patova.canEnter(credential);
+    }
+
 }

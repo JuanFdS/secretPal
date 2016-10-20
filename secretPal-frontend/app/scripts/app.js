@@ -30,17 +30,17 @@ angular
       .when('/workers', {
         templateUrl: '../views/workers.html',
         controller: 'WorkersController',
-        resolve: { user : authenticated }
+        // resolve: { user : authenticated }
       })
       .when('/friendRelations', {
         templateUrl: '../views/friendRelations.html',
         controller: 'FriendRelationController',
-        resolve: { user : authenticated }
+        // resolve: { user : authenticated }
       })
       .when('/wishlist', {
         templateUrl: '../views/wishlist.html',
         controller: 'WishlistController',
-        resolve: { user : authenticated }
+        // resolve: { user : authenticated }
       })
       .when('/login', {
         templateUrl: '../views/login.html',
@@ -49,12 +49,12 @@ angular
       .when('/logout', {
         templateUrl: '../views/main.html',
         controller: 'LogoutController',
-        resolve: { user : authenticated }
+        // resolve: { user : authenticated }
       })
       .when('/profile', {
         templateUrl: '../views/profile.html',
         controller: 'ProfileController',
-        resolve: { user : authenticated }
+        // resolve: { user : authenticated }
       });
 
     $authProvider.google({
