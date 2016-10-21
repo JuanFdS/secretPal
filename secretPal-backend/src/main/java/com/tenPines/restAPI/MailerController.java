@@ -37,12 +37,9 @@ public class MailerController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public Properties setMail(@RequestBody Properties modifiedMail) throws IOException {
-        Properties mailerProperties = new Properties();
-        mailerProperties.load(new FileReader("src/main/resources/mailTemplate.properties"));
-        mailerProperties.setProperty("bodyText", modifiedMail.getProperty("bodyText"));
-        mailerProperties.store(new FileWriter("src/main/resources/mailTemplate.properties"), LocalDateTime.now().toString());
-        return mailerService.getEMailTemplate();
+        return mailerService.setEmailTemplate(modifiedMail);
     }
+
 
     @RequestMapping(value = "/failedMails", method = RequestMethod.GET)
     @ResponseBody
