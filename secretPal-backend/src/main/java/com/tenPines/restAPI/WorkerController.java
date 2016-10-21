@@ -41,7 +41,7 @@ public class WorkerController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void delete(@PathVariable Long id) throws IOException {
-        User user = new User(system.retrieveAWorker(id));
+        User user = User.newUser(system.retrieveAWorker(id),"","");
         if ( !user.isAdmin() ) {
             system.deleteAWorker(user.getWorker());
         }

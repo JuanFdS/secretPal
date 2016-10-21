@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.Properties;
 
 @Controller
@@ -68,7 +67,7 @@ public class AuthController {
     @ResponseBody
     public void setAdmin(@RequestHeader(value = "Authorization") String header,
                          @RequestBody Worker newAdmin) throws ParseException, IOException, JOSEException {
-        User user = new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
+        User user = User.newUser(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)),"","");  //TODO: SOLUCIONAR
 
         if( user.isAdmin() ){
             AdminProperties.setAdmin(newAdmin);
@@ -77,11 +76,16 @@ public class AuthController {
         }
     }
 
+//    @RequestMapping(value = "/me", method = RequestMethod.GET)
+//    @ResponseBody
+//    public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
+//        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
+//    }
+
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     @ResponseBody
     public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
-        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
-
+        return workerService.retrieveUserByUserName(header);
     }
 
     public static class Token {
@@ -94,10 +98,10 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Boolean loginWithInternalCredential(@RequestBody Credential credential) throws ParseException, JOSEException {
-        return patova.canEnter(credential);
+    SecurityToken loginWithInternalCredential(@RequestBody Credential credential){
+        SecurityToken token = patova.enterWith(credential);
+        return token;
     }
-
 }

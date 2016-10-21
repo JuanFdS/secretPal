@@ -1,9 +1,22 @@
-<button class="btn btn-block btn-google" ng-click="authenticate('google')">
-  <i class="fa fa-google-plus fa-2x"></i> Entrar con la cuenta de 10Pines
-</button>
+<!--<button class="btn btn-block btn-google" ng-click="authenticate('google')">-->
+  <!--<i class="fa fa-google-plus fa-2x"></i> Entrar con la cuenta de 10Pines-->
+<!--</button>-->
 
-<button class="btn btn-block " ng-click="internalAuthenticate()">
-  <i class="fa fa-google-plus fa-2x"></i> Entrar con Usuario y Contraseña
-</button>
+<body ng-app="internalLogin">
 
+<div ng-controller="LoginController">
+
+  <form id="myLogin">
+    <label>Nombre</label><br />
+      <input name="userName" type="text" ng-model="userName">
+    <br/>
+    <label>Pasword</label>
+    <br/>
+    <input name="password" type="password" ng-model="password">
+    <br />
+    <input type="submit" ng-click="internalAuthenticate()" value="Ingresar"/>
+  </form>
+
+</div>
+</body>
 

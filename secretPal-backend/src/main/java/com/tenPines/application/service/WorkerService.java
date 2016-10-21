@@ -1,6 +1,8 @@
 package com.tenPines.application.service;
 
+import com.tenPines.model.User;
 import com.tenPines.model.Worker;
+import com.tenPines.persistence.UserRepository;
 import com.tenPines.persistence.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -12,6 +14,9 @@ import java.util.List;
 public class WorkerService {
     @Autowired
     private WorkerRepository workerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public Worker save(Worker newWorker) {
         return workerRepository.save(newWorker);
@@ -34,7 +39,13 @@ public class WorkerService {
 
     public Worker retrieveWorkerByEmail(String email) {
         return workerRepository.findByeMail(email).stream().findFirst().orElseThrow(
-                () -> new RuntimeException("The user does not exist")
+                () -> new RuntimeException("The userRepository does not exist")
+        );
+    }
+
+    public User retrieveUserByUserName(String userName) {
+        return userRepository.findByUserName(userName).stream().findFirst().orElseThrow(
+                () -> new RuntimeException("The ser does not exist")
         );
     }
 }
