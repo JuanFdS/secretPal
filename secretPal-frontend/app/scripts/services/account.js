@@ -34,8 +34,8 @@ angular.module('secretPalApp')
       },
 
       login: function (credentials) {
-        return $http.post('/api/auth/login', credentials).then(function (response) {
-          SweetAlert.swal("¡Bienvenido!", "Ingresaste correctamente", "success");
+        return $http.post('/api/auth/login', credentials).then(function (user) {  //TODO: ESTE USER QUE RECIBO ME SIRVE PARA PONER QUE ESTOY AUTENTICADO
+          SweetAlert.swal("¡Bienvenido!", "Ingresaste correctamente", "success"),
           $location.path('/profile');
         }).catch(function () {
           // $auth.logout();

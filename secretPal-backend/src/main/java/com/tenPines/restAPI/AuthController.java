@@ -84,8 +84,8 @@ public class AuthController {
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     @ResponseBody
-    public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
-        return workerService.retrieveUserByUserName(header);
+    public User retrieveLogedWorker(){     //(@RequestHeader(value = "Authorization") String header)throws ParseException, JOSEException
+        return workerService.retrieveUserByUserName("kevin");
     }
 
     public static class Token {
