@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .factory('Account', function($http, $rootScope, SweetAlert, $location) {
+  .factory('Account', function($http, $rootScope, SweetAlert, $location, Token) {
     function buildRoute(path) {
       var route = '/api/auth';
       return route + path;
@@ -10,11 +10,14 @@ angular.module('secretPalApp')
 
     return {
       getProfile: function() {
-        return $http.get(buildRoute('/me'))
-                    .then(function(user){
-                        loggedUser = user;
-                        return user;
-                    });
+        return $http.get(buildRoute('/me'), {
+          headers: {
+            authorization: Token.getToken()
+          }
+        }).then(function(response){
+            loggedUser = response;
+            return response;
+        });
       },
 
       getCurrentProfile: function() {
@@ -34,11 +37,13 @@ angular.module('secretPalApp')
       },
 
       login: function (credentials) {
-        return $http.post('/api/auth/login', credentials).then(function (user) {  //TODO: ESTE USER QUE RECIBO ME SIRVE PARA PONER QUE ESTOY AUTENTICADO
+        var self = this;
+        return $http.post('/api/auth/login', credentials).then(function (response) {  //TODO: ESTE USER QUE RECIBO ME SIRVE PARA PONER QUE ESTOY AUTENTICADO
+          Token.saveToken(response.data.token);
           SweetAlert.swal("¡Bienvenido!", "Ingresaste correctamente", "success"),
           $location.path('/profile');
         }).catch(function () {
-          // $auth.logout();
+          Token.logout();
           SweetAlert.swal("No estas registrado", "Pongase en contacto con el administrador", "error");
         })
       }

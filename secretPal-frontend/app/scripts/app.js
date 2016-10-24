@@ -11,8 +11,8 @@ angular
     'toggle-switch'
   ])
   .config(function ($routeProvider) {
-    var authenticated = function (Account, $location, $auth) {
-      if (!$auth.isAuthenticated()) {
+    var authenticated = function (Account, $location, $auth, Token) {
+      if (!Token.isAuthenticated()) {
         $location.path('/login');
       }
       return Account.getProfile();
@@ -25,7 +25,7 @@ angular
       })
       .when('/mail', {
         templateUrl: 'views/mail.html',
-        controller: 'MailController'
+        controller: 'MailController',
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',

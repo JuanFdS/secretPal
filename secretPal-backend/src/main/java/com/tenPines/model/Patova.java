@@ -9,8 +9,8 @@ import com.tenPines.restAPI.SecurityToken;
 
 public class Patova {
 
-    public SecurityToken enterWith(Credential aCredential){
-        return SecurityToken.createWith(aCredential.getUserName());
+    public String enterWith(Credential aCredential){
+        return aCredential.getUserName();
     }
 
 }

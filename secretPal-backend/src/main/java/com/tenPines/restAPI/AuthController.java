@@ -82,10 +82,10 @@ public class AuthController {
 //        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
 //    }
 
-    @RequestMapping(value = "/me", method = RequestMethod.GET)
+    @RequestMapping(value = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public User retrieveLogedWorker(){     //(@RequestHeader(value = "Authorization") String header)throws ParseException, JOSEException
-        return workerService.retrieveUserByUserName("kevin");
+    public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header)throws ParseException, JOSEException{
+        return workerService.retrieveUserByUserName(header);
     }
 
     public static class Token {
@@ -100,8 +100,8 @@ public class AuthController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    SecurityToken loginWithInternalCredential(@RequestBody Credential credential){
-        SecurityToken token = patova.enterWith(credential);
-        return token;
+    String loginWithInternalCredential(@RequestBody Credential credential){
+        String token = patova.enterWith(credential);
+        return "{\"token\":\"" + token + "\"}";
     }
 }
