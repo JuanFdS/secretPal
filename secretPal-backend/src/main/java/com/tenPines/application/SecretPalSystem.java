@@ -25,20 +25,12 @@ public class SecretPalSystem {
     private SecretPalEventMethods secretPalEventRepository;
     private Repo<Wish> wishRepository;
 
-    private Repo<Message> failedMails;
+
 
     private Clock clock;
 
     @Autowired
     private PostOffice postOffice;
-
-    public Repo<Message> getFailedMails() {
-        return failedMails;
-    }
-
-    public void setFailedMails(Repo<Message> failedMails) {
-        this.failedMails = failedMails;
-    }
 
     public SecretPalSystem() {
         setReminderDayPeriod(7L);
