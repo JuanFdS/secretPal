@@ -6,10 +6,7 @@ import com.tenPines.application.SecretPalSystem;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.auth.GoogleAuth;
 import com.tenPines.configuration.AdminProperties;
-import com.tenPines.model.Credential;
-import com.tenPines.model.Patova;
-import com.tenPines.model.User;
-import com.tenPines.model.Worker;
+import com.tenPines.model.*;
 import com.tenPines.utils.AuthUtils;
 import com.tenPines.utils.Payload;
 import com.tenPines.utils.PropertyParser;
@@ -35,7 +32,7 @@ public class AuthController {
     @Autowired
     private WorkerService workerService;
 
-    private Patova patova = new Patova();
+    private PatovaBobo patova = new PatovaBobo();
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
