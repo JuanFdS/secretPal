@@ -100,8 +100,8 @@ public class AuthController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    String loginWithInternalCredential(@RequestBody Credential credential){
+    SecurityToken loginWithInternalCredential(@RequestBody Credential credential){
         String token = patova.enterWith(credential);
-        return "{\"token\":\"" + token + "\"}";
+        return SecurityToken.createWith(token);
     }
 }

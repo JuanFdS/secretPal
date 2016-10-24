@@ -1,26 +1,23 @@
 package com.tenPines.restAPI;
 
-/**
- * Created by Kevin on 20/10/16.
- */
 public class SecurityToken {
 
     public SecurityToken(){
     }
 
-    private void setUserName(String userName) {
-        this.userName = userName;
+    private void setToken(String token) {
+        this.token = token;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    private String userName;
-
-    public static SecurityToken createWith(String userName) {
-        SecurityToken token = new SecurityToken();
-        token.setUserName(userName);
+    public String getToken() {
         return token;
+    }
+
+    private String token;
+
+    public static SecurityToken createWith(String aToken) {
+        SecurityToken securityToken = new SecurityToken();
+        securityToken.setToken(aToken);
+        return securityToken;
     }
 }
