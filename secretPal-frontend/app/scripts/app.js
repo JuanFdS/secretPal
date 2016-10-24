@@ -11,7 +11,7 @@ angular
     'toggle-switch'
   ])
   .config(function ($routeProvider) {
-    var authenticated = function (Account, $location, $auth, Token) {
+    var authenticated = function (Account, $location, Token) {
       if (!Token.isAuthenticated()) {
         $location.path('/login');
       }

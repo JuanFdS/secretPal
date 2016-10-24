@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .factory('Token', function() {
+  .factory('Token', function($location) {
     var token;
 
     return {
@@ -18,7 +18,10 @@ angular.module('secretPalApp')
       },
 
       logout: function () {
-        token = false;
+        token = null;
+        return $location.path('/');
       }
     };
   });
+
+
