@@ -11,3 +11,5 @@ import java.util.List;
 public interface WorkerRepository extends JpaRepository<Worker, Long> {
     List<Worker> findByeMail(String email);
 }
+
+
