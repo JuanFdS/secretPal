@@ -9,7 +9,11 @@ import java.util.List;
 
 @Transactional
 public interface WorkerRepository extends JpaRepository<Worker, Long> {
+
     List<Worker> findByeMail(String email);
+
+    List<Worker> findBywantsToParticipate(Boolean bool);
+
 }
 
 

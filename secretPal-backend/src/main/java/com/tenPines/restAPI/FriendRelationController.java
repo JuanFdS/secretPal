@@ -1,6 +1,7 @@
 package com.tenPines.restAPI;
 
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.service.WorkerService;
 import com.tenPines.model.FriendRelation;
 import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
@@ -25,14 +26,18 @@ public class FriendRelationController {
     @Autowired
     private SecretPalSystem system;
 
+    @Autowired
+    private WorkerService workerService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public List<WorkerWithRelation> workersWithFriends() {
         List<WorkerWithRelation> relations = new ArrayList<>();
-        List<Worker> participants = system.retrieveParticipants();
-        relations.addAll(participants.stream().map(
-                participant -> new WorkerWithRelation(participant, system.retrieveAssignedFriendFor(participant)))
-                .collect(Collectors.toList()));
+        List<Worker> participants = workerService.retrieveParticipants();
+        //TODO: esto no funcionaba, hay que ver como hacer la expresión lambda para "Ver Relaciones"
+//        relations.addAll(participants.stream().map(
+//                participant -> new WorkerWithRelation(participant, system.retrieveAssignedFriendFor(participant)))
+//                .collect(Collectors.toList()));
         return relations;
 
     }

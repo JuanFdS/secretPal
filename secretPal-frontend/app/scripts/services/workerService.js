@@ -12,7 +12,7 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
   }
 
   function errorMsg(msg) {
-    SweetAlert.swal("Algo salio mal",msg, "error");
+    SweetAlert.swal("Algo salió mal",msg, "error");
   }
 
 
@@ -22,7 +22,7 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
         callback(data);
       }).
       error(function() {
-        errorMsg("Intentelo denuevo mas tarde");
+        errorMsg("Inténtelo de nuevo mas tarde");
       });
   };
 
