@@ -23,8 +23,6 @@ public class MailerController {
     @Autowired
     private MailerService mailerService;
 
-    @Autowired
-    private FailedMailsRepository failedMailsRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
@@ -43,5 +41,5 @@ public class MailerController {
     @RequestMapping(value = "/failedMails", method = RequestMethod.GET)
     @ResponseBody
     public List<UnsentMessage> getFailedMail(){
-        return failedMailsRepository.findAll();}
+        return mailerService.retrieveAllFailedMails();}
 }
