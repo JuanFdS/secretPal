@@ -21,7 +21,7 @@ angular.module('secretPalApp')
       },
 
       getCurrentProfile: function() {
-        return loggedUser;
+        return loggedUser.data;
       },
 
       getCurrentAdmin: function(){
