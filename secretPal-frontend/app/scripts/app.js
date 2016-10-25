@@ -26,6 +26,7 @@ angular
       .when('/mail', {
         templateUrl: 'views/mail.html',
         controller: 'MailController',
+        resolve: { user : authenticated }
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',

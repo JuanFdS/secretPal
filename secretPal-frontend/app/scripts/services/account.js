@@ -45,6 +45,7 @@ angular.module('secretPalApp')
         }).catch(function () {
           Token.logout();
           SweetAlert.swal("No estas registrado", "Pongase en contacto con el administrador", "error");
+          $location.path('/login');
         })
       }
     };

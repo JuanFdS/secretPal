@@ -43,9 +43,4 @@ public class WorkerService {
         );
     }
 
-    public User retrieveUserByUserName(String userName) {
-        return userRepository.findByUserName(userName).stream().findFirst().orElseThrow(
-                () -> new RuntimeException("The ser does not exist")
-        );
-    }
 }
