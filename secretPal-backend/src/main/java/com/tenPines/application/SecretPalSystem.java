@@ -19,7 +19,6 @@ import java.util.Properties;
 @Service
 public class SecretPalSystem {
 
-    private String mailTemplateProperties = "src/main/resources/mailTemplate.properties";
 
     private Long reminderDayPeriod;
     private Repo<Worker> workerRepository;
@@ -160,10 +159,6 @@ public class SecretPalSystem {
         return secretPalEventRepository.retrieveEvent();
     }
 
-
-    public Properties getEMailTemplate() throws IOException {
-        return new PropertyParser(mailTemplateProperties);
-    }
 
     public void deleteAllRelationsInEvent(SecretPalEvent event) {
         List<FriendRelation> friendRelations = secretPalEventRepository.retrieveAllRelations();
