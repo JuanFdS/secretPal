@@ -39,12 +39,12 @@
             <ul class="nav navbar-nav">
               <li ng-show="isAuthenticated()"><a ng-href="#/profile">Tu amigo</a></li>
               <li ng-show="isAuthenticated()"><a ng-href="#/wishlist">Lista de Deseos</a></li>
-
               <li class="dropdown" ng-show="isAuthenticated() && isAdmin()">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a ng-href="#/workers">Lista de Pinos</a></li>
                   <li><a ng-href="#/friendRelations">Relaciones entre Pinos</a></li>
+                  <li><a ng-href="#/mailsFailure">Mensajes rechazos</a></li>
                   <li role="separator" class="divider"></li>
                   <li><a ng-href="#/mail">Configuración de Mails</a></li>
                 </ul>
@@ -108,10 +108,11 @@
     <script src="scripts/controllers/login.js"></script>
     <script src="scripts/controllers/logout.js"></script>
     <script src="scripts/controllers/profile.js"></script>
-	  <script src="scripts/controllers/friendRelation.js"></script>
+    <script src="scripts/controllers/friendRelation.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/mail.js"></script>
-	  <script src="scripts/controllers/nav.js"></script>
+    <script src="scripts/controllers/mailsFailure.js"></script>
+    <script src="scripts/controllers/nav.js"></script>
     <script src="scripts/services/workerService.js"></script>
     <script src="scripts/services/mailService.js"></script>
     <script src="scripts/services/friendRelationService.js"></script>

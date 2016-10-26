@@ -27,7 +27,6 @@ angular.module('secretPalApp').service('MailService', function($http, SweetAlert
   };
 
   this.new = function(mail) {
-    debugger;
     $http.post(buildRoute('/'), mail).
       success(function() {
         successMsg("Se ha actualizado la configuración del mail");
@@ -36,5 +35,16 @@ angular.module('secretPalApp').service('MailService', function($http, SweetAlert
         errorMsg("Inténtelo de nuevo mas tarde");
       });
   };
+
+  this.all = function(callback) {
+    $http.get(buildRoute('/failedMails') ).
+    success(function(data) {
+      callback(data);
+    }).
+    error(function() {
+      errorMsg("Inténtelo de nuevo mas tarde");
+    });
+  };
+
 
 });

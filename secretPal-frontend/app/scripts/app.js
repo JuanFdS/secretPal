@@ -55,7 +55,13 @@ angular
         templateUrl: '../views/profile.html',
         controller: 'ProfileController',
         resolve: { user : authenticated }
+      })
+      .when('/mailsFailure', {
+        templateUrl: '../views/mailsFailure.html',
+        controller: 'MailsFailureController',
+        resolve: { user : authenticated }
       });
+
 
     // $authProvider.google({
     //   clientId: '136089227578-tq2gjl89s5b27dk2sdpacbb2a7m6gha9.apps.googleusercontent.com',
