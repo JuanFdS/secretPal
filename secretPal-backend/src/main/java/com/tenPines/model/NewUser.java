@@ -1,62 +1,36 @@
 package com.tenPines.model;
 
 
-import java.time.LocalDate;
-
 public class NewUser {
 
     private String userName;
-    private String name;
-    private String lastName;
-
-    public Integer getDay() {
-        return day;
-    }
-
-    public void setDay(Integer day) {
-        this.day = day;
-    }
-
-    public Integer getMonth() {
-        return month;
-    }
-
-    public void setMonth(Integer month) {
-        this.month = month;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    private Integer day;
-    private Integer month;
-    private Integer year;
     private String password;
     private String email;
-    private Boolean wantToParticipate;
+
+    public NewUser(){
+    }
 
 
-    public static NewUser createANewUser(String userName, String name, String lastName, Integer day, Integer month, Integer year,
-                                         String password, String email, Boolean wantToParticipate ) {
-        if(userName == null | name == null | lastName == null | day == null| month == null | year ==null | password == null | email == null ) {
+    public static NewUser createANewUser(String userName, String password, String email) {
+        if(userName == null | password == null | email == null ) {
             throw new RuntimeException(NewUser.errorMessageWhenAnyFieldIsNull());
         }
+        validate10PinesMail(email);
         NewUser user = new NewUser();
         user.setUserName(userName);
-        user.setName(name);
-        user.setLastName(lastName);
         user.setPassword(password);
-        user.setDay(day);
-        user.setMonth(month);
-        user.setYear(year);
         user.setEmail(email);
-        user.setWantToParticipate(wantToParticipate);
         return user;
+    }
+
+    private static void validate10PinesMail(String email) {
+        if(!email.contains("@10pines.com")){
+            throw new RuntimeException(NewUser.errorMessageWhenMailIsNotOf10Pines());
+        }
+    }
+
+    private static String errorMessageWhenMailIsNotOf10Pines() {
+        return "this mail not belong of 10Pines corporation";
     }
 
     private static String errorMessageWhenAnyFieldIsNull() {
@@ -69,22 +43,6 @@ public class NewUser {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -103,13 +61,6 @@ public class NewUser {
         this.email = email;
     }
 
-    public Boolean getWantToParticipate() {
-        return wantToParticipate;
-    }
-
-    public void setWantToParticipate(Boolean wantToParticipate) {
-        this.wantToParticipate = wantToParticipate;
-    }
 
 
 }

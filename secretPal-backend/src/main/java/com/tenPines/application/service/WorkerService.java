@@ -42,5 +42,4 @@ public class WorkerService {
                 () -> new RuntimeException("The userRepository does not exist")
         );
     }
-
 }

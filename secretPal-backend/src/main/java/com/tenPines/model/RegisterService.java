@@ -5,14 +5,11 @@ import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
 
 @Service
 public class RegisterService {
 
-    public RegisterService(){
+    public RegisterService() {
     }
 
     @Autowired
@@ -38,12 +35,33 @@ public class RegisterService {
     }
 
 
-    public User registerUser(NewUser aNewUser){
-
-        Worker worker = new Worker(aNewUser.getName() + aNewUser.getLastName(), aNewUser.getEmail(),LocalDate.of(aNewUser.getYear(),aNewUser.getMonth(),aNewUser.getDay()), aNewUser.getWantToParticipate());
-        workerService.save(worker);
-        User user = User.newUser(workerService.retrieveWorkerByEmail(aNewUser.getEmail()), aNewUser.getUserName(), aNewUser.getPassword());
+    public User registerUser(NewUser aNewUser) {
+        validateIfUserNameHasBeenUsed(aNewUser.getUserName());
+        Worker worker = validateIfCorrectWorker(aNewUser.getEmail());
+        User user = User.newUser(worker, aNewUser.getUserName(), aNewUser.getPassword());
         userService.save(user);
         return user;
+    }
+
+    private void validateIfUserNameHasBeenUsed(String userName) {
+        if (userService.retrieveUserByUserName(userName) == null) {
+        }
+        throw new RuntimeException(RegisterService.messageWhenUserNameHasAlreadyBeenUsed());
+    }
+
+    private Worker validateIfCorrectWorker(String email) {
+        if (workerService.retrieveWorkerByEmail(email) == null) {
+            throw new RuntimeException(RegisterService.messageWhenNotIsAWorker());
+        } else {
+            return workerService.retrieveWorkerByEmail(email);
+        }
+    }
+
+    private static String messageWhenUserNameHasAlreadyBeenUsed() {
+        return "The user name has already been used";
+    }
+
+    private static String messageWhenNotIsAWorker() {
+        return "The email does not belong to a worker";
     }
 }

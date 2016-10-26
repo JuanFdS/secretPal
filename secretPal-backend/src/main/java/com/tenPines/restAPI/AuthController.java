@@ -111,9 +111,8 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    User registerUserAndAsociateWithAWorker(@RequestBody NewUser newUser){
+    @ResponseStatus(value = HttpStatus.OK)
+    void registerUserAndAsociateWithAWorker(@RequestBody NewUser newUser){
         User user = registerService.registerUser(newUser);
-        return user;
     }
 }
