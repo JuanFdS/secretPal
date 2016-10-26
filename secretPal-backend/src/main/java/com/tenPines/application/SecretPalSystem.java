@@ -62,9 +62,6 @@ public class SecretPalSystem {
         return this.secretPalEventRepository.save(newEvent);
     }
 
-    public List<Worker> retrieveAllWorkers() {
-        return workerRepository.retrieveAll();
-    }
 
     public Worker retrieveAWorker(Long id) {
         return workerRepository.findById(id);
@@ -104,9 +101,6 @@ public class SecretPalSystem {
         wishRepository.update(wish);
     }
 
-    public List<Worker> retrieveParticipants() {
-       return workerRepository.retrieveByCondition("wantsToParticipate", true);
-    }
 
     public Worker retrieveAssignedFriendFor(Worker participant) {
         return secretPalEventRepository.retrieveAssignedFriendFor(participant);

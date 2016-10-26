@@ -24,10 +24,11 @@ public class WorkerController {
     @Autowired
     private WorkerService workerService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
     @ResponseBody
     public List<Worker> workers() {
-        return system.retrieveAllWorkers();
+        List<Worker> workers =workerService.getAllParticipants();
+        return workers;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)

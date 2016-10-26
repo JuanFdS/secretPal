@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class WorkerService {
+
     @Autowired
     private WorkerRepository workerRepository;
 
@@ -48,4 +49,8 @@ public class WorkerService {
                 () -> new RuntimeException("The ser does not exist")
         );
     }
+    public List<Worker> retrieveParticipants() {
+        return workerRepository.findBywantsToParticipate(true);
+    }
+
 }
