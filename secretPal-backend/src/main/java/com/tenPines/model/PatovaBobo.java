@@ -1,15 +1,28 @@
 package com.tenPines.model;
 
 
-/**
- * Created by Kevin on 19/10/16.
- */
+import com.tenPines.application.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+
+@Service
 public class PatovaBobo implements Patova {
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public String enterWith(Credential aCredential){
-        if(!(aCredential.getUserName().equals("kevin"))){
+        if((userService.userNameAvailable(aCredential.getUserName()))){
             throw new RuntimeException(errorMessageWhenUserIsInvalid());
         }
         return aCredential.getUserName();

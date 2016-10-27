@@ -40,7 +40,8 @@ public class AuthController {
     @Autowired
     private RegisterService registerService;
 
-    private PatovaBobo patova = new PatovaBobo();
+    @Autowired
+    private PatovaBobo patova;
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
