@@ -25,4 +25,8 @@ public class UserService {
     public boolean userNameAvailable(String userName) {
         return userRepository.findByUserName(userName).isEmpty();
     }
+
+    public boolean validatePassword(String userName, String password) {
+        return userRepository.findByUserName(userName).stream().findFirst().get().getPassword() == password;
+    }
 }

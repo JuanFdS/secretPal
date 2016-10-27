@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class PatovaBobo implements Patova {
+public class SecurityGuardBobo implements Patova {
 
     public UserService getUserService() {
         return userService;
@@ -22,7 +22,8 @@ public class PatovaBobo implements Patova {
 
     @Override
     public String enterWith(Credential aCredential){
-        if((userService.userNameAvailable(aCredential.getUserName()))){
+        if((userService.userNameAvailable(aCredential.getUserName())) ||
+                userService.validatePassword(aCredential.getUserName(),aCredential.getPassword())){
             throw new RuntimeException(errorMessageWhenUserIsInvalid());
         }
         return aCredential.getUserName();

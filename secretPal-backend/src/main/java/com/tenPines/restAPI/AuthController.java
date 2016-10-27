@@ -41,7 +41,7 @@ public class AuthController {
     private RegisterService registerService;
 
     @Autowired
-    private PatovaBobo patova;
+    private SecurityGuardBobo securityGuardBobo;
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
@@ -107,7 +107,7 @@ public class AuthController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     SecurityToken loginWithInternalCredential(@RequestBody Credential credential){
-        String token = patova.enterWith(credential);
+        String token = securityGuardBobo.enterWith(credential);
         return SecurityToken.createWith(token);
     }
 
