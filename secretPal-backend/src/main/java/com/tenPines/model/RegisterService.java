@@ -37,31 +37,22 @@ public class RegisterService {
 
     public User registerUser(NewUser aNewUser) {
         validateIfUserNameHasBeenUsed(aNewUser.getUserName());
-        Worker worker = validateIfCorrectWorker(aNewUser.getEmail());
+        //TODO: validateIfExistAUserWithThisEmail(aNewUser.getEmail());
+        Worker worker = workerService.retrieveWorkerByEmail(aNewUser.getEmail());
         User user = User.newUser(worker, aNewUser.getUserName(), aNewUser.getPassword());
         userService.save(user);
         return user;
     }
 
     private void validateIfUserNameHasBeenUsed(String userName) {
-        if (userService.retrieveUserByUserName(userName) == null) {
+        if(userService.userNameNotAvailable(userName)){
+            throw new RuntimeException(RegisterService.messageWhenUserNameHasAlreadyBeenUsed());
         }
-        throw new RuntimeException(RegisterService.messageWhenUserNameHasAlreadyBeenUsed());
     }
 
-    private Worker validateIfCorrectWorker(String email) {
-        if (workerService.retrieveWorkerByEmail(email) == null) {
-            throw new RuntimeException(RegisterService.messageWhenNotIsAWorker());
-        } else {
-            return workerService.retrieveWorkerByEmail(email);
-        }
-    }
 
     private static String messageWhenUserNameHasAlreadyBeenUsed() {
         return "The user name has already been used";
     }
 
-    private static String messageWhenNotIsAWorker() {
-        return "The email does not belong to a worker";
-    }
 }

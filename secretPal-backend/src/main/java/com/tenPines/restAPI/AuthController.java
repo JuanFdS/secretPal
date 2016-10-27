@@ -83,13 +83,13 @@ public class AuthController {
 
 //    @RequestMapping(value = "/me", method = RequestMethod.GET)
 //    @ResponseBody
-//    public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
+//    public User retrieveLoggedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
 //        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
 //    }
 
     @RequestMapping(value = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header)throws ParseException, JOSEException{
+    public User retrieveLoggedWorker(@RequestHeader(value = "Authorization") String header)throws ParseException, JOSEException{
         return userService.retrieveUserByUserName(header);
     }
 

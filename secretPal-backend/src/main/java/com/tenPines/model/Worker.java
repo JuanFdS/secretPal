@@ -35,18 +35,6 @@ public class Worker {
     @NotNull
     private Boolean wantsToParticipate;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @OneToOne(cascade=CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    User user;
-
     public Worker() {
     }
 

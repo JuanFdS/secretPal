@@ -21,4 +21,8 @@ public class UserService {
                 () -> new RuntimeException("The user does not exist")
         );
     }
+
+    public boolean userNameNotAvailable(String userName) {
+        return userRepository.findByUserName(userName).stream().findFirst() == null;
+    }
 }
