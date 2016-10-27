@@ -17,6 +17,7 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
     }*/
 
     WorkerService.all(function(data){ $scope.workers = data;});
+    FriendRelationService.all( function(data) {$scope.participants = data;});
 
     $scope.deleteWithConfirmationMSg = function(worker) {
       SweetAlert.swal({

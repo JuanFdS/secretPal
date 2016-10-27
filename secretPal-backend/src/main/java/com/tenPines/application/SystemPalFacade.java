@@ -19,7 +19,8 @@ public class SystemPalFacade {
     @Autowired
     WorkerService workerService;
 
-    public Worker retrieveAssignedFriendFor(Worker participant) {
+    public Worker retrieveAssignedFriendFor(Long Idparticipant) {
+        Worker participant = workerService.retriveWorker(Idparticipant);
         return friendRelationService.retrieveAssignedFriendFor(participant);
     }
 

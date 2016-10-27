@@ -7,5 +7,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface FriendRelationRepository extends JpaRepository<FriendRelation, Long> {
 
-    Worker findBygiftReceiver(Worker unWorker);
+    FriendRelation findBygiftReceiver(Worker unWorker);
 }

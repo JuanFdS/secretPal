@@ -30,6 +30,15 @@ public class FriendRelationService {
         return friendRelationRepository.findAll();
     }
 
-    public Worker retrieveAssignedFriendFor(Worker unWorker){return friendRelationRepository.findBygiftReceiver(unWorker);}
+    public Worker retrieveAssignedFriendFor(Worker unWorker){
+        FriendRelation aRelation =friendRelationRepository.findBygiftReceiver(unWorker);
+        if (aRelation == null){
+            //TODO: hay que hacer que no cambie todo.
+            friendRelationRepository.save(new AssignmentFunction(workerService.getAllParticipants()).execute());
+            aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
 
+        }
+        return aRelation.getGiftGiver();
+
+        }
 }
