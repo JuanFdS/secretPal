@@ -53,4 +53,7 @@ public class WorkerService {
         return workerRepository.findBywantsToParticipate(true);
     }
 
+    public Worker retriveWorker(Long to) {
+        return workerRepository.findOne(to);
+    }
 }

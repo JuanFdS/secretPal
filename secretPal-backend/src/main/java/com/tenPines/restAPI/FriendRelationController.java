@@ -1,9 +1,10 @@
 package com.tenPines.restAPI;
 
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.SystemPalFacade;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.model.FriendRelation;
-import com.tenPines.model.SecretPalEvent;
+//import com.tenPines.model.SecretPalEvent;
 import com.tenPines.model.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class FriendRelationController {
     private SecretPalSystem system;
 
     @Autowired
+    private SystemPalFacade systemFacade;
+
+    @Autowired
     private WorkerService workerService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -34,10 +38,9 @@ public class FriendRelationController {
     public List<WorkerWithRelation> workersWithFriends() {
         List<WorkerWithRelation> relations = new ArrayList<>();
         List<Worker> participants = workerService.retrieveParticipants();
-        //TODO: esto no funcionaba, hay que ver como hacer la expresión lambda para "Ver Relaciones"
-//        relations.addAll(participants.stream().map(
-//                participant -> new WorkerWithRelation(participant, system.retrieveAssignedFriendFor(participant)))
-//                .collect(Collectors.toList()));
+        relations.addAll(participants.stream().map(
+                participant -> new WorkerWithRelation(participant, systemFacade.retrieveAssignedFriendFor(participant)))
+                .collect(Collectors.toList()));
         return relations;
 
     }
@@ -47,20 +50,20 @@ public class FriendRelationController {
     public void createRelation(@RequestBody @Valid List<FriendRelation> friendRelations, BindingResult result) throws IOException, MessagingException {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
-        SecretPalEvent event = system.retrieveCurrentEvent();
 
-        system.deleteAllRelationsInEvent(event);
         for (FriendRelation friendRelation : friendRelations) {
-            system.createRelationInEvent(event, friendRelation.getGiftGiver(), friendRelation.getGiftReceiver());
+            systemFacade.createRelation(friendRelation.getGiftGiver(), friendRelation.getGiftReceiver());
         }
     }
 
     @RequestMapping(value = "/{from}/{to}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteRelation(@PathVariable Long from,@PathVariable Long to){
-        FriendRelation friendRelation = system.retrieveRelation(from, to);
-        SecretPalEvent event = system.retrieveCurrentEvent();
-        system.deleteRelationInEvent(friendRelation);
+        systemFacade.deleteRelation(from,to);
+
+//        FriendRelation friendRelation = system.retrieveRelation(from, to);
+//        SecretPalEvent event = system.retrieveCurrentEvent();
+//        system.deleteRelationInEvent(friendRelation);
     }
 
     @RequestMapping(value = "/friend", method = RequestMethod.POST)
@@ -68,7 +71,7 @@ public class FriendRelationController {
     public Worker retrieveGiftee(@RequestBody @Valid Worker loggedWorker, BindingResult result) {
         if (result.hasErrors())
             throw new RestfulException(result.getAllErrors());
-        return system.retrieveAssignedFriendFor(loggedWorker);
+        return systemFacade.retrieveAssignedFriendFor(loggedWorker);
     }
 
 

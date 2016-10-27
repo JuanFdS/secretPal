@@ -4,7 +4,7 @@ import com.tenPines.application.clock.Clock;
 import com.tenPines.mailer.PostOffice;
 import com.tenPines.model.*;
 import com.tenPines.persistence.Repo;
-import com.tenPines.persistence.SecretPalEventMethods;
+//import com.tenPines.persistence.SecretPalEventMethods;
 import com.tenPines.utils.PropertyParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +24,7 @@ public class SecretPalSystem {
 
     private Long reminderDayPeriod;
     private Repo<Worker> workerRepository;
-    private SecretPalEventMethods secretPalEventRepository;
+//    private SecretPalEventMethods secretPalEventRepository;
     private Repo<Wish> wishRepository;
 
 
@@ -53,14 +53,14 @@ public class SecretPalSystem {
     public void setWorkerRepository(Repo<Worker> workerRepository) {
         this.workerRepository = workerRepository;
     }
+//
+//    public void setSecretPalEventRepository(SecretPalEventMethods eventRepository){
+//        this.secretPalEventRepository = eventRepository;
+//    }
 
-    public void setSecretPalEventRepository(SecretPalEventMethods eventRepository){
-        this.secretPalEventRepository = eventRepository;
-    }
-
-    public SecretPalEvent saveEvent(SecretPalEvent newEvent) {
-        return this.secretPalEventRepository.save(newEvent);
-    }
+//    public SecretPalEvent saveEvent(SecretPalEvent newEvent) {
+//        return this.secretPalEventRepository.save(newEvent);
+//    }
 
 
     public Worker retrieveAWorker(Long id) {
@@ -102,28 +102,28 @@ public class SecretPalSystem {
     }
 
 
-    public Worker retrieveAssignedFriendFor(Worker participant) {
-        return secretPalEventRepository.retrieveAssignedFriendFor(participant);
-    }
+//    public Worker retrieveAssignedFriendFor(Worker participant) {
+//        return secretPalEventRepository.retrieveAssignedFriendFor(participant);
+//    }
 
-    public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
-        FriendRelation friendRelation = secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
-        Message message = friendRelation.createMessage();
-        //postMan.sendMessage(unSentMessage);
-        return friendRelation;
-    }
+//    public FriendRelation createRelationInEvent(SecretPalEvent event, Worker giftGiver, Worker giftReceiver) throws IOException, MessagingException {
+//        FriendRelation friendRelation = secretPalEventRepository.createRelationInEvent(event, giftGiver, giftReceiver);
+//        Message message = friendRelation.createMessage();
+//        //postMan.sendMessage(unSentMessage);
+//        return friendRelation;
+//    }
 
-    public void deleteRelationInEvent(FriendRelation friendRelation) {
-        secretPalEventRepository.deleteRelationInEvent(friendRelation);
-    }
-
-    public SecretPalEvent retrieveEvent(SecretPalEvent event) {
-        return secretPalEventRepository.refresh(event);
-    }
-
-    public FriendRelation retrieveRelation(Long from, Long to) {
-      return secretPalEventRepository.retrieveRelation(from, to);
-    }
+//    public void deleteRelationInEvent(FriendRelation friendRelation) {
+//        secretPalEventRepository.deleteRelationInEvent(friendRelation);
+//    }
+//
+//    public SecretPalEvent retrieveEvent(SecretPalEvent event) {
+//        return secretPalEventRepository.refresh(event);
+//    }
+//
+//    public FriendRelation retrieveRelation(Long from, Long to) {
+//      return secretPalEventRepository.retrieveRelation(from, to);
+//    }
 
     public Worker retrieveWorkerByEmail(String workerEmail) {
         return workerRepository.retrieveByCondition("eMail", workerEmail).stream().findFirst().orElseThrow(
@@ -142,16 +142,16 @@ public class SecretPalSystem {
     public List<Wish> retrievallWishesForWorker(Worker worker) {
         return wishRepository.retrieveByCondition("worker", worker);
     }
-
-    public SecretPalEvent retrieveCurrentEvent() {
-        return secretPalEventRepository.retrieveEvent();
-    }
-
-
-    public void deleteAllRelationsInEvent(SecretPalEvent event) {
-        List<FriendRelation> friendRelations = secretPalEventRepository.retrieveAllRelations();
-        for( FriendRelation friendRelation : friendRelations) {
-            secretPalEventRepository.deleteRelationInEvent(friendRelation);
-        }
-    }
+//
+//    public SecretPalEvent retrieveCurrentEvent() {
+//        return secretPalEventRepository.retrieveEvent();
+//    }
+//
+//
+//    public void deleteAllRelationsInEvent(SecretPalEvent event) {
+//        List<FriendRelation> friendRelations = secretPalEventRepository.retrieveAllRelations();
+//        for( FriendRelation friendRelation : friendRelations) {
+//            secretPalEventRepository.deleteRelationInEvent(friendRelation);
+//        }
+//    }
 }

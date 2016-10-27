@@ -20,8 +20,8 @@ public class FriendRelation {
     @OneToOne
     private Worker giftReceiver;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
-    public SecretPalEvent event;
+//    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
+//    public SecretPalEvent event;
 
     public FriendRelation(){}
 
@@ -38,13 +38,13 @@ public class FriendRelation {
         this.id = id;
     }
 
-    public SecretPalEvent getEvent() {
-        return event;
-    }
-
-    public void setEvent(SecretPalEvent event) {
-        this.event = event;
-    }
+//    public SecretPalEvent getEvent() {
+//        return event;
+//    }
+//
+//    public void setEvent(SecretPalEvent event) {
+//        this.event = event;
+//    }
 
     public Worker getGiftGiver() {
         return this.giftGiver;

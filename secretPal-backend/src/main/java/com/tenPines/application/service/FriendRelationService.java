@@ -30,4 +30,6 @@ public class FriendRelationService {
         return friendRelationRepository.findAll();
     }
 
+    public Worker retrieveAssignedFriendFor(Worker unWorker){return friendRelationRepository.findBygiftReceiver(unWorker);}
+
 }
