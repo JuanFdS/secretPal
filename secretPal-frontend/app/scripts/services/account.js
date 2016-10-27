@@ -47,6 +47,18 @@ angular.module('secretPalApp')
           SweetAlert.swal("No estas registrado", "Pongase en contacto con el administrador", "error");
           $location.path('/login');
         })
+      },
+
+      register: function (newUser) {
+        var self = this;
+        return $http.post('/api/auth/register', newUser).then(function () {
+          SweetAlert.swal("¡Registrado correctamente!", "Gracias por participar", "success"),
+            $location.path('/login');
+        }).catch(function () {
+          Token.logout();
+          SweetAlert.swal("No te has registrado", "Intente nuevamente", "error");
+          $location.path('/register');
+        })
       }
     };
   });

@@ -53,7 +53,6 @@
               <li role="separator" class="divider"></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li ng-show="!isAuthenticated()"><a ng-href="#/login">Login</a></li>
               <li ng-show="isAuthenticated()"><a ng-href="#/logout">Salir</a></li>
             </ul>
           </div>
@@ -112,6 +111,7 @@
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/mail.js"></script>
 	  <script src="scripts/controllers/nav.js"></script>
+    <script src="scripts/controllers/register.js"></script>
     <script src="scripts/services/workerService.js"></script>
     <script src="scripts/services/mailService.js"></script>
     <script src="scripts/services/friendRelationService.js"></script>
