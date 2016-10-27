@@ -45,11 +45,10 @@ public class RegisterService {
     }
 
     private void validateIfUserNameHasBeenUsed(String userName) {
-        if(userService.userNameNotAvailable(userName)){
+        if(!(userService.userNameAvailable(userName))){
             throw new RuntimeException(RegisterService.messageWhenUserNameHasAlreadyBeenUsed());
         }
     }
-
 
     private static String messageWhenUserNameHasAlreadyBeenUsed() {
         return "The user name has already been used";

@@ -22,7 +22,7 @@ public class UserService {
         );
     }
 
-    public boolean userNameNotAvailable(String userName) {
-        return userRepository.findByUserName(userName).stream().findFirst() == null;
+    public boolean userNameAvailable(String userName) {
+        return userRepository.findByUserName(userName).isEmpty();
     }
 }
