@@ -8,6 +8,7 @@ angular.module('secretPalApp')
 
       $scope.isAuthenticated = function() {
         return (Token.isAuthenticated());
+
       };
 
       $scope.ingresar = function () {

@@ -53,7 +53,8 @@
               <li role="separator" class="divider"></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li ng-show="isAuthenticated()"><a ng-href="#/logout">Salir</a></li>
+              <ld ng-show="isAuthenticated()"><strong>{{getUserName()}}</strong></ld>
+              <ld><li ng-show="isAuthenticated()"><a ng-href="#/logout">Salir</a></li></ld>
             </ul>
           </div>
         </div>

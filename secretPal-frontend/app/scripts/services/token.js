@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .factory('Token', function($location) {
+  .service('Token', function($location) {
     var token;
 
     return {

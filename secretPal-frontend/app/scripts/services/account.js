@@ -38,7 +38,7 @@ angular.module('secretPalApp')
 
       login: function (credentials) {
         var self = this;
-        return $http.post('/api/auth/login', credentials).then(function (response) {  //TODO: ESTE USER QUE RECIBO ME SIRVE PARA PONER QUE ESTOY AUTENTICADO
+        return $http.post(buildRoute('/login'), credentials).then(function (response) {  //TODO: ESTE USER QUE RECIBO ME SIRVE PARA PONER QUE ESTOY AUTENTICADO
           Token.saveToken(response.data.token);
           SweetAlert.swal("¡Bienvenido!", "Ingresaste correctamente", "success"),
           $location.path('/profile');
@@ -51,7 +51,7 @@ angular.module('secretPalApp')
 
       register: function (newUser) {
         var self = this;
-        return $http.post('/api/auth/register', newUser).then(function () {
+        return $http.post(buildRoute('/register'), newUser).then(function () {
           SweetAlert.swal("¡Registrado correctamente!", "Gracias por participar", "success"),
             $location.path('/login');
         }).catch(function () {
