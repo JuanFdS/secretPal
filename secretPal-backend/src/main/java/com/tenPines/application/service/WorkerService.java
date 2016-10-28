@@ -40,13 +40,7 @@ public class WorkerService {
 
     public Worker retrieveWorkerByEmail(String email) {
         return workerRepository.findByeMail(email).stream().findFirst().orElseThrow(
-                () -> new RuntimeException("The userRepository does not exist")
-        );
-    }
-
-    public User retrieveUserByUserName(String userName) {
-        return userRepository.findByUserName(userName).stream().findFirst().orElseThrow(
-                () -> new RuntimeException("The ser does not exist")
+                () -> new RuntimeException("The user with this email does not exist")
         );
     }
     public List<Worker> retrieveParticipants() {

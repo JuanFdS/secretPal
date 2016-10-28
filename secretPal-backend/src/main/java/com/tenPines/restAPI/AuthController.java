@@ -3,6 +3,7 @@ package com.tenPines.restAPI;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nimbusds.jose.JOSEException;
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.auth.GoogleAuth;
 import com.tenPines.configuration.AdminProperties;
@@ -29,10 +30,18 @@ public class AuthController {
 
     @Autowired
     private SecretPalSystem system;
+
     @Autowired
     private WorkerService workerService;
 
-    private PatovaBobo patova = new PatovaBobo();
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RegisterService registerService;
+
+    @Autowired
+    private SecurityGuardBobo securityGuardBobo;
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
@@ -75,14 +84,14 @@ public class AuthController {
 
 //    @RequestMapping(value = "/me", method = RequestMethod.GET)
 //    @ResponseBody
-//    public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
+//    public User retrieveLoggedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
 //        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
 //    }
 
     @RequestMapping(value = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public User retrieveLogedWorker(@RequestHeader(value = "Authorization") String header)throws ParseException, JOSEException{
-        return workerService.retrieveUserByUserName(header);
+    public User retrieveLoggedWorker(@RequestHeader(value = "Authorization") String header)throws ParseException, JOSEException{
+        return userService.retrieveUserByUserName(header);
     }
 
     public static class Token {
@@ -98,7 +107,13 @@ public class AuthController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     SecurityToken loginWithInternalCredential(@RequestBody Credential credential){
-        String token = patova.enterWith(credential);
+        String token = securityGuardBobo.enterWith(credential);
         return SecurityToken.createWith(token);
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    void registerUserAndAsociateWithAWorker(@RequestBody NewUser newUser){
+        User user = registerService.registerUser(newUser);
     }
 }

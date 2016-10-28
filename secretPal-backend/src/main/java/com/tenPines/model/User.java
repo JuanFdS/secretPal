@@ -24,8 +24,6 @@ public class User {
     @NotNull
     public String password;
 
-    public User(){
-    }
 
     public Long getId() {
         return id;

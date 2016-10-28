@@ -1,0 +1,23 @@
+<div class="container">
+
+  <div ng-controller="RegisterController">
+    <div class="col-md-3"></div>
+    <div class="col-md-5">
+      <section class="login-form">
+        <img src="images/logo.png" class="img-responsive" alt="" />
+        <h2 class="form-signin-heading">Registrarse</h2>
+        <input name="userName" type="text" ng-model="userName" placeholder="Usuario" class="form-control input-lg"/>
+
+        <input name="email" type="email" ng-model="email" placeholder="Email" class="form-control input-lg"/>
+
+        <input name="password" type="password" ng-model="password" placeholder="Password" class="form-control input-lg"/>
+
+        <input name="password" type="password"  placeholder="Repetir Password" class="form-control input-lg"/>
+
+        <div class="pwstrength_viewport_progress"></div>
+
+        <button type="button" ng-click="registerNewUser()" class="btn btn-lg btn-success btn-block">Ingresar</button>
+      </section>
+    </div>
+  </div>
+</div>

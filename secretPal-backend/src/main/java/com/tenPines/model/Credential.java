@@ -6,6 +6,8 @@ package com.tenPines.model;
 public class Credential {
 
     private String userName;
+
+
     private String password;
 
     static public Credential newCredential(String aUserName, String aPassword) {
@@ -13,6 +15,10 @@ public class Credential {
         credential.setUserName(aUserName);
         credential.setPassword(aPassword);
         return credential;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getUserName() {

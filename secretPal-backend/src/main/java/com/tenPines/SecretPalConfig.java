@@ -1,5 +1,6 @@
 package com.tenPines;
 
+import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.model.InitializerHerokuSystem;
 import com.tenPines.model.InitializerLocalSystem;
@@ -16,12 +17,14 @@ public class SecretPalConfig{
     @Autowired
     private WorkerService workerService;
 
+    @Autowired
+    private UserService userService;
+
     @Bean
     @Profile("local")
     public InitializerLocalSystem initializeLocal(){
-        return new InitializerLocalSystem(workerService);
+        return new InitializerLocalSystem(workerService, userService);
     }
-
 
     @Bean
     @Profile("heroku")

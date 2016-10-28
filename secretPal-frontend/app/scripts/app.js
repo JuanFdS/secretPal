@@ -26,6 +26,7 @@ angular
       .when('/mail', {
         templateUrl: 'views/mail.html',
         controller: 'MailController',
+        resolve: { user : authenticated }
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',
@@ -45,6 +46,10 @@ angular
       .when('/login', {
         templateUrl: '../views/login.html',
         controller: 'LoginController'
+      })
+      .when('/register', {
+        templateUrl: '../views/register.html',
+        controller: 'RegisterController',
       })
       .when('/logout', {
         templateUrl: '../views/main.html',

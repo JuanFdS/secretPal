@@ -38,13 +38,26 @@ angular.module('secretPalApp')
 
       login: function (credentials) {
         var self = this;
-        return $http.post('/api/auth/login', credentials).then(function (response) {  //TODO: ESTE USER QUE RECIBO ME SIRVE PARA PONER QUE ESTOY AUTENTICADO
+        return $http.post(buildRoute('/login'), credentials).then(function (response) {  //TODO: ESTE USER QUE RECIBO ME SIRVE PARA PONER QUE ESTOY AUTENTICADO
           Token.saveToken(response.data.token);
           SweetAlert.swal("¡Bienvenido!", "Ingresaste correctamente", "success"),
           $location.path('/profile');
         }).catch(function () {
           Token.logout();
-          SweetAlert.swal("No estas registrado", "Pongase en contacto con el administrador", "error");
+          SweetAlert.swal("Usuario o contraseña invalida", "Por favor complete el formulario de registro o contactese con el Administrador", "error");
+          $location.path('/login');
+        })
+      },
+
+      register: function (newUser) {
+        var self = this;
+        return $http.post(buildRoute('/register'), newUser).then(function () {
+          SweetAlert.swal("¡Registrado correctamente!", "Gracias por participar en ''Amigo invisible'' ", "success"),
+            $location.path('/login');
+        }).catch(function () {
+          Token.logout();
+          SweetAlert.swal("No te has registrado", "Revise que los campos hayan sido ingresados correctamente", "error");
+          $location.path('/register');
         })
       }
     };
