@@ -27,6 +27,6 @@ public class UserService {
     }
 
     public boolean validatePassword(String userName, String password) {
-        return userRepository.findByUserName(userName).stream().findFirst().get().getPassword() == password;
+        return userRepository.findByUserName(userName).stream().findFirst().get().getPassword().equals(password);
     }
 }

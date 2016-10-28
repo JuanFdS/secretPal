@@ -25,7 +25,7 @@ public class PatovaTest {
                 securityGuardBobo.enterWith(invalidCredential);
                 assertTrue("nunca deberia llegar aca", false);
             } catch (RuntimeException ex) {
-                assertThat(ex.getMessage()).isEqualTo(SecurityGuardBobo.errorMessageWhenUserIsInvalid());
+                assertThat(ex.getMessage()).isEqualTo(SecurityGuardBobo.errorMessageWhenUserOrPasswordIsInvalid());
         }
     }
 }

@@ -22,15 +22,22 @@ public class SecurityGuardBobo implements Patova {
 
     @Override
     public String enterWith(Credential aCredential){
-        if((userService.userNameAvailable(aCredential.getUserName())) ||
-                userService.validatePassword(aCredential.getUserName(),aCredential.getPassword())){
-            throw new RuntimeException(errorMessageWhenUserIsInvalid());
+        if(notIsAValidUser(aCredential.getUserName()) || notIsAValidPasswordForThisUser(aCredential)){
+            throw new RuntimeException(errorMessageWhenUserOrPasswordIsInvalid());
         }
         return aCredential.getUserName();
     }
 
-    static String errorMessageWhenUserIsInvalid() {
-        return "The user is not registered";
+    private boolean notIsAValidUser(String aUserName) {
+        return userService.userNameAvailable(aUserName);
+    }
+
+    private boolean notIsAValidPasswordForThisUser(Credential aCredential) {
+        return !(userService.validatePassword(aCredential.getUserName(),aCredential.getPassword()));
+    }
+
+    static String errorMessageWhenUserOrPasswordIsInvalid() {
+        return "The user do not exist or password is invalid";
     }
 
 }
