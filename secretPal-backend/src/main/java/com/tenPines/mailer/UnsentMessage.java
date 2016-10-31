@@ -23,7 +23,7 @@ public class UnsentMessage{
 
     static UnsentMessage create(Message message, UnableToSendMessage error) {
         UnsentMessage instance = new UnsentMessage();
-        instance.setError(error.toString());
+        instance.setError(error.toString().substring(0,200));
         instance.setBody(message.getBody());
         instance.setSubject(message.getSubject());
         instance.setRecipient(message.getRecipient());
