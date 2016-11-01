@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class SecurityGuardBobo implements Patova {
+public class SecurityGuard implements Patova {
 
     public UserService getUserService() {
         return userService;

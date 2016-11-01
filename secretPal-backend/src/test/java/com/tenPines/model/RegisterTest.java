@@ -1,14 +1,83 @@
 package com.tenPines.model;
 
+import com.tenPines.application.service.UserService;
+import com.tenPines.application.service.WorkerService;
+import com.tenPines.integration.SpringBaseTest;
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 
-public class RegisterTest {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
-    @Test
-    public void when_i_register_my_account_must_associate_with_worker(){
-        NewUser newUser = NewUser.createANewUser("kevenvarela","1234", "kevin.varela@gmail.com");
+
+public class RegisterTest extends SpringBaseTest{
+
+    @Autowired
+    public RegisterService registerService;
+    @Autowired
+    private WorkerService workerService;
+    @Autowired
+    private UserService userService;
+    private NewUser newUser1;
+    private NewUser newUser2;
+
+    @Before
+    public void setUp(){
+        Worker kevin = new Worker("kevin", "kevin.varela@10pines.com", LocalDate.of(1993, 4, 6), true);
+        Worker ayelen = new Worker("ayelen", "ayelen.garcia@10pines.com", LocalDate.of(1992, 12, 6), true);
+        User userKevin = User.newUser(kevin, "kevin", "1234");
+        workerService.save(kevin);
+        workerService.save(ayelen);
+        userService.save(userKevin);
     }
 
+    @Test
+    public void whenAnEmailHasBeenUsedByAUserNothingShouldBeRegister(){
+        newUser1 = NewUser.createANewUser("pepe22","1234","kevin.varela@10pines.com");
+        try {
+            registerService.registerUser(newUser1);
+            fail();
+        } catch (RuntimeException ex) {
+            assertThat(ex.getMessage()).isEqualTo(RegisterService.errorMessageWhenEmailInUse());
+        }
+    }
+
+    @Test
+    public void whenAnEmailHasntBeenByAUserShouldBeRegisterWithThisEmail(){
+        newUser2 = NewUser.createANewUser("pepe11","1234","ayelen.garcia@10pines.com");
+        registerService.registerUser(newUser2);
+        assertThat(userService.retrieveUserByUserName(newUser2.getUserName())).isNotNull();
+    }
+
+    @Test
+    public void withAValidEmailAndAUsernameThatWasNotUsedToLetMeCreate(){
+        newUser2 = NewUser.createANewUser("usuarioSinUso","1234","ayelen.garcia@10pines.com");
+        registerService.registerUser(newUser2);
+        assertThat(userService.retrieveUserByUserName(newUser2.getUserName())).isNotNull();
+    }
+
+    @Test
+    public void withAValidEmailAndAUsernameThatWasUsedWillNotBeCreateAndThrowExistentUserException(){
+        newUser1 = NewUser.createANewUser("kevin","1234","ayelen.garcia@10pines.com");
+        try {
+            registerService.registerUser(newUser1);
+            fail();
+        } catch (RuntimeException ex) {
+            assertThat(ex.getMessage()).isEqualTo(RegisterService.messageWhenUserNameHasAlreadyBeenUsed());
+        }
+    }
+
+    @Test
+    public void whenIAmWantRegisterWithEmailThatAreNotAssociatedWithAnyWorkedMustThrowException(){
+        newUser1 = NewUser.createANewUser("carlos22","1234","cosme.fulanito@gmail.com");
+        try {
+            registerService.registerUser(newUser1);
+            fail();
+        } catch (RuntimeException ex) {
+            assertThat(ex.getMessage()).isEqualTo(WorkerService.errorWhenDoNotExistAWorkerWithThisEmail());
+        }
+    }
 }

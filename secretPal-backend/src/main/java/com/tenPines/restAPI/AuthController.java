@@ -41,7 +41,7 @@ public class AuthController {
     private RegisterService registerService;
 
     @Autowired
-    private SecurityGuardBobo securityGuardBobo;
+    private SecurityGuard securityGuard;
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
@@ -107,13 +107,13 @@ public class AuthController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     SecurityToken loginWithInternalCredential(@RequestBody Credential credential){
-        String token = securityGuardBobo.enterWith(credential);
+        String token = securityGuard.enterWith(credential);
         return SecurityToken.createWith(token);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     void registerUserAndAsociateWithAWorker(@RequestBody NewUser newUser){
-        User user = registerService.registerUser(newUser);
+        registerService.registerUser(newUser);
     }
 }

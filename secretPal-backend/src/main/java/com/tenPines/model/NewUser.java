@@ -15,7 +15,7 @@ public class NewUser {
         if(userName == null | password == null | email == null ) {
             throw new RuntimeException(NewUser.errorMessageWhenAnyFieldIsNull());
         }
-        validate10PinesMail(email);
+//        validate10PinesMail(email);
         NewUser user = new NewUser();
         user.setUserName(userName);
         user.setPassword(password);
@@ -23,15 +23,15 @@ public class NewUser {
         return user;
     }
 
-    private static void validate10PinesMail(String email) {
-        if(!email.contains("@10pines.com")){
-            throw new RuntimeException(NewUser.errorMessageWhenMailIsNotOf10Pines());
-        }
-    }
-
-    private static String errorMessageWhenMailIsNotOf10Pines() {
-        return "this mail not belong of 10Pines corporation";
-    }
+//    private static void validate10PinesMail(String email) {
+//        if(!email.contains("@10pines.com")){
+//            throw new RuntimeException(NewUser.errorMessageWhenMailIsNotOf10Pines());
+//        }
+//    }
+//
+//    private static String errorMessageWhenMailIsNotOf10Pines() {
+//        return "this mail not belong of 10Pines corporation";
+//    }
 
     private static String errorMessageWhenAnyFieldIsNull() {
         return "Any field is null, please check your input data ";

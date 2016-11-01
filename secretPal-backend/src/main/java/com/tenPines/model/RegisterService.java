@@ -6,6 +6,9 @@ import com.tenPines.application.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 @Service
 public class RegisterService {
 
@@ -35,13 +38,24 @@ public class RegisterService {
     }
 
 
-    public User registerUser(NewUser aNewUser) {
+    public void registerUser(NewUser aNewUser) {
         validateIfUserNameHasBeenUsed(aNewUser.getUserName());
-        //TODO: validateIfExistAUserWithThisEmail(aNewUser.getEmail());
+        validateIfExistAUserWithThisEmail(aNewUser.getEmail());
         Worker worker = workerService.retrieveWorkerByEmail(aNewUser.getEmail());
         User user = User.newUser(worker, aNewUser.getUserName(), aNewUser.getPassword());
         userService.save(user);
-        return user;
+    }
+
+    private void validateIfExistAUserWithThisEmail(String email) {
+        if(emailIsAsociatedWithAUser(email)){
+           throw new RuntimeException(RegisterService.errorMessageWhenEmailInUse());
+        }
+    }
+
+    private boolean emailIsAsociatedWithAUser(String email) {
+        List<User> users = userService.getAllUsers();
+        Stream<Worker> workers = users.stream().map(user -> user.getWorker());
+        return workers.anyMatch(worker -> worker.geteMail().equals(email));
     }
 
     private void validateIfUserNameHasBeenUsed(String userName) {
@@ -50,8 +64,12 @@ public class RegisterService {
         }
     }
 
-    private static String messageWhenUserNameHasAlreadyBeenUsed() {
+    public static String messageWhenUserNameHasAlreadyBeenUsed() {
         return "The user name has already been used";
     }
 
+
+    public static String errorMessageWhenEmailInUse() {
+        return "This email is now in use for other user";
+    }
 }

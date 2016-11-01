@@ -1,9 +1,13 @@
 package com.tenPines.application.service;
 
 import com.tenPines.model.User;
+import com.tenPines.model.Worker;
 import com.tenPines.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -28,5 +32,9 @@ public class UserService {
 
     public boolean validatePassword(String userName, String password) {
         return userRepository.findByUserName(userName).stream().findFirst().get().getPassword().equals(password);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
