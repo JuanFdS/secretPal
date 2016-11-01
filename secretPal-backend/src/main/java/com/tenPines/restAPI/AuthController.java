@@ -90,8 +90,9 @@ public class AuthController {
 
     @RequestMapping(value = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public User retrieveLoggedWorker(@RequestHeader(value = "Authorization") String header)throws ParseException, JOSEException{
-        return userService.retrieveUserByUserName(header);
+    public UserForFrontend retrieveLoggedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException, IOException {
+        User completeUser = userService.retrieveUserByUserName(header);
+        return new UserForFrontend(completeUser.getId(),completeUser.getWorker(),completeUser.getUserName(), completeUser.isAdmin());
     }
 
     public static class Token {
