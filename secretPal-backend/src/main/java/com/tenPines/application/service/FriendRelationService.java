@@ -1,5 +1,6 @@
 package com.tenPines.application.service;
 
+import com.tenPines.application.ReminderSystem;
 import com.tenPines.model.FriendRelation;
 import com.tenPines.model.Worker;
 import com.tenPines.model.process.AssignmentFunction;
@@ -15,6 +16,8 @@ public class FriendRelationService {
     private FriendRelationRepository friendRelationRepository;
     @Autowired
     private WorkerService workerService;
+    @Autowired
+    private ReminderSystem reminders;
 
     public FriendRelation create(Worker friendWorker, Worker birthdayWorker) {
         return friendRelationRepository.save(new FriendRelation(friendWorker, birthdayWorker));
@@ -24,6 +27,7 @@ public class FriendRelationService {
         friendRelationRepository.save(
                 new AssignmentFunction(workerService.getAllParticipants()).execute()
         );
+
     }
 
     public List<FriendRelation> getAllRelations() {
@@ -34,7 +38,7 @@ public class FriendRelationService {
         FriendRelation aRelation =friendRelationRepository.findBygiftReceiver(unWorker);
         if (aRelation == null){
             //TODO: hay que hacer que no cambie todo.
-            friendRelationRepository.save(new AssignmentFunction(workerService.getAllParticipants()).execute());
+            autoAssignRelations();
             aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
 
         }

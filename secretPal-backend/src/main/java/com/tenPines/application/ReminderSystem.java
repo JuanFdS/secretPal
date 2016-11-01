@@ -37,7 +37,7 @@ public class ReminderSystem {
     private PostOffice postOffice;
 
     @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
-    public void sendReminders() {
+    public void sendRemindersTheLastBirthday() {
         logger.info("Send mails for forgetful gifters.");
 
         friendRelationService.getAllRelations().stream()
@@ -53,7 +53,18 @@ public class ReminderSystem {
     }
 
 
-    @Scheduled(fixedDelay = 68400000)
+    @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
+    public void sendAssignedRelation() {
+        logger.info("Assigned friendRelation.");
+
+        friendRelationService.getAllRelations().forEach(friendRelation ->
+                postOffice.sendMessage(
+                        new FriendRelationMessageBuilder().buildMessage(friendRelation)
+                ));
+    }
+
+
+    @Scheduled(fixedDelay = 86400000)
     public void sendHappyBithdayMessages(){
         logger.info("Sending happy bithday mails");
 
@@ -64,10 +75,6 @@ public class ReminderSystem {
                                     MonthDay.from(clock.now()))
                 )
                 .forEach(worker -> postOffice.sendMessage(new HappyBithdayMessageBuilder().buildMesage(worker)));
-
-
-
-
 
     }
 
