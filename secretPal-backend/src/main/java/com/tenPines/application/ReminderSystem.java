@@ -7,6 +7,7 @@ import com.tenPines.application.service.FriendRelationService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.FriendRelationMessageBuilder;
 import com.tenPines.builder.HappyBithdayMessageBuilder;
+import com.tenPines.builder.ReminderAproachTheBirthdayBuilder;
 import com.tenPines.mailer.PostOffice;
 import com.tenPines.model.Worker;
 import org.apache.log4j.Logger;
@@ -48,7 +49,7 @@ public class ReminderSystem {
                 )
                 .forEach(friendRelation ->
                         postOffice.sendMessage(
-                                new FriendRelationMessageBuilder().buildMessage(friendRelation)
+                                new ReminderAproachTheBirthdayBuilder().buildMessage(friendRelation)
                         ));
     }
 
