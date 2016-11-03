@@ -6,7 +6,7 @@ angular.module('secretPalApp')
 
     return {
       saveToken: function (aToken) {
-        token = aToken
+        token = aToken;
       },
 
       getToken: function () {

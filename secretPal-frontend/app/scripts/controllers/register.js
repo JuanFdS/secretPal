@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .controller('RegisterController', function ($scope, SweetAlert, Account) {
+  .controller('RegisterController', function ($scope, SweetAlert, Account, $location) {
     $scope.userName = "";
     $scope.password = "";
     $scope.email = "";
@@ -17,4 +17,9 @@ angular.module('secretPalApp')
 
       Account.register({userName: $scope.userName, password: $scope.password, email: $scope.email});
     };
+
+    $scope.returnToMain = function() {
+      return $location.path("/");
+    }
+
   });
