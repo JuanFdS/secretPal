@@ -22,9 +22,11 @@ app.controller('ConfirmationGiftController', function ($scope, $modal, $rootScop
       function (isConfirm) {
         if(isConfirm) {
           worker.receivedGift = false;
+          //TODO ACTUALIZAR BASE
         }
         else{
           worker.receivedGift = true;
+          //TODO ACTUALIZAR BASE
         }
       });
     }
