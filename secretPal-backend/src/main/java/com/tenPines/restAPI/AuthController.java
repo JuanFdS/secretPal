@@ -2,7 +2,10 @@ package com.tenPines.restAPI;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nimbusds.jose.JOSEException;
+import com.sun.media.jfxmedia.Media;
+import com.sun.org.apache.regexp.internal.RE;
 import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.SystemPalFacade;
 import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.auth.GoogleAuth;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Properties;
 
 @Controller
@@ -42,6 +46,9 @@ public class AuthController {
 
     @Autowired
     private SecurityGuard securityGuard;
+
+    @Autowired
+    private SystemPalFacade systemFacade;
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
@@ -116,5 +123,10 @@ public class AuthController {
     @ResponseStatus(value = HttpStatus.OK)
     void registerUserAndAsociateWithAWorker(@RequestBody NewUser newUser){
         registerService.registerUser(newUser);
+    }
+    @RequestMapping(value="/giftsDefault", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<GiftDefault> giftDefaults(){
+        return systemFacade.retrieveAllGiftsDefaults();
+
     }
 }
