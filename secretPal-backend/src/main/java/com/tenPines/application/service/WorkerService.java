@@ -40,9 +40,14 @@ public class WorkerService {
 
     public Worker retrieveWorkerByEmail(String email) {
         return workerRepository.findByeMail(email).stream().findFirst().orElseThrow(
-                () -> new RuntimeException("The user with this email does not exist")
+                () -> new RuntimeException(errorWhenDoNotExistAWorkerWithThisEmail())
         );
     }
+
+    public static String errorWhenDoNotExistAWorkerWithThisEmail() {
+        return "The Worker with this email does not exist";
+    }
+
     public List<Worker> retrieveParticipants() {
         return workerRepository.findBywantsToParticipate(true);
     }
