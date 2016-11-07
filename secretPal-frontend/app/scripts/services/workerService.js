@@ -15,7 +15,6 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
     SweetAlert.swal("Algo salió mal",msg, "error");
   }
 
-
   this.all = function(callback) {
     $http.get(buildRoute('/')).
       success(function(data) {

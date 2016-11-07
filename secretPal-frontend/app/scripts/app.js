@@ -61,6 +61,11 @@ angular
         controller: 'ProfileController',
         resolve: { user : authenticated }
       })
+      .when('/confirmationGift', {
+        templateUrl: '../views//confirmationGift.html',
+        controller: 'ConfirmationGiftController',
+        resolve: { user : authenticated }
+      })
       .when('/mailsFailure', {
         templateUrl: '../views/mailsFailure.html',
         controller: 'MailsFailureController',
