@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Regalos default</title>
+</head>
+<body>
+<h1 align="center"> Regalos default establecidos</h1>
+<div class="panel panel-primary">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Regalos default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="giftDefault in giftsDefault">
+      <td>{{giftDefault.giftDefault}}</td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>
+<button>Agregar</button>
+<h2>Monto default</h2>
+<h2></h2>
+</body>
+</html>
