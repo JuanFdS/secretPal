@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .controller('GiftDefaultController', function($scope, user, $location, GiftDefaultController, SweetAlert, WorkerService) {
+  .controller('GiftDefaultController', function($scope, GiftDefaultService,  user, $location, SweetAlert, WorkerService) {
 
-    GiftDefaultController.all(function(data){ $scope.giftsDefault = data;});
+    GiftDefaultService.all(function(data){
+      debugger;
+      $scope.giftsDefault = data;
+    });
 
 
   });
