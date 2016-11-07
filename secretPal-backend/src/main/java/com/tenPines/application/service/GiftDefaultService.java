@@ -22,4 +22,9 @@ public class GiftDefaultService {
 
     }
 
+    public void addGift(GiftDefault giftDefault) {
+        GiftDefault giftDefaultLocal = GiftDefault.createGiftDfault(giftDefault.getGiftDefault(),
+                giftDefault.getAmountDefault());
+        repository.save(giftDefaultLocal);
+    }
 }

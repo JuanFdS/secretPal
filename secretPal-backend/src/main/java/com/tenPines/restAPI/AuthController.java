@@ -131,4 +131,11 @@ public class AuthController {
         return systemFacade.retrieveAllGiftsDefaults();
     }
 
+    @RequestMapping(value="/giftsDefault", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void addGiftDefaults(@RequestBody GiftDefault giftDefault){
+        systemFacade.addGiftDefaults(giftDefault);
+    }
+
+
 }

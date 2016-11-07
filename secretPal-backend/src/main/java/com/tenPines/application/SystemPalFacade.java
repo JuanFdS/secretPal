@@ -44,4 +44,9 @@ public class SystemPalFacade {
         List<GiftDefault> giftDefaults = giftDefaultService.getAll();
         return giftDefaults;
     }
+
+    public void addGiftDefaults(GiftDefault giftDefault) {
+        giftDefaultService.addGift(giftDefault);
+
+    }
 }
