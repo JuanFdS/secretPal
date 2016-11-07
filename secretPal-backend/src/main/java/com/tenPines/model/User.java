@@ -2,6 +2,7 @@ package com.tenPines.model;
 
 
 import com.tenPines.configuration.AdminProperties;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,10 +19,10 @@ public class User {
     @OneToOne
     public Worker worker;
 
-    @NotNull
+    @NotEmpty
     public String userName;
 
-    @NotNull
+    @NotEmpty
     public String password;
 
 

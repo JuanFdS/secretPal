@@ -12,7 +12,7 @@ public class NewUser {
 
 
     public static NewUser createANewUser(String userName, String password, String email) {
-        if(userName == null | password == null | email == null ) {
+        if(userName == "" | password == "" | email == "" ) {
             throw new RuntimeException(NewUser.errorMessageWhenAnyFieldIsNull());
         }
         validate10PinesMail(email);
@@ -34,7 +34,7 @@ public class NewUser {
     }
 
     private static String errorMessageWhenAnyFieldIsNull() {
-        return "Any field is null, please check your input data ";
+        return "Any field is null, please check your input data";
     }
 
     public String getUserName() {

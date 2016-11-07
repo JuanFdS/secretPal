@@ -54,9 +54,9 @@ angular.module('secretPalApp')
         return $http.post(buildRoute('/register'), newUser).then(function () {
           SweetAlert.swal("¡Registrado correctamente!", "Gracias por participar en ''Amigo invisible'' ", "success"),
             $location.path('/login');
-        }).catch(function () {
+        }).catch(function (error) {
           Token.logout();
-          SweetAlert.swal("No te has registrado", "Revise que los campos hayan sido ingresados correctamente", "error");
+          SweetAlert.swal("No te has registrado", error.data.message, "error");
           $location.path('/register');
         })
       }

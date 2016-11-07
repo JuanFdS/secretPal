@@ -34,6 +34,8 @@ public class Worker {
     private LocalDate dateOfBirth;
     @NotNull
     private Boolean wantsToParticipate;
+    @Column
+    private LocalDate giftDateReceived;
 
     public Worker() {
     }
@@ -94,6 +96,14 @@ public class Worker {
         return dateOfBirth;
     }
 
+    public LocalDate getGiftDateReceived() {
+        return giftDateReceived;
+    }
+
+    public void setGiftDateReceived(LocalDate giftDateReceived) {
+        this.giftDateReceived = giftDateReceived;
+    }
+
     public void setDateOfBirth(LocalDate birthdayDate) {
         this.dateOfBirth = birthdayDate;
     }
@@ -113,5 +123,9 @@ public class Worker {
                 this.getFullName().equals(otherWorker.getFullName()) &&
                         this.geteMail().equals(otherWorker.geteMail()) &&
                         this.getDateOfBirth().equals(otherWorker.getDateOfBirth());
+    }
+
+    public void markGiftAsReceived() {
+
     }
 }
