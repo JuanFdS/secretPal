@@ -69,4 +69,9 @@ public class WorkerTest {
         assertThat(aWorker.getWantsToParticipate(), is(false));
     }
 
+    @Test
+    public void when_I_receive_a_gift_I_want_to_mark_the_date_of_receipt(){
+        Worker aWorker = workerBuilder.withFullName("Jason O'Connel").build();
+//        assertThat(aWorker.markGiftAsReceived());
+    }
 }

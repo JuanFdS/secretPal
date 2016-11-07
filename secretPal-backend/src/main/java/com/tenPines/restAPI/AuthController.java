@@ -121,12 +121,14 @@ public class AuthController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    void registerUserAndAsociateWithAWorker(@RequestBody NewUser newUser){
-        registerService.registerUser(newUser);
+    void registerUserAndAsociateWithAWorker(@RequestBody NewUser form){
+        NewUser newUser = NewUser.createANewUser(form.getUserName(), form.getPassword(), form.getEmail());
+        User user = registerService.registerUser(newUser);
     }
+
     @RequestMapping(value="/giftsDefault", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<GiftDefault> giftDefaults(){
         return systemFacade.retrieveAllGiftsDefaults();
 
-    }
+
 }
