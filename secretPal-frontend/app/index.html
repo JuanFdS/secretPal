@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <scrtipt ng-app="secretPalApp">
+  <body ng-app="secretPalApp">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <!--[endif]-->
@@ -49,6 +49,7 @@
                   <li role="separator" class="divider"></li>
                   <li><a ng-href="#/confirmationGift">Control de regalos hechos</a></li>
                   <li role="separator" class="divider"></li>
+                  <li><a ng-href="#/giftDefault">Configuración de regalo default</a></li>
                   <li><a ng-href="#/mail">Configuración de Mails</a></li>
                 </ul>
               </li>
@@ -116,9 +117,10 @@
     <script src="scripts/controllers/mail.js"></script>
     <script src="scripts/controllers/mailsFailure.js"></script>
     <script src="scripts/controllers/nav.js"></script>
-	  <script src="scripts/controllers/nav.js"></script>
+    <script src="scripts/controllers/giftDefault.js"></script>
     <script src="scripts/controllers/register.js"></script>
     <script src="scripts/controllers/confirmationGift.js"></script>
+    <script src="scripts/services/giftDefault.js"></script>
     <script src="scripts/services/workerService.js"></script>
     <script src="scripts/services/mailService.js"></script>
     <script src="scripts/services/friendRelationService.js"></script>

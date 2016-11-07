@@ -70,6 +70,11 @@ angular
         templateUrl: '../views/mailsFailure.html',
         controller: 'MailsFailureController',
         resolve: { user : authenticated }
+      })
+      .when('/giftDefault', {
+        templateUrl: '../views/giftDefault.html',
+        controller: 'GiftDefaultController',
+        resolve: { user : authenticated }
       });
 
 
