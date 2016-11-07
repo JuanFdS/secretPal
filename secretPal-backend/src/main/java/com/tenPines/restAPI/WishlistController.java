@@ -1,19 +1,16 @@
 package com.tenPines.restAPI;
 
-import com.nimbusds.jose.JOSEException;
-import com.tenPines.application.SecretPalSystem;
+import com.tenPines.SecretPalStarter;
+import com.tenPines.application.SystemPalFacade;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
-import com.tenPines.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.text.ParseException;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -21,48 +18,47 @@ import java.util.List;
 public class WishlistController {
 
     @Autowired
-    private SecretPalSystem system;
+    private SecretPalStarter systemOld;
     private Worker worker;
+
+
+
+    @Autowired
+    private SystemPalFacade systemActual;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public List<Wish> wishes() {
-        return system.retrieveAllWishes();
+        return systemActual.retrieveAllWishes();
     }
 
     @RequestMapping(value = "/worker/{workerID}", method = RequestMethod.GET)
     @ResponseBody
     public List<Wish> getWorkersWishes(@PathVariable Long workerID) {
-        Worker worker = system.retrieveAWorker(workerID);
-        return system.retrievallWishesForWorker(worker);
+        Worker worker = systemActual.retrieveAWorker(workerID);
+        return systemActual.retrievallWishesForWorker(worker);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Wish save(@RequestBody @Valid Wish wish, BindingResult result,
-                     @RequestHeader(value = "Authorization") String header) throws RestfulException, ParseException, JOSEException {
-        if (result.hasErrors())
-            throw new RestfulException(result.getAllErrors());
-        wish.setCreatedBy(
-                system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header))
-        );
-        return system.saveWish(wish);
+    public Wish save(@RequestBody Wish wish) throws IOException {
+        return systemActual.saveWish(wish);
     }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void updateWish(@PathVariable Long id, @RequestBody String gift) {
-        Wish wish = system.retrieveAWish(id);
+        Wish wish = systemActual.retrieveAWish(id);
         wish.setGift(gift);
-        system.updateWish(wish);
+        systemActual.updateWish(wish);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteWish(@PathVariable Long id) {
-        Wish wish = system.retrieveAWish(id);
-        system.deleteAWish(wish);
+        Wish wish = systemActual.retrieveAWish(id);
+        systemActual.deleteAWish(wish);
     }
 
     @ExceptionHandler(Exception.class)

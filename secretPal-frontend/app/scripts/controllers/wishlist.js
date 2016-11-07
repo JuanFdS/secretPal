@@ -1,6 +1,6 @@
 'use strict';
 angular.module('secretPalApp')
-  .controller('WishlistController', function ($scope, user, WorkerService, WishlistService, $modal, $log, SweetAlert) {
+  .controller('WishlistController', function ($scope, user, Token ,WorkerService, WishlistService, $modal, $log, SweetAlert) {
     WishlistService.all(function (data) {
       $scope.wishlist = data;
     });
@@ -8,6 +8,7 @@ angular.module('secretPalApp')
       $scope.posibleWorkers = data;
     });
     $scope.Add = function () {
+      $scope.wish.createdBy = user.data.worker;
       WishlistService.new($scope.wish, function(persistedWish) { $scope.wishlist.push(persistedWish); $scope.Reset();});
     };
     $scope.Reset = function () {

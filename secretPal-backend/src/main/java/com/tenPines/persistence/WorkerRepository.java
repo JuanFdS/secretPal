@@ -14,6 +14,7 @@ public interface WorkerRepository extends JpaRepository<Worker, Long> {
 
     List<Worker> findBywantsToParticipate(Boolean bool);
 
+    Worker findByfullName(String token);
 }
 
 

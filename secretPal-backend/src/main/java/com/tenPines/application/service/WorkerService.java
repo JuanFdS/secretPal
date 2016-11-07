@@ -48,6 +48,12 @@ public class WorkerService {
         return "The Worker with this email does not exist";
     }
 
+    public void changeIntention(Worker aWorker) {
+        Worker worker = retriveWorker(aWorker.getId());
+        worker.changeParticipationIntention();
+        workerRepository.save(worker);
+    }
+
     public List<Worker> retrieveParticipants() {
         return workerRepository.findBywantsToParticipate(true);
     }
@@ -55,4 +61,14 @@ public class WorkerService {
     public Worker retriveWorker(Long to) {
         return workerRepository.findOne(to);
     }
+
+    public List<Worker> getAllWorkers() {
+        return workerRepository.findAll();
+    }
+
+    public Worker retrieveWorkerByFullname(String token) {
+        return workerRepository.findByfullName(token);
+
+    }
+
 }
