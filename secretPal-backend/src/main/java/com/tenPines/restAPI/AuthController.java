@@ -126,13 +126,11 @@ public class AuthController {
     }
 
     @RequestMapping(value="/confirmationGift/{id}", method= RequestMethod.PUT)
-    @ResponseBody
-    public LocalDate updateGiftReceivedDate(@PathVariable(value="id") Long id) {
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateGiftReceivedDate(@PathVariable(value="id") Long id){
         Worker workerToUpdate = workerService.retriveWorker(id);
         workerToUpdate.markGiftAsReceived();
-        LocalDate date = workerToUpdate.getGiftDateReceived();
         workerService.save(workerToUpdate);
-        return date;
     }
 
     @RequestMapping(value="/giftsDefault", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -140,6 +138,4 @@ public class AuthController {
     public void addGiftDefaults(@RequestBody GiftDefault giftDefault){
         systemFacade.addGiftDefaults(giftDefault);
     }
-
-
 }

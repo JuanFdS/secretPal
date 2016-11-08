@@ -130,4 +130,5 @@ public class Worker {
     public void markGiftAsReceived() {
         setGiftDateReceived(LocalDate.now());
     }
+
 }

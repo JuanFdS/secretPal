@@ -14,15 +14,13 @@ app.controller('ConfirmationGiftController', function ($scope, $http, $modal, $r
 
   $scope.markReceived = function(id){
     var self = this;
-    return $http.put(buildRoute('/confirmationGift/' + id), id).then(function (date) {
+    return $http.put(buildRoute('/confirmationGift/' + id), id).then(function () {
       SweetAlert.swal("¡Regalo marcado como recibido!","con la fecha de hoy", "success");
-      return $location.path('/confirmationGift');
+      $location.path('/confirmationGift');
     }).catch(function (error) {
-      Token.logout();
-      SweetAlert.swal("No te has registrado", error.data.message, "error");
-      $location.path('/register');
+      SweetAlert.swal("No se ha marcado como recibido", "", "error");
+      $location.path('/confirmationGift');
     });
-
   };
 });
 
