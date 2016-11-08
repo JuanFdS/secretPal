@@ -2,7 +2,7 @@ package com.tenPines.integration;
 
 
 import com.tenPines.application.SystemPalFacade;
-import com.tenPines.model.GiftDefault;
+import com.tenPines.model.DefaultGift;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,10 +23,12 @@ public class FacadeTest extends SpringBaseTest {
 
     @Test
     public void when_i_get_all_gift_defaults_and_have_gift(){
-        GiftDefault giftDefault = GiftDefault.createGiftDfault("Mural", "$1000");
-        facade.addGiftDefaults(giftDefault);
+        DefaultGift defaultGift = DefaultGift.createGiftDfault("Mural", "$1000");
+        facade.addGiftDefaults(defaultGift);
         assertThat(facade.retrieveAllGiftsDefaults(), not(empty()));
-        assertEquals(facade.retrieveAllGiftsDefaults().size(),1);
+        assertEquals(facade.retrieveTheLastDefaultGift().getGiftDefault(),"Mural");
+        assertEquals(facade.retrieveTheLastDefaultGift().getAmountDefault(),"$1000");
+
     }
 
 

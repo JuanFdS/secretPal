@@ -125,17 +125,25 @@ public class AuthController {
         registerService.registerUser(newUser);
     }
 
+    @RequestMapping(value="/giftsDefault", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public DefaultGift giftDefaults() {
+        DefaultGift defaultGift =systemFacade.retrieveTheLastDefaultGift();
+        return defaultGift;
+    }
+
+    @RequestMapping(value="/giftsDefault", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public void addGiftDefaults(@RequestBody DefaultGift defaultGift){
+        systemFacade.addGiftDefaults(defaultGift);
+    }
+
     @RequestMapping(value="/confirmationGift/{id}", method= RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
     public void updateGiftReceivedDate(@PathVariable(value="id") Long id){
         Worker workerToUpdate = workerService.retriveWorker(id);
         workerToUpdate.markGiftAsReceived();
         workerService.save(workerToUpdate);
-    }
-
-    @RequestMapping(value="/giftsDefault", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public void addGiftDefaults(@RequestBody GiftDefault giftDefault){
-        systemFacade.addGiftDefaults(giftDefault);
     }
 }

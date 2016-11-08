@@ -1,6 +1,6 @@
 package com.tenPines.application.service;
 
-import com.tenPines.model.GiftDefault;
+import com.tenPines.model.DefaultGift;
 import com.tenPines.persistence.GiftDefaultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +17,21 @@ public class GiftDefaultService {
     @Autowired
     GiftDefaultRepository repository;
 
-    public List<GiftDefault> getAll() {
+    public List<DefaultGift> getAll() {
         return repository.findAll();
 
     }
 
-    public void addGift(GiftDefault giftDefault) {
-        GiftDefault giftDefaultLocal = GiftDefault.createGiftDfault(giftDefault.getGiftDefault(),
-                giftDefault.getAmountDefault());
-        repository.save(giftDefaultLocal);
+    public void addGift(DefaultGift defaultGift) {
+        List<DefaultGift> haveDefaultGift = repository.findAll();
+        DefaultGift actualDefaultGift;
+        actualDefaultGift = defaultGift;
+
+        if(!haveDefaultGift.isEmpty()){
+            actualDefaultGift = haveDefaultGift.get(0);
+            actualDefaultGift.changeDefaultGift(defaultGift);
+        }
+
+        repository.save(actualDefaultGift);
     }
 }

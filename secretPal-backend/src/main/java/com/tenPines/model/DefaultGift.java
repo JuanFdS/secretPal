@@ -9,26 +9,26 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-public class GiftDefault {
+public class DefaultGift {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    public GiftDefault() {
+    public DefaultGift() {
         }
 
-    static public GiftDefault createGiftDfault(String giftDefault, String amountDefault){
+    static public DefaultGift createGiftDfault(String giftDefault, String amountDefault){
         if (amountDefault.isEmpty()){
             throw new InvalidGiftDefaultException(InvalidGiftDefaultException.HAVE_NOT_AMOUNT_DEFAULT);
         }
         if (giftDefault.isEmpty()){
             throw new InvalidGiftDefaultException(InvalidGiftDefaultException.HAVE_NOT_GIFT_DEFAULT);
         }
-        GiftDefault aGiftDefault = new GiftDefault();
-        aGiftDefault.setAmountDefault(amountDefault);
-        aGiftDefault.setGiftDefault(giftDefault);
-        return aGiftDefault;
+        DefaultGift aDefaultGift = new DefaultGift();
+        aDefaultGift.setAmountDefault(amountDefault);
+        aDefaultGift.setGiftDefault(giftDefault);
+        return aDefaultGift;
     }
 
     @NotNull
@@ -63,5 +63,8 @@ public class GiftDefault {
     }
 
 
-
+    public void changeDefaultGift(DefaultGift defaultGift) {
+        this.setAmountDefault(defaultGift.getAmountDefault());
+        this.setGiftDefault(defaultGift.getGiftDefault());
+    }
 }

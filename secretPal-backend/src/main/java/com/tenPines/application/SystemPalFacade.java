@@ -6,11 +6,10 @@ import com.tenPines.application.service.FriendRelationService;
 import com.tenPines.application.service.GiftDefaultService;
 import com.tenPines.application.service.WishlistService;
 import com.tenPines.application.service.WorkerService;
+import com.tenPines.model.DefaultGift;
 import com.tenPines.model.FriendRelation;
-import com.tenPines.model.GiftDefault;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
-import com.tenPines.restAPI.AuthController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,13 +49,17 @@ public class SystemPalFacade {
         friendRelationService.retrieveAssignedFriendFor(participant);
     }
 
-    public List<GiftDefault> retrieveAllGiftsDefaults() {
-        List<GiftDefault> giftDefaults = giftDefaultService.getAll();
-        return giftDefaults;
+    public List<DefaultGift> retrieveAllGiftsDefaults() {
+        List<DefaultGift> defaultGifts = giftDefaultService.getAll();
+        if(defaultGifts.isEmpty()) {
+
+            defaultGifts.add(DefaultGift.createGiftDfault("Nada","$0"));
+        }
+        return giftDefaultService.getAll();
     }
 
-    public void addGiftDefaults(GiftDefault giftDefault) {
-        giftDefaultService.addGift(giftDefault);
+    public void addGiftDefaults(DefaultGift defaultGift) {
+        giftDefaultService.addGift(defaultGift);
 
     }
 
@@ -77,8 +80,6 @@ public class SystemPalFacade {
 
         return wishlistService.saveWish(wish);
     }
-
-
 
     public Wish retrieveAWish(Long id) {
         return wishlistService.retrieveAWish(id);
@@ -126,5 +127,10 @@ public class SystemPalFacade {
 
     public List<Worker> getAllWorkers() {
         return workerService.getAllWorkers();
+    }
+
+    public DefaultGift retrieveTheLastDefaultGift() {
+        return retrieveAllGiftsDefaults().get(0);
+
     }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('secretPalApp').service('giftDefaultService', function($http, SweetAlert) {
+angular.module('secretPalApp').service('GiftDefaultService', function($http, SweetAlert) {
 
   function buildRoute(path) {
     var route = '/api/auth';
@@ -16,25 +16,24 @@ angular.module('secretPalApp').service('giftDefaultService', function($http, Swe
   }
 
 
-  this.new = function(giftDefault) {
-    $http.post(buildRoute('/giftDefault'), giftDefault).
-    success(function() {
-      successMsg("Se ha agregado el regalo default correctamente");
-    }).
-    error(function() {
-      errorMsg("Inténtelo de nuevo mas tarde");
-    });
-  };
-
-  this.all = function(callback) {
-    $http.get(buildRoute('/giftDefault') ).
+  this.get = function(successFunction) {
+    $http.get(buildRoute('/giftsDefault')).
     success(function(data) {
-      callback(data);
+      successFunction(data);
+    }).
+    error(function() {
+      errorMsg("Inténtelo denuevo mas tarde");
+    });
+  };
+
+  this.new = function(giftDefault) {
+    $http.post(buildRoute('/giftsDefault'), giftDefault).
+    success(function() {
+      successMsg("Se ha actualizado el regalo default");
     }).
     error(function() {
       errorMsg("Inténtelo de nuevo mas tarde");
     });
   };
-
 
 });
