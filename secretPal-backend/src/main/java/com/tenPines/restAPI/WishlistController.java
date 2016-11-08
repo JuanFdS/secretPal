@@ -26,7 +26,7 @@ public class WishlistController {
     @Autowired
     private SystemPalFacade systemActual;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Wish> wishes() {
         return systemActual.retrieveAllWishes();
