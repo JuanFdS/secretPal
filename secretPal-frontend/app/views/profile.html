@@ -1,13 +1,19 @@
-<h1>Este año tu pino cumpleañero es: {{friend.data.fullName}}</h1>
-<p>El/Ella quiere:</p>
-<ul>
-    <li ng-repeat="wish in wishlist.data">{{wish.gift}}</li>
-</ul>
-<p><strong>Regalo dafault:</strong></p>
-<ul>
-  <li align="center">Un libro</li>
-</ul>
-<p><strong>Monto dafault:</strong></p>
-<ul>
-<li align="center">$500</li>
-</ul>
+<div class="jumbotron">
+  <div class="container">
+    <h2>Este año tu pino cumpleañero es:</h2>
+    <h1><span class="label label-success"><strong style="text-transform:uppercase">{{friend.data.fullName}}</strong></span></h1>
+    <h2>Su cumpleaños es:</h2>
+    <h1><span class="label label-info"><strong style="text-transform:uppercase">{{friend.data.dateOfBirth | date}}</strong></span></h1>
+    <h3><strong>Regalo default:<p align="center">ACA IRIA EL REGALO DEFAULT</p></strong></h3>
+    <h3><strong>Monto default: <p align="center">ACA IRIA EL MONTO DEL REGALO DEFAULT</p></strong></h3>
+    <h3>A El/Ella ademas le gustaría:</h3>
+      <div ng-repeat="wish in wishlist.data">
+        <h2><span class="label label-warning -align-center"><strong style="text-transform:uppercase">{{wish.gift}}</strong></span></h2>
+      </div>
+  </div>
+</div>
+
+
+
+
+
