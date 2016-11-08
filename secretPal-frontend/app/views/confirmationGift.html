@@ -11,6 +11,7 @@
       <th align="center">Email</th>
       <th align="center">Fecha de cumpleaños</th>
       <th align="center">¿Recibio el regalo?</th>
+      <th align="center">Fecha de recepcion</th>
     </tr>
     </thead>
     <tbody>
@@ -19,14 +20,12 @@
       <td>{{worker.eMail}}</td>
       <td>{{worker.dateOfBirth | date}}</td>
       <td>
-        <div class="checkbox">
-          <label style="font-size: 1em">
-            <input type="checkbox" ng-model="worker.receivedGift" ng-click="change(worker)">
-            <span class="cr"><i class="cr-icon fa fa-check"></i></span>
-            Recibido
-          </label>
+        <div class="button">
+            <button type="button" ng-click="markReceived(worker.id)" class="btn btn-xs btn-success">Recibido</button>
+            <button type="button" ng-click="deleteReceivedMark()" class="btn btn-xs btn-danger">Borrar</button>
         </div>
       </td>
+      <td>{{worker.giftDateReceived | date}}</td>
     </tr>
     </tbody>
   </table>

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Properties;
 
 @Controller
@@ -125,9 +125,14 @@ public class AuthController {
         registerService.registerUser(newUser);
     }
 
-    @RequestMapping(value="/giftsDefault", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<GiftDefault> giftDefaults() {
-        return systemFacade.retrieveAllGiftsDefaults();
+    @RequestMapping(value="/confirmationGift/{id}", method= RequestMethod.PUT)
+    @ResponseBody
+    public LocalDate updateGiftReceivedDate(@PathVariable(value="id") Long id) {
+        Worker workerToUpdate = workerService.retriveWorker(id);
+        workerToUpdate.markGiftAsReceived();
+        LocalDate date = workerToUpdate.getGiftDateReceived();
+        workerService.save(workerToUpdate);
+        return date;
     }
 
     @RequestMapping(value="/giftsDefault", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
