@@ -1,6 +1,6 @@
 package com.tenPines.restAPI;
 
-import com.tenPines.application.SecretPalSystem;
+import com.tenPines.application.SystemPalFacade;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.model.User;
 import com.tenPines.model.Worker;
@@ -20,22 +20,20 @@ import java.util.List;
 public class WorkerController {
 
     @Autowired
-    private SecretPalSystem system;
+    private SystemPalFacade system;
     @Autowired
     private WorkerService workerService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
     @ResponseBody
     public List<Worker> workers() {
-        List<Worker> workers =workerService.getAllParticipants();
+        List<Worker> workers =system.getAllWorkers();
         return workers;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
-    public Worker save(@RequestHeader(value="Authorization") String header, @RequestBody @Valid Worker aWorker, BindingResult result) throws Exception {
-        if (result.hasErrors())
-            throw new RestfulException(result.getAllErrors());
+    public Worker save(@RequestBody @Valid Worker aWorker) throws IOException {
         return workerService.save(aWorker);
     }
 

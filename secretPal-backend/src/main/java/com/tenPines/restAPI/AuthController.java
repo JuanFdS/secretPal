@@ -2,7 +2,6 @@ package com.tenPines.restAPI;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nimbusds.jose.JOSEException;
-import com.tenPines.application.SecretPalSystem;
 import com.tenPines.application.SystemPalFacade;
 import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
@@ -31,7 +30,7 @@ import java.util.Properties;
 public class AuthController {
 
     @Autowired
-    private SecretPalSystem system;
+    private SystemPalFacade system;
 
     @Autowired
     private WorkerService workerService;
@@ -102,9 +101,11 @@ public class AuthController {
 
     public static class Token {
         String token;
+
         public Token(@JsonProperty("token") String token) {
             this.token = token;
         }
+
         public String getToken() {
             return token;
         }

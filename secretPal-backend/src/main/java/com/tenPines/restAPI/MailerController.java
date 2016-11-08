@@ -1,9 +1,7 @@
 package com.tenPines.restAPI;
 
-import com.tenPines.application.SecretPalSystem;
 import com.tenPines.application.service.MailerService;
 import com.tenPines.mailer.UnsentMessage;
-import com.tenPines.persistence.FailedMailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;

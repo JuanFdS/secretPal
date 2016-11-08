@@ -1,6 +1,5 @@
 package com.tenPines.restAPI;
 
-import com.tenPines.application.SecretPalSystem;
 import com.tenPines.application.SystemPalFacade;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.model.FriendRelation;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -24,8 +22,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/friendRelation")
 public class FriendRelationController {
 
-    @Autowired
-    private SecretPalSystem system;
 
     @Autowired
     private SystemPalFacade systemFacade;

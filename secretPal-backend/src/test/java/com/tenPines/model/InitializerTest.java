@@ -1,18 +1,14 @@
 package com.tenPines.model;
 
 
-import com.tenPines.application.SecretPalSystem;
 import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.configuration.AdminProperties;
 import com.tenPines.integration.SpringBaseTest;
-import org.hamcrest.Matchers;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -28,8 +24,6 @@ public class InitializerTest extends SpringBaseTest {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private SecretPalSystem system;
 
     @Test
     public void when_i_initialize_the_system_the_list_of_workers_must_be_charged(){
