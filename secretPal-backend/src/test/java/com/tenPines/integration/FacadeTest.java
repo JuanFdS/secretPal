@@ -17,8 +17,8 @@ public class FacadeTest extends SpringBaseTest {
     SystemPalFacade facade;
 
     @Test
-    public void when_i_get_all_gift_defaults_and_is_empty(){
-        assertThat(facade.retrieveAllGiftsDefaults(), empty());
+    public void when_i_get_all_gift_defaults_and_not_is_empty_because_always_create_default_gift(){
+        assertThat(facade.retrieveAllGiftsDefaults(), not(empty()));
     }
 
     @Test

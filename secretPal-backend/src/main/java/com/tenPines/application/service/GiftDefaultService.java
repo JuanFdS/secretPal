@@ -26,7 +26,7 @@ public class GiftDefaultService {
         List<DefaultGift> haveDefaultGift = repository.findAll();
         DefaultGift actualDefaultGift;
         actualDefaultGift = defaultGift;
-
+        defaultGift.validateADefaultGift();
         if(!haveDefaultGift.isEmpty()){
             actualDefaultGift = haveDefaultGift.get(0);
             actualDefaultGift.changeDefaultGift(defaultGift);

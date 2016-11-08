@@ -55,7 +55,7 @@ public class SystemPalFacade {
 
             defaultGifts.add(DefaultGift.createGiftDfault("Nada","$0"));
         }
-        return giftDefaultService.getAll();
+        return defaultGifts;
     }
 
     public void addGiftDefaults(DefaultGift defaultGift) {

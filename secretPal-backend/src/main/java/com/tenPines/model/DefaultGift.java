@@ -19,16 +19,20 @@ public class DefaultGift {
         }
 
     static public DefaultGift createGiftDfault(String giftDefault, String amountDefault){
-        if (amountDefault.isEmpty()){
-            throw new InvalidGiftDefaultException(InvalidGiftDefaultException.HAVE_NOT_AMOUNT_DEFAULT);
-        }
-        if (giftDefault.isEmpty()){
-            throw new InvalidGiftDefaultException(InvalidGiftDefaultException.HAVE_NOT_GIFT_DEFAULT);
-        }
         DefaultGift aDefaultGift = new DefaultGift();
         aDefaultGift.setAmountDefault(amountDefault);
         aDefaultGift.setGiftDefault(giftDefault);
+        aDefaultGift.validateADefaultGift();
         return aDefaultGift;
+    }
+
+    public void validateADefaultGift() {
+        if (this.getAmountDefault().isEmpty()){
+            throw new InvalidGiftDefaultException(InvalidGiftDefaultException.HAVE_NOT_AMOUNT_DEFAULT);
+        }
+        if (this.getGiftDefault().isEmpty()){
+            throw new InvalidGiftDefaultException(InvalidGiftDefaultException.HAVE_NOT_GIFT_DEFAULT);
+        }
     }
 
     @NotNull
