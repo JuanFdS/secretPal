@@ -16,7 +16,9 @@ app.controller('ConfirmationGiftController', function ($scope, $http, $modal, $r
     var self = this;
     return $http.put(buildRoute('/confirmationGift/' + id), id).then(function () {
       SweetAlert.swal("¡Regalo marcado como recibido!","con la fecha de hoy", "success");
-      $location.path('/confirmationGift');
+      WorkerService.all(function (data) {
+        $scope.workers = data;
+      });
     }).catch(function (error) {
       SweetAlert.swal("No se ha marcado como recibido", "", "error");
       $location.path('/confirmationGift');
