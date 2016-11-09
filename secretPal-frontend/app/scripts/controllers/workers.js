@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerService, FriendRelationService, $filter, $location, user, SweetAlert, Account) {
+app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerService, FriendRelationService, $filter, $location, SweetAlert, Account) {
 
     function warningMsg(msg){
       SweetAlert.swal({
@@ -11,10 +11,6 @@ app.controller('WorkersController', function($scope, $modal, $rootScope, WorkerS
       });
     }
 
-    /*TODO: Sacar antes de pushesr
-    if( !user.data.admin ){
-      $location.path("/");
-    }*/
 
     WorkerService.all(function(data){ $scope.workers = data;});
     FriendRelationService.all( function(data) {$scope.participants = data;});

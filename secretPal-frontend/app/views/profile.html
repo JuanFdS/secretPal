@@ -1,15 +1,18 @@
+<head class="modal-title col-lg-offset-6">
+  <h1>Tu perfil</h1>
+</head>
 <div class="jumbotron">
   <div class="container">
     <h2>Este año tu pino cumpleañero es:</h2>
     <h1><span class="label label-success"><strong style="text-transform:uppercase">{{friend.data.fullName}}</strong></span></h1>
-    <h2>Su cumpleaños es:</h2>
+    <h2>Tu pino asignado nació el:</h2>
     <h1><span class="label label-info"><strong style="text-transform:uppercase">{{friend.data.dateOfBirth | date}}</strong></span></h1>
-    <h3><strong>Regalo default:<p align="center">ACA IRIA EL REGALO DEFAULT</p></strong></h3>
-    <h3><strong>Monto default: <p align="center">ACA IRIA EL MONTO DEL REGALO DEFAULT</p></strong></h3>
-    <h3>A El/Ella ademas le gustaría:</h3>
-      <div ng-repeat="wish in wishlist.data">
+    <h3>Le gustaría que le regalen:</h3>
+      <div ng-show="wishlist.length === 0"><h2>Tu pino no tiene deseos en la Wishlist</h2></div>
+      <div ng-repeat="wish in wishlist">
         <h2><span class="label label-warning -align-center"><strong style="text-transform:uppercase">{{wish.gift}}</strong></span></h2>
       </div>
+
   </div>
 </div>
 

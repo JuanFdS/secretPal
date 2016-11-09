@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('ConfirmationGiftController', function ($scope, $modal, $rootScope, WorkerService, $filter, $location, user, SweetAlert) {
+app.controller('ConfirmationGiftController', function ($scope, $modal, $rootScope, WorkerService, $filter, $location, SweetAlert) {
 
   WorkerService.all(function (data) {
     $scope.workers = data;
