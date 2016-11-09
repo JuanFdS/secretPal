@@ -7,7 +7,7 @@ import com.tenPines.utils.PropertyParser;
 
 import java.io.IOException;
 
-public class FriendRelationMessageBuilder {
+public class FriendRelationMessageBuilder extends ReminderBuilder{
 
     private PropertyParser templateProperties;
 
@@ -31,11 +31,5 @@ public class FriendRelationMessageBuilder {
     }
 
 
-    public Message buildMessage(FriendRelation friendRelation) {
-        Message message = new Message();
-        message.setRecipient(friendRelation.getGiftGiver().geteMail());
-        message.setSubject(assignationSubject());
-        message.setBody(assignationBodyText(friendRelation.getGiftReceiver()));
-        return message;
-    }
+
 }

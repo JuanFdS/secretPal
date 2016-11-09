@@ -14,11 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.temporal.Temporal;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
 
-public class ScheduleMailerTest extends SpringBaseTest {
+
+public class ReminderSystemTest extends SpringBaseTest {
+
     @Autowired
     private WorkerService workerService;
     @Autowired
@@ -31,10 +35,9 @@ public class ScheduleMailerTest extends SpringBaseTest {
     private SecretPalProperties secretPalProperties;
     @Autowired
     private FriendRelationService friendRelationService;
-
-
     private Worker friendWorker;
     private Worker birthdayWorker;
+
 
     private void setUp(LocalDate today, LocalDate birthday) {
         clock.setTime(today);
@@ -45,26 +48,31 @@ public class ScheduleMailerTest extends SpringBaseTest {
         friendRelationService.create(friendWorker, birthdayWorker);
     }
 
+
     @Test
-    public void When_A_Worker_Has_A_Friends_Birthday_A_Week_From_Now_The_System_Should_Mail_Him(){
-        setUp(LocalDate.of(2000, Month.APRIL, 3), LocalDate.of(2000, Month.APRIL, 10));
+    public void When_A_Workers_Birthday_Should_Mail_Him(){
+        setUp(LocalDate.now(), LocalDate.now());
 
-        reminderSystem.sendRemindersTheLastBirthday();
-
-        assertThat(postMan.messagesTo(friendWorker.geteMail()), not(empty()));
-        assertThat(postMan.messagesTo(friendWorker.geteMail()), hasSize(1));
-        assertThat(postMan.messagesTo(friendWorker.geteMail()), contains(hasProperty("body",
-                allOf(
-                        containsString(birthdayWorker.getFullName()),
-                        containsString(birthdayWorker.getDateOfBirth().toString())))));
+        reminderSystem.sendHappyBithdayMessages();
+        assertThat(postMan.messagesTo(birthdayWorker.geteMail()), empty());
     }
 
     @Test
-    public void When_A_Worker_Has_A_Friends_Birthday_After_Today_No_Mail_Should_be_Sent() {
-        setUp(LocalDate.of(2000, Month.APRIL, 9), LocalDate.of(1900, Month.JANUARY, 10));
+    public void When_assign_relation_between_two_workers(){
+        setUp(LocalDate.now(), LocalDate.now());
+
+        reminderSystem.sendAssignedRelation();
+        assertThat(postMan.messagesTo(friendWorker.geteMail()), not(empty()));
+    }
+
+
+    @Test
+    public void When_aproach_the_birthday_of_friendWorker(){
+        setUp(LocalDate.now().plusDays(secretPalProperties.getReminderDayPeriod()), LocalDate.now());
 
         reminderSystem.sendRemindersTheLastBirthday();
-
         assertThat(postMan.messagesTo(friendWorker.geteMail()), empty());
     }
+
+
 }
