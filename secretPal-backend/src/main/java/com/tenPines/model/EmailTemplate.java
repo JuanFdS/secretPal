@@ -20,7 +20,7 @@ public class EmailTemplate {
 
     String bodyText;
 
-    LocalDate dateOfBirth;
+    String dateOfBirth;
 
     String fullName;
 
@@ -54,11 +54,11 @@ public class EmailTemplate {
         this.bodyText = bodyText;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

@@ -21,12 +21,13 @@ public class ReminderAproachTheBirthdayBuilder extends ReminderBuilder {
 
         }
     }
-
-    private String assignationSubject() {
+    @Override
+    protected String assignationSubject() {
         return "[SecretPal-Reminder] Se acerca el cumpleaños de tu pino!";
     }
 
-    private String assignationBodyText(Worker birthdayWorker){
+    @Override
+    protected String assignationBodyText(Worker birthdayWorker){
         return "Faltan 7 días para el cumple de " + birthdayWorker.getFullName() + "\nNo cuelgues!";
     }
 
