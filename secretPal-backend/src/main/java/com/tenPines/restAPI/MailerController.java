@@ -2,6 +2,7 @@ package com.tenPines.restAPI;
 
 import com.tenPines.application.service.MailerService;
 import com.tenPines.mailer.UnsentMessage;
+import com.tenPines.model.EmailTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 @Controller
 @RequestMapping("/mail")
@@ -24,14 +24,14 @@ public class MailerController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
-    public Properties getMail() throws IOException {
+    public EmailTemplate getMail() throws IOException {
         return mailerService.getEMailTemplate();
     }
 
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
-    public Properties setMail(@RequestBody Properties modifiedMail) throws IOException {
+    public EmailTemplate setMail(@RequestBody EmailTemplate modifiedMail) throws IOException {
         return mailerService.setEmailTemplate(modifiedMail);
     }
 
