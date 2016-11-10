@@ -1,25 +1,19 @@
 package com.tenPines.application;
 
-
 import com.tenPines.application.clock.Clock;
 import com.tenPines.application.service.FriendRelationService;
 import com.tenPines.application.service.GiftDefaultService;
 import com.tenPines.application.service.WishlistService;
 import com.tenPines.application.service.WorkerService;
-import com.tenPines.model.FriendRelation;
-import com.tenPines.model.GiftDefault;
-import com.tenPines.model.Wish;
-import com.tenPines.model.Worker;
-import com.tenPines.restAPI.AuthController;
+import com.tenPines.model.*;
+import com.tenPines.restAPI.SecurityToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class SystemPalFacade {
-
 
     @Autowired
     FriendRelationService friendRelationService;
@@ -32,6 +26,12 @@ public class SystemPalFacade {
 
     @Autowired
     WishlistService wishlistService;
+
+    @Autowired
+    SecurityGuard securityGuard;
+
+    @Autowired
+    RegisterService registerService;
 
     private Long reminderDayPeriod;
     private Clock clock;
@@ -72,13 +72,10 @@ public class SystemPalFacade {
         return wishlistService.retrieveByWorker(worker);
     }
 
-
     public Wish saveWish(Wish wish) {
 
         return wishlistService.saveWish(wish);
     }
-
-
 
     public Wish retrieveAWish(Long id) {
         return wishlistService.retrieveAWish(id);
@@ -126,5 +123,15 @@ public class SystemPalFacade {
 
     public List<Worker> getAllWorkers() {
         return workerService.getAllWorkers();
+    }
+
+    public SecurityToken loginWithInternalCredential(Credential aCredential){
+        String token = securityGuard.enterWith(aCredential);
+        return SecurityToken.createWith(token);
+    }
+
+    public void registerUserAndAsociateWithAWorker(NewUser form){
+        NewUser newUser = NewUser.createANewUser(form.getUserName(), form.getPassword(), form.getEmail());
+        registerService.registerUser(newUser);
     }
 }
