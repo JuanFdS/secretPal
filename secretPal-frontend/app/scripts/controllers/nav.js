@@ -4,7 +4,6 @@ angular.module('secretPalApp')
   .controller('navCtrl', function($scope, $rootScope, Account, $location) {
 
   $scope.isAuthenticated = function() {
-    debugger;
     return Account.isAuthenticated();
   };
 
@@ -15,7 +14,6 @@ angular.module('secretPalApp')
   };
 
   $scope.logout = function () {
-    debugger;
     Account.logout();
     Account.isAuthenticated();
     return $location.path('/');
