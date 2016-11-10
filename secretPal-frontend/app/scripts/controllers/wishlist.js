@@ -1,20 +1,25 @@
 'use strict';
 angular.module('secretPalApp')
   .controller('WishlistController', function ($scope, user, WorkerService, WishlistService, $modal, $log, SweetAlert) {
+
     WishlistService.all(function (data) {
       $scope.wishlist = data;
     });
+
     WorkerService.all(function (data) {
       $scope.posibleWorkers = data;
     });
+
     $scope.Add = function () {
       $scope.wish.createdBy = user.worker;
       WishlistService.new($scope.wish, function(persistedWish) { $scope.wishlist.push(persistedWish); $scope.Reset();});
     };
+
     $scope.Reset = function () {
       $scope.wish.worker = null;
       $scope.wish.gift = '';
     };
+
     $scope.Edit = function (wish) {
       var modalInstance = $modal.open({
         animation: false,
@@ -29,10 +34,9 @@ angular.module('secretPalApp')
       modalInstance.result.then(function (returnedWish) {
         angular.copy(returnedWish, wish);
         WishlistService.update(wish);
-      }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
       });
     };
+
     $scope.Delete = function (wish) {
       SweetAlert.swal({
           title: "Estas seguro?",
@@ -49,7 +53,7 @@ angular.module('secretPalApp')
               $scope.wishlist.splice(
                 $scope.wishlist.indexOf(wish), 1
               );
-              SweetAlert.swal("Se ha borrado exitosamente");
+              SweetAlert.swal("Se ha borrado exitosamente","", "success");
             });
           }
         });

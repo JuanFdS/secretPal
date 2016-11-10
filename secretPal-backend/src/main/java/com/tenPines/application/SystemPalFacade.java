@@ -142,4 +142,8 @@ public class SystemPalFacade {
     public List<Worker> getPosibleFriendsTo(Long id) {
         return friendRelationService.getAvailablesRelationsTo(id);
     }
+
+    public void editWorker(Worker workerEdited) throws Exception {
+        workerService.save(workerEdited);
+    }
 }

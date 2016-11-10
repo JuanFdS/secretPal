@@ -49,4 +49,9 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
           successFunction();
         });
   };
+
+  this.update = function (worker) {
+    $http.post(buildRoute('/edit'), worker);
+  };
+
 });
