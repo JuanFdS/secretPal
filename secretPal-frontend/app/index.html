@@ -57,8 +57,8 @@
               <li role="separator" class="divider"></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <ld ng-show="isAuthenticated()" ><strong style="text-transform:uppercase">{{getUserName()}}</strong></ld>
-              <ld><li ng-show="isAuthenticated()"><a ng-href="#/logout">Salir</a></li></ld>
+              <ld ng-show="isAuthenticated()" ><h5><span class="label label-default -align-center"><strong style="text-transform:uppercase">{{loggedUser.userName}}</strong></span></h5></ld>
+              <ld><li ng-show="isAuthenticated()"><button type="button" ng-click="logout()" class="btn btn-xs btn-danger btn-block">Salir</button></li></ld>
             </ul>
           </div>
         </div>
@@ -110,7 +110,6 @@
     <script src="scripts/controllers/workers.js"></script>
     <script src="scripts/controllers/wishlist.js"></script>
     <script src="scripts/controllers/login.js"></script>
-    <script src="scripts/controllers/logout.js"></script>
     <script src="scripts/controllers/profile.js"></script>
     <script src="scripts/controllers/friendRelation.js"></script>
     <script src="scripts/controllers/main.js"></script>

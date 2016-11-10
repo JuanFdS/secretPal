@@ -1,64 +1,71 @@
 'use strict';
 
 angular.module('secretPalApp')
-  .factory('Account', function($http, $rootScope, SweetAlert, $location, Token) {
+  .service('Account', function ($http, $rootScope, SweetAlert, $location, Token) {
     function buildRoute(path) {
       var route = '/api/auth';
       return route + path;
     }
-    var loggedUser;
 
-    return {
-      getProfile: function() {
-        return $http.get(buildRoute('/me'), {
-          headers: {
-            Authorization: Token.getToken()
-          }
-        }).then(function(response){
-            loggedUser = response;
-            return response;
-        });
-      },
+    var self = this;
 
-      getCurrentProfile: function() {
-        return loggedUser.data;
-      },
+    self.getProfile = function () {
+      return $http.get(buildRoute('/me'), {
+        headers: {
+          Authorization: Token.getToken()
+        }
+      }).then(function (response) {
+        $rootScope.loggedUser = response.data;
+        return response.data;
+      });
+    };
 
-      getCurrentAdmin: function(){
-        return $http.get(buildRoute('/admin'))
-      },
+    self.getCurrentProfile = function () {
+      return $rootScope.loggedUser;
+    };
 
-      setCurrentAdmin: function(admin){
-        return $http.post(buildRoute('/admin'), admin).then(function(){
-            SweetAlert.swal("Cambio de Admin", "El nuevo Admin es: " + admin.fullName, "success");
-        }, function(data){
-          SweetAlert.swal("Algo salio mal",data, "error");
-        });
-      },
+    self.isAuthenticated = function () {
+      return Token.isAuthenticated()
+    };
 
-      login: function (credentials) {
-        var self = this;
-        return $http.post(buildRoute('/login'), credentials).then(function (response) {  //TODO: ESTE USER QUE RECIBO ME SIRVE PARA PONER QUE ESTOY AUTENTICADO
+    self.logout = function () {
+      return Token.logout()
+    };
+
+    self.getCurrentAdmin = function () {
+      return $http.get(buildRoute('/admin'))
+    };
+
+    self.setCurrentAdmin = function (admin) {
+      return $http.post(buildRoute('/admin'), admin).then(function () {
+        SweetAlert.swal("Cambio de Admin", "El nuevo Admin es: " + admin.fullName, "success");
+      }, function (data) {
+        SweetAlert.swal("Algo salio mal", data, "error");
+      });
+    };
+
+    self.login = function (credentials) {
+      return $http.post(buildRoute('/login'), credentials)
+        .then(function (response) {
           Token.saveToken(response.data.token);
-          SweetAlert.swal("¡Bienvenido!", "Ingresaste correctamente", "success"),
+          return self.getProfile()
+        }).then(function (currentProfile) {
+          SweetAlert.swal("¡Bienvenido " + currentProfile.userName + "!", "Ingresaste correctamente", "success");
           $location.path('/profile');
+          return currentProfile;
         }).catch(function () {
-          Token.logout();
           SweetAlert.swal("Usuario o contraseña invalida", "Por favor complete el formulario de registro o contactese con el Administrador", "error");
           $location.path('/login');
         })
-      },
+    };
 
-      register: function (newUser) {
-        var self = this;
-        return $http.post(buildRoute('/register'), newUser).then(function () {
-          SweetAlert.swal("¡Registrado correctamente!", "Gracias por participar en ''Amigo invisible'' ", "success"),
-            $location.path('/login');
-        }).catch(function (error) {
-          Token.logout();
-          SweetAlert.swal("No te has registrado", error.data.message, "error");
-          $location.path('/register');
-        })
-      }
+    self.register = function (newUser) {
+      return $http.post(buildRoute('/register'), newUser).then(function () {
+        SweetAlert.swal("¡Registrado correctamente!", "Gracias por participar en ''Amigo invisible'' ", "success"),
+          $location.path('/login');
+      }).catch(function (error) {
+        SweetAlert.swal("No te has registrado", error.data.message, "error");
+        $location.path('/register');
+      })
     };
   });

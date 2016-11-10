@@ -27,7 +27,6 @@ angular.module('secretPalApp').service('giftDefaultService', function($http, Swe
   };
 
   this.all = function(callback) {
-    debugger;
     $http.get(buildRoute('/giftDefault') ).
     success(function(data) {
       callback(data);
