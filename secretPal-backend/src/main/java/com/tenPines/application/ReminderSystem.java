@@ -4,6 +4,7 @@ import com.tenPines.application.clock.Clock;
 import com.tenPines.application.clock.ClockConfig;
 import com.tenPines.application.clock.FakeClock;
 import com.tenPines.application.service.FriendRelationService;
+import com.tenPines.application.service.MailerService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.FriendRelationMessageBuilder;
 import com.tenPines.builder.HappyBithdayMessageBuilder;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.MonthDay;
 import java.util.stream.Stream;
@@ -36,6 +38,9 @@ public class ReminderSystem {
     private SecretPalProperties secretPalProperties;
     @Autowired
     private PostOffice postOffice;
+    @Autowired
+    private MailerService mailerService;
+
 
     @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
     public void sendRemindersTheLastBirthday() {
@@ -47,21 +52,32 @@ public class ReminderSystem {
                                 .equals(
                                         MonthDay.from(clock.now().plusDays(secretPalProperties.getReminderDayPeriod())))
                 )
-                .forEach(friendRelation ->
+                .forEach(friendRelation -> {
+                    try {
                         postOffice.sendMessage(
                                 new ReminderAproachTheBirthdayBuilder().buildMessage(friendRelation)
-                        ));
+                        );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
 
     @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
     public void sendAssignedRelation() {
         logger.info("Assigned friendRelation.");
-
-        friendRelationService.getAllRelations().forEach(friendRelation ->
+        FriendRelationMessageBuilder friendRelationMessageBuilder = new FriendRelationMessageBuilder();
+        friendRelationMessageBuilder.setMailerService(mailerService);
+        friendRelationService.getAllRelations().forEach(friendRelation -> {
+            try {
                 postOffice.sendMessage(
-                        new FriendRelationMessageBuilder().buildMessage(friendRelation)
-                ));
+                        friendRelationMessageBuilder.buildMessage(friendRelation)
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 

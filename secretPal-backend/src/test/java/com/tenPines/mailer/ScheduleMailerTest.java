@@ -55,8 +55,8 @@ public class ScheduleMailerTest extends SpringBaseTest {
         assertThat(postMan.messagesTo(friendWorker.geteMail()), hasSize(1));
         assertThat(postMan.messagesTo(friendWorker.geteMail()), contains(hasProperty("body",
                 allOf(
-                        containsString(birthdayWorker.getFullName()),
-                        containsString(birthdayWorker.getDateOfBirth().toString())))));
+                        containsString(birthdayWorker.getFullName())
+                        ))));
     }
 
     @Test
