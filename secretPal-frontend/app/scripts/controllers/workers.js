@@ -141,7 +141,6 @@ app.directive('unique', function () {
 })
 
   .controller('ModalEditWorkerCtrl', function ($scope, $modalInstance, worker) {
-    debugger;
     $scope.worker = worker;
     $scope.ok = function () {
       $modalInstance.close($scope.worker);
