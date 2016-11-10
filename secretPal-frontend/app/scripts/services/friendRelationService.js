@@ -55,4 +55,14 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
         });
   };
 
+  this.getAvailableFriend = function(worker,callback){
+    return $http.get(buildRoute('/posibleFriend/' + worker.id )).
+      then(function (data) {
+        callback(data);
+      },
+      function () {
+        errorMsg("Intente nuevamente mas tarde");
+    });
+  };
+
 });

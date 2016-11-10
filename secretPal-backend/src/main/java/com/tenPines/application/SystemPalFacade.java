@@ -45,8 +45,9 @@ public class SystemPalFacade {
     }
 
     public void deleteRelation(Long from, Long to) {
-        Worker participant = workerService.retriveWorker(to);
-        friendRelationService.retrieveAssignedFriendFor(participant);
+
+        friendRelationService.deleteRelationByReceipt(retrieveAWorker(to));
+
     }
 
     public List<DefaultGift> retrieveAllGiftsDefaults() {
@@ -132,5 +133,13 @@ public class SystemPalFacade {
     public DefaultGift retrieveTheLastDefaultGift() {
         return retrieveAllGiftsDefaults().get(0);
 
+    }
+
+    public void deleteAllRelations() {
+        friendRelationService.friendRelationRepository.deleteAllRelations();
+    }
+
+    public List<Worker> getPosibleFriendsTo(Long id) {
+        return friendRelationService.getAvailablesRelationsTo(id);
     }
 }
