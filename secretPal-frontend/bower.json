@@ -19,6 +19,7 @@
     "angular-mocks": "~1.4.2"
   },
   "appPath": "app",
+  "buildPath": "target",
   "moduleName": "secretPalApp",
   "overrides": {
     "bootstrap": {

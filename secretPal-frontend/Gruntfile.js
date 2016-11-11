@@ -20,6 +20,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
+    build: require('./bower.json').buildPath || 'target',
     dist: 'dist'
   };
 
@@ -27,6 +28,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-angular-templates');
   grunt.loadNpmTasks('grunt-google-cdn');
   grunt.loadNpmTasks('grunt-connect-proxy');
+  grunt.loadNpmTasks('grunt-war');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -66,6 +68,28 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/{,*/}*.html',
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+        ]
+      },
+    },
+    /*
+     * Build a WAR (web archive) without Maven or the JVM installed.
+     */
+    war: {
+      target: {
+        options: {
+          war_dist_folder: '<%= yeoman.build %>',
+          war_name: 'secretPal-Frontend',
+          webxml_welcome: 'index.html',
+          webxml_display_name: 'Secret Pal Frontend WAR',
+          webxml_mime_mapping: [ { extension: 'woff', mime_type: 'application/font-woff' } ]
+        },
+        files: [
+          {
+            expand: true,
+            cwd: '<%= yeoman.dist %>',
+            src: ['**'],
+            dest: ''
+          }
         ]
       }
     },
@@ -478,7 +502,8 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'war'
   ]);
 
   grunt.registerTask('default', [
