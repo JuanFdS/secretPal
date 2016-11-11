@@ -11,9 +11,11 @@
 
         <input name="email" type="email" ng-model="email" placeholder="Email" class="form-control input-lg"/>
 
-        <input name="password" type="password" ng-model="password" placeholder="Password" class="form-control input-lg"/>
+        <input name="password" type="password" ng-model="password1" placeholder="Password" class="form-control input-lg"/>
 
-        <input name="password" type="password"  placeholder="Repetir Password" class="form-control input-lg"/>
+        <input name="password" type="password" ng-model="password2" placeholder="Repetir Password" class="form-control input-lg"/>
+
+        <div style="color: #c12e2a"ng-show="(password1 != password2)"><p>Las contraseñas no coinciden</p></div>
 
         <div class="pwstrength_viewport_progress"></div>
 
