@@ -80,13 +80,18 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       var notUsed = true;
       angular.forEach($scope.friendRelations, function(fr){
         if (fr.giftReceiver !== null) {
-          if (fr.giftReceiver.id === relation.giftGiver.id) {
             if (fr.giftGiver.id !== giftGiverSelected) {notUsed = false;}
-          }
+
         }
       });
       return notUsed;
     };
+  };
+
+  $scope.validFriendRelations = function () {
+    return $scope.friendRelations.filter(function (elem) {
+      return true;
+    });
   };
 
   $scope.ok = function () {

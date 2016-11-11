@@ -25,8 +25,8 @@
           </td>
           <td>
             <!--<select  requsired ng-model="fr.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{fr.giftGiver.id}}) | filter:{giftGiver:{id:'!{{fr.giftGiver.id}}'}}"></select>-->
-            <select name="" id="" ng-model="fr.giftReceiver.fullName ">
-              <option ng-value="friendRelation.giftGiver.fullName" ng-repeat="friendRelation in friendRelations | filter:{giftGiver:{id:'!{{friendRelation.giftGiver.id}}'}}">{{friendRelation.giftGiver.fullName}}</option>
+            <select name="" id="" ng-model="fr.giftReceiver.fullName">
+              <option ng-value="friendRelation.giftGiver.fullName" ng-repeat="friendRelation in validFriendRelations()">{{friendRelation.giftGiver.fullName}}</option>
             </select>
           </td>
           <td></td>
