@@ -31,6 +31,7 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
     return (diff > 0);
   };
 
+
   $scope.birthdayPassOnAMonth = function(relation){
     var date = relation.giftReceiver.dateOfBirth;
     var diff = $scope.diff(date);
@@ -47,9 +48,11 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
 
   FriendRelationService.all( function(data) {
     $scope.friendRelations = data;
+    debugger;
     $scope.posibilities = $scope.friendRelations.map( function(relation){
       return relation.giftGiver;
     });
+
 
     /*.filter(function(worker){
       return !$scope.hasBirthdayInAMonth(worker);
@@ -63,7 +66,9 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   $scope.deleteRelation = function (relation) {
     FriendRelationService.delete(relation.giftGiver.id, relation.giftReceiver.id, function() {
         $scope.friendRelations = $filter('filter')($scope.friendRelations, {giftGiver: '!' + relation.giftGiver});
-      });
+
+
+    });
   };
 
   $scope.notNull = function(relation){
@@ -94,13 +99,15 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   };
 
   $scope.auto = function(){
-    //TODO estas posibilities no deberian tomar la de los cumpleaños que ya pasaron.
     shuffleArray($scope.posibilities);
     console.log($scope.posibilities.map(function(worker){ return worker.fullName; }));
 
+    $scope.posibilities = $scope.posibilities.filter(  $scope.diff(worker.dateOfBirth) > 0 );
+
     $scope.posibilities.forEach(function(worker, index) {
       $scope.friendRelations.find(function(relation){
-        return relation.giftGiver == worker;
+        if (worker.receivedGift() != relation.giftReceiver)
+        {return relation.giftGiver == worker;}
       }).giftReceiver = $scope.posibilities[(index+1) % $scope.posibilities.length ];
     });
   };
@@ -127,3 +134,5 @@ var shuffleArray = function(array) {
 
   return array;
 };
+
+

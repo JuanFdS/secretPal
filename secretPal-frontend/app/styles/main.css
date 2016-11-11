@@ -216,3 +216,7 @@ body {
 .radio label input[type="radio"]:disabled + .cr {
   opacity: .5;
 }
+
+.center-vertical.table > tbody > tr > td {
+  vertical-align: middle;
+}

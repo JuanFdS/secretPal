@@ -41,14 +41,20 @@ public class FriendRelationController {
 
     }
 
+
+    @RequestMapping(value = "/posibleFriend/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<Worker> posiblesFriends(@PathVariable Long id) {
+        return systemFacade.getPosibleFriendsTo(id);
+
+
+    }
     @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public void createRelation(@RequestBody @Valid List<FriendRelation> friendRelations) throws IOException, MessagingException {
-
+        
+        systemFacade.deleteAllRelations();
         for (FriendRelation friendRelation : friendRelations) {
-
-            systemFacade.deleteRelation(friendRelation.getGiftGiver().getId(), friendRelation.getGiftReceiver().getId() );
-
             systemFacade.createRelation(friendRelation.getGiftGiver(), friendRelation.getGiftReceiver());
         }
     }
