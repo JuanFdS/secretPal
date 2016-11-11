@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +22,8 @@ public class WorkerController {
     private SystemPalFacade system;
     @Autowired
     private WorkerService workerService;
+    @Autowired
+    private SystemPalFacade systemFacade;
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
     @ResponseBody
@@ -58,4 +59,13 @@ public class WorkerController {
     public RestfulException handleException(RestfulException e) {
         return e;
     }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateWorker(@RequestBody Worker worker) throws Exception {
+        systemFacade.editWorker(worker);
+    }
+
 }
+
+
