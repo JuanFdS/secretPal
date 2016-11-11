@@ -1,35 +1,28 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('ConfirmationGiftController', function ($scope, $modal, $rootScope, WorkerService, $filter, $location, SweetAlert) {
+app.controller('ConfirmationGiftController', function ($scope, $http, $modal, $rootScope, WorkerService, $filter, $location, user, SweetAlert) {
 
   WorkerService.all(function (data) {
     $scope.workers = data;
   });
 
-  $scope.change = function(worker){
+  function buildRoute(path) {
+    var route = '/api/auth';
+    return route + path;
+  }
 
-    if(worker.receivedGift === false) {
-      SweetAlert.swal({
-          title: "¿Esta seguro que desea cambiarlo?",
-          text: "El regalo pasara a ser NO entregado",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Si!",
-          closeOnConfirm: true
-        },
-        function (isConfirm) {
-          if(isConfirm) {
-            worker.receivedGift = false;
-            //TODO ACTUALIZAR BASE
-          }
-          else{
-            worker.receivedGift = true;
-            //TODO ACTUALIZAR BASE
-          }
-        });
-    }
+  $scope.markReceived = function(id){
+    var self = this;
+    return $http.put(buildRoute('/confirmationGift/' + id), id).then(function () {
+      SweetAlert.swal("¡Regalo marcado como recibido!","con la fecha de hoy", "success");
+      WorkerService.all(function (data) {
+        $scope.workers = data;
+      });
+    }).catch(function (error) {
+      SweetAlert.swal("No se ha marcado como recibido", "", "error");
+      $location.path('/confirmationGift');
+    });
   };
 });
 
