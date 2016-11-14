@@ -220,3 +220,10 @@ body {
 .center-vertical.table > tbody > tr > td {
   vertical-align: middle;
 }
+
+span.label:not(:hover) {
+  background: #5cb85c;
+  color: #5cb85c;
+}
+
+
