@@ -79,14 +79,25 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       var notUsed = true;
       angular.forEach($scope.friendRelations, function(fr){
         if (fr.giftReceiver !== null) {
-          if (fr.giftReceiver.id === relation.giftGiver.id) {
             if (fr.giftGiver.id !== giftGiverSelected) {notUsed = false;}
-          }
+
         }
       });
       return notUsed;
     };
   };
+
+  $scope.validFriendRelations = function (fr) {
+    return $scope.friendRelations.filter(function (elem) {
+      if($scope.notUsed(fr.giftGiver)){
+        return  fr.giftGiver.id !== elem.giftReceiver.id && fr.giftGiver.id !== elem.giftGiver.id ;
+      }
+
+
+    });
+  };
+
+
 
   $scope.ok = function () {
     SweetAlert.swal({
@@ -100,13 +111,9 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   $scope.auto = function(){
     shuffleArray($scope.posibilities);
     console.log($scope.posibilities.map(function(worker){ return worker.fullName; }));
-
-    $scope.posibilities = $scope.posibilities.filter(  $scope.diff(worker.dateOfBirth) > 0 );
-
     $scope.posibilities.forEach(function(worker, index) {
       $scope.friendRelations.find(function(relation){
-        if (worker.receivedGift() != relation.giftReceiver)
-        {return relation.giftGiver == worker;}
+        return relation.giftGiver == worker;
       }).giftReceiver = $scope.posibilities[(index+1) % $scope.posibilities.length ];
     });
   };
