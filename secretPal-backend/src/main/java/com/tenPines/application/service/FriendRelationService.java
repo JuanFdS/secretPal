@@ -52,10 +52,9 @@ public class FriendRelationService {
         friendRelationRepository.delete(relation);
     }
 
-    public List<Worker> getAvailablesRelationsTo(Long id) {
-//        friendRelationRepository.findBygiftReceiver(id);
-
-
-        return null;
+    public List<Worker> getAvailablesRelationsTo(Worker workerTo) {
+        List<Worker> availablesReceipt = null;
+        availablesReceipt.add(friendRelationRepository.findBygiftReceiver(workerTo).getGiftReceiver());
+        return availablesReceipt;
     }
 }

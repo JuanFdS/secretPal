@@ -140,6 +140,7 @@ public class SystemPalFacade {
     }
 
     public List<Worker> getPosibleFriendsTo(Long id) {
-        return friendRelationService.getAvailablesRelationsTo(id);
+        Worker workerTo = workerService.retriveWorker(id);
+        return friendRelationService.getAvailablesRelationsTo(workerTo);
     }
 }

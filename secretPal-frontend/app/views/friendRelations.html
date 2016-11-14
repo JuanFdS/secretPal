@@ -24,9 +24,8 @@
             <span ng-show="birthdayPassOnAMonth(fr)" tooltip="{{dayDifference(fr.giftReceiver.dateOfBirth)}}" class="glyphicon glyphicon-exclamation-sign icon-warning pull-right"></span>
           </td>
           <td>
-            <!--<select  requsired ng-model="fr.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{fr.giftGiver.id}}) | filter:{giftGiver:{id:'!{{fr.giftGiver.id}}'}}"></select>-->
             <select name="" id="" ng-model="fr.giftReceiver.fullName">
-              <option ng-value="friendRelation.giftGiver.fullName" ng-repeat="friendRelation in validFriendRelations()">{{friendRelation.giftGiver.fullName}}</option>
+              <option ng-value="friendRelation.giftGiver.fullName" ng-repeat="friendRelation in validFriendRelations(fr)">{{friendRelation.giftGiver.fullName}}</option>
             </select>
           </td>
           <td></td>
