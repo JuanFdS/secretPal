@@ -36,6 +36,12 @@ angular.module('secretPalApp')
       return $http.get(buildRoute('/admin'))
     };
 
+    self.isAdmin = function () {
+      if($rootScope.loggedUser !== undefined) {
+        return $rootScope.loggedUser.admin
+      }
+    };
+
     self.setCurrentAdmin = function (admin) {
       return $http.post(buildRoute('/admin'), admin).then(function () {
         SweetAlert.swal("Cambio de Admin", "El nuevo Admin es: " + admin.fullName, "success");
