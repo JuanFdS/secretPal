@@ -77,6 +77,11 @@ angular
         templateUrl: '../views/giftDefault.html',
         controller: 'GiftDefaultController',
         resolve: { user : authenticatedAndAdmin }
+      })
+      .when('/gameStatus', {
+        templateUrl: '../views/gameStatus.html',
+        controller: 'GameStatusController',
+        resolve: { user : authenticatedAndAdmin }
       });
 
 
