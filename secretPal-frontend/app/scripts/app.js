@@ -54,7 +54,6 @@ angular
       .when('/profile', {
         templateUrl: '../views/profile.html',
         controller: 'ProfileController',
-        style:'../style/profile.css',
         resolve: { user : authenticated }
       })
       .when('/confirmationGift', {
