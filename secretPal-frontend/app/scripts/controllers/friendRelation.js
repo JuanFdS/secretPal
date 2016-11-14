@@ -48,7 +48,6 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
 
   FriendRelationService.all( function(data) {
     $scope.friendRelations = data;
-    debugger;
     $scope.posibilities = $scope.friendRelations.map( function(relation){
       return relation.giftGiver;
     });
