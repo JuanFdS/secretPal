@@ -45,6 +45,5 @@ public class LoginTest extends SpringBaseTest{
         String token = securityGuard.enterWith(credential);
 
         assertTrue(userService.retrieveUserByUserName(token).getUserName().equals("kevin"));
-        assertTrue(userService.retrieveUserByUserName(token).getPassword().isEmpty());
     }
 }

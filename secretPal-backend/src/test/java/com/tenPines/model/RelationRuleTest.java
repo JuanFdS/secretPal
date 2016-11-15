@@ -24,4 +24,6 @@ public class RelationRuleTest {
         assertTrue(regla.asdasdas(workerA,workerB));
     }
 
+
+
 }
