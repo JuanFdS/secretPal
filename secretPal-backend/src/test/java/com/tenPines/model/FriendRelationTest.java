@@ -37,21 +37,8 @@ public class FriendRelationTest {
         }
     }
 
-    @Test
-    public void When_I_try_to_create_a_participant_whose_secretpal_does_not_want_to_participate_an_exception_is_raised() {
-        otherWorker.setWantsToParticipate(false);
-        RelationEstablisher relationEstablisher = new RelationEstablisher(aWorker, otherWorker);
 
-        try {
-            relationEstablisher.createRelation();
-            fail("The exception was not raised");
-        } catch (AssignmentException e) {
-            assertThat(e.getReason(), is(DOES_NOT_WANT_TO_PARTICIPATE));
-            assertThat(e.getDetails(), hasEntry("worker", otherWorker));
-        }
-    }
-
-    @Test
+    @Test  //
     public void When_I_try_to_create_a_participant_whose_secretpal_is_him_an_exception_is_raised() {
         RelationEstablisher relationEstablisher = new RelationEstablisher(aWorker, aWorker);
 

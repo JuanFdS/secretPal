@@ -8,10 +8,12 @@ import com.tenPines.persistence.UserRepository;
 import java.time.LocalDate;
 
 public class InitializerLocalSystem {
-    public Worker kevin = new Worker("kevin", "kevin.varela@10pines.com", LocalDate.of(1993,11,26), true);
-    public Worker aye = new Worker("aye", "ayelen.garcia@10pines.com", LocalDate.of(1992,12,26), true);
-    public Worker joaco = new Worker("joaco", "joaquin.azcarate@10pines.com", LocalDate.of(1990,2,3), true);
-    public User userKevin = User.newUser(kevin,"kevin","1234");
+    private Worker kevin = new Worker("kevin varela", "kevin.varela@10pines.com", LocalDate.of(1993,11,26), true);
+    private Worker aye = new Worker("ayelen garcia", "ayelen.garcia@10pines.com", LocalDate.of(1992,12,26), true);
+    private Worker joaco = new Worker("joaquin azcarate", "joaquin.azcarate@10pines.com", LocalDate.of(1990,12,16), true);
+    private Worker gustavo = new Worker("gustavo crespi", "gustavo.crespi@10pines.com", LocalDate.of(1990,12,30), true);
+    private Worker gian = new Worker("gian fioriello", "gian.fioriello@10pines.com", LocalDate.of(1990,12,24), true);
+    private User userKevin = User.newUser(kevin,"kevin","1234");
     private WorkerService workerService;
     private UserService userService;
 
@@ -26,6 +28,8 @@ public class InitializerLocalSystem {
         workerService.save(kevin);
         workerService.save(aye);
         workerService.save(joaco);
+        workerService.save(gustavo);
+        workerService.save(gian);
         userService.save(userKevin);
     }
 }
