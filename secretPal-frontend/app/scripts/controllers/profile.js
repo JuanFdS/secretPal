@@ -4,7 +4,7 @@ angular.module('secretPalApp')
 .controller('ProfileController', function($scope, $http, user, $location, FriendRelationService, WishlistService, SweetAlert, WorkerService) {
 
     $scope.wishlist = [];
-    $scope.giftDefault = "A";
+    $scope.giftDefault;
 
     $scope.noFriendAlert = function(){
       $location.path('/');
@@ -40,7 +40,6 @@ angular.module('secretPalApp')
         success(function(data) {
           $scope.giftDefault = data.giftDefault;
           $scope.amountDefault = data.amountDefault;
-          debugger;
         }).
         error(function() {
           errorMsg("Inténtelo denuevo mas tarde");
