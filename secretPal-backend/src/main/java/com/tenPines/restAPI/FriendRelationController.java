@@ -52,9 +52,7 @@ public class FriendRelationController {
     public void createRelation(@RequestBody @Valid List<FriendRelation> friendRelations) throws IOException, MessagingException {
         
         systemFacade.deleteAllRelations();
-        for (FriendRelation friendRelation : friendRelations) {
-            systemFacade.createRelation(friendRelation.getGiftGiver(), friendRelation.getGiftReceiver());
-        }
+        friendRelations.forEach(friendRelation -> systemFacade.createRelation(friendRelation.getGiftGiver(), friendRelation.getGiftReceiver()));
     }
 
     @RequestMapping(value = "/{from}/{to}", method = RequestMethod.DELETE)

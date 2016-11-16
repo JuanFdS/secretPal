@@ -45,4 +45,6 @@ public class RelationRuleTest {
         regla.puedeRegalar(workerA,workerB);
         assertTrue(regla.getRelations().contains(friendRelation));
     }
+
+
 }

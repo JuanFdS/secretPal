@@ -33,8 +33,8 @@ public class SystemPalFacade {
     private Long reminderDayPeriod;
     private Clock clock;
 
-    public Worker retrieveAssignedFriendFor(Long Idparticipant) {
-        Worker participant = workerService.retriveWorker(Idparticipant);
+    public Worker retrieveAssignedFriendFor(Long idParticipant) {
+        Worker participant = workerService.retriveWorker(idParticipant);
         return friendRelationService.retrieveAssignedFriendFor(participant);
     }
 

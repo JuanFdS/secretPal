@@ -25,9 +25,7 @@ public class FriendRelationService {
     }
 
     public void autoAssignRelations(){
-        friendRelationRepository.save(
-                new AssignmentFunction(workerService.getAllParticipants()).execute()
-        );
+        friendRelationRepository.save(new AssignmentFunction(workerService.getAllParticipants()).execute());
     }
 
     public List<FriendRelation> getAllRelations() {
@@ -35,7 +33,7 @@ public class FriendRelationService {
     }
 
     public Worker retrieveAssignedFriendFor(Worker unWorker){
-        FriendRelation aRelation =friendRelationRepository.findBygiftReceiver(unWorker);
+        FriendRelation aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
         if (aRelation == null){
             autoAssignRelations();
             aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
