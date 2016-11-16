@@ -14,7 +14,9 @@
 
         <th colspan="2">Agasajado</th>
         <th></th>
-        <th colspan="2">Cumplió?</th>
+        <th colspan="2">Cumplió el participante?</th>
+        <th colspan="2">Recibió mail el participante?</th>
+        <th colspan="2">Recibió mail el agasajado?</th>
       </tr>
       </thead>
       <tbody>
@@ -26,8 +28,14 @@
         </td>
         <td></td>
         <td></td>
-        <td>
-          {{hasGiverGiveGift(fr.giftGiver)}}</td>
+        <td>{{hasGiverGiveGift(fr.giftGiver)}}</td>
+        <!--td>{{receiptRelationEstablished(fr.giftGiver)}}</td-->
+        <td></td>
+
+        <td>{{hasFailureMailRelation(fr.giftGiver)}}</td>
+        <td></td>
+
+        <td>{{hasBirthdayMail(fr.giftReceiver)}}</td>
       </tr>
       </tbody>
     </table>
