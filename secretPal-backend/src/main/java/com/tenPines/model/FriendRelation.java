@@ -5,6 +5,7 @@ import com.tenPines.builder.FriendRelationMessageBuilder;
 import javax.mail.MessagingException;
 import javax.persistence.*;
 import java.io.IOException;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -64,5 +65,24 @@ public class FriendRelation {
 
     public Message createMessage() throws IOException, MessagingException {
         return new FriendRelationMessageBuilder().buildMessage(this);
+    }
+
+    @Override
+    public boolean equals(Object objeto){
+        if (objeto == null){
+            return false;
+        }
+        if (!(objeto instanceof FriendRelation)){
+            return false;
+        }
+        FriendRelation relation = (FriendRelation) objeto;
+
+        if (!(Objects.equals(relation.getGiftGiver(), this.getGiftGiver()))){
+            return false;
+        }
+        if (!(Objects.equals(relation.getGiftReceiver(), this.getGiftReceiver()))){
+            return false;
+        }
+        return true;
     }
 }

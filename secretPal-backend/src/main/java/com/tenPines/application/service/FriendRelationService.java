@@ -28,9 +28,7 @@ public class FriendRelationService {
         friendRelationRepository.save(
                 new AssignmentFunction(workerService.getAllParticipants()).execute()
         );
-
     }
-
 
     public List<FriendRelation> getAllRelations() {
         return friendRelationRepository.findAll();
