@@ -27,10 +27,22 @@ public class RelationRuleTest {
         Worker workerA = new WorkerBuilder().build();
         Worker workerB = new WorkerBuilder().build();
         ReglaRegalosReciprocos regla = new ReglaRegalosReciprocos();
-        FriendRelation friendRelation = new FriendRelation(workerB,workerA);
+        FriendRelation inverseRelation = new FriendRelation(workerB,workerA);
 
-        regla.initializeRelations(friendRelation);
+        regla.initializeRelations(inverseRelation);
 
         assertFalse(regla.puedeRegalar(workerA,workerB));
+    }
+
+    @Test
+    public void si_A_le_puede_regalar_a_B_ademas_se_debe_guardar_la_relacion() {
+
+        Worker workerA = new WorkerBuilder().build();
+        Worker workerB = new WorkerBuilder().build();
+        ReglaRegalosReciprocos regla = new ReglaRegalosReciprocos();
+        FriendRelation friendRelation = new FriendRelation(workerA,workerB);
+
+        regla.puedeRegalar(workerA,workerB);
+        assertTrue(regla.getRelations().contains(friendRelation));
     }
 }

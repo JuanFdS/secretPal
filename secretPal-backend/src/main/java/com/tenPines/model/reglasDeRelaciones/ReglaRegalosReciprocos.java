@@ -7,6 +7,14 @@ import java.util.ArrayList;
 
 public class ReglaRegalosReciprocos {
 
+    public ArrayList<FriendRelation> getRelations() {
+        return relations;
+    }
+
+    public void setRelations(ArrayList<FriendRelation> relations) {
+        this.relations = relations;
+    }
+
     private ArrayList<FriendRelation> relations = new ArrayList<FriendRelation>();
 
     public boolean puedeRegalar(Worker aWorker, Worker anotherWorker) {
