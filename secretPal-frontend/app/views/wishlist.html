@@ -3,7 +3,7 @@
       <h3 class="modal-title">Editando los deseos de {{wish.worker.fullName}}</h3>
     </div>
     <div class="modal-body">
-        <input type="text" ng-model="wish.gift">
+        Deseo: <input type="text" ng-model="wish.gift">
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()" ng-enter="ok();">OK</button>
@@ -46,6 +46,7 @@
 
       </div>
       <div class="field">
+        <br>
         <label class="control-label col-md-4" for="mail">Regalo que quiere: </label>
         <input id="mail" required placeholder="Gift" class="form-control" ng-model="wish.gift">
       </div>

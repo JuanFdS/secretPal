@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('secretPalApp').service('GiftDefaultService', function($http, SweetAlert) {
+angular.module('secretPalApp')
+  .service('GiftDefaultService', function($http, SweetAlert) {
 
   function buildRoute(path) {
     var route = '/api/auth';
@@ -14,7 +15,6 @@ angular.module('secretPalApp').service('GiftDefaultService', function($http, Swe
   function errorMsg(msg) {
     SweetAlert.swal("Algo salió mal",msg, "error");
   }
-
 
   this.get = function(successFunction) {
     $http.get(buildRoute('/giftsDefault')).

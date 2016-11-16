@@ -6,7 +6,8 @@ app.controller('GiftDefaultController', function($scope, $route, GiftDefaultServ
   GiftDefaultService.get(
 
     function(defaultGift){
-      $scope.defaultGift = defaultGift;});
+      $scope.defaultGift = defaultGift;
+    });
 
   $scope.change = function(){
     SweetAlert.swal({
@@ -24,7 +25,6 @@ app.controller('GiftDefaultController', function($scope, $route, GiftDefaultServ
         }
       });
   };
-
 });
 
 
