@@ -1,5 +1,6 @@
 package com.tenPines.restAPI;
 
+import com.tenPines.application.SystemPalFacade;
 import com.tenPines.application.service.MailerService;
 import com.tenPines.mailer.UnsentMessage;
 import com.tenPines.model.EmailTemplate;
@@ -17,27 +18,26 @@ import java.util.List;
 @RequestMapping("/mail")
 public class MailerController {
 
-
     @Autowired
-    private MailerService mailerService;
+    private SystemPalFacade system;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public EmailTemplate getMail() throws IOException {
-        return mailerService.getEMailTemplate();
+        return system.getEMailTemplate();
     }
 
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public EmailTemplate setMail(@RequestBody EmailTemplate modifiedMail) throws IOException {
-        return mailerService.setEmailTemplate(modifiedMail);
+        return system.setEmailTemplate(modifiedMail);
     }
 
 
     @RequestMapping(value = "/failedMails", method = RequestMethod.GET)
     @ResponseBody
     public List<UnsentMessage> getFailedMail(){
-        return mailerService.retrieveAllFailedMails();}
+        return system.retrieveAllFailedMails();}
 }
