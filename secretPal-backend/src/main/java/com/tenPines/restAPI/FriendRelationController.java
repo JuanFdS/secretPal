@@ -29,6 +29,14 @@ public class FriendRelationController {
     @Autowired
     private WorkerService workerService;
 
+    // INICIAR ASIGNACION DE PINOS
+    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public void createRelations() throws IOException, MessagingException {
+
+        systemFacade.   ();
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<WorkerWithRelation> workersWithFriends() {
@@ -47,13 +55,13 @@ public class FriendRelationController {
 
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public void createRelation(@RequestBody @Valid List<FriendRelation> friendRelations) throws IOException, MessagingException {
-        
-        systemFacade.deleteAllRelations();
-        friendRelations.forEach(friendRelation -> systemFacade.createRelation(friendRelation.getGiftGiver(), friendRelation.getGiftReceiver()));
-    }
+//    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @ResponseBody
+//    public void createRelation(@RequestBody @Valid List<FriendRelation> friendRelations) throws IOException, MessagingException {
+//
+//        systemFacade.deleteAllRelations();
+//        friendRelations.forEach(friendRelation -> systemFacade.createRelation(friendRelation.getGiftGiver(), friendRelation.getGiftReceiver()));
+//    }
 
     @RequestMapping(value = "/{from}/{to}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)

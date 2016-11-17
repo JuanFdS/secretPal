@@ -37,7 +37,6 @@ public class FriendRelationService {
         if (aRelation == null){
             autoAssignRelations();
             aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
-
         }
         return aRelation.getGiftGiver();
 
