@@ -29,13 +29,6 @@
     </properties>
 
     <dependencies>
-        <!-- El frontend -->
-        <dependency>
-            <groupId>com.tenpines</groupId>
-            <artifactId>secretPal-frontend</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
         <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,6 +55,11 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.192</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4-1201-jdbc4</version>
         </dependency>
 
         <!-- Tests -->
