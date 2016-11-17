@@ -9,9 +9,11 @@ app.controller('MailsFailureController', function($scope, $route, MailService,$f
      MailService.all(function(data){ $scope.messageFailure = data;});
 
      $scope.send = function (unsentMessage) {
-         $scope.messageFailure = $filter('filter')($scope.messageFailure, {id: '!' + unsentMessage.id});
+         MailService.resendMessage(unsentMessage, function () {
+             $scope.messageFailure = $filter('filter')($scope.messageFailure, {id: '!' + unsentMessage.id});
+             
+         });
 
-          MailService.resendMessage(unsentMessage);
 
           };
 
