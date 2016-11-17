@@ -20,12 +20,13 @@ public class FriendRelationService {
     private ReminderSystem reminders;
 
     public FriendRelation create(Worker friendWorker, Worker birthdayWorker) {
-
         return friendRelationRepository.save(new FriendRelation(friendWorker, birthdayWorker));
     }
 
-    public void autoAssignRelations(){
-        friendRelationRepository.save(new AssignmentFunction(workerService.getAllParticipants()).execute());
+    public List<FriendRelation> autoAssignRelations(){
+        List<FriendRelation> relations = new AssignmentFunction(workerService.getAllParticipants()).execute();
+        friendRelationRepository.deleteAllRelations();
+        return friendRelationRepository.save(relations);
     }
 
     public List<FriendRelation> getAllRelations() {
@@ -33,14 +34,16 @@ public class FriendRelationService {
     }
 
     public Worker retrieveAssignedFriendFor(Worker unWorker){
-        FriendRelation aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
+        FriendRelation aRelation = friendRelationRepository.findBygiftGiver(unWorker);
         if (aRelation == null){
-            autoAssignRelations();
-            aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
+            throw new RuntimeException(messageWhenWorkerNotHasWorkerAssigned());
         }
-        return aRelation.getGiftGiver();
+        return aRelation.getGiftReceiver();
+        }
 
-        }
+    private String messageWhenWorkerNotHasWorkerAssigned() {
+        return "No tenes un worker asignado";
+    }
 
     public void deleteRelationByReceipt(Worker to) {
         FriendRelation relation = friendRelationRepository.findBygiftReceiver(to);
@@ -52,4 +55,5 @@ public class FriendRelationService {
         availablesReceipt.add(friendRelationRepository.findBygiftReceiver(workerTo).getGiftReceiver());
         return availablesReceipt;
     }
+
 }

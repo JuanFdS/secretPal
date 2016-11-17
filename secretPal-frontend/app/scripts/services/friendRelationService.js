@@ -35,6 +35,14 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
       });
   };
 
+  this.start = function() {
+    $http.post(buildRoute('/initilizeRelations'))
+      .then(function () {
+        successMsg("La asignación fue exitosa");
+      }).catch(function () {
+      errorMsg("No se pudo procesar el pedido");
+    })
+  };
 
   this.delete = function(idGiver, idReceiver, successFunction) {
     $http.delete(buildRoute('/' + idGiver + '/' + idReceiver)).
@@ -52,7 +60,11 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
           callback(data);
         },
         function() {
-          errorMsg("Intente nuevamente");
+          SweetAlert.swal({
+            title: "Aun no tienes un pino asignado",
+            text: "Comunicate con un administrador",
+            imageUrl: 'https://homeopathicassociates.com/wp-content/uploads/2015/07/Oh-no1.jpg'
+          });
         });
   };
 

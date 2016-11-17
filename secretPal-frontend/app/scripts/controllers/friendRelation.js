@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('secretPalApp');
-app.controller('FriendRelationController', function($scope, $modal, $filter, FriendRelationService, SweetAlert) {
+app.controller('FriendRelationController', function($scope, $modal, $filter, FriendRelationService, SweetAlert, $location) {
 
   $scope.today = new Date();
 
@@ -106,6 +106,28 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       showConfirmButton: false
     });
     FriendRelationService.new($scope.friendRelations);
+  };
+
+  $scope.initializeGame = function () {
+    swal({
+        title: "Cuidado!!!",
+        text: "Si aceptás se reiniciarán las relaciones y no podrás volver atrás.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Si, continuar",
+        cancelButtonText: "No, cancelar",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      },
+      function(isConfirm) {
+        if (isConfirm) {
+          FriendRelationService.start();
+          return $location.path('/workers');
+        } else {
+          swal("Cancelado", "No se han realizado cambios en las relaciones :)", "warning");
+      }
+    });
   };
 
   $scope.auto = function(){

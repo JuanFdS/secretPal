@@ -30,6 +30,7 @@ public class RelationEstablisher {
         if(participant.equals(secretPal))
             throw new AssignmentException(CANT_SELF_ASSIGN);
     }
+
     private void checkIfWantToParticipate(Worker worker) {
         if(!worker.getWantsToParticipate())
             throw new AssignmentException(AssignmentException.Reason.DOES_NOT_WANT_TO_PARTICIPATE, worker);

@@ -20,7 +20,7 @@ public class AssignationTest {
     private WorkerBuilder workerBuilder = new WorkerBuilder();
     private List<FriendRelation> assignment = new ArrayList<>();
 
-    @Test
+    @Test  //Cuando no hay persona la asignación debe dar un error
     public void When_there_is_no_person_the_assignation_should_give_an_error(){
         try {
             assign(workerList);
@@ -30,7 +30,7 @@ public class AssignationTest {
         assertEmptyAssignment();
     }
 
-    @Test
+    @Test //Cuando sólo hay una persona la asignación debe dar un error
     public void When_there_is_only_one_person_the_assignation_should_give_an_error() {
         workerList.add(workerBuilder.build());
         try {
@@ -41,7 +41,7 @@ public class AssignationTest {
         assertEmptyAssignment();
     }
 
-    @Test
+    @Test  //Cuando hay dos personas la asignación debe darse el uno al otro
     public void When_there_are_two_people_the_assignation_should_give_each_other() {
         Worker ajani = workerBuilder.buildFromDate(1, Month.JANUARY);
         Worker chandra = workerBuilder.buildFromDate(5, Month.JANUARY);
@@ -56,7 +56,7 @@ public class AssignationTest {
         assertGift(ajani, chandra);
         assertGift(chandra, ajani);
     }
-    @Test
+    @Test //Cuando hay tres personas la asignación no debe darse el uno al otro
     public void When_there_are_three_people_the_assignation_should_not_give_each_other() {
         Worker ajani = workerBuilder.buildFromDate(1, Month.JANUARY);
         Worker chandra = workerBuilder.buildFromDate(5, Month.JANUARY);
@@ -72,6 +72,13 @@ public class AssignationTest {
         assertNoSelfGift();
         assertNoDualGift();
     }
+
+
+
+
+
+
+
     private void assertEmptyAssignment() {
         assertThat(assignment, empty());
     }

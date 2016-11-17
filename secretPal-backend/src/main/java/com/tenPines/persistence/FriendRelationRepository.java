@@ -12,6 +12,8 @@ public interface FriendRelationRepository extends JpaRepository<FriendRelation, 
 
     FriendRelation findBygiftReceiver(Worker unWorker);
 
+    FriendRelation findBygiftGiver(Worker unWorker);
+
     default void deleteAllRelations() {
         for (FriendRelation friendRelation : findAll()) {
             delete(friendRelation);

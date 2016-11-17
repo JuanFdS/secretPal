@@ -20,7 +20,7 @@ public class AutoAssignationTest extends SpringBaseTest {
     @Autowired
     private FriendRelationService friendRelationService;
 
-    @Test
+    @Test  //Cuando no hay participantes entonces debe plantear una excepción
     public void When_there_is_no_participants_then_it_should_raise_an_exception(){
         workerService.save(new WorkerBuilder().build());
         try {
@@ -32,7 +32,7 @@ public class AutoAssignationTest extends SpringBaseTest {
         }
     }
 
-    @Test
+    @Test  //Cuando hay 2 participantes, cuando quiero asignar cada participante es el otro el amigo secreto
     public void When_there_is_2_participants_then_when_assign_each_participant_is_the_other_one_secret_pal() throws Exception {
         Worker worker = new WorkerBuilder().build();
         workerService.save(worker);

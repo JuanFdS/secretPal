@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/friendRelation")
@@ -29,22 +27,25 @@ public class FriendRelationController {
     @Autowired
     private WorkerService workerService;
 
-    // INICIAR ASIGNACION DE PINOS
+    //GUARDAR RELACION MANUAL CREADA EN EL FRONTEND
     @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public void createRelations() throws IOException, MessagingException {
+    public void createRelation(@RequestBody @Valid List<FriendRelation> friendRelations) throws IOException, MessagingException {
+    systemFacade.deleteAllRelations();
+    friendRelations.forEach(friendRelation -> systemFacade.createRelation(friendRelation.getGiftGiver(), friendRelation.getGiftReceiver()));
+    }
 
-        systemFacade.   ();
+    // INICIAR ASIGNACION DE PINOS X DEFAULT
+    @RequestMapping(value = "/initilizeRelations", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<FriendRelation> createRelations(){
+        return systemFacade.initializeRelations();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public List<WorkerWithRelation> workersWithFriends() {
-        List<WorkerWithRelation> relations = new ArrayList<>();
-        List<Worker> participants = workerService.retrieveParticipants();
-        relations.addAll(participants.stream().map(
-                participant -> new WorkerWithRelation(participant, systemFacade.retrieveAssignedFriendFor(participant.getId())))
-                .collect(Collectors.toList()));
+    public List<FriendRelation> workersWithFriends() {
+        List<FriendRelation> relations = systemFacade.retrieveAllRelations();
         return relations;
     }
 
@@ -52,7 +53,6 @@ public class FriendRelationController {
     @ResponseBody
     public List<Worker> posiblesFriends(@PathVariable Long id) {
         return systemFacade.getPosibleFriendsTo(id);
-
     }
 
 //    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -75,6 +75,5 @@ public class FriendRelationController {
     public Worker retrieveGiftee(@PathVariable("id") Long id) {
         return systemFacade.retrieveAssignedFriendFor(id);
     }
-
 
 }

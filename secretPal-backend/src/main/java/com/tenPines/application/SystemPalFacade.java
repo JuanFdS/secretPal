@@ -150,4 +150,12 @@ public class SystemPalFacade {
 
         mailerService.resendMessageFailure(unsentMessage);
     }
+
+    public List<FriendRelation> initializeRelations() {
+        return friendRelationService.autoAssignRelations();
+    }
+
+    public List<FriendRelation> retrieveAllRelations() {
+        return friendRelationService.getAllRelations();
+    }
 }

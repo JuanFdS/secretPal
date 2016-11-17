@@ -18,6 +18,7 @@ public class AssignmentFunction {
             throw new AssignmentException(AssignmentException.Reason.NOT_ENOUGH_QUORUM);
         }
         List<FriendRelation> relations = new ArrayList<>();
+//        participants.stream().filter(participant -> participant.hasNoAssignedRelationship);
         for (int i = 0; i < participants.size(); i++) {
             FriendRelation friendRelation = new FriendRelation(participants.get(i), participants.get((i + 1) % participants.size()));
             relations.add(friendRelation);
