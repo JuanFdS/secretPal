@@ -20,25 +20,23 @@ app.controller('GameStatusController', function ($scope, $modal, $rootScope, Mai
         var unDia = 24*60*60*1000; // hora*minuto*segundo*milli
         var birthday = new Date(date);
         birthday.setYear($scope.today.getFullYear());
-
         var diff = Math.round((birthday.getTime() - $scope.today.getTime())/unDia);
         var hasNotMailFailure = true;
         if ($scope.messageFailure.length !== 0) {
-            var mailFailure = $scope.messageFailure.find(function (message) {
-                message.subject.include(giftReceiver.fullName)
-                hasNotMailFailure = mailFailure.length === 0;
+            $scope.messageFailure.forEach(function (message) {
+                message.subject.includes(giftReceiver.fullName)?hasNotMailFailure = false:hasNotMailFailure;
             });
         }
         return ((diff < 0) && hasNotMailFailure)? "Si" : "No";
-    }
+    };
+
 
     $scope.hasFailureMailRelation = function (giftGiver) {
         var hasNotFailureMail = true;
         if($scope.messageFailure.length !== 0){
-            hasNotFailureMail = 0 === $scope.messageFailure.find(function (messageFailure) {
-            messageFailure.recipient === giftGiver.eMail;
-        }).length;
-
+            $scope.messageFailure.forEach(function (message) {
+                 message.recipient === giftGiver.eMail? hasNotFailureMail = false:hasNotFailureMail;
+            });
         }
         return hasNotFailureMail? "Si" : "No";
     }
