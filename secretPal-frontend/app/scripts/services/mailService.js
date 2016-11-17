@@ -46,5 +46,16 @@ angular.module('secretPalApp').service('MailService', function($http, SweetAlert
     });
   };
 
+  this.resendMessage = function (unsentMessage) {
+    $http.post(buildRoute('/resendMailsFailure'), unsentMessage).
+        success(function(){
+      successMsg("Se reenvió el mail correctamente");
+    }).error(function () {
+      errorMsg("No se pudo reenviar el mail, inténtelo mas tarde");
+
+    });
+
+  };
+
 
 });

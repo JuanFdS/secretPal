@@ -2,14 +2,9 @@ package com.tenPines.application;
 
 
 import com.tenPines.application.clock.Clock;
-import com.tenPines.application.service.FriendRelationService;
-import com.tenPines.application.service.GiftDefaultService;
-import com.tenPines.application.service.WishlistService;
-import com.tenPines.application.service.WorkerService;
-import com.tenPines.model.DefaultGift;
-import com.tenPines.model.FriendRelation;
-import com.tenPines.model.Wish;
-import com.tenPines.model.Worker;
+import com.tenPines.application.service.*;
+import com.tenPines.mailer.UnsentMessage;
+import com.tenPines.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +26,9 @@ public class SystemPalFacade {
 
     @Autowired
     WishlistService wishlistService;
+
+    @Autowired
+    MailerService mailerService;
 
     private Long reminderDayPeriod;
     private Clock clock;
@@ -146,5 +144,10 @@ public class SystemPalFacade {
 
     public void editWorker(Worker workerEdited) throws Exception {
         workerService.save(workerEdited);
+    }
+
+    public void resendMessageFailure(UnsentMessage unsentMessage) {
+
+        mailerService.resendMessageFailure(unsentMessage);
     }
 }
