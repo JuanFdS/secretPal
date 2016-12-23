@@ -7,6 +7,9 @@ import com.tenPines.application.service.WishlistService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.model.*;
 import com.tenPines.restAPI.SecurityToken;
+import com.tenPines.application.service.*;
+import com.tenPines.mailer.UnsentMessage;
+import com.tenPines.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,9 @@ public class SystemPalFacade {
     @Autowired
     RegisterService registerService;
 
+    @Autowired
+    MailerService mailerService;
+
     private Long reminderDayPeriod;
     private Clock clock;
 
@@ -46,17 +52,22 @@ public class SystemPalFacade {
     }
 
     public void deleteRelation(Long from, Long to) {
-        Worker participant = workerService.retriveWorker(to);
-        friendRelationService.retrieveAssignedFriendFor(participant);
+
+        friendRelationService.deleteRelationByReceipt(retrieveAWorker(to));
+
     }
 
-    public List<GiftDefault> retrieveAllGiftsDefaults() {
-        List<GiftDefault> giftDefaults = giftDefaultService.getAll();
-        return giftDefaults;
+    public List<DefaultGift> retrieveAllGiftsDefaults() {
+        List<DefaultGift> defaultGifts = giftDefaultService.getAll();
+        if(defaultGifts.isEmpty()) {
+
+            defaultGifts.add(DefaultGift.createGiftDfault("Nada","$0"));
+        }
+        return defaultGifts;
     }
 
-    public void addGiftDefaults(GiftDefault giftDefault) {
-        giftDefaultService.addGift(giftDefault);
+    public void addGiftDefaults(DefaultGift defaultGift) {
+        giftDefaultService.addGift(defaultGift);
 
     }
 
@@ -124,6 +135,30 @@ public class SystemPalFacade {
     public List<Worker> getAllWorkers() {
         return workerService.getAllWorkers();
     }
+
+    public DefaultGift retrieveTheLastDefaultGift() {
+        return retrieveAllGiftsDefaults().get(0);
+
+    }
+
+    public void deleteAllRelations() {
+        friendRelationService.friendRelationRepository.deleteAllRelations();
+    }
+
+    public List<Worker> getPosibleFriendsTo(Long id) {
+        Worker workerTo = workerService.retriveWorker(id);
+        return friendRelationService.getAvailablesRelationsTo(workerTo);
+    }
+
+    public void editWorker(Worker workerEdited) throws Exception {
+        workerService.save(workerEdited);
+    }
+
+    public void resendMessageFailure(UnsentMessage unsentMessage) {
+
+        mailerService.resendMessageFailure(unsentMessage);
+    }
+}
 
     public SecurityToken loginWithInternalCredential(Credential aCredential){
         String token = securityGuard.enterWith(aCredential);

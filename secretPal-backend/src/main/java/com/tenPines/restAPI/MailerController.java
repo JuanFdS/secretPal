@@ -1,5 +1,6 @@
 package com.tenPines.restAPI;
 
+import com.tenPines.application.SystemPalFacade;
 import com.tenPines.application.service.MailerService;
 import com.tenPines.mailer.UnsentMessage;
 import com.tenPines.model.EmailTemplate;
@@ -21,6 +22,8 @@ public class MailerController {
     @Autowired
     private MailerService mailerService;
 
+    @Autowired
+    private SystemPalFacade system;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
@@ -40,4 +43,14 @@ public class MailerController {
     @ResponseBody
     public List<UnsentMessage> getFailedMail(){
         return mailerService.retrieveAllFailedMails();}
+
+
+
+    @RequestMapping(value = "/resendMailsFailure", method = RequestMethod.POST)
+    @ResponseBody
+    public void resendMail(@RequestBody UnsentMessage unsentMessage) throws IOException {
+        system.resendMessageFailure(unsentMessage);
+    }
+
+
 }

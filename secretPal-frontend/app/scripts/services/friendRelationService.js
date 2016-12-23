@@ -28,12 +28,13 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
   this.new = function(relations) {
     $http.post(buildRoute('/'), relations).
       success(function() {
-        successMsg("La asignacion fue exitosa");
+        successMsg("La asignación fue exitosa");
       }).
       error(function() {
         errorMsg("No se pudo procesar el pedido");
       });
   };
+
 
   this.delete = function(idGiver, idReceiver, successFunction) {
     $http.delete(buildRoute('/' + idGiver + '/' + idReceiver)).
@@ -53,6 +54,16 @@ angular.module('secretPalApp').service('FriendRelationService', function($http, 
         function() {
           errorMsg("Intente nuevamente");
         });
+  };
+
+  this.getAvailableFriend = function(worker,callback){
+    return $http.get(buildRoute('/posibleFriend/' + worker.id )).
+      then(function (data) {
+        callback(data);
+      },
+      function () {
+        errorMsg("Intente nuevamente mas tarde");
+    });
   };
 
 });

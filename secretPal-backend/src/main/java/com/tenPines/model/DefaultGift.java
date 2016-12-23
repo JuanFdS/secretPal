@@ -9,26 +9,30 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-public class GiftDefault {
+public class DefaultGift {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    public GiftDefault() {
+    public DefaultGift() {
         }
 
-    static public GiftDefault createGiftDfault(String giftDefault, String amountDefault){
-        if (amountDefault.isEmpty()){
+    static public DefaultGift createGiftDfault(String giftDefault, String amountDefault){
+        DefaultGift aDefaultGift = new DefaultGift();
+        aDefaultGift.setAmountDefault(amountDefault);
+        aDefaultGift.setGiftDefault(giftDefault);
+        aDefaultGift.validateADefaultGift();
+        return aDefaultGift;
+    }
+
+    public void validateADefaultGift() {
+        if (this.getAmountDefault().isEmpty()){
             throw new InvalidGiftDefaultException(InvalidGiftDefaultException.HAVE_NOT_AMOUNT_DEFAULT);
         }
-        if (giftDefault.isEmpty()){
+        if (this.getGiftDefault().isEmpty()){
             throw new InvalidGiftDefaultException(InvalidGiftDefaultException.HAVE_NOT_GIFT_DEFAULT);
         }
-        GiftDefault aGiftDefault = new GiftDefault();
-        aGiftDefault.setAmountDefault(amountDefault);
-        aGiftDefault.setGiftDefault(giftDefault);
-        return aGiftDefault;
     }
 
     @NotNull
@@ -63,5 +67,8 @@ public class GiftDefault {
     }
 
 
-
+    public void changeDefaultGift(DefaultGift defaultGift) {
+        this.setAmountDefault(defaultGift.getAmountDefault());
+        this.setGiftDefault(defaultGift.getGiftDefault());
+    }
 }

@@ -1,6 +1,7 @@
 package com.tenPines.application.service;
 
 
+import com.tenPines.mailer.PostOffice;
 import com.tenPines.mailer.UnsentMessage;
 import com.tenPines.model.EmailTemplate;
 import com.tenPines.persistence.EmailTemplateRepository;
@@ -21,6 +22,8 @@ public class MailerService {
     @Autowired
     private EmailTemplateRepository emailTemplateRepository;
 
+    @Autowired
+    private PostOffice postOffice;
 
     public EmailTemplate getEMailTemplate() throws IOException {
         EmailTemplate emailTemplate = new EmailTemplate();
@@ -51,4 +54,9 @@ public class MailerService {
         return failedMailsRepository.findAll();
     }
 
+    public void resendMessageFailure(UnsentMessage unsentMessage){
+        failedMailsRepository.delete(unsentMessage.getId());
+        postOffice.sendMessage(unsentMessage.toMessage());
+
+    }
 }

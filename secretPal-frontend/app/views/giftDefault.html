@@ -1,28 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Regalos default</title>
-</head>
-<body>
-<h1 align="center"> Regalos default establecidos</h1>
-<div class="panel panel-primary">
-  <table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Regalos default</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="giftDefault in giftsDefault">
-      <td>{{giftDefault.giftDefault}}</td>
 
-    </tr>
-    </tbody>
-  </table>
+<h1>Configuración de regalo default</h1>
+
+<div class="well">
+  <form class="navbar-form" name="form" ng-submit="change()">
+    <div class="row">
+      <label class="control-label col-md-5" for="subject">Monto default:</label>
+      <input id="subject" class="form-control" ng-model="defaultGift.amountDefault"/>
+    </div>
+    <div class="row">
+      <label class="control-label col-md-5" for="body">
+        <span id="helpBlock" class="help-block">Regalo default:</span>
+      </label>
+      <textarea id="body" style="max-width: 100%; height: 200px;widht: 300px" class="form-control col-md-5" ng-model="defaultGift.giftDefault"></textarea>
+    </div>
+    <div class="row">
+      <button type="submit" class="btn btn-default">Aceptar</button>
+    </div>
+  </form>
 </div>
-<button>Agregar</button>
-<h2>Monto default</h2>
-<h2></h2>
-</body>
-</html>
+

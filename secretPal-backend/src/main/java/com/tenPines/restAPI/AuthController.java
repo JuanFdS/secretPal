@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Properties;
 
 @Controller
@@ -115,15 +115,24 @@ public class AuthController {
     }
 
     @RequestMapping(value="/giftsDefault", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<GiftDefault> giftDefaults() {
-        return systemFacade.retrieveAllGiftsDefaults();
+    @ResponseBody
+    public DefaultGift giftDefaults() {
+        DefaultGift defaultGift =systemFacade.retrieveTheLastDefaultGift();
+        return defaultGift;
     }
 
     @RequestMapping(value="/giftsDefault", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void addGiftDefaults(@RequestBody GiftDefault giftDefault){
-        systemFacade.addGiftDefaults(giftDefault);
+    @ResponseBody
+    public void addGiftDefaults(@RequestBody DefaultGift defaultGift){
+        systemFacade.addGiftDefaults(defaultGift);
     }
 
-
+    @RequestMapping(value="/confirmationGift/{id}", method= RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateGiftReceivedDate(@PathVariable(value="id") Long id){
+        Worker workerToUpdate = workerService.retriveWorker(id);
+        workerToUpdate.markGiftAsReceived();
+        workerService.save(workerToUpdate);
+    }
 }

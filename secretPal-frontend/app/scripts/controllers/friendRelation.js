@@ -31,6 +31,7 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
     return (diff > 0);
   };
 
+
   $scope.birthdayPassOnAMonth = function(relation){
     var date = relation.giftReceiver.dateOfBirth;
     var diff = $scope.diff(date);
@@ -51,6 +52,7 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       return relation.giftGiver;
     });
 
+
     /*.filter(function(worker){
       return !$scope.hasBirthdayInAMonth(worker);
     });*/
@@ -63,7 +65,9 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   $scope.deleteRelation = function (relation) {
     FriendRelationService.delete(relation.giftGiver.id, relation.giftReceiver.id, function() {
         $scope.friendRelations = $filter('filter')($scope.friendRelations, {giftGiver: '!' + relation.giftGiver});
-      });
+
+
+    });
   };
 
   $scope.notNull = function(relation){
@@ -75,14 +79,25 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
       var notUsed = true;
       angular.forEach($scope.friendRelations, function(fr){
         if (fr.giftReceiver !== null) {
-          if (fr.giftReceiver.id === relation.giftGiver.id) {
             if (fr.giftGiver.id !== giftGiverSelected) {notUsed = false;}
-          }
+
         }
       });
       return notUsed;
     };
   };
+
+  $scope.validFriendRelations = function (fr) {
+    return $scope.friendRelations.filter(function (elem) {
+      if($scope.notUsed(fr.giftGiver)){
+        return  fr.giftGiver.id !== elem.giftReceiver.id && fr.giftGiver.id !== elem.giftGiver.id ;
+      }
+
+
+    });
+  };
+
+
 
   $scope.ok = function () {
     SweetAlert.swal({
@@ -94,10 +109,8 @@ app.controller('FriendRelationController', function($scope, $modal, $filter, Fri
   };
 
   $scope.auto = function(){
-    //TODO estas posibilities no deberian tomar la de los cumpleaños que ya pasaron.
     shuffleArray($scope.posibilities);
     console.log($scope.posibilities.map(function(worker){ return worker.fullName; }));
-
     $scope.posibilities.forEach(function(worker, index) {
       $scope.friendRelations.find(function(relation){
         return relation.giftGiver == worker;
@@ -127,3 +140,5 @@ var shuffleArray = function(array) {
 
   return array;
 };
+
+

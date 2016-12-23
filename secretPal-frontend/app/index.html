@@ -46,6 +46,7 @@
                   <li><a ng-href="#/workers">Lista de Pinos</a></li>
                   <li><a ng-href="#/friendRelations">Relaciones entre Pinos</a></li>
                   <li><a ng-href="#/mailsFailure">Mensajes rechazos</a></li>
+                  <li><a ng-href="#/gameStatus">Estado del juego</a></li>
                   <li role="separator" class="divider"></li>
                   <li><a ng-href="#/confirmationGift">Control de regalos hechos</a></li>
                   <li role="separator" class="divider"></li>
@@ -57,7 +58,7 @@
               <li role="separator" class="divider"></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <ld ng-show="isAuthenticated()" ><h5><span class="label label-default -align-center"><strong style="text-transform:uppercase">{{loggedUser.userName}}</strong></span></h5></ld>
+              <ld ng-show="isAuthenticated()" ><h5>Bienvenido: <strong style="text-transform:uppercase">{{loggedUser.userName}}</strong><span class="glyphicon glyphicon-user"></span></h5></ld>
               <ld><li ng-show="isAuthenticated()"><button type="button" ng-click="logout()" class="btn btn-xs btn-danger btn-block">Salir</button></li></ld>
             </ul>
           </div>
@@ -119,12 +120,14 @@
     <script src="scripts/controllers/giftDefault.js"></script>
     <script src="scripts/controllers/register.js"></script>
     <script src="scripts/controllers/confirmationGift.js"></script>
-    <script src="scripts/services/giftDefault.js"></script>
+    <script src="scripts/services/giftDefaultService.js"></script>
+    <script src="scripts/controllers/gameStatus.js"></script>
     <script src="scripts/services/workerService.js"></script>
     <script src="scripts/services/mailService.js"></script>
     <script src="scripts/services/friendRelationService.js"></script>
     <script src="scripts/services/account.js"></script>
     <script src="scripts/services/token.js"></script>
+    <script src="scripts/services/gameStatusService.js"></script>
     <!-- endbuild -->
 </body>
 </html>

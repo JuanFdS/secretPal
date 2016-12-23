@@ -18,6 +18,13 @@ angular
       return Account.getProfile();
     };
 
+    var authenticatedAndAdmin = function (Account, $location) {
+      if (!Account.isAdmin() || !Account.isAuthenticated()) {
+        $location.path('/');
+      }
+      return Account.getProfile();
+    };
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -26,17 +33,17 @@ angular
       .when('/mail', {
         templateUrl: 'views/mail.html',
         controller: 'MailController',
-        resolve: { user : authenticated }
+        resolve: { user : authenticatedAndAdmin }
       })
       .when('/workers', {
         templateUrl: '../views/workers.html',
         controller: 'WorkersController',
-        resolve: { user : authenticated }
+        resolve: { user : authenticatedAndAdmin }
       })
       .when('/friendRelations', {
         templateUrl: '../views/friendRelations.html',
         controller: 'FriendRelationController',
-        resolve: { user : authenticated }
+        resolve: { user : authenticatedAndAdmin }
       })
       .when('/wishlist', {
         templateUrl: '../views/wishlist.html',
@@ -59,17 +66,22 @@ angular
       .when('/confirmationGift', {
         templateUrl: '../views//confirmationGift.html',
         controller: 'ConfirmationGiftController',
-        resolve: { user : authenticated }
+        resolve: { user : authenticatedAndAdmin }
       })
       .when('/mailsFailure', {
         templateUrl: '../views/mailsFailure.html',
         controller: 'MailsFailureController',
-        resolve: { user : authenticated }
+        resolve: { user : authenticatedAndAdmin }
       })
       .when('/giftDefault', {
         templateUrl: '../views/giftDefault.html',
         controller: 'GiftDefaultController',
-        resolve: { user : authenticated }
+        resolve: { user : authenticatedAndAdmin }
+      })
+      .when('/gameStatus', {
+        templateUrl: '../views/gameStatus.html',
+        controller: 'GameStatusController',
+        resolve: { user : authenticatedAndAdmin }
       });
 
 
