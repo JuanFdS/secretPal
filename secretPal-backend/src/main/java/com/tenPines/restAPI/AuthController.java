@@ -42,9 +42,6 @@ public class AuthController {
     private RegisterService registerService;
 
     @Autowired
-    private SecurityGuard securityGuard;
-
-    @Autowired
     private SystemPalFacade systemFacade;
 
     @RequestMapping(value = "/google", method = RequestMethod.POST)
@@ -86,12 +83,6 @@ public class AuthController {
         }
     }
 
-//    @RequestMapping(value = "/me", method = RequestMethod.GET)
-//    @ResponseBody
-//    public User retrieveLoggedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException {
-//        return new User(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)));
-//    }
-
     @RequestMapping(value = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public UserForFrontend retrieveLoggedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException, IOException {
@@ -113,16 +104,14 @@ public class AuthController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    SecurityToken loginWithInternalCredential(@RequestBody Credential credential){
-        String token = securityGuard.enterWith(credential);
-        return SecurityToken.createWith(token);
+    public SecurityToken loginWithInternalCredential(@RequestBody Credential credential){
+        return systemFacade.loginWithInternalCredential(credential);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public void registerUserAndAsociateWithAWorker(@RequestBody NewUser form){
-        NewUser newUser = NewUser.createANewUser(form.getUserName(), form.getPassword(), form.getEmail());
-        registerService.registerUser(newUser);
+        systemFacade.registerUserAndAsociateWithAWorker(form);
     }
 
     @RequestMapping(value="/giftsDefault", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

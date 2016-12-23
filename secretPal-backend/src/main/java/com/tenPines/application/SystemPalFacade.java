@@ -1,7 +1,12 @@
 package com.tenPines.application;
 
-
 import com.tenPines.application.clock.Clock;
+import com.tenPines.application.service.FriendRelationService;
+import com.tenPines.application.service.GiftDefaultService;
+import com.tenPines.application.service.WishlistService;
+import com.tenPines.application.service.WorkerService;
+import com.tenPines.model.*;
+import com.tenPines.restAPI.SecurityToken;
 import com.tenPines.application.service.*;
 import com.tenPines.mailer.UnsentMessage;
 import com.tenPines.model.*;
@@ -10,10 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class SystemPalFacade {
-
 
     @Autowired
     FriendRelationService friendRelationService;
@@ -26,6 +29,12 @@ public class SystemPalFacade {
 
     @Autowired
     WishlistService wishlistService;
+
+    @Autowired
+    SecurityGuard securityGuard;
+
+    @Autowired
+    RegisterService registerService;
 
     @Autowired
     MailerService mailerService;
@@ -73,7 +82,6 @@ public class SystemPalFacade {
     public List<Wish> retrievallWishesForWorker(Worker worker) {
         return wishlistService.retrieveByWorker(worker);
     }
-
 
     public Wish saveWish(Wish wish) {
 
@@ -149,5 +157,15 @@ public class SystemPalFacade {
     public void resendMessageFailure(UnsentMessage unsentMessage) {
 
         mailerService.resendMessageFailure(unsentMessage);
+    }
+
+    public SecurityToken loginWithInternalCredential(Credential aCredential){
+        String token = securityGuard.enterWith(aCredential);
+        return SecurityToken.createWith(token);
+    }
+
+    public void registerUserAndAsociateWithAWorker(NewUser form){
+        NewUser newUser = NewUser.createANewUser(form.getUserName(), form.getPassword(), form.getEmail());
+        registerService.registerUser(newUser);
     }
 }
