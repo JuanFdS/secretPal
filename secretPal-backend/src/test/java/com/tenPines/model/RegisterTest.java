@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 
-public class RegisterTest extends SpringBaseTest{
+public class RegisterTest extends SpringBaseTest {
 
     @Autowired
     public RegisterService registerService;

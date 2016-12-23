@@ -1,10 +1,8 @@
 package com.tenPines.application.service;
 
 import com.tenPines.model.User;
-import com.tenPines.model.Worker;
 import com.tenPines.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
