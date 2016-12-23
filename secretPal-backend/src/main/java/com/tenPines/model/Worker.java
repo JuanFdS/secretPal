@@ -34,6 +34,10 @@ public class Worker {
     private LocalDate dateOfBirth;
     @NotNull
     private Boolean wantsToParticipate;
+    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @Column
+    private LocalDate giftDateReceived;
 
     public Worker() {
     }
@@ -72,13 +76,13 @@ public class Worker {
         this.fullName = fullName;
     }
 
-   public void changeParticipationIntention() {
+    public void changeParticipationIntention() {
         setWantsToParticipate(!wantsToParticipate);
     }
 
     public boolean getWantsToParticipate() { return this.wantsToParticipate;}
 
-   public void setWantsToParticipate(Boolean wantsToParticipate) {
+    public void setWantsToParticipate(Boolean wantsToParticipate) {
         this.wantsToParticipate = wantsToParticipate;
     }
 
@@ -92,6 +96,14 @@ public class Worker {
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public LocalDate getGiftDateReceived() {
+        return giftDateReceived;
+    }
+
+    public void setGiftDateReceived(LocalDate giftDateReceived) {
+        this.giftDateReceived = giftDateReceived;
     }
 
     public void setDateOfBirth(LocalDate birthdayDate) {
@@ -114,4 +126,9 @@ public class Worker {
                         this.geteMail().equals(otherWorker.geteMail()) &&
                         this.getDateOfBirth().equals(otherWorker.getDateOfBirth());
     }
+
+    public void markGiftAsReceived() {
+        setGiftDateReceived(LocalDate.now());
+    }
+
 }

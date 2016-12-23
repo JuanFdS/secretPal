@@ -1,41 +1,50 @@
 package com.tenPines.builder;
 
+import com.tenPines.application.service.MailerService;
 import com.tenPines.model.FriendRelation;
 import com.tenPines.model.Message;
 import com.tenPines.model.Worker;
 import com.tenPines.utils.PropertyParser;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
-public class FriendRelationMessageBuilder {
+public class FriendRelationMessageBuilder extends ReminderBuilder{
+
 
     private PropertyParser templateProperties;
 
+    public MailerService getMailerService() {
+        return mailerService;
+    }
+
+    public void setMailerService(MailerService mailerService) {
+        this.mailerService = mailerService;
+    }
+
+    public MailerService mailerService;
     public FriendRelationMessageBuilder() {
-        try {
-            templateProperties = new PropertyParser("src/main/resources/mailTemplate.properties");
-        } catch (IOException e) {
-            templateProperties.setProperty("subject", "[SecretPal] Se te asigno un amigo invisible!");
-            templateProperties.setProperty("bodyText", "Vas a ser el amigo invisible de ${fullName}.\\nCumple el: ${dateOfBirth}.");
-        }
     }
 
-    private String assignationSubject() {
-        return templateProperties.getProperty("subject");
+    @Autowired
+    protected String assignationSubject() throws IOException {
+        return mailerService.getEMailTemplate().getSubject();
     }
 
-    private String assignationBodyText(Worker receiver) {
-        templateProperties.setProperty("fullName", receiver.getFullName());
-        templateProperties.setProperty("dateOfBirth", receiver.getDateOfBirth().toString());
-        return templateProperties.getProperty("bodyText");
+    @Autowired
+    protected String assignationBodyText(Worker receiver) throws IOException {
+        mailerService.getEMailTemplate().setFullName(receiver.getFullName());
+        mailerService.getEMailTemplate().setDateOfBirth(receiver.getDateOfBirth().toString());
+
+
+        return mailerService.getEMailTemplate().getBodyText();
+    }
+
+    @Autowired
+    public Message buildMessage(FriendRelation aFriendRelation) throws IOException {
+        return super.buildMessage(aFriendRelation);
     }
 
 
-    public Message buildMessage(FriendRelation friendRelation) {
-        Message message = new Message();
-        message.setRecipient(friendRelation.getGiftGiver().geteMail());
-        message.setSubject(assignationSubject());
-        message.setBody(assignationBodyText(friendRelation.getGiftReceiver()));
-        return message;
-    }
+
 }

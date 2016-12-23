@@ -1,10 +1,12 @@
-
+<body ng-app="main">
 <div class="jumbotron">
-
   <h1>Amigo invisible</h1>
   <p class="lead">
     <img src="images/logo.png" alt="10 pines"><br>
     Para los pinos cumpleañeros!
+    <!--<h1 ng-show="!isAuthenticated()"><a ng-href="#/login">Ingresar!!!</a></h1>-->
+    <hr>
+  <button type="button" ng-click="ingresar()" ng-show="!isAuthenticated()" class="btn btn-lg btn-success btn-block">Ingresar</button>
   </p>
 
 </div>
@@ -18,6 +20,6 @@
     Existe una lista de “deseos” que te permite orientarte en el caso de que no sepas qué regalar!
     Si conoces los gustos de algún pino y querés ayudar a su amigo invisible podés proponer un regalo.</p>
 
-
+</body>
 
 

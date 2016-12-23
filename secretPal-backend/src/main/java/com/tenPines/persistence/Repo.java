@@ -1,6 +1,5 @@
 package com.tenPines.persistence;
 
-
 import java.util.List;
 
 public interface Repo<T> {

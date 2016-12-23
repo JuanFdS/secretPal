@@ -9,6 +9,14 @@ import javax.persistence.Id;
 
 @Entity
 public class UnsentMessage{
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
@@ -23,7 +31,10 @@ public class UnsentMessage{
 
     static UnsentMessage create(Message message, UnableToSendMessage error) {
         UnsentMessage instance = new UnsentMessage();
-        instance.setError(error.toString());
+        if(error.toString().length() < 200)
+            instance.setError(error.toString());
+        else
+            instance.setError(error.toString().substring(0,200));
         instance.setBody(message.getBody());
         instance.setSubject(message.getSubject());
         instance.setRecipient(message.getRecipient());
@@ -62,7 +73,7 @@ public class UnsentMessage{
         this.error = error;
     }
 
-    Message toMessage() {
+    public Message toMessage() {
         return Message.create(getRecipient(), getSubject(), getBody());
     }
 }

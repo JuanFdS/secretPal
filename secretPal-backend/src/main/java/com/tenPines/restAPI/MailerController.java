@@ -1,33 +1,55 @@
 package com.tenPines.restAPI;
 
-import com.tenPines.application.SecretPalSystem;
-import com.tenPines.model.Message;
+import com.tenPines.application.SystemPalFacade;
+import com.tenPines.application.service.MailerService;
+import com.tenPines.mailer.UnsentMessage;
+import com.tenPines.model.EmailTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 @Controller
 @RequestMapping("/mail")
 public class MailerController {
 
     @Autowired
-    private SecretPalSystem system;
+    private SystemPalFacade system;
+
+    @Autowired
+    private MailerService mailerService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
-    public Properties getMail() throws IOException {
+    public EmailTemplate getMail() throws IOException {
         return system.getEMailTemplate();
     }
 
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @ResponseBody
+    public EmailTemplate setMail(@RequestBody EmailTemplate modifiedMail) throws IOException {
+        return system.setEmailTemplate(modifiedMail);
+    }
+
+
     @RequestMapping(value = "/failedMails", method = RequestMethod.GET)
     @ResponseBody
-    public List<Message> getFailedMail(){
-        return system.getFailedMails().retrieveAll();
+    public List<UnsentMessage> getFailedMail(){
+        return mailerService.retrieveAllFailedMails();}
+
+
+
+    @RequestMapping(value = "/resendMailsFailure", method = RequestMethod.POST)
+    @ResponseBody
+    public void resendMail(@RequestBody UnsentMessage unsentMessage) throws IOException {
+        system.resendMessageFailure(unsentMessage);
     }
+
+
 }

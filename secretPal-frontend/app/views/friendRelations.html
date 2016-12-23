@@ -6,10 +6,12 @@
 
   <div class="panel panel-primary">
     <form class="navbar-form" name="form" ng-submit="ok()">
-      <table class="table table-striped">
+      <table class="table table-striped center-vertical">
         <thead>
         <tr>
           <th colspan="2">Participante</th>
+          <th></th>
+
           <th colspan="2">Agasajado</th>
           <th>Borrar</th>
         </tr>
@@ -18,10 +20,15 @@
         <tr ng-repeat="fr in friendRelations | filter:birthdayHasNotPassed" >
           <td>{{fr.giftGiver.fullName}}</td>
           <td><small>le regala a</small></td>
-          <td>{{fr.giftReceiver.fullName}}
+          <td>
             <span ng-show="birthdayPassOnAMonth(fr)" tooltip="{{dayDifference(fr.giftReceiver.dateOfBirth)}}" class="glyphicon glyphicon-exclamation-sign icon-warning pull-right"></span>
           </td>
-          <td><select  required ng-model="fr.giftReceiver" ng-options="friendRelation.giftGiver as friendRelation.giftGiver.fullName for friendRelation in friendRelations | filter:notUsed({{fr.giftGiver.id}}) | filter:{giftGiver:{id:'!{{fr.giftGiver.id}}'}}"></select></td>
+          <td>
+            <select name="" id="" ng-model="fr.giftReceiver.fullName">
+              <option ng-value="friendRelation.giftGiver.fullName" ng-repeat="friendRelation in validFriendRelations(fr)">{{friendRelation.giftGiver.fullName}}</option>
+            </select>
+          </td>
+          <td></td>
           <td><a ng-click="clean(fr)"><span class="glyphicon glyphicon-remove"></span></a></td>
         </tr>
         </tbody>

@@ -12,9 +12,8 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
   }
 
   function errorMsg(msg) {
-    SweetAlert.swal("Algo salio mal",msg, "error");
+    SweetAlert.swal("Algo salió mal",msg, "error");
   }
-
 
   this.all = function(callback) {
     $http.get(buildRoute('/')).
@@ -22,7 +21,7 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
         callback(data);
       }).
       error(function() {
-        errorMsg("Intentelo denuevo mas tarde");
+        errorMsg("Inténtelo de nuevo mas tarde");
       });
   };
 
@@ -50,4 +49,9 @@ angular.module('secretPalApp').service('WorkerService', function($http, SweetAle
           successFunction();
         });
   };
+
+  this.update = function (worker) {
+    $http.post(buildRoute('/edit'), worker);
+  };
+
 });

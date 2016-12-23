@@ -1,3 +1,32 @@
+<script type="text/ng-template" id="editModalWorker.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Editando a un Pino</h3>
+  </div>
+  <div class="modal-body">
+    <label class="control-label col-md-4" for="date">Nombre del Pino: </label>
+    <input type="text" ng-model="worker.fullName">
+  </div>
+  <div class="modal-body">
+    <label class="control-label col-md-4" for="date">Email del Pino: </label>
+    <input type="text" ng-model="worker.eMail">
+  </div>
+  <div class="modal-body">
+    <div class="field">
+      <label class="control-label col-md-4" for="date">Fecha de nacimiento: </label>
+      <p class="input-group">
+        <input id="date" required type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="worker.dateOfBirth" is-open="opened" />
+        <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+      </p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()" ng-enter="ok();">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
+  </div>
+</script>
+
 <div class="list_data">
   <button class="btn btn-primary pull-right" ng-click="assignation()">Asignar Amigos!</button>
   <h1>Lista de Pinos</h1>
@@ -9,8 +38,8 @@
           <th>Email</th>
           <th>Fecha de cumpleaños</th>
           <th>Quiere participar?</th>
-          <th>Borrarlo</th>
-          <th>Hacer Admin!!</th>
+          <th>Modificar</th>
+          <th>Borrar</th>
         </tr>
       </thead>
       <tbody>
@@ -19,8 +48,8 @@
           <td>{{worker.eMail}}</td>
           <td>{{worker.dateOfBirth | date}}</td>
           <td><input type="checkbox" name="selectedParticipants[]" value="{{worker.fullName}}" ng-change="changeIntention(worker)" ng-model="worker.wantsToParticipate"></td>
-          <td><a ng-click="delete(worker)"><span class="glyphicon glyphicon glyphicon-remove"></span></a></td>
-          <td><a ng-click="makeAdmin(worker)"><span class="glyphicon glyphicon glyphicon-education"></span></a></td>
+          <td><a ng-click="Edit(worker)"><span class="glyphicon glyphicon glyphicon-pencil"></span></a></td>
+          <td><a ng-click="delete(worker)"><span class="glyphicon glyphicon-trash"></span></a></td>
         </tr>
       </tbody>
     </table>
@@ -43,7 +72,7 @@
           <input id="mail" required type="email" placeholder="Email" class="form-control" ng-model="newMail">
         </div>
         <div class="field">
-          <label class="control-label col-md-4" for="date">Fecha de cumpleaños: </label>
+          <label class="control-label col-md-4" for="date">Fecha de nacimiento: </label>
           <p class="input-group">
             <input id="date" required type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="newDate" is-open="opened" />
               <span class="input-group-btn">

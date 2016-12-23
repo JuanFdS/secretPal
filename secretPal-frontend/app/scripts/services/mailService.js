@@ -12,7 +12,7 @@ angular.module('secretPalApp').service('MailService', function($http, SweetAlert
   }
 
   function errorMsg(msg) {
-    SweetAlert.swal("Algo salio mal",msg, "error");
+    SweetAlert.swal("Algo salió mal",msg, "error");
   }
 
 
@@ -22,18 +22,41 @@ angular.module('secretPalApp').service('MailService', function($http, SweetAlert
         successFunction(data);
       }).
       error(function() {
-        errorMsg("Intentelo denuevo mas tarde");
+        errorMsg("Inténtelo denuevo mas tarde");
       });
   };
 
   this.new = function(mail) {
     $http.post(buildRoute('/'), mail).
       success(function() {
-        successMsg("Se ha actualizado la configuracion del mail");
+        successMsg("Se ha actualizado la configuración del mail");
       }).
       error(function() {
-        errorMsg("Intentelo de nuevo mas tarde");
+        errorMsg("Inténtelo de nuevo mas tarde");
       });
   };
+
+  this.all = function(callback) {
+    $http.get(buildRoute('/failedMails') ).
+    success(function(data) {
+      callback(data);
+    }).
+    error(function() {
+      errorMsg("Inténtelo de nuevo mas tarde");
+    });
+  };
+
+  this.resendMessage = function (unsentMessage, successFunction) {
+    $http.post(buildRoute('/resendMailsFailure'), unsentMessage).
+        success(function(){
+      successMsg("Se reenvió el mail correctamente");
+      successFunction();
+    }).error(function () {
+      errorMsg("No se pudo reenviar el mail, inténtelo mas tarde");
+
+    });
+
+  };
+
 
 });

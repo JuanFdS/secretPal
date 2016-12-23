@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('secretPalApp')
-.controller('ProfileController', function($scope, user, $location, FriendRelationService, WishlistService, SweetAlert, WorkerService) {
+.controller('ProfileController', function($scope, $http, user, $location, FriendRelationService, WishlistService, SweetAlert, WorkerService) {
+
+    $scope.wishlist = [];
+    $scope.giftDefault;
 
     $scope.noFriendAlert = function(){
       $location.path('/');
@@ -20,7 +23,7 @@ angular.module('secretPalApp')
         },
         function (isConfirm) {
           if (isConfirm) {
-            WorkerService.changeIntention(user.data.worker);
+            WorkerService.changeIntention(user.worker);
             SweetAlert.swal("Ahora estas participando!");
             $scope.noFriendAlert();
           } else {
@@ -28,21 +31,29 @@ angular.module('secretPalApp')
           }
         });
     };
-
-    if (!user.data.worker.wantsToParticipate) {
+    if (!user.worker.wantsToParticipate) {
       $scope.wantToParticipateMsg();
     } else {
-      FriendRelationService.getFriend(user.data.worker, function (friend) {
+      FriendRelationService.getFriend(user.worker, function (friend) {
+
+        $http.get('/api/auth/giftsDefault').
+        success(function(data) {
+          $scope.giftDefault = data.giftDefault;
+          $scope.amountDefault = data.amountDefault;
+        }).
+        error(function() {
+          errorMsg("Inténtelo denuevo mas tarde");
+        });
+
         $scope.friend = friend;
 
         if (friend.data === "") {
           $scope.noFriendAlert();
         }
 
-        WishlistService.getAllWishesFor($scope.friend.data, function (wishlist) {
-          $scope.wishlist = wishlist;
+        WishlistService.getAllWishesFor($scope.friend.data, function (wishlistResponse) {
+          $scope.wishlist = wishlistResponse.data;
         });
       });
     }
-
   });
