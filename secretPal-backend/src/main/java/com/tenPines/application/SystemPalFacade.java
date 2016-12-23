@@ -158,7 +158,6 @@ public class SystemPalFacade {
 
         mailerService.resendMessageFailure(unsentMessage);
     }
-}
 
     public SecurityToken loginWithInternalCredential(Credential aCredential){
         String token = securityGuard.enterWith(aCredential);
