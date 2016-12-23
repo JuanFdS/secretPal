@@ -13,6 +13,7 @@ import com.tenPines.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -40,6 +41,7 @@ public class SystemPalFacade {
     MailerService mailerService;
 
     private Long reminderDayPeriod;
+
     private Clock clock;
 
     public Worker retrieveAssignedFriendFor(Long Idparticipant) {
@@ -152,6 +154,19 @@ public class SystemPalFacade {
 
     public void editWorker(Worker workerEdited) throws Exception {
         workerService.save(workerEdited);
+    }
+
+    public EmailTemplate getEMailTemplate() throws IOException {
+        return mailerService.getEMailTemplate();
+
+    }
+
+    public EmailTemplate setEmailTemplate(EmailTemplate modifiedMail) throws IOException {
+        return mailerService.setEmailTemplate(modifiedMail);
+    }
+
+    public List<UnsentMessage> retrieveAllFailedMails() {
+        return mailerService.retrieveAllFailedMails();
     }
 
     public void resendMessageFailure(UnsentMessage unsentMessage) {

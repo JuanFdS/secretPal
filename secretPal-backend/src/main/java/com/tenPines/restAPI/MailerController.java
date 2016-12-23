@@ -18,24 +18,23 @@ import java.util.List;
 @RequestMapping("/mail")
 public class MailerController {
 
+    @Autowired
+    private SystemPalFacade system;
 
     @Autowired
     private MailerService mailerService;
 
-    @Autowired
-    private SystemPalFacade system;
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public EmailTemplate getMail() throws IOException {
-        return mailerService.getEMailTemplate();
+        return system.getEMailTemplate();
     }
 
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public EmailTemplate setMail(@RequestBody EmailTemplate modifiedMail) throws IOException {
-        return mailerService.setEmailTemplate(modifiedMail);
+        return system.setEmailTemplate(modifiedMail);
     }
 
 
