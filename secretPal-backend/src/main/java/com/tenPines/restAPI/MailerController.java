@@ -21,6 +21,8 @@ public class MailerController {
     @Autowired
     private SystemPalFacade system;
 
+    @Autowired
+    private MailerService mailerService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
@@ -39,5 +41,15 @@ public class MailerController {
     @RequestMapping(value = "/failedMails", method = RequestMethod.GET)
     @ResponseBody
     public List<UnsentMessage> getFailedMail(){
-        return system.retrieveAllFailedMails();}
+        return mailerService.retrieveAllFailedMails();}
+
+
+
+    @RequestMapping(value = "/resendMailsFailure", method = RequestMethod.POST)
+    @ResponseBody
+    public void resendMail(@RequestBody UnsentMessage unsentMessage) throws IOException {
+        system.resendMessageFailure(unsentMessage);
+    }
+
+
 }
