@@ -78,6 +78,11 @@ angular
         controller: 'GiftDefaultController',
         resolve: { user : authenticatedAndAdmin }
       })
+      .when('/ruleConfiguration', {
+        templateUrl: '../views/ruleConfiguration.html',
+        controller: 'RuleConfiguration',
+        resolve: { user : authenticatedAndAdmin }
+      })
       .when('/gameStatus', {
         templateUrl: '../views/gameStatus.html',
         controller: 'GameStatusController',
