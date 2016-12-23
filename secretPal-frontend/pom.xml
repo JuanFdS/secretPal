@@ -5,12 +5,12 @@
 
   <artifactId>secretPal-frontend</artifactId>
   <name>SecretPal-frontend</name>
-  <packaging>war</packaging>
 
   <parent>
     <groupId>com.tenpines</groupId>
     <artifactId>secretPal-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../secretPal-parent</relativePath>
   </parent>
 
   <build>
