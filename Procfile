@@ -1,0 +1,1 @@
+worker: sh secretPal-backend/target/bin/worker

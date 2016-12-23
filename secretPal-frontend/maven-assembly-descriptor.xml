@@ -24,5 +24,13 @@
         <exclude>tests/**/*</exclude>
       </excludes>
     </fileSet>
+    <fileSet>
+      <!-- Todo lo que esté en maven Stuff-->
+      <directory>maven_stuff</directory>
+      <outputDirectory>WEB-INF</outputDirectory>
+      <includes>
+        <include>**/*</include>
+      </includes>
+    </fileSet>
   </fileSets>
 </assembly>
