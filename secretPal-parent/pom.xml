@@ -32,7 +32,7 @@
 
     <modules>
         <module>../secretPal-backend</module>
-        <module>../secretPal-frontend</module>
+        <!-- <module>../secretPal-frontend</module> -->
     </modules>
 
 </project>
