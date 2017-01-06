@@ -19,6 +19,7 @@
     "angular-mocks": "~1.4.2"
   },
   "appPath": "app",
+  "buildPath": "../secretPal-backend/src/main/webapp/WEB-INF/frontend",
   "moduleName": "secretPalApp",
   "overrides": {
     "bootstrap": {

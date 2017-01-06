@@ -1,5 +1,6 @@
 package com.tenPines.model;
 
+import com.tenPines.integration.SpringBaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -7,16 +8,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
 
-public class PatovaTest {
+public class PatovaTest extends SpringBaseTest {
 
     @Autowired
     private SecurityGuard securityGuard;
-
-    @Test
-    public void when_i_authentic_with_any_credential_must_return_userName(){
-       Credential credential = Credential.newCredential("kevin", "1234");
-       assertThat(securityGuard.enterWith(credential)).isEqualTo(credential.getUserName());
-    }
 
     @Test
     public void when_i_authentic_with_a_invalid_credential_throw_error_of_autentication_and_i_cant_enter(){

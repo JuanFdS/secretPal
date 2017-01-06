@@ -3,27 +3,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.tenpines</groupId>
   <artifactId>secretPal-frontend</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
-
   <name>SecretPal-frontend</name>
 
-  <repositories>
-    <repository>
-      <id>tenpines_repo</id>
-      <name>Repositorio 10pines</name>
-      <url>http://services.10pines.com:8081/artifactory/repo</url>
-    </repository>
-  </repositories>
-
-  <properties>
-    <version.plugin.assembly>2.4</version.plugin.assembly>
-  </properties>
+  <parent>
+    <groupId>com.tenpines</groupId>
+    <artifactId>secretPal-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../secretPal-parent</relativePath>
+  </parent>
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <webXml>maven_stuff/web.xml</webXml>
+        </configuration>
+      </plugin>
+
       <!-- Una vez que se genera la salida en dist. Empaquetar todo en un zip -->
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>

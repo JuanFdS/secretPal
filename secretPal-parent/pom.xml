@@ -22,7 +22,6 @@
         <spring.boot.version>1.4.0.RELEASE</spring.boot.version>
     </properties>
 
-
     <scm>
         <connection>scm:git:ssh://github.com/10PinesLabs/secretPal.git</connection>
         <url>scm:git:ssh://github.com/10PinesLabs/secretPal.git</url>
@@ -33,7 +32,7 @@
 
     <modules>
         <module>../secretPal-backend</module>
-        <module>../secretPal-frontend</module>
+        <!-- <module>../secretPal-frontend</module> -->
     </modules>
 
 </project>

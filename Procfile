@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -jar secretPal-backend/target/*.jar
+worker: sh secretPal-backend/target/bin/worker
