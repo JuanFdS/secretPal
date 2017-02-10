@@ -80,20 +80,12 @@ module.exports = function (grunt) {
       proxies: [{
         context: '/api',
         host: 'localhost',
-        port: 8080,
-        rewrite: {
-          // the key '^/api' is a regex for the path to be rewritten
-          // the value is the context of the data service
-          '^/api': ''
-        }
-      },{
-          context: '/web',
-          host: 'localhost',
-          port: 9000,
-          rewrite: {
-            '^/web': ''
-          }
-        }],
+        port: 8080
+      }, {
+        context: '/web',
+        host: 'localhost',
+        port: 9000
+      }],
       livereload: {
         options: {
           open: true,
