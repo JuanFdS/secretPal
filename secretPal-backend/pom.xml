@@ -4,6 +4,7 @@
 
     <artifactId>secretPal-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>com.tenpines</groupId>
