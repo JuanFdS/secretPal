@@ -39,11 +39,11 @@ public class FrontendController implements ServletContextAware {
      * Ubicacion dentro de src/webapp donde se hostea la aplicacion ember
      * que hace de frontend
      */
-    private static final String INTERNAL_EMBER_APP_DIR = "ember/";
+    private static final String INTERNAL_FRONTEND_APP_DIR = "WEB-INF/frontend/";
     /**
      * Ubicacion del index, dentro de la app ember
      */
-    private static final String EMBER_APP_INDEX_HTML = INTERNAL_EMBER_APP_DIR + "index.html";
+    private static final String EMBER_APP_INDEX_HTML = INTERNAL_FRONTEND_APP_DIR + "index.html";
 
     private ServletContext servletContext;
 
@@ -90,7 +90,7 @@ public class FrontendController implements ServletContextAware {
 
     private Resource getResourceFromURI(HttpServletRequest request) {
         String nombreDeArchivo = getWebappFileName(request);
-        return getLoader().getResource(INTERNAL_EMBER_APP_DIR + nombreDeArchivo);
+        return getLoader().getResource(INTERNAL_FRONTEND_APP_DIR + nombreDeArchivo);
     }
 
     private String getContextRoot() {

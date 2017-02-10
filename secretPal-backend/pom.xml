@@ -16,12 +16,12 @@
     <name>SecretPal-backend</name>
 
     <dependencies>
-        <!--El frontend
+        <!-- El frontend -->
         <dependency>
             <groupId>com.tenpines</groupId>
             <artifactId>secretPal-frontend</artifactId>
             <version>${version}</version>
-        </dependency>-->
+        </dependency>
 
         <!-- Spring Boot -->
         <dependency>

@@ -20,8 +20,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    build: require('./bower.json').buildPath || 'target',
-    dist: this.build,
+    build: require('./bower.json').builldPath || 'target'
   };
 
   grunt.loadNpmTasks('grunt-karma');
@@ -119,7 +118,7 @@ module.exports = function (grunt) {
                 '/bower_components',
                 connect.static('./bower_components')
               ),
-              connect.static(appConfig.app)
+              connect.static(config.app)
             ];
           }
         }
@@ -127,7 +126,7 @@ module.exports = function (grunt) {
       dist: {
         options: {
           open: true,
-          base: '<%= config.dist %>'
+          base: '<%= config.build %>'
         }
       }
     },
@@ -154,13 +153,12 @@ module.exports = function (grunt) {
 
     // Empties folders to start fresh
     clean: {
+      options: { force: true },
       dist: {
         files: [{
           dot: true,
           src: [
-            '.tmp',
-            '<%= config.dist %>/{,*/}*',
-            '!<%= config.dist %>/.git{,*/}*'
+            '<%= config.build %>/**/*'
           ]
         }]
       },
@@ -221,10 +219,10 @@ module.exports = function (grunt) {
     filerev: {
       dist: {
         src: [
-          '<%= config.dist %>/scripts/{,*/}*.js',
-          '<%= config.dist %>/styles/{,*/}*.css',
-          '<%= config.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '<%= config.dist %>/styles/fonts/*'
+          '<%= config.build %>/scripts/{,*/}*.js',
+          '<%= config.build %>/styles/{,*/}*.css',
+          '<%= config.build %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= config.build %>/styles/fonts/*'
         ]
       }
     },
@@ -235,7 +233,7 @@ module.exports = function (grunt) {
     useminPrepare: {
       html: '<%= config.app %>/index.html',
       options: {
-        dest: '<%= config.dist %>',
+        dest: '<%= config.build %>',
         flow: {
           html: {
             steps: {
@@ -250,14 +248,14 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
-      html: ['<%= config.dist %>/{,*/}*.html'],
-      css: ['<%= config.dist %>/styles/{,*/}*.css'],
-      js: ['<%= config.dist %>/scripts/{,*/}*.js'],
+      html: ['<%= config.build %>/{,*/}*.html'],
+      css: ['<%= config.build %>/styles/{,*/}*.css'],
+      js: ['<%= config.build %>/scripts/{,*/}*.js'],
       options: {
         assetsDirs: [
-          '<%= config.dist %>',
-          '<%= config.dist %>/images',
-          '<%= config.dist %>/styles'
+          '<%= config.build %>',
+          '<%= config.build %>/images',
+          '<%= config.build %>/styles'
         ],
         patterns: {
           js: [[/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
@@ -297,7 +295,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= config.app %>/images',
           src: '**/*.{png,jpg,jpeg,gif}',
-          dest: '<%= config.dist %>/images'
+          dest: '<%= config.build %>/images'
         }]
       }
     },
@@ -308,7 +306,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= config.app %>/images',
           src: '{,*/}*.svg',
-          dest: '<%= config.dist %>/images'
+          dest: '<%= config.build %>/images'
         }]
       }
     },
@@ -323,9 +321,9 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%= config.dist %>',
+          cwd: '<%= config.build %>',
           src: ['*.html'],
-          dest: '<%= config.dist %>'
+          dest: '<%= config.build %>'
         }]
       }
     },
@@ -359,7 +357,7 @@ module.exports = function (grunt) {
     // Replace Google CDN references
     cdnify: {
       dist: {
-        html: ['<%= config.dist %>/*.html']
+        html: ['<%= config.build %>/*.html']
       }
     },
 
@@ -370,7 +368,7 @@ module.exports = function (grunt) {
           expand: true,
           dot: true,
           cwd: '<%= config.app %>',
-          dest: '<%= config.dist %>',
+          dest: '<%= config.build %>',
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
@@ -382,19 +380,19 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.tmp/images',
-          dest: '<%= config.dist %>/images',
+          dest: '<%= config.build %>/images',
           src: ['generated/*']
         }, {
           expand: true,
           cwd: 'bower_components/bootstrap/dist',
           src: 'fonts/*',
-          dest: '<%= config.dist %>'
+          dest: '<%= config.build %>'
         }, {
           expand: true,
           dot: true,
           cwd: 'bower_components/font-awesome',
           src: ['fonts/*.*'],
-          dest: '<%= config.dist %>'
+          dest: '<%= config.build %>'
         }]
       },
       styles: {
