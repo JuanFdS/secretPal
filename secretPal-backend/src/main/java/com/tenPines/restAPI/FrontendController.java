@@ -39,7 +39,7 @@ public class FrontendController implements ServletContextAware {
      * Ubicacion dentro de src/webapp donde se hostea la aplicacion ember
      * que hace de frontend
      */
-    private static final String INTERNAL_FRONTEND_APP_DIR = "frontend/";
+    private static final String INTERNAL_FRONTEND_APP_DIR = "WEB-INF/frontend/";
     /**
      * Ubicacion del index, dentro de la app ember
      */

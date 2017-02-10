@@ -86,7 +86,14 @@ module.exports = function (grunt) {
           // the value is the context of the data service
           '^/api': ''
         }
-      }],
+      },{
+          context: '/web',
+          host: 'localhost',
+          port: 9000,
+          rewrite: {
+            '^/web': ''
+          }
+        }],
       livereload: {
         options: {
           open: true,
