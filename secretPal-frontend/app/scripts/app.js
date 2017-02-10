@@ -10,7 +10,7 @@ angular
     'oitozero.ngSweetAlert',
     'toggle-switch'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $locationProvider) {
     var authenticated = function (Account, $location) {
       if (!Account.isAuthenticated()) {
         $location.path('/login');
@@ -88,6 +88,13 @@ angular
         controller: 'GameStatusController',
         resolve: { user : authenticatedAndAdmin }
       });
+
+      if(window.history && window.history.pushState){
+        $locationProvider.html5Mode({
+          enabled: true,
+          requireBase: false
+        });
+      }
 
 
     // $authProvider.google({
