@@ -7,16 +7,16 @@ import java.io.*;
 
 public class AdminProperties {
 
-    private static String adminPropertyRoute = "src/main/resources/admin.properties";
+    private static String adminPropertyFileName = "admin.properties";
 
     public static String getAdminEmail() throws IOException {
-        PropertyParser adminProperty = new PropertyParser(adminPropertyRoute);
+        PropertyParser adminProperty = new PropertyParser(adminPropertyFileName);
         return adminProperty.getProperty("whois");
     }
 
     public static void setAdmin(Worker newAdmin) throws IOException {
-        File f = new File(adminPropertyRoute );
-        PropertyParser adminProperty = new PropertyParser(adminPropertyRoute);
+        File f = new File(adminPropertyFileName);
+        PropertyParser adminProperty = new  PropertyParser(adminPropertyFileName);
 
         adminProperty.setProperty("whois", newAdmin.geteMail());
 

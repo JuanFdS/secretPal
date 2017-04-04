@@ -12,7 +12,7 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    public UserRepository userRepository;
 
     public User save(User aUser) {
         return userRepository.save(aUser);

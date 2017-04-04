@@ -14,7 +14,7 @@ public class HappyBithdayMessageBuilder {
 
     public HappyBithdayMessageBuilder() {
         try {
-            templateProperties = new PropertyParser("src/main/resources/mailTemplate.properties");
+            templateProperties = new PropertyParser("mailTemplate.properties");
         } catch (IOException e) {
 
         }

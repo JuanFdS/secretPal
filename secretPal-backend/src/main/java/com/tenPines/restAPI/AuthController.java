@@ -47,7 +47,7 @@ public class AuthController {
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Token> loginGoogle(@RequestBody Payload payload, final HttpServletRequest request) throws IOException, JOSEException {
-        Properties googleAuthProperties = new PropertyParser("src/main/resources/gmailAPIAuth.properties");
+        Properties googleAuthProperties = new PropertyParser("gmailAPIAuth.properties");
         GoogleAuth googleAuth = new GoogleAuth(googleAuthProperties, HttpClientBuilder.create().build());
         String access_token = googleAuth.authUserWithPayload(payload);
 

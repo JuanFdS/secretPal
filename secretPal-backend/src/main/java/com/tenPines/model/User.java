@@ -71,4 +71,8 @@ public class User {
     public boolean isAdmin() throws IOException {
         return worker.geteMail().equals(AdminProperties.getAdminEmail());
     }
+
+    public String geteMail(){
+        return worker.geteMail();
+    }
 }

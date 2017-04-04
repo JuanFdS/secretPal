@@ -6,8 +6,8 @@ import java.util.Properties;
 
 public class PropertyParser extends Properties {
 
-    public PropertyParser(String route) throws IOException {
-        this.load(ClassLoader.class.getResourceAsStream("/admin.properties"));
+    public PropertyParser(String fileName) throws IOException {
+        this.load(ClassLoader.class.getResourceAsStream("/"+fileName));
     }
 
     private static final long serialVersionUID = 1L;
