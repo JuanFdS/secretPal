@@ -4,7 +4,6 @@ package com.tenPines.model;
 import com.tenPines.application.service.AdminService;
 import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
-import com.tenPines.persistence.UserRepository;
 
 import java.time.LocalDate;
 

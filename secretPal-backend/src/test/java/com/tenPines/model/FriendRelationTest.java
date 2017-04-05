@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import static com.tenPines.model.process.AssignmentException.Reason.CANT_SELF_ASSIGN;
 import static com.tenPines.model.process.AssignmentException.Reason.DOES_NOT_WANT_TO_PARTICIPATE;
+import static com.tenPines.model.process.AssignmentException.Reason.RECEIVER_NULL;
+import static com.tenPines.model.process.AssignmentException.Reason.GIVER_NULL;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.fail;
@@ -32,7 +34,7 @@ public class FriendRelationTest {
             relationEstablisher.createRelation();
             fail("The exception was not raised");
         } catch (AssignmentException e) {
-            assertThat(e.getReason(), is(DOES_NOT_WANT_TO_PARTICIPATE));
+            assertThat(e.getReason(), is(DOES_NOT_WANT_TO_PARTICIPATE.toString()));
             assertThat(e.getDetails(), hasEntry("worker",aWorker));
         }
     }
@@ -46,7 +48,7 @@ public class FriendRelationTest {
             relationEstablisher.createRelation();
             fail("The exception was not raised");
         } catch (AssignmentException e) {
-            assertThat(e.getReason(), is(DOES_NOT_WANT_TO_PARTICIPATE));
+            assertThat(e.getReason(), is(DOES_NOT_WANT_TO_PARTICIPATE.toString()));
             assertThat(e.getDetails(), hasEntry("worker", otherWorker));
         }
     }
@@ -59,7 +61,7 @@ public class FriendRelationTest {
             relationEstablisher.createRelation();
             fail("The exception was not raised");
         } catch (AssignmentException e) {
-            assertThat(e.getReason(), is(CANT_SELF_ASSIGN));
+            assertThat(e.getReason(), is(CANT_SELF_ASSIGN.toString()));
         }
     }
 
@@ -71,5 +73,29 @@ public class FriendRelationTest {
         FriendRelation relation = relationEstablisher.createRelation();
         assertThat(relation, notNullValue());
     }
+
+    @Test
+    public void WhenHavingNullReceiverYouCannotEstablishAFriendRelation() {
+        RelationEstablisher relationEstablisher = new RelationEstablisher(aWorker, null);
+
+        try {
+            relationEstablisher.createRelation();
+            fail("The exception was not raised");
+        } catch (AssignmentException e) {
+            assertThat(e.getReason(), is(RECEIVER_NULL.toString()));
+        }
+    }
+    @Test
+    public void WhenHavingNullGiverYouCannotEstablishAFriendRelation() {
+        RelationEstablisher relationEstablisher = new RelationEstablisher(null, otherWorker);
+
+        try {
+            relationEstablisher.createRelation();
+            fail("The exception was not raised");
+        } catch (AssignmentException e) {
+            assertThat(e.getReason(), is(GIVER_NULL.toString()));
+        }
+    }
+
 
 }
