@@ -1,10 +1,7 @@
 package com.tenPines.integration;
 
 import com.tenPines.mailer.InMemoryPostMan;
-import com.tenPines.persistence.FriendRelationRepository;
-import com.tenPines.persistence.UserRepository;
-import com.tenPines.persistence.WishlistRepository;
-import com.tenPines.persistence.WorkerRepository;
+import com.tenPines.persistence.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +23,17 @@ public abstract class SpringBaseTest {
     private WishlistRepository wishlistRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AdminRepository adminRepository;
 
     public void resetDB(){
         friendRelationRepository.deleteAll();
         wishlistRepository.deleteAll();
+        adminRepository.deleteAll();
         userRepository.deleteAll();
         workerRepository.deleteAll();
         postMan.messages.clear();
     }
-
 
     @Before
     public void restart(){

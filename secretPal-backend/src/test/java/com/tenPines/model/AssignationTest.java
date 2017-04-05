@@ -25,7 +25,7 @@ public class AssignationTest {
         try {
             assign(workerList);
         } catch (AssignmentException e) {
-            assertEquals(e.getReason(), AssignmentException.Reason.NOT_ENOUGH_QUORUM);
+            assertEquals(e.getReason(), AssignmentException.Reason.NOT_ENOUGH_QUORUM.toString());
         }
         assertEmptyAssignment();
     }
@@ -36,7 +36,7 @@ public class AssignationTest {
         try {
             assignment = assign(workerList);
         } catch (AssignmentException e) {
-            assertEquals(e.getReason(), AssignmentException.Reason.NOT_ENOUGH_QUORUM);
+            assertEquals(e.getReason(), AssignmentException.Reason.NOT_ENOUGH_QUORUM.toString());
         }
         assertEmptyAssignment();
     }

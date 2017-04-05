@@ -4,6 +4,7 @@ import com.tenPines.application.ReminderSystem;
 import com.tenPines.model.FriendRelation;
 import com.tenPines.model.Worker;
 import com.tenPines.model.process.AssignmentFunction;
+import com.tenPines.model.process.RelationEstablisher;
 import com.tenPines.persistence.FriendRelationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class FriendRelationService {
 
     public FriendRelation create(Worker friendWorker, Worker birthdayWorker) {
 
-        return friendRelationRepository.save(new FriendRelation(friendWorker, birthdayWorker));
+        return friendRelationRepository.save(new RelationEstablisher(friendWorker, birthdayWorker).createRelation());
     }
 
     public void autoAssignRelations(){

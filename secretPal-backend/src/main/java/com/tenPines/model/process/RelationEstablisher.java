@@ -4,6 +4,8 @@ import com.tenPines.model.FriendRelation;
 import com.tenPines.model.Worker;
 
 import static com.tenPines.model.process.AssignmentException.Reason.CANT_SELF_ASSIGN;
+import static com.tenPines.model.process.AssignmentException.Reason.RECEIVER_NULL;
+import static com.tenPines.model.process.AssignmentException.Reason.GIVER_NULL;
 
 public class RelationEstablisher {
     private final Worker giftgiver;
@@ -15,11 +17,25 @@ public class RelationEstablisher {
     }
 
     public FriendRelation createRelation() {
+        assertReceiverIsNotNull(giftReciever);
+        assertGiverIsNotNull(giftgiver);
         checkIfWantToParticipate(giftgiver);
         checkIfWantToParticipate(giftReciever);
         checkIfNotTheSameParticipant(giftgiver, giftReciever);
 
         return relate();
+    }
+
+    public void assertReceiverIsNotNull(Worker giftReceiver) {
+        if(giftReceiver == null){
+            throw new AssignmentException(RECEIVER_NULL);
+        }
+    }
+
+    public void assertGiverIsNotNull(Worker giftGiver) {
+        if(giftGiver == null){
+            throw new AssignmentException(GIVER_NULL);
+        }
     }
 
     private FriendRelation relate() {

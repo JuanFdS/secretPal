@@ -27,7 +27,7 @@ public class AutoAssignationTest extends SpringBaseTest {
             friendRelationService.autoAssignRelations();
             fail("The exception was not raised");
         } catch (AssignmentException e) {
-            assertEquals(e.getReason(), AssignmentException.Reason.NOT_ENOUGH_QUORUM);
+            assertEquals(e.getReason(), AssignmentException.Reason.NOT_ENOUGH_QUORUM.toString());
             assertThat(friendRelationService.getAllRelations(), hasSize(0));
         }
     }
