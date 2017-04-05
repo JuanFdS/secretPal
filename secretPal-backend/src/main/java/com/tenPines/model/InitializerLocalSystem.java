@@ -1,6 +1,7 @@
 package com.tenPines.model;
 
 
+import com.tenPines.application.service.AdminService;
 import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.persistence.UserRepository;
@@ -14,10 +15,12 @@ public class InitializerLocalSystem {
     public User userKevin = User.newUser(kevin,"kevin","1234");
     private WorkerService workerService;
     private UserService userService;
+    private AdminService adminService;
 
-    public InitializerLocalSystem(WorkerService aWorkerService, UserService aUserService) {
+    public InitializerLocalSystem(WorkerService aWorkerService, UserService aUserService, AdminService adminService) {
         this.workerService = aWorkerService;
         this.userService = aUserService;
+        this.adminService = adminService;
         this.init();
     }
 
@@ -27,5 +30,6 @@ public class InitializerLocalSystem {
         workerService.save(aye);
         workerService.save(joaco);
         userService.save(userKevin);
+        adminService.save(userKevin);
     }
 }

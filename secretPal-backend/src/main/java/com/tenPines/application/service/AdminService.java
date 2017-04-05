@@ -13,6 +13,7 @@ public class AdminService {
     public AdminRepository adminRepository;
 
     public AdminService() {
+
     }
 
     public User save(User aUser) {
@@ -23,5 +24,9 @@ public class AdminService {
     public User getAdmin(){
         AdminProfile adminProfile = adminRepository.findAll().get(0);
         return adminProfile.user;
+    }
+
+    public boolean isAdmin(User user){
+       return this.getAdmin().getId().equals(user.getId());
     }
 }
