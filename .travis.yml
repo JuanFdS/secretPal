@@ -3,6 +3,7 @@ jdk:
   - oraclejdk8
 
 script: 
-  - "cd secretPal-backend"
-  - "mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dcobertura.skip=true -B -V"
+  - cd secretPal-backend
+    # in the future this should package up the application as well
+  - mvn clean test -Dmaven.javadoc.skip=true -B -V
 
