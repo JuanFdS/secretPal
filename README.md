@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/10Pines/10Pines-secretPal.svg)](https://travis-ci.org/10Pines/10Pines-secretPal)
+[![Build Status](https://travis-ci.org/10PinesLabs/secretPal.svg?branch=master)](https://travis-ci.org/10PinesLabs/secretPal)
 
 # 10Pines-secretPal
 Apprenticeship final excercise.
