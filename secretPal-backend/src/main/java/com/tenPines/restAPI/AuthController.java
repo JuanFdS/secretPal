@@ -3,6 +3,7 @@ package com.tenPines.restAPI;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nimbusds.jose.JOSEException;
 import com.tenPines.application.SystemPalFacade;
+import com.tenPines.application.service.AdminService;
 import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.auth.GoogleAuth;
@@ -39,6 +40,9 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
+    private AdminService adminService;
+
+    @Autowired
     private RegisterService registerService;
 
     @Autowired
@@ -47,7 +51,7 @@ public class AuthController {
     @RequestMapping(value = "/google", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Token> loginGoogle(@RequestBody Payload payload, final HttpServletRequest request) throws IOException, JOSEException {
-        Properties googleAuthProperties = new PropertyParser("src/main/resources/gmailAPIAuth.properties");
+        Properties googleAuthProperties = new PropertyParser("gmailAPIAuth.properties");
         GoogleAuth googleAuth = new GoogleAuth(googleAuthProperties, HttpClientBuilder.create().build());
         String access_token = googleAuth.authUserWithPayload(payload);
 
@@ -67,7 +71,7 @@ public class AuthController {
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     @ResponseBody
     public Worker getAdmin() throws IOException {
-        return workerService.retrieveWorkerByEmail(AdminProperties.getAdminEmail());
+        return workerService.retrieveWorkerByEmail(new AdminProperties().getAdminEmail(adminService));
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.POST)
@@ -76,8 +80,8 @@ public class AuthController {
                          @RequestBody Worker newAdmin) throws ParseException, IOException, JOSEException {
         User user = User.newUser(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)),"","");  //TODO: SOLUCIONAR
 
-        if( user.isAdmin() ){
-            AdminProperties.setAdmin(newAdmin);
+        if( adminService.isAdmin(user) ){
+            adminService.save(user);
         } else {
             throw new RuntimeException("This user is not an admin");
         }
@@ -87,7 +91,7 @@ public class AuthController {
     @ResponseBody
     public UserForFrontend retrieveLoggedWorker(@RequestHeader(value = "Authorization") String header) throws ParseException, JOSEException, IOException {
         User completeUser = userService.retrieveUserByUserName(header);
-        return new UserForFrontend(completeUser.getId(),completeUser.getWorker(),completeUser.getUserName(), completeUser.isAdmin());
+        return new UserForFrontend(completeUser.getId(),completeUser.getWorker(),completeUser.getUserName(), adminService.isAdmin(completeUser));
     }
 
     public static class Token {

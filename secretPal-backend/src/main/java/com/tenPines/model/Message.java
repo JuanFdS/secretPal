@@ -63,7 +63,7 @@ public class Message {
     private Session authenticatedSession() {
         Properties authProperties = new Properties();
         try {
-            authProperties = new PropertyParser("src/main/resources/gmail.properties");
+            authProperties = new PropertyParser("gmail.properties");
         } catch (IOException e) {
             authProperties.setProperty("auth.user", "default");
             authProperties.setProperty("auth.password", "default");

@@ -1,8 +1,10 @@
 package com.tenPines.model;
 
 
+import com.tenPines.application.service.AdminService;
 import com.tenPines.configuration.AdminProperties;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -67,8 +69,7 @@ public class User {
         return user;
     }
 
-
-    public boolean isAdmin() throws IOException {
-        return worker.geteMail().equals(AdminProperties.getAdminEmail());
+    public String geteMail(){
+        return worker.geteMail();
     }
 }

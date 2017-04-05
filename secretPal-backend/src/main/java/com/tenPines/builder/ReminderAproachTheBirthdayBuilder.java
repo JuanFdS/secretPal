@@ -16,7 +16,7 @@ public class ReminderAproachTheBirthdayBuilder extends ReminderBuilder {
 
     public ReminderAproachTheBirthdayBuilder() {
         try {
-            templateProperties = new PropertyParser("src/main/resources/mailTemplate.properties");
+            templateProperties = new PropertyParser("mailTemplate.properties");
         } catch (IOException e) {
 
         }

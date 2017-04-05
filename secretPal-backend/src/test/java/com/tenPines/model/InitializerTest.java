@@ -1,6 +1,7 @@
 package com.tenPines.model;
 
 
+import com.tenPines.application.service.AdminService;
 import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.configuration.AdminProperties;
@@ -23,20 +24,22 @@ public class InitializerTest extends SpringBaseTest {
     private WorkerService workerService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AdminService adminService;
 
 
     @Test
     public void when_i_initialize_the_system_the_list_of_workers_must_be_charged(){
-        InitializerLocalSystem initializerLocalSystem = new InitializerLocalSystem(workerService, userService);
+        InitializerLocalSystem initializerLocalSystem = new InitializerLocalSystem(workerService, userService, adminService);
 
         assertThat(workerService.getAllParticipants(), is(not(empty())));
     }
 
     @Test
     public void when_initialize_the_system_twice_the_list_of_workers_must_be_charged_once() throws IOException {
-        InitializerLocalSystem initializerLocalSystem = new InitializerLocalSystem(workerService, userService);
+        InitializerLocalSystem initializerLocalSystem = new InitializerLocalSystem(workerService, userService, adminService);
 
-        assertThat(workerService.retrieveWorkerByEmail(AdminProperties.getAdminEmail()), is(not(nullValue())));
+        assertThat(workerService.retrieveWorkerByEmail(new AdminProperties().getAdminEmail(adminService)), is(not(nullValue())));
     }
 
 }

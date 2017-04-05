@@ -1,6 +1,7 @@
 package com.tenPines.restAPI;
 
 import com.tenPines.application.SystemPalFacade;
+import com.tenPines.application.service.AdminService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.model.User;
 import com.tenPines.model.Worker;
@@ -24,6 +25,8 @@ public class WorkerController {
     private WorkerService workerService;
     @Autowired
     private SystemPalFacade systemFacade;
+    @Autowired
+    private AdminService adminService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
     @ResponseBody
@@ -42,7 +45,7 @@ public class WorkerController {
     @ResponseStatus(value = HttpStatus.OK)
     public void delete(@PathVariable Long id) throws IOException {
         User user = User.newUser(system.retrieveAWorker(id),"","");
-        if ( !user.isAdmin() ) {
+        if (adminService.isAdmin(user)) {
             system.deleteAWorker(user.getWorker());
         }
     }
