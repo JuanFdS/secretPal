@@ -41,7 +41,7 @@ public class RegisterService {
     public void registerUser(NewUser aNewUser) {
         validateIfUserNameHasBeenUsed(aNewUser.getUserName());
         validateIfExistAUserWithThisEmail(aNewUser.getEmail());
-        Worker worker = workerService.retrieveWorkerByEmail(aNewUser.getEmail());
+        Worker worker = workerService.retrieveWorkerByEmail(aNewUser.getEmail()).orElseThrow(() -> new RuntimeException(WorkerService.errorWhenDoNotExistAWorkerWithThisEmail()));
         User user = User.newUser(worker, aNewUser.getUserName(), aNewUser.getPassword());
         userService.save(user);
     }

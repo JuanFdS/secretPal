@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SystemPalFacade {
@@ -102,7 +103,7 @@ public class SystemPalFacade {
         wishlistService.deleteAWish(wish);
     }
 
-    public Worker retrieveWorkerByEmail(String email) {
+    public Optional<Worker> retrieveWorkerByEmail(String email) {
         return workerService.retrieveWorkerByEmail(email);
 
     }

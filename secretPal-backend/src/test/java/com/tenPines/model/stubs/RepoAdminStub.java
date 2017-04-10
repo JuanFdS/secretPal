@@ -2,6 +2,7 @@ package com.tenPines.model.stubs;
 
 import com.tenPines.model.AdminProfile;
 import com.tenPines.model.User;
+import com.tenPines.model.Worker;
 import com.tenPines.persistence.AdminRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -79,7 +80,7 @@ public class RepoAdminStub implements AdminRepository {
 
     @Override
     public void deleteAll() {
-
+        admins = new ArrayList<AdminProfile>();
     }
 
     @Override

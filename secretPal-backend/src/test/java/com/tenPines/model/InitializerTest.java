@@ -39,7 +39,7 @@ public class InitializerTest extends SpringBaseTest {
     public void when_initialize_the_system_twice_the_list_of_workers_must_be_charged_once() throws IOException {
         InitializerLocalSystem initializerLocalSystem = new InitializerLocalSystem(workerService, userService, adminService);
 
-        assertThat(workerService.retrieveWorkerByEmail(new AdminProperties().getAdminEmail(adminService)), is(not(nullValue())));
+        assertThat(new AdminProperties().findAdminWorker(adminService), is(not(nullValue())));
     }
 
 }

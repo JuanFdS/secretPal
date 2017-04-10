@@ -9,15 +9,13 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkerService {
 
     @Autowired
-    private WorkerRepository workerRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    public WorkerRepository workerRepository;
 
     public Worker save(Worker newWorker) {
         return workerRepository.save(newWorker);
@@ -38,10 +36,8 @@ public class WorkerService {
         workerRepository.deleteAll();
     }
 
-    public Worker retrieveWorkerByEmail(String email) {
-        return workerRepository.findByeMail(email).stream().findFirst().orElseThrow(
-                () -> new RuntimeException(errorWhenDoNotExistAWorkerWithThisEmail())
-        );
+    public Optional<Worker> retrieveWorkerByEmail(String email) {
+        return workerRepository.findByeMail(email).stream().findFirst();
     }
 
     public static String errorWhenDoNotExistAWorkerWithThisEmail() {
