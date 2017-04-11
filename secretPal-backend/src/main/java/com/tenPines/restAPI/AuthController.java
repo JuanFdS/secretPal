@@ -27,7 +27,7 @@ import java.time.LocalDate;
 import java.util.Properties;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired

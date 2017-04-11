@@ -19,9 +19,8 @@ module.exports = function (grunt) {
 
   // Configurable paths for the application
   var appConfig = {
-    app: require('./bower.json').appPath || 'app',
-    build: require('./bower.json').buildPath || 'target',
-    dist: this.build,
+    app: 'app',
+    dist: 'dist/public'
   };
 
   grunt.loadNpmTasks('grunt-karma');
@@ -82,11 +81,6 @@ module.exports = function (grunt) {
         context: '/api',
         host: 'localhost',
         port: 8080,
-        rewrite: {
-          // the key '^/api' is a regex for the path to be rewritten
-          // the value is the context of the data service
-          '^/api': ''
-        }
       }],
       livereload: {
         options: {
