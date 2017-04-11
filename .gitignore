@@ -8,7 +8,7 @@
 *.war
 *.ear
 
-/target/
+target
 .classpath
 .idea
 .settings

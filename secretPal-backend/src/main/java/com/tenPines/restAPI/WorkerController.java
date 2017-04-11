@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/worker")
+@RequestMapping("/api/worker")
 public class WorkerController {
 
     @Autowired
