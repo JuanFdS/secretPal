@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/friendRelation")
+@RequestMapping("/api/friendRelation")
 public class FriendRelationController {
 
 

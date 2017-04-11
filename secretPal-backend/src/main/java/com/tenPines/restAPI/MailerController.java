@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/mail")
+@RequestMapping("/api/mail")
 public class MailerController {
 
     @Autowired
