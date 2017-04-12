@@ -39,9 +39,7 @@ public class AdminService {
         return User.newUser(new Worker(),"","");
     }
 
-    public boolean isAdmin(User user){
-       if(!findAdminUser().isPresent())
-        {return false;}
-       return this.findAdminUser().get().getId().equals(user.getId());
+    public boolean isAdmin(User user) {
+        return findAdminUser().equals(Optional.of(user));
     }
 }
