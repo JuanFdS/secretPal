@@ -11,7 +11,9 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 @Entity
-@Table
+// This is necessary since 'user' in postgres is a keyword and hibernate
+// doesn't escape table names properly
+@Table(name="\"user\"")
 public class User {
 
     @Id
