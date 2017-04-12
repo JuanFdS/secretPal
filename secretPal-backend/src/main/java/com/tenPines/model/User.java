@@ -11,9 +11,11 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 @Entity
-// This is necessary since 'user' in postgres is a keyword and hibernate
-// doesn't escape table names properly
-@Table(name="\"user\"")
+// We use the name usuario instead of user since 'user' is a keyword and
+// jdbc doesn't quote table names and generates syntax error at runtime
+
+// http://stackoverflow.com/questions/9035971/error-syntax-error-at-or-near-user
+@Table(name="usuario")
 public class User {
 
     @Id
