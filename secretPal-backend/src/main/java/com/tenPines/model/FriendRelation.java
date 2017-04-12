@@ -5,6 +5,7 @@ import com.tenPines.builder.FriendRelationMessageBuilder;
 import javax.mail.MessagingException;
 import javax.persistence.*;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -20,14 +21,15 @@ public class FriendRelation {
     @OneToOne
     private Worker giftReceiver;
 
-//    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
-//    public SecretPalEvent event;
+    @OneToOne
+    private LocalDate creationDate;
 
     public FriendRelation(){}
 
-    public FriendRelation(Worker participant, Worker giftReceiver)  {
-        this.giftGiver = participant;
-        this.giftReceiver = giftReceiver;
+    public FriendRelation(Worker participant, Worker aGiftReceiver)  {
+        giftGiver = participant;
+        giftReceiver = aGiftReceiver;
+        creationDate = LocalDate.now();
     }
 
     public Long getId() {
@@ -38,20 +40,20 @@ public class FriendRelation {
         this.id = id;
     }
 
-//    public SecretPalEvent getEvent() {
-//        return event;
-//    }
-//
-//    public void setEvent(SecretPalEvent event) {
-//        this.event = event;
-//    }
-
     public Worker getGiftGiver() {
         return this.giftGiver;
     }
 
     public void setGiftGiver(Worker giftGiver) {
         this.giftGiver = giftGiver;
+    }
+
+    public void setCreationDate(LocalDate aDate) {
+        this.creationDate = aDate;
+    }
+
+    public LocalDate getCreationDate() {
+        return this.creationDate;
     }
 
     public Worker getGiftReceiver() {

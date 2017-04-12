@@ -2,13 +2,17 @@ package com.tenPines.application.service;
 
 import com.tenPines.application.ReminderSystem;
 import com.tenPines.model.FriendRelation;
+import com.tenPines.model.User;
 import com.tenPines.model.Worker;
 import com.tenPines.model.process.AssignmentFunction;
 import com.tenPines.model.process.RelationEstablisher;
 import com.tenPines.persistence.FriendRelationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FriendRelationService {
@@ -40,11 +44,10 @@ public class FriendRelationService {
         if (aRelation == null) {
             autoAssignRelations();
             aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
-
-        }
+            }
         return aRelation.getGiftGiver();
 
-    }
+        }
 
     public void deleteRelationByReceipt(Worker to) {
         FriendRelation relation = friendRelationRepository.findBygiftReceiver(to);
@@ -60,4 +63,13 @@ public class FriendRelationService {
     public void deleteAllRelations() {
         friendRelationRepository.deleteAllRelations();
     }
+
+    public FriendRelation getByWorkerReceiver(Worker receiver){
+        return friendRelationRepository.findBygiftReceiver(receiver);
+    }
+/*
+    public List<FriendRelation> shuffle(List<User> users) {
+       List<User> validUsers = users.stream().filter(u -> u.getWorker().getDateOfBirth().withYear(LocalDate.now().getYear()).isAfter(LocalDate.now())).collect(Collectors.toList());
+    }
+*/
 }
