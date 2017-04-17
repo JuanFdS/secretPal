@@ -4,37 +4,29 @@ import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.UserFactory;
 import com.tenPines.builder.WorkerBuilder;
-import com.tenPines.model.stubs.RepoAdminStub;
-import com.tenPines.model.stubs.RepoUsuariosStub;
-import com.tenPines.model.stubs.RepoWorkersStub;
-import org.junit.Before;
+import com.tenPines.integration.SpringBaseTest;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 
+public class AdminProfileServiceTest extends SpringBaseTest {
 
-public class AdminProfileServiceTest {
-
+    @Autowired
     private AdminService adminService;
+    @Autowired
     private UserService userService;
+    @Autowired
     private WorkerService workerService;
-
-    @Before
-    public void setUp() {
-        workerService = new WorkerService(new RepoWorkersStub());
-        adminService = new AdminService(workerService, new RepoAdminStub());
-        userService = new UserService(new RepoUsuariosStub());
-    }
 
     @Test
     public void whenISaveAnAdminItShouldBeSaved(){
-        User user = UserFactory.newUser();
-        workerService.save(new WorkerBuilder().withFullName("Test").withEmail("test@test.com").build());
-        userService.save(user);
+        Worker worker = workerService.save(new WorkerBuilder().withFullName("Tasty MacUserton").withEmail("test@test.com").build());
+        User user = userService.save(User.newUser(worker, "test", "123456789"));
 
-        adminService.save(userService.retrieveUserByUserName("Test"));
+        adminService.save(userService.retrieveUserByUserName(user.userName));
         assertThat(adminService.findAdminWorker().get(), is(instanceOf(Worker.class)));
     }
 
