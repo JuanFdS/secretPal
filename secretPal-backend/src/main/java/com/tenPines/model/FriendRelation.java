@@ -61,8 +61,4 @@ public class FriendRelation {
     public void setGiftReceiver(Worker giftReceiver) {
         this.giftReceiver = giftReceiver;
     }
-
-    public Message createMessage() throws IOException, MessagingException {
-        return new FriendRelationMessageBuilder().buildMessage(this);
-    }
 }

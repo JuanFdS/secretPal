@@ -5,7 +5,6 @@ import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.model.InitializerHerokuSystem;
 import com.tenPines.model.InitializerLocalSystem;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,14 +14,17 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class SecretPalConfig{
 
-    @Autowired
-    private WorkerService workerService;
+    private final WorkerService workerService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private AdminService adminService;
+    private final AdminService adminService;
+
+    public SecretPalConfig(WorkerService workerService, UserService userService, AdminService adminService) {
+        this.workerService = workerService;
+        this.userService = userService;
+        this.adminService = adminService;
+    }
 
     @Bean
     @Profile("local")

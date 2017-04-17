@@ -1,16 +1,10 @@
 package com.tenPines.application;
 
 import com.tenPines.application.clock.Clock;
-import com.tenPines.application.service.FriendRelationService;
-import com.tenPines.application.service.GiftDefaultService;
-import com.tenPines.application.service.WishlistService;
-import com.tenPines.application.service.WorkerService;
-import com.tenPines.model.*;
-import com.tenPines.restAPI.SecurityToken;
 import com.tenPines.application.service.*;
 import com.tenPines.mailer.UnsentMessage;
 import com.tenPines.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tenPines.restAPI.SecurityToken;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,29 +14,14 @@ import java.util.Optional;
 @Service
 public class SystemPalFacade {
 
-    @Autowired
-    FriendRelationService friendRelationService;
-
-    @Autowired
-    WorkerService workerService;
-
-    @Autowired
-    GiftDefaultService giftDefaultService;
-
-    @Autowired
-    WishlistService wishlistService;
-
-    @Autowired
-    SecurityGuard securityGuard;
-
-    @Autowired
-    RegisterService registerService;
-
-    @Autowired
-    MailerService mailerService;
-
+    private final FriendRelationService friendRelationService;
+    private final WorkerService workerService;
+    private final GiftDefaultService giftDefaultService;
+    private final WishlistService wishlistService;
+    private final SecurityGuard securityGuard;
+    private final RegisterService registerService;
+    private final MailerService mailerService;
     private Long reminderDayPeriod;
-
     private Clock clock;
 
     public Worker retrieveAssignedFriendFor(Long Idparticipant) {
@@ -55,9 +34,7 @@ public class SystemPalFacade {
     }
 
     public void deleteRelation(Long from, Long to) {
-
         friendRelationService.deleteRelationByReceipt(retrieveAWorker(to));
-
     }
 
     public List<DefaultGift> retrieveAllGiftsDefaults() {
@@ -107,8 +84,16 @@ public class SystemPalFacade {
         return workerService.retrieveWorkerByEmail(email);
 
     }
-    public SystemPalFacade() {
+
+    public SystemPalFacade(FriendRelationService friendRelationService, WorkerService workerService, GiftDefaultService giftDefaultService, WishlistService wishlistService, SecurityGuard securityGuard, RegisterService registerService, MailerService mailerService) {
         setReminderDayPeriod(7L);
+        this.friendRelationService = friendRelationService;
+        this.workerService = workerService;
+        this.giftDefaultService = giftDefaultService;
+        this.wishlistService = wishlistService;
+        this.securityGuard = securityGuard;
+        this.registerService = registerService;
+        this.mailerService = mailerService;
     }
 
     public Long getReminderDayPeriod() {
@@ -145,10 +130,10 @@ public class SystemPalFacade {
     }
 
     public void deleteAllRelations() {
-        friendRelationService.friendRelationRepository.deleteAllRelations();
+        friendRelationService.deleteAllRelations();
     }
 
-    public List<Worker> getPosibleFriendsTo(Long id) {
+    public List<Worker> getPossibleFriendsTo(Long id) {
         Worker workerTo = workerService.retriveWorker(id);
         return friendRelationService.getAvailablesRelationsTo(workerTo);
     }

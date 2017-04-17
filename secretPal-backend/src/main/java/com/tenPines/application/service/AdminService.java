@@ -4,21 +4,18 @@ import com.tenPines.model.AdminProfile;
 import com.tenPines.model.User;
 import com.tenPines.model.Worker;
 import com.tenPines.persistence.AdminRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class AdminService {
+    private final AdminRepository adminRepository;
+    private final WorkerService workerService;
 
-    @Autowired
-    public AdminRepository adminRepository;
-    @Autowired
-    public WorkerService workerService;
-
-    public AdminService() {
-
+    public AdminService(WorkerService workerService, AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
+        this.workerService = workerService;
     }
 
     public User save(User aUser) {

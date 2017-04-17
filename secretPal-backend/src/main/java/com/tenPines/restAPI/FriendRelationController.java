@@ -45,7 +45,7 @@ public class FriendRelationController {
     @RequestMapping(value = "/posibleFriend/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<Worker> posiblesFriends(@PathVariable Long id) {
-        return systemFacade.getPosibleFriendsTo(id);
+        return systemFacade.getPossibleFriendsTo(id);
 
 
     }

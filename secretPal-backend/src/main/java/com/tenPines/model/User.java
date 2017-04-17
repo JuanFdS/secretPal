@@ -1,14 +1,9 @@
 package com.tenPines.model;
 
 
-import com.tenPines.application.service.AdminService;
-import com.tenPines.configuration.AdminProperties;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.IOException;
 
 @Entity
 @Table

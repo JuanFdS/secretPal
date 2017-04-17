@@ -2,23 +2,17 @@ package com.tenPines.model;
 
 
 import com.tenPines.application.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class SecurityGuard implements Patova {
 
-    public UserService getUserService() {
-        return userService;
-    }
+    private final UserService userService;
 
-    public void setUserService(UserService userService) {
+    public SecurityGuard(UserService userService) {
         this.userService = userService;
     }
-
-    @Autowired
-    private UserService userService;
 
     @Override
     public String enterWith(Credential aCredential){
