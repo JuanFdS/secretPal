@@ -8,4 +8,9 @@ public class NotTheSameBirthdayRule implements ValidFriendRelationRule{
     public boolean evaluate(User giver, User receiver) {
         return !giver.getWorker().getDateOfBirth().equals(receiver.getWorker().getDateOfBirth());
     }
+
+    @Override
+    public boolean softRule() {
+        return true;
+    }
 }

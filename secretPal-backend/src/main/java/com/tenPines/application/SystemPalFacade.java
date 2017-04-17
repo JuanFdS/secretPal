@@ -4,13 +4,15 @@ import com.tenPines.application.clock.Clock;
 import com.tenPines.application.service.*;
 import com.tenPines.mailer.UnsentMessage;
 import com.tenPines.model.*;
+<<<<<<< 73cebffa6ac2e40f07f30c06da710ea7b1454d78
 import com.tenPines.restAPI.SecurityToken;
 import org.springframework.format.datetime.joda.JodaTimeContext;
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> Shuffleing a list of users
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -173,7 +175,7 @@ public class SystemPalFacade {
         registerService.registerUser(newUser);
     }
 
-    /*public List<FriendRelation> shuffle(List<User> users) {
+    public List<FriendRelation> shuffle(List<User> users){
         return friendRelationService.shuffle(users);
-    }*/
+    }
 }

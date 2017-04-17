@@ -14,4 +14,9 @@ public class NotCircularRelationRule implements ValidFriendRelationRule {
     public boolean evaluate(User giver, User receiver) {
         return (friendRelationService.getByWorkerReceiver(giver.getWorker()) == null || !friendRelationService.getByWorkerReceiver(giver.getWorker()).getGiftGiver().equals(receiver.getWorker()));
     }
+
+    @Override
+    public boolean softRule() {
+        return true;
+    }
 }

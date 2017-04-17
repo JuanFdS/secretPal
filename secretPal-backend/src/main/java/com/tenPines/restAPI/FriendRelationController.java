@@ -74,11 +74,11 @@ public class FriendRelationController {
         return systemFacade.retrieveAssignedFriendFor(id);
     }
 
-/*    @RequestMapping(value = "/shuffle", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/shuffle", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<FriendRelation> shuffle(@RequestBody @Valid List<User> users) {
         return systemFacade.shuffle(users);
-    }*/
+    }
 
 
 

@@ -7,4 +7,9 @@ public class NotTheSamePersonRule implements ValidFriendRelationRule{
     public boolean evaluate(User giver, User receiver) {
         return !giver.equals(receiver);
     }
+
+    @Override
+    public boolean softRule() {
+        return false;
+    }
 }

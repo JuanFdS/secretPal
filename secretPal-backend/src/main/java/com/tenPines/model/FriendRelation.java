@@ -1,9 +1,14 @@
 package com.tenPines.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tenPines.builder.FriendRelationMessageBuilder;
+import com.tenPines.configuration.JsonDateDeserializer;
+import com.tenPines.configuration.JsonDateSerializer;
 
 import javax.mail.MessagingException;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -21,7 +26,9 @@ public class FriendRelation {
     @OneToOne
     private Worker giftReceiver;
 
-    @OneToOne
+    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @NotNull
     private LocalDate creationDate;
 
     public FriendRelation(){}

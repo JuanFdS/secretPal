@@ -11,4 +11,9 @@ public class BirthdayIsNotTooCloseRule implements ValidFriendRelationRule {
         LocalDate thisDayOnTheReceiversYear = LocalDate.now().withYear(receiverDateOfBirth.getYear());
         return receiverDateOfBirth.plusWeeks(-2).isAfter(thisDayOnTheReceiversYear);
     }
+
+    @Override
+    public boolean softRule() {
+        return false;
+    }
 }

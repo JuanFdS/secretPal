@@ -17,6 +17,11 @@ public class NotTheSameReceiverOfLastYearRule implements ValidFriendRelationRule
     @Override
     public boolean evaluate(User giver, User receiver) {
         FriendRelation friendRelation = friendRelationService.getByWorkerReceiver(receiver.getWorker());
-        return friendRelation.getGiftGiver().equals(giver.getWorker()) && friendRelation.getCreationDate().getYear() < LocalDate.now().plusYears(-1).getYear();
+        return friendRelation != null && friendRelation.getGiftGiver().equals(giver.getWorker()) && friendRelation.getCreationDate().getYear() < LocalDate.now().plusYears(-1).getYear();
+    }
+
+    @Override
+    public boolean softRule() {
+        return true;
     }
 }
