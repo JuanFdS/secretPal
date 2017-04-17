@@ -3,5 +3,5 @@ jdk:
   - oraclejdk8
 
 script: 
-  - mvn clean test -Dmaven.javadoc.skip=true -V
+  - mvn clean test -Dmaven.javadoc.skip=true
 
