@@ -1,14 +1,9 @@
 package com.tenPines.model;
 
 
-import com.tenPines.application.service.AdminService;
-import com.tenPines.configuration.AdminProperties;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.IOException;
 
 @Entity
 // We use the name usuario instead of user since 'user' is a keyword and

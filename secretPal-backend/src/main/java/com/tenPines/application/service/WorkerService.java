@@ -1,23 +1,20 @@
 package com.tenPines.application.service;
 
-import com.tenPines.model.User;
 import com.tenPines.model.Worker;
-import com.tenPines.persistence.UserRepository;
 import com.tenPines.persistence.WorkerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkerService {
+    private final WorkerRepository workerRepository;
 
-    @Autowired
-    private WorkerRepository workerRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    public WorkerService(WorkerRepository workerRepository) {
+        this.workerRepository = workerRepository;
+    }
 
     public Worker save(Worker newWorker) {
         return workerRepository.save(newWorker);
@@ -38,10 +35,8 @@ public class WorkerService {
         workerRepository.deleteAll();
     }
 
-    public Worker retrieveWorkerByEmail(String email) {
-        return workerRepository.findByeMail(email).stream().findFirst().orElseThrow(
-                () -> new RuntimeException(errorWhenDoNotExistAWorkerWithThisEmail())
-        );
+    public Optional<Worker> retrieveWorkerByEmail(String email) {
+        return workerRepository.findByeMail(email).stream().findFirst();
     }
 
     public static String errorWhenDoNotExistAWorkerWithThisEmail() {

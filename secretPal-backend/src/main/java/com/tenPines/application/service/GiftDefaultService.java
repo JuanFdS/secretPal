@@ -2,7 +2,6 @@ package com.tenPines.application.service;
 
 import com.tenPines.model.DefaultGift;
 import com.tenPines.persistence.GiftDefaultRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +13,11 @@ import java.util.List;
 @Service
 public class GiftDefaultService {
 
-    @Autowired
-    GiftDefaultRepository repository;
+    private final GiftDefaultRepository repository;
+
+    public GiftDefaultService(GiftDefaultRepository repository) {
+        this.repository = repository;
+    }
 
     public List<DefaultGift> getAll() {
         return repository.findAll();

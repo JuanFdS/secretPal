@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.Properties;
 
 @Controller
@@ -60,7 +59,7 @@ public class AuthController {
 
     private ResponseEntity<Token> validateWorker(HttpServletRequest request, String workerEmail) throws JOSEException {
         try{
-            Worker aUser = system.retrieveWorkerByEmail(workerEmail);
+            Worker aUser = system.retrieveWorkerByEmail(workerEmail).orElseThrow(() -> new RuntimeException(WorkerService.errorWhenDoNotExistAWorkerWithThisEmail()));
             Token token = AuthUtils.createToken(request.getRemoteHost(), aUser.geteMail());
             return new ResponseEntity<>(token, HttpStatus.OK);
         } catch (RuntimeException e){
@@ -70,15 +69,15 @@ public class AuthController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     @ResponseBody
-    public Worker getAdmin() throws IOException {
-        return workerService.retrieveWorkerByEmail(new AdminProperties().getAdminEmail(adminService));
+    public Worker getAdmin() {
+        return new AdminProperties().findAdminWorker(adminService).orElseThrow(() -> new RuntimeException("No existe un administrador paa este sistema"));
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.POST)
     @ResponseBody
     public void setAdmin(@RequestHeader(value = "Authorization") String header,
                          @RequestBody Worker newAdmin) throws ParseException, IOException, JOSEException {
-        User user = User.newUser(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)),"","");  //TODO: SOLUCIONAR
+        User user = User.newUser(system.retrieveWorkerByEmail(AuthUtils.tokenSubject(header)).get(),"","");  //TODO: SOLUCIONAR
 
         if( adminService.isAdmin(user) ){
             adminService.save(user);

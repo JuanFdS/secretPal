@@ -3,8 +3,6 @@ package com.tenPines.application.service;
 import com.tenPines.model.Wish;
 import com.tenPines.model.Worker;
 import com.tenPines.persistence.WishlistRepository;
-import com.tenPines.restAPI.AuthController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +14,11 @@ import java.util.List;
 @Service
 public class WishlistService {
 
-    @Autowired
-    WishlistRepository wishRepository;
+    private final WishlistRepository wishRepository;
 
+    public WishlistService(WishlistRepository wishRepository) {
+        this.wishRepository = wishRepository;
+    }
 
 
     public List<Wish> retrieveAllWishes() {

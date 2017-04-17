@@ -3,7 +3,6 @@ package com.tenPines.mailer;
 import com.tenPines.model.Message;
 import com.tenPines.persistence.FailedMailsRepository;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +13,13 @@ public class FailProofPostOffice implements PostOffice {
 
     private static Logger logger = Logger.getLogger("service");
 
-    @Autowired
     private PostMan postMan;
-    @Autowired
-    private FailedMailsRepository failedMails;
+    private final FailedMailsRepository failedMails;
+
+    public FailProofPostOffice(PostMan postMan, FailedMailsRepository failedMails) {
+        this.postMan = postMan;
+        this.failedMails = failedMails;
+    }
 
     @Override
     public void sendMessage(Message message) {
@@ -41,7 +43,6 @@ public class FailProofPostOffice implements PostOffice {
 
     @Scheduled(fixedDelay = 86400000) //86400000 = 1 dia
     public void resendFailedMessages() {
-        logger.info("Resending failed mails");
         failedMails.findAll().stream().forEach(
                 (unSentMessage) -> {
                     failedMails.delete(unSentMessage);

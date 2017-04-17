@@ -3,43 +3,35 @@ import com.tenPines.application.service.AdminService;
 import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
 import com.tenPines.builder.UserFactory;
+import com.tenPines.builder.WorkerBuilder;
 import com.tenPines.integration.SpringBaseTest;
-import com.tenPines.model.stubs.RepoAdminStub;
-import com.tenPines.model.stubs.RepoUsuariosStub;
-import com.tenPines.persistence.UserRepository;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
-import javax.persistence.EntityManagerFactory;
-import java.util.List;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
-import static org.junit.Assert.*;
 
-public class AdminProfileServiceTest {
+public class AdminProfileServiceTest extends SpringBaseTest {
 
+    @Autowired
     private AdminService adminService;
+    @Autowired
     private UserService userService;
-
-    @Before
-    public void setUp() {
-        userService = new UserService();
-        adminService = new AdminService();
-        User user = UserFactory.newUser();
-        userService.userRepository = new RepoUsuariosStub();
-        adminService.adminRepository = new RepoAdminStub();
-        userService.save(user);
-    }
+    @Autowired
+    private WorkerService workerService;
 
     @Test
     public void whenISaveAnAdminItShouldBeSaved(){
-        adminService.save(userService.retrieveUserByUserName("Test"));
+        Worker worker = workerService.save(new WorkerBuilder().withFullName("Tasty MacUserton").withEmail("test@test.com").build());
+        User user = userService.save(User.newUser(worker, "test", "123456789"));
 
-        assertNotNull(adminService.getAdmin());
+        adminService.save(userService.retrieveUserByUserName(user.userName));
+        assertThat(adminService.findAdminWorker().get(), is(instanceOf(Worker.class)));
+    }
+
+    @Test
+    public void whenIDoNotSaveAnAdminItShouldNotBeSaved(){
+        assertThat(adminService.findAdminWorker().isPresent(), is(false) );
     }
 }

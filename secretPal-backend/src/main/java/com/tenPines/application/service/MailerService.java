@@ -6,8 +6,6 @@ import com.tenPines.mailer.UnsentMessage;
 import com.tenPines.model.EmailTemplate;
 import com.tenPines.persistence.EmailTemplateRepository;
 import com.tenPines.persistence.FailedMailsRepository;
-import org.hibernate.validator.constraints.Email;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,18 +14,21 @@ import java.util.List;
 @Service
 public class MailerService {
 
-    @Autowired
-    private FailedMailsRepository failedMailsRepository;
+    private final FailedMailsRepository failedMailsRepository;
 
-    @Autowired
-    private EmailTemplateRepository emailTemplateRepository;
+    private final EmailTemplateRepository emailTemplateRepository;
 
-    @Autowired
-    private PostOffice postOffice;
+    private final PostOffice postOffice;
+
+    public MailerService(FailedMailsRepository failedMailsRepository, EmailTemplateRepository emailTemplateRepository, PostOffice postOffice) {
+        this.failedMailsRepository = failedMailsRepository;
+        this.emailTemplateRepository = emailTemplateRepository;
+        this.postOffice = postOffice;
+    }
 
     public EmailTemplate getEMailTemplate() throws IOException {
         EmailTemplate emailTemplate = new EmailTemplate();
-        if(!emailTemplateRepository.findAll().isEmpty())
+        if (!emailTemplateRepository.findAll().isEmpty())
             emailTemplate = emailTemplateRepository.findAll().get(0);
         return emailTemplate;
 
@@ -50,11 +51,11 @@ public class MailerService {
         emailTemplateRepository.save(emailActual);
     }
 
-    public List<UnsentMessage> retrieveAllFailedMails(){
+    public List<UnsentMessage> retrieveAllFailedMails() {
         return failedMailsRepository.findAll();
     }
 
-    public void resendMessageFailure(UnsentMessage unsentMessage){
+    public void resendMessageFailure(UnsentMessage unsentMessage) {
         failedMailsRepository.delete(unsentMessage.getId());
         postOffice.sendMessage(unsentMessage.toMessage());
 

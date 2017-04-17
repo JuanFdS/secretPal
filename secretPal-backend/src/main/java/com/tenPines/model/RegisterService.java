@@ -3,7 +3,6 @@ package com.tenPines.model;
 
 import com.tenPines.application.service.UserService;
 import com.tenPines.application.service.WorkerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,37 +10,18 @@ import java.util.stream.Stream;
 
 @Service
 public class RegisterService {
+    private WorkerService workerService;
+    private UserService userService;
 
-    public RegisterService() {
-    }
-
-    @Autowired
-    WorkerService workerService;
-
-    @Autowired
-    UserService userService;
-
-    public WorkerService getWorkerService() {
-        return workerService;
-    }
-
-    public void setWorkerService(WorkerService workerService) {
+    public RegisterService(WorkerService workerService, UserService userService) {
         this.workerService = workerService;
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
         this.userService = userService;
     }
-
 
     public void registerUser(NewUser aNewUser) {
         validateIfUserNameHasBeenUsed(aNewUser.getUserName());
         validateIfExistAUserWithThisEmail(aNewUser.getEmail());
-        Worker worker = workerService.retrieveWorkerByEmail(aNewUser.getEmail());
+        Worker worker = workerService.retrieveWorkerByEmail(aNewUser.getEmail()).orElseThrow(() -> new RuntimeException(WorkerService.errorWhenDoNotExistAWorkerWithThisEmail()));
         User user = User.newUser(worker, aNewUser.getUserName(), aNewUser.getPassword());
         userService.save(user);
     }
