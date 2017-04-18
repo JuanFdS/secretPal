@@ -8,23 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 
-/**
- * Created by tenpines on 04/04/17.
- */
 public class UserFactory {
-    public static UserRepository userRepository;
-    public static WorkerRepository workerRepository;
 
-    public static void setRepositories(UserRepository usersRepo, WorkerRepository workersRepo){
-        userRepository = usersRepo;
-        workerRepository = workersRepo;
+    public UserRepository userRepository;
+    public WorkerRepository workerRepository;
+
+    public UserFactory(UserRepository userRepo, WorkerRepository workerRepo){
+        userRepository = userRepo;
+        workerRepository = workerRepo;
     }
 
-    public static User newUser(){
+    public User createUser(){
         Worker worker = new WorkerBuilder().withFullName("Test").withEmail("test@test.com").withBirthDayDate(LocalDate.now().withYear(1999)).build();
         workerRepository.save(worker);
         User user = User.newUser(worker, "Test", "111");
-        userRepository.save(user);
+        user = userRepository.save(user);
         return user;
+    }
+
+    public static User newUserFromWorker(Worker w){
+        return User.newUser(w, w.getFullName(), "1234");
     }
 }

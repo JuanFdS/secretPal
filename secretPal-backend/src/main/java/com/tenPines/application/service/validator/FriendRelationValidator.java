@@ -2,7 +2,6 @@ package com.tenPines.application.service.validator;
 
 import com.tenPines.application.service.FriendRelationService;
 import com.tenPines.application.service.validator.rule.*;
-import com.tenPines.model.FriendRelation;
 import com.tenPines.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,33 +22,31 @@ public class FriendRelationValidator {
         rules.add(new NotCircularRelationRule(friendRelationService));
         rules.add(new NotTheSameBirthdayRule());
         rules.add(new BirthdayIsNotTooCloseRule());
-        rules.add(new NotTheSameReceiverOfLastYearRule(friendRelationService));
+        rules.add(new NotPreviousToTheLastYearRule(friendRelationService));
     }
 
     public boolean validate(User giver, User receiver) {
         return rules.stream().allMatch(r -> r.evaluate(giver,receiver));
     }
 
-    public List<Boolean> validateAll(List<User> validUsers){
-        List<Boolean> results = new ArrayList();
-        for (int i = 0; i < validUsers.size(); i++) {
-            boolean result = new FriendRelationValidator(friendRelationService).validate(validUsers.get(i), validUsers.get((i + 1) % validUsers.size()));
-            results.add(result);
-        }
-        return results;
+    public boolean validateAll(List<User> validUsers){
+        return validUsers.stream().allMatch(u -> validate(u, getNextUser(validUsers, u)));
     }
 
-    public List<Boolean> validateHardRules(List<User> validUsers){
-        List<Boolean> results = new ArrayList();
-        for (int i = 0; i < validUsers.size(); i++) {
-            boolean result = new FriendRelationValidator(friendRelationService).deleteSoftRules().validate(validUsers.get(i), validUsers.get((i + 1) % validUsers.size()));
-            results.add(result);
-        }
-        return results;
+    private User getNextUser(List<User> validUsers, User u) {
+        return validUsers.get(getIndexOfNextUser(validUsers, u));
     }
 
-    public FriendRelationValidator deleteSoftRules(){
+    private int getIndexOfNextUser(List<User> validUsers, User u) {
+        return (validUsers.indexOf(u)+1) % validUsers.size();
+    }
+
+    public boolean validateHardRules(List<User> validUsers){
+        deleteSoftRules();
+        return validateAll(validUsers);
+    }
+
+    public void deleteSoftRules(){
         rules = this.rules.stream().filter(r -> !r.softRule()).collect(Collectors.toList());
-        return this;
     }
 }

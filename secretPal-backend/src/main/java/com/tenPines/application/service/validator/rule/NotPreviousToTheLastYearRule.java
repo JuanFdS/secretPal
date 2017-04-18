@@ -6,18 +6,18 @@ import com.tenPines.model.User;
 
 import java.time.LocalDate;
 
-public class NotTheSameReceiverOfLastYearRule implements ValidFriendRelationRule {
+public class NotPreviousToTheLastYearRule implements ValidFriendRelationRule {
 
     public FriendRelationService friendRelationService;
 
-    public NotTheSameReceiverOfLastYearRule(FriendRelationService friendRelationSv){
+    public NotPreviousToTheLastYearRule(FriendRelationService friendRelationSv){
         friendRelationService = friendRelationSv;
     }
 
     @Override
     public boolean evaluate(User giver, User receiver) {
         FriendRelation friendRelation = friendRelationService.getByWorkerReceiver(receiver.getWorker());
-        return friendRelation != null && friendRelation.getGiftGiver().equals(giver.getWorker()) && friendRelation.getCreationDate().getYear() < LocalDate.now().plusYears(-1).getYear();
+        return friendRelation == null || (friendRelation.getGiftGiver().equals(giver.getWorker()) && friendRelation.getCreationDate().getYear() < LocalDate.now().plusYears(-1).getYear());
     }
 
     @Override

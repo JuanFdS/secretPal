@@ -35,23 +35,12 @@ public class FriendRelationService {
         return friendRelationRepository.save(new RelationEstablisher(friendWorker, birthdayWorker).createRelation());
     }
 
-    public void autoAssignRelations() {
-        friendRelationRepository.save(
-                new AssignmentFunction(workerService.getAllParticipants()).execute()
-        );
-    }
-
-
     public List<FriendRelation> getAllRelations() {
         return friendRelationRepository.findAll();
     }
 
     public Worker retrieveAssignedFriendFor(Worker unWorker) {
         FriendRelation aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
-        if (aRelation == null) {
-            autoAssignRelations();
-            aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
-            }
         return aRelation.getGiftGiver();
 
         }
@@ -71,6 +60,10 @@ public class FriendRelationService {
         friendRelationRepository.deleteAllRelations();
     }
 
+    public void save(FriendRelation fr){
+        friendRelationRepository.save(fr);
+    }
+
     public FriendRelation getByWorkerReceiver(Worker receiver){
         return friendRelationRepository.findBygiftReceiver(receiver);
     }
@@ -79,21 +72,18 @@ public class FriendRelationService {
         List<User> validUsers = users.stream().filter(u -> u.getWorker().getDateOfBirth().withYear(LocalDate.now().getYear()).isAfter(LocalDate.now())).collect(Collectors.toList());
         for(int i=0;i<100;i++){
             FriendRelationValidator friendRelationValidator = new FriendRelationValidator(this);
-            if(friendRelationValidator.validateAll(validUsers).stream().allMatch(b -> b)){
-                return new AssignmentFunction(validUsers.stream()
-                        .map(u->u.getWorker())
-                        .collect(Collectors.toList())).execute();
+            if(friendRelationValidator.validateAll(validUsers)){
+                return new AssignmentFunction(validUsers).execute();
             }
             Collections.shuffle(validUsers, new Random(System.nanoTime()));
         }
 
         for(int i=0;i<100;i++){
             FriendRelationValidator friendRelationValidator = new FriendRelationValidator(this);
-            if(friendRelationValidator.validateHardRules(validUsers).stream().allMatch(b -> b)){
-                return new AssignmentFunction(validUsers.stream()
-                        .map(u->u.getWorker())
-                        .collect(Collectors.toList())).execute();
+            if(friendRelationValidator.validateHardRules(validUsers)){
+                return new AssignmentFunction(validUsers).execute();
             }
+            Collections.shuffle(validUsers, new Random(System.nanoTime()));
         }
         throw new RuntimeException("Cannot shuffle those users");
     }

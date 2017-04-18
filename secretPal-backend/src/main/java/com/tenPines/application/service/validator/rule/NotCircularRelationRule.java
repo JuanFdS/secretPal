@@ -12,7 +12,7 @@ public class NotCircularRelationRule implements ValidFriendRelationRule {
 
     @Override
     public boolean evaluate(User giver, User receiver) {
-        return (friendRelationService.getByWorkerReceiver(giver.getWorker()) == null || !friendRelationService.getByWorkerReceiver(giver.getWorker()).getGiftGiver().equals(receiver.getWorker()));
+        return friendRelationService.getByWorkerReceiver(giver.getWorker()) == null || !friendRelationService.getByWorkerReceiver(giver.getWorker()).getGiftGiver().equals(receiver.getWorker());
     }
 
     @Override
