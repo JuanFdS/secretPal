@@ -2,7 +2,6 @@ package com.tenPines.mailer;
 
 import com.tenPines.model.Message;
 import com.tenPines.persistence.FailedMailsRepository;
-import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +9,6 @@ import java.util.List;
 
 @Service
 public class FailProofPostOffice implements PostOffice {
-
-    private static Logger logger = Logger.getLogger("service");
 
     private PostMan postMan;
     private final FailedMailsRepository failedMails;

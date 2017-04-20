@@ -27,7 +27,7 @@ public class UnsentMessage{
 
     private String error;
 
-    public UnsentMessage() { }
+    private UnsentMessage() { }
 
     static UnsentMessage create(Message message, UnableToSendMessage error) {
         UnsentMessage instance = new UnsentMessage();
@@ -74,6 +74,6 @@ public class UnsentMessage{
     }
 
     public Message toMessage() {
-        return Message.create(getRecipient(), getSubject(), getBody());
+        return new Message(getRecipient(), getSubject(), getBody());
     }
 }
