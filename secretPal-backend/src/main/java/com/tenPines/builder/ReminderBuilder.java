@@ -12,13 +12,12 @@ import java.io.IOException;
 public abstract class ReminderBuilder {
 
 
-
     public Message buildMessage(FriendRelation aFriendRelation) throws IOException {
-        Message message = new Message();
-        message.setRecipient(aFriendRelation.getGiftGiver().geteMail());
-        message.setSubject(assignationSubject());
-        message.setBody(assignationBodyText(aFriendRelation.getGiftReceiver()));
-        return message;
+        return new Message(
+                aFriendRelation.getGiftGiver().geteMail(),
+                assignationSubject(),
+                assignationBodyText(aFriendRelation.getGiftReceiver())
+        );
     }
 
 

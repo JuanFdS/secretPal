@@ -24,15 +24,15 @@ public class HappyBithdayMessageBuilder {
         return "Feliz cumpleaños " + birthdayWorker.getFullName();
     }
 
-    private String assignationBodyText(){
+    private String assignationBodyText() {
         return "Feliz cumpleaños y que seas muy feliz!";
     }
 
     public Message buildMesage(Worker birthdaysWorker) {
-        Message message = new Message();
-        message.setRecipient(templateProperties.getProperty("receipt"));
-        message.setSubject(assignationSubject(birthdaysWorker));
-        message.setBody(assignationBodyText());
-        return message;
+        return new Message(
+                templateProperties.getProperty("receipt"),
+                assignationSubject(birthdaysWorker),
+                assignationBodyText()
+        );
     }
 }
