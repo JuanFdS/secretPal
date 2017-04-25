@@ -1,7 +1,6 @@
 package com.tenPines.mailer;
 
 import com.tenPines.model.Message;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

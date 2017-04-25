@@ -25,8 +25,8 @@ public class WorkerService {
     }
 
     public List<Worker> getAllParticipants() {
-        Specification<Worker> spec = Specifications.where((root, query, cb) ->
-            cb.isTrue(root.get("wantsToParticipate"))
+        Specification<Worker> spec = Specifications.where((model, criteriaQuery, criteriaBuilder) ->
+            criteriaBuilder.isTrue(model.get("wantsToParticipate"))
         );
         return workerRepository.findAll(spec);
     }

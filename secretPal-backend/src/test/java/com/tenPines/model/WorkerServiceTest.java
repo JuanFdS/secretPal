@@ -7,9 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.ConstraintViolationException;
-import java.util.Arrays;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -21,7 +18,7 @@ public class WorkerServiceTest extends SpringBaseTest{
     private WorkerService workerService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         aWorker = new WorkerBuilder().build();
     }
 
@@ -42,9 +39,7 @@ public class WorkerServiceTest extends SpringBaseTest{
 
         assertThat(workerService.getAllParticipants(),
                 hasItems(aWorker, anotherWorker));
-
     }
-
 
     @Test
     public void When_I_Delete_An_Existing_Person_It_Should_Be_No_More() {

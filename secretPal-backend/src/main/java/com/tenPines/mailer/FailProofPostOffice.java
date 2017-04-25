@@ -29,11 +29,6 @@ public class FailProofPostOffice implements PostOffice {
     }
 
     @Override
-    public void changePostMan(PostMan postMan){
-        this.postMan = postMan;
-    }
-
-    @Override
     public List<UnsentMessage> getFailedMessages() {
         return failedMails.findAll();
     }
