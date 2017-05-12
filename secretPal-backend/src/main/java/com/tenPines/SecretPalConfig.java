@@ -27,12 +27,6 @@ public class SecretPalConfig{
     }
 
     @Bean
-    @Profile("local")
-    public InitializerLocalSystem initializeLocal(){
-        return new InitializerLocalSystem(workerService, userService, adminService);
-    }
-
-    @Bean
     @Profile("heroku")
     public InitializerHerokuSystem initializeHeroku(){
         return new InitializerHerokuSystem(workerService);
