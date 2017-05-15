@@ -12,16 +12,16 @@ import java.io.IOException;
 public abstract class ReminderBuilder {
 
 
-    public Message buildMessage(FriendRelation aFriendRelation) throws IOException {
+    public Message buildMessage(FriendRelation aFriendRelation) {
         return new Message(
-                aFriendRelation.getGiftGiver().geteMail(),
+                aFriendRelation.getGiftGiver().getMail(),
                 assignationSubject(),
                 assignationBodyText(aFriendRelation.getGiftReceiver())
         );
     }
 
 
-    protected abstract String assignationSubject() throws IOException;
+    protected abstract String assignationSubject();
 
-    protected abstract String assignationBodyText(Worker birthdayWorker) throws IOException;
+    protected abstract String assignationBodyText(Worker birthdayWorker);
 }

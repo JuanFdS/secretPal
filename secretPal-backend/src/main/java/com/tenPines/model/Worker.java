@@ -11,124 +11,78 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table
 public class Worker {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "worker")
-    @JsonIgnore
-    public Set<Wish> wish;
     @Id
     @GeneratedValue
     private Long id;
     @NotEmpty
     private String fullName;
     @NotEmpty
-    @Email
-    private String eMail;
-    @JsonSerialize(using = JsonDateSerializer.class)
-    @JsonDeserialize(using = JsonDateDeserializer.class)
-    @NotNull
-    private LocalDate dateOfBirth;
+    @Email private String mail;
+
+    @NotNull private LocalDate birthday;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "worker")
+    public Set<Wish> wish;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "giftReceiver")
+    public List<FriendRelation> receiverRelations;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "giftGiver")
+    public List<FriendRelation> giverRelations;
+
     @NotNull
     private Boolean wantsToParticipate;
-    @JsonSerialize(using = JsonDateSerializer.class)
-    @JsonDeserialize(using = JsonDateDeserializer.class)
-    @Column
-    private LocalDate giftDateReceived;
 
     // Necessary for hibernate
     private Worker() { }
 
-    public Worker(String fullName, String email, LocalDate dateOfBirth, Boolean wantsToParticipate) {
+    public Worker(String fullName, String email, LocalDate birthday, Boolean wantsToParticipate) {
         this.fullName = fullName;
-        this.eMail = email;
-        this.dateOfBirth = dateOfBirth;
+        this.mail = email;
+        this.birthday = birthday;
         this.wantsToParticipate = wantsToParticipate;
+        this.receiverRelations = new ArrayList<>();
+        this.giverRelations = new ArrayList<>();
     }
 
-    public Set<Wish> getWish() {
-        return wish;
-    }
-
-    public void setWish(Set<Wish> wish) {
-        this.wish = wish;
+    public void changeParticipationIntention() {
+        this.wantsToParticipate = ! wantsToParticipate;
     }
 
     public Long getId() {
         return id;
     }
 
-    /* @ManyToMany(mappedBy="friendRelations")
-    private Set<SecretPalEvent> secretPalEvents = new HashSet<>();*/
-
-    public void setId(Long id) {
-        this.id = id;
+    public String getMail() {
+        return mail;
     }
 
     public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public LocalDate getBirthday() {
+        return birthday;
     }
 
-    public void changeParticipationIntention() {
-        setWantsToParticipate(!wantsToParticipate);
-    }
-
-    public boolean getWantsToParticipate() { return this.wantsToParticipate;}
-
-    public void setWantsToParticipate(Boolean wantsToParticipate) {
-        this.wantsToParticipate = wantsToParticipate;
-    }
-
-    public String geteMail() {
-        return eMail;
-    }
-
-    public void seteMail(String eMail) throws Exception {
-        this.eMail = eMail;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public LocalDate getGiftDateReceived() {
-        return giftDateReceived;
-    }
-
-    public void setGiftDateReceived(LocalDate giftDateReceived) {
-        this.giftDateReceived = giftDateReceived;
-    }
-
-    public void setDateOfBirth(LocalDate birthdayDate) {
-        this.dateOfBirth = birthdayDate;
-    }
-
-    private void checkIfFieldIsValidUponCondition(Boolean condition, String message) throws Exception {
-        if (condition) throw new Exception(message);
+    public Boolean getWantsToParticipate() {
+        return wantsToParticipate;
     }
 
     @Override
-    public boolean equals(Object anObject) {
-        if (this == anObject) return true;
-
-        if (!(anObject instanceof Worker)) return false;
-        Worker otherWorker = (Worker) anObject;
-
-        return
-                this.getFullName().equals(otherWorker.getFullName()) &&
-                        this.geteMail().equals(otherWorker.geteMail()) &&
-                        this.getDateOfBirth().equals(otherWorker.getDateOfBirth());
+    public String toString() {
+        return this.getClass().getTypeName() + ": " + this.fullName + " (" + this.birthday + ")";
     }
 
-    public void markGiftAsReceived() {
-        setGiftDateReceived(LocalDate.now());
+    public List<FriendRelation> getReceiverRelations() {
+        return receiverRelations;
     }
-
 }

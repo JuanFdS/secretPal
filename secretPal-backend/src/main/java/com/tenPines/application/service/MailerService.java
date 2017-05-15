@@ -26,7 +26,7 @@ public class MailerService {
         this.postOffice = postOffice;
     }
 
-    public EmailTemplate getEMailTemplate() throws IOException {
+    public EmailTemplate getEMailTemplate() {
         EmailTemplate emailTemplate = new EmailTemplate();
         if (!emailTemplateRepository.findAll().isEmpty())
             emailTemplate = emailTemplateRepository.findAll().get(0);

@@ -36,24 +36,17 @@ public class ScheduleMailerTest extends SpringBaseTest {
     private Worker friendWorker;
     private Worker birthdayWorker;
 
-    private void setUp(LocalDate today, LocalDate birthday) {
-        clock.setTime(today);
-
-        friendWorker = workerService.save(new WorkerBuilder().build());
-        birthdayWorker = workerService.save(new WorkerBuilder().withBirthDayDate(birthday).build());
-
-        friendRelationService.create(friendWorker, birthdayWorker);
-    }
-
     @Test
     public void When_A_Worker_Has_A_Friends_Birthday_A_Week_From_Now_The_System_Should_Mail_Him(){
-        setUp(LocalDate.of(2000, Month.APRIL, 3), LocalDate.of(2000, Month.APRIL, 10));
+        clock.setTime(LocalDate.of(2015, Month.AUGUST, 10));
 
-        reminderSystem.sendRemindersTheLastBirthday();
+        friendWorker = workerService.save(new WorkerBuilder().build());
+        birthdayWorker = workerService.save(new WorkerBuilder().withBirthDayDate(LocalDate.of(1994, Month.SEPTEMBER, 10)).build());
 
-        assertThat(postMan.messagesTo(friendWorker.geteMail()), not(empty()));
-        assertThat(postMan.messagesTo(friendWorker.geteMail()), hasSize(1));
-        assertThat(postMan.messagesTo(friendWorker.geteMail()), contains(hasProperty("body",
+        reminderSystem.findNewBirthdaysAndAssignThem();
+
+        assertThat(postMan.messagesTo(friendWorker.getMail()), hasSize(1));
+        assertThat(postMan.messagesTo(friendWorker.getMail()), contains(hasProperty("body",
                 allOf(
                         containsString(birthdayWorker.getFullName())
                         ))));
@@ -61,10 +54,13 @@ public class ScheduleMailerTest extends SpringBaseTest {
 
     @Test
     public void When_A_Worker_Has_A_Friends_Birthday_After_Today_No_Mail_Should_be_Sent() {
-        setUp(LocalDate.of(2000, Month.APRIL, 9), LocalDate.of(1900, Month.JANUARY, 10));
+        clock.setTime(LocalDate.of(2000, Month.APRIL, 9));
 
-        reminderSystem.sendRemindersTheLastBirthday();
+        friendWorker = workerService.save(new WorkerBuilder().build());
+        birthdayWorker = workerService.save(new WorkerBuilder().withBirthDayDate(LocalDate.of(1900, Month.JANUARY, 10)).build());
 
-        assertThat(postMan.messagesTo(friendWorker.geteMail()), empty());
+        reminderSystem.findNewBirthdaysAndAssignThem();
+
+        assertThat(postMan.messagesTo(friendWorker.getMail()), empty());
     }
 }

@@ -5,6 +5,7 @@ import com.tenPines.builder.FriendRelationMessageBuilder;
 import javax.mail.MessagingException;
 import javax.persistence.*;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -20,45 +21,36 @@ public class FriendRelation {
     @OneToOne
     private Worker giftReceiver;
 
-//    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH})
-//    public SecretPalEvent event;
+    @Column
+    private LocalDate scheduledDate;
 
-    public FriendRelation(){}
+    @Column
+    private Boolean wasFulfilled;
 
-    public FriendRelation(Worker participant, Worker giftReceiver)  {
-        this.giftGiver = participant;
+    private FriendRelation(){}
+
+    public FriendRelation(Worker giftGiver, Worker giftReceiver, int currentYear)  {
+        ensureGiverAndReceiverAreNotTheSame(giftGiver, giftReceiver);
+        this.giftGiver = giftGiver;
         this.giftReceiver = giftReceiver;
+        this.scheduledDate = this.giftReceiver.getBirthday().withYear(currentYear);
+        this.wasFulfilled = false;
     }
 
-    public Long getId() {
-        return id;
+    private void ensureGiverAndReceiverAreNotTheSame(Worker giftGiver, Worker giftReceiver) {
+        if(giftGiver.equals(giftReceiver))
+            throw new RuntimeException("Nadie se puede regalar a si mismo");
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-//    public SecretPalEvent getEvent() {
-//        return event;
-//    }
-//
-//    public void setEvent(SecretPalEvent event) {
-//        this.event = event;
-//    }
 
     public Worker getGiftGiver() {
-        return this.giftGiver;
-    }
-
-    public void setGiftGiver(Worker giftGiver) {
-        this.giftGiver = giftGiver;
+        return giftGiver;
     }
 
     public Worker getGiftReceiver() {
-        return this.giftReceiver;
+        return giftReceiver;
     }
 
-    public void setGiftReceiver(Worker giftReceiver) {
-        this.giftReceiver = giftReceiver;
+    public Boolean getWasFulfilled() {
+        return wasFulfilled;
     }
 }

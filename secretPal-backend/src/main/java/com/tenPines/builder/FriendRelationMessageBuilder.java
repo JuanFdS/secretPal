@@ -19,18 +19,18 @@ public class FriendRelationMessageBuilder extends ReminderBuilder{
         this.mailerService = mailerService;
     }
 
-    protected String assignationSubject() throws IOException {
+    protected String assignationSubject() {
         return mailerService.getEMailTemplate().getSubject();
     }
 
-    protected String assignationBodyText(Worker receiver) throws IOException {
+    protected String assignationBodyText(Worker receiver) {
         mailerService.getEMailTemplate().setFullName(receiver.getFullName());
-        mailerService.getEMailTemplate().setDateOfBirth(receiver.getDateOfBirth().toString());
+        mailerService.getEMailTemplate().setDateOfBirth(receiver.getBirthday().toString());
 
         return mailerService.getEMailTemplate().getBodyText();
     }
 
-    public Message buildMessage(FriendRelation aFriendRelation) throws IOException {
+    public Message buildMessage(FriendRelation aFriendRelation) {
         return super.buildMessage(aFriendRelation);
     }
 }

@@ -2,13 +2,11 @@ package com.tenPines.application.service;
 
 import com.tenPines.model.Worker;
 import com.tenPines.persistence.WorkerRepository;
-import org.springframework.core.NestedRuntimeException;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +39,7 @@ public class WorkerService {
     }
 
     public Optional<Worker> retrieveWorkerByEmail(String email) {
-        return workerRepository.findByeMail(email).stream().findFirst();
+        return workerRepository.findByMail(email).stream().findFirst();
     }
 
     public static String errorWhenDoNotExistAWorkerWithThisEmail() {
@@ -55,7 +53,7 @@ public class WorkerService {
     }
 
     public List<Worker> retrieveParticipants() {
-        return workerRepository.findBywantsToParticipate(true);
+        return workerRepository.findByWantsToParticipate(true);
     }
 
     public Worker retriveWorker(Long to) {
@@ -67,8 +65,11 @@ public class WorkerService {
     }
 
     public Worker retrieveWorkerByFullname(String token) {
-        return workerRepository.findByfullName(token);
+        return workerRepository.findByFullName(token);
 
     }
 
+    public List<Worker> findWorkersWithBirthday(LocalDate birthday) {
+        return workerRepository.findByBirthday(birthday);
+    }
 }

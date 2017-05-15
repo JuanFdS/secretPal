@@ -35,7 +35,7 @@ public class RegisterService {
     private boolean emailIsAsociatedWithAUser(String email) {
         List<User> users = userService.getAllUsers();
         Stream<Worker> workers = users.stream().map(user -> user.getWorker());
-        return workers.anyMatch(worker -> worker.geteMail().equals(email));
+        return workers.anyMatch(worker -> worker.getMail().equals(email));
     }
 
     private void validateIfUserNameHasBeenUsed(String userName) {

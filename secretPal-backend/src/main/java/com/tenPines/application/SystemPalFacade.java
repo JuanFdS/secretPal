@@ -25,16 +25,15 @@ public class SystemPalFacade {
     private Clock clock;
 
     public Worker retrieveAssignedFriendFor(Long Idparticipant) {
-        Worker participant = workerService.retriveWorker(Idparticipant);
-        return friendRelationService.retrieveAssignedFriendFor(participant);
+        throw new RuntimeException("Not implemented");
     }
 
     public FriendRelation createRelation(Worker giftGiver, Worker giftReceiver) {
-        return friendRelationService.create(giftGiver,giftReceiver);
+        throw new RuntimeException("Not implemented");
     }
 
     public void deleteRelation(Long from, Long to) {
-        friendRelationService.deleteRelationByReceipt(retrieveAWorker(to));
+        throw new RuntimeException("Not implemented");
     }
 
     public List<DefaultGift> retrieveAllGiftsDefaults() {
@@ -130,12 +129,11 @@ public class SystemPalFacade {
     }
 
     public void deleteAllRelations() {
-        friendRelationService.deleteAllRelations();
+        throw new RuntimeException("Not implemented");
     }
 
     public List<Worker> getPossibleFriendsTo(Long id) {
-        Worker workerTo = workerService.retriveWorker(id);
-        return friendRelationService.getAvailablesRelationsTo(workerTo);
+        throw new RuntimeException("Not implemented");
     }
 
     public void editWorker(Worker workerEdited) throws Exception {

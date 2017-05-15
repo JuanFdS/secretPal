@@ -1,10 +1,7 @@
 package com.tenPines.application.service;
 
-import com.tenPines.application.ReminderSystem;
 import com.tenPines.model.FriendRelation;
 import com.tenPines.model.Worker;
-import com.tenPines.model.process.AssignmentFunction;
-import com.tenPines.model.process.RelationEstablisher;
 import com.tenPines.persistence.FriendRelationRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,44 +17,32 @@ public class FriendRelationService {
         this.workerService = workerService;
     }
 
-    public FriendRelation create(Worker friendWorker, Worker birthdayWorker) {
-        return friendRelationRepository.save(new RelationEstablisher(friendWorker, birthdayWorker).createRelation());
+    public boolean workerHasRelationForYear(Worker worker, int currentYear) {
+        return ! friendRelationRepository.findByGiftReceiverAndScheduledDate(
+                worker, worker.getBirthday().withYear(currentYear))
+                .isEmpty();
+
     }
 
-    public void autoAssignRelations() {
-        friendRelationRepository.save(
-                new AssignmentFunction(workerService.getAllParticipants()).execute()
-        );
+    public Integer countTimeHasGivenAPresent(Worker worker) {
+        // TODO intelliJ dice que new Integer no es nescesario... es cierto?
+        return new Integer(friendRelationRepository.findByGiftGiverAndWasFulfilledTrue(worker).size());
     }
 
+    public Integer countTimeHasReceivedAPresent(Worker worker) {
+        // TODO intelliJ dice que new Integer no es nescesario... es cierto?
+        return new Integer(friendRelationRepository.findByGiftReceiverAndWasFulfilledTrue(worker).size());
+    }
+
+    public FriendRelation save(FriendRelation friendRelation) {
+        return friendRelationRepository.save(friendRelation);
+    }
 
     public List<FriendRelation> getAllRelations() {
         return friendRelationRepository.findAll();
     }
 
-    public Worker retrieveAssignedFriendFor(Worker unWorker) {
-        FriendRelation aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
-        if (aRelation == null) {
-            autoAssignRelations();
-            aRelation = friendRelationRepository.findBygiftReceiver(unWorker);
-
-        }
-        return aRelation.getGiftGiver();
-
-    }
-
-    public void deleteRelationByReceipt(Worker to) {
-        FriendRelation relation = friendRelationRepository.findBygiftReceiver(to);
-        friendRelationRepository.delete(relation);
-    }
-
-    public List<Worker> getAvailablesRelationsTo(Worker workerTo) {
-        List<Worker> availablesReceipt = null;
-        availablesReceipt.add(friendRelationRepository.findBygiftReceiver(workerTo).getGiftReceiver());
-        return availablesReceipt;
-    }
-
-    public void deleteAllRelations() {
-        friendRelationRepository.deleteAllRelations();
+    public void autoAssignRelations() {
+        throw new RuntimeException("Not implemented");
     }
 }

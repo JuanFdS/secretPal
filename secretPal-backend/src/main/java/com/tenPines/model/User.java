@@ -69,6 +69,6 @@ public class User {
     }
 
     public String geteMail(){
-        return worker.geteMail();
+        return worker.getMail();
     }
 }

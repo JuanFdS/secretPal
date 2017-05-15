@@ -92,7 +92,6 @@ public class AuthController {
     @ResponseStatus(value = HttpStatus.OK)
     public void updateGiftReceivedDate(@PathVariable(value="id") Long id){
         Worker workerToUpdate = workerService.retriveWorker(id);
-        workerToUpdate.markGiftAsReceived();
         workerService.save(workerToUpdate);
     }
 }
